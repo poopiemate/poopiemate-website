@@ -43,7 +43,7 @@
 
 ## English
 
-> Poopie Mate is a free dog care app where family members share potty (poopie/pee) and walk records in real time. When one caregiver logs it, everyone in the family is notified instantly. Also built for outdoor-potty dogs, Jindo mixes, and mixed breeds, with potty interval alerts and a weather-based walk safety score.
+> PoopieMate is a free dog care app where family members share potty (poopie/pee) and walk records in real time. When one caregiver logs it, everyone in the family is notified instantly. Also built for outdoor-potty dogs, Jindo mixes, and mixed breeds, with potty interval alerts and a weather-based walk safety score.
 
 Full English site: https://poopiemate.com/en/
 - iOS App Store: https://apps.apple.com/app/id6781981502
