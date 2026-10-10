@@ -3,7 +3,6 @@
 python3 src/prepare_assets.py
 """
 import os, re, shutil, subprocess, sys, unicodedata
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pathlib import Path
 from PIL import Image, ImageOps, ImageEnhance
 
@@ -200,7 +199,27 @@ def erase(box):
     return fn
 
 
-FAMILY = {'family-2025-a', 'family-2025-b'}  # 가족사진 — 얼굴을 살짝 바꾸고 엄마 얼굴은 환하게, 팔뚝은 얇게 (src/retouch.py)
+def soft_focus(mask_png, work=1800, sigma_ratio=1 / 160):
+    """강아지에게만 초점 — 사람과 배경은 살짝 초점이 어긋난 것처럼만 흐린다(얼굴 모양이 비칠 만큼).
+    강아지 마스크는 Mask R-CNN으로 뽑아 원본 옆에 둔 PNG. 흰 털이 번져 후광이 생기지 않게 마스크로 나눠 흐린다."""
+    import numpy as np
+    from scipy import ndimage
+
+    def fn(im):
+        im = im.resize((work, round(im.height * work / im.width)), Image.LANCZOS)
+        m = np.array(Image.open(mask_png).convert('L').resize(im.size, Image.BILINEAR)).astype(np.float64) / 255
+        m = ndimage.grey_dilation(m, size=3)
+        a = np.array(im.convert('RGB')).astype(np.float64)
+        sigma = work * sigma_ratio
+        w = 1 - m
+        den = ndimage.gaussian_filter(w, sigma) + 1e-6
+        soft = np.stack([ndimage.gaussian_filter(a[..., c] * w, sigma) / den for c in range(3)], axis=-1)
+        keep = ndimage.gaussian_filter(m, work / 900)[..., None]
+        return Image.fromarray(np.clip(a * keep + soft * (1 - keep), 0, 255).astype(np.uint8))
+    return fn
+
+
+FAMILY = {'family-2025-a', 'family-2025-b'}  # 가족사진 — 원본 그대로, 초점만 강아지에게
 
 
 # ── 「응가메이트를 만든 이유」 사진·영상 — 사진 앱에서 꺼내 바탕화면 메로나/웹스토리에 모아 둔 원본
@@ -228,8 +247,7 @@ def story():
             for p in plates:
                 im = erase(p)(im)
             if name in FAMILY:
-                from retouch import retouch
-                im = retouch(name, im, STORY_SRC / 'family-landmarks.json')
+                im = soft_focus(STORY_SRC / f'{name}-dog.png')(im)
             return hide(boxes)(im)
         for size in (1600, 900):
             dim = webp(STORY_SRC / src, f'img/photo/{name}-{size}.webp', width=size, height=size, q=82, fn=fn)
