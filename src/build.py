@@ -507,12 +507,12 @@ STORY = {
             ('h2', '그 전화를 버튼 하나로'),
             ('p', '한 사람이 응가·쉬를 기록하면 가족 모두의 폰에 바로 알림이 가는 앱이에요. 누가 언제 산책하고 치웠는지는 하루 타임라인으로 모아 보고, 바쁜 날엔 산책을 부탁하고, 다녀오면 고맙다고 하트를 보내요.'),
             ('p', '한여름에는 언제 나가야 발바닥이 뜨겁지 않을지가 늘 고민이었어요. 그래서 우리 강아지의 체형과 털, 나이에 날씨를 더한 산책 안전도를 넣었어요. 배변 텀으로 차오르는 응가·쉬 게이지는 “오늘은 좀 오래 참고 있네”를 가족 모두가 같이 알아차리게 해 줘요.'),
+            ('img', 'wedding-snap', '웨딩 스냅'),
             ('h2', '응댕이는 우리 집 강아지를 닮았어요'),
             ('p', '응가메이트의 캐릭터 응댕이는 우리 집 강아지에서 왔어요. 똥 모양 얼굴에 축 처진 큰 귀, 먹보에 겁쟁이, 배고프면 앞발을 내미는 것까지요. 앱을 켤 때마다 손을 흔드는 응댕이를 보면, 현관에서 신발을 물고 기다리는 우리 집 강아지가 떠올라요.'),
             ('h2', '결혼식 화견, 그리고 매년 찍는 가족사진'),
             ('p', '우리 집 강아지는 저희 결혼식에서 화견도 했어요. 웨딩 사진도 셋이 함께 찍었어요. 그리고 그 뒤로 매년, 가족사진을 같이 찍고 있어요.'),
             ('img', 'pair-wedding', '셋이 함께 찍은 웨딩 사진'),
-            ('img', 'lawn-walk', '웨딩 스냅'),
             ('img', 'pair-family', '2025년 가족사진'),
             ('p', '강아지를 여럿이 같이 돌보는 집이라면, 응가메이트가 “응댕이 똥 쌌어?” 전화를 조금이라도 줄여 주면 좋겠어요. 오늘도 우리 집 강아지는 최고의 똥 스팟을 찾아 산책을 나가요.'),
         ]},
@@ -553,12 +553,12 @@ STORY = {
             ('h2', 'Turning that call into a button'),
             ('p', 'One person logs a poop or pee and everyone in the family gets an alert right away. A daily timeline shows who walked and cleaned up, you can ask someone else to take the walk on a busy day, and send a heart when they’re back.'),
             ('p', 'In summer we always worried about hot pavement, so we added a walk safety score that combines her body type, coat and age with the weather. The potty gauges, filling up with her rhythm, let the whole family notice when she’s been holding it a little too long.'),
+            ('img', 'wedding-snap', 'Our wedding snap'),
             ('h2', 'Poochie looks just like her'),
             ('p', 'Our mascot Poochie comes straight from our dog: a poop-shaped face, big floppy ears, a foodie and a scaredy-cat who offers a paw when she’s hungry. Every time Poochie waves on the app’s screen, we think of her waiting at the door with a shoe in her mouth.'),
             ('h2', 'Flower dog at our wedding, and a family photo every year'),
             ('p', 'Our dog was even the flower dog at our wedding, and she’s in our wedding photos too. Ever since, we’ve taken a family photo together every year.'),
             ('img', 'pair-wedding', 'Our wedding photos, the three of us'),
-            ('img', 'lawn-walk', 'Our wedding snap'),
             ('img', 'pair-family', 'Our 2025 family photo'),
             ('p', 'If your family shares one dog, we hope POOPIEMATE cuts down on the “Did Poochie poop?” texts, even a little. And today, as always, our dog is out looking for the best poop spot.'),
         ]},
@@ -566,7 +566,7 @@ STORY = {
 
 
 STORY_THUMB = 'family-lawn'  # 목록 썸네일 = 글 머리 사진
-LANDSCAPE = {'pair-rescue', 'pair-wedding', 'pair-family'}  # 나머지 사진은 세로 — 원본 비율 그대로, 폭만 좁게
+LANDSCAPE = {'pair-rescue', 'pair-wedding', 'pair-family', 'wedding-snap'}  # 나머지 사진은 세로 — 원본 비율 그대로, 폭만 좁게
 
 
 def post_head(meta, title, art):
