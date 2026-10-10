@@ -471,12 +471,12 @@ def how(lang):
 # ═════════════════════════════════════════════════════════ 이야기 (캔버스 「v2 이야기」)
 STORY = {
     'ko': {
-        'title': '응가메이트를 만든 이유', 'cat': '우리 강아지 이야기', 'date': '2026.10.07', 'by': '응가메이트를 만든 보호자',
+        'title': '응가메이트를 만든 이유', 'cat': '우리 강아지 이야기', 'date': '2026.10.07', 'by': '응가메이트를 만든 개발자, 진',
         'excerpt': '구조 단체 인스타그램에서 처음 만난 우리 집 강아지, 그리고 하루에도 몇 번씩 하던 “응댕이 똥 쌌어?” 전화 이야기.',
         'blocks': [
-            ('p', '안녕하세요, 응가메이트를 만든 보호자예요. 앱을 만들게 된 이야기를 처음부터 차근차근 해 볼게요. 조금 길어요.'),
+            ('p', '안녕하세요, 응가메이트를 만든 개발자, 진입니다. 앱을 만들게 된 이야기를 처음부터 차근차근 해 볼게요. 조금 길어요.'),
             ('h2', '인스타그램에서 만난 분홍이'),
-            ('p', '우리 집 강아지는 이제 네 살, 13kg의 하얀 진도믹스예요. 진돗개에 비숑이 섞여서 털이 살짝 곱슬거려요.'),
+            ('p', '우리 집 강아지의 이름은 메로나예요. 이제 네 살, 13kg의 하얀 진도믹스예요. 진돗개에 비숑이 섞여서 털이 살짝 곱슬거려요.'),
             ('p', '이 아이의 엄마는 시골에서 짧은 목줄에 묶여 살던 강아지였어요. 원래 서울에서 키우던 강아지였는데, 주인이 시골에 버려두고 떠나 버렸대요. 그곳에서 들개와의 사이에 새끼들이 태어났고, 우리 집 강아지는 그중 한 마리예요.'),
             ('p', '어디론가 팔려 갈 뻔했던 그때, 동물 구조 단체 WithAllAnimals(WAA)가 이 새끼들을 구조했어요. 저는 WAA 인스타그램에 올라온 사진에서 이 아이를 처음 봤어요. 그때 이름은 ‘분홍이’였어요.'),
             ('img', 'pair-rescue', 'WAA 인스타그램에서 처음 본 분홍이'),
@@ -491,7 +491,8 @@ STORY = {
             ('p', '처음 산책을 나갔을 때는 목줄을 하고 걷는 것조차 못 했어요. 어떻게 해야 할지 몰라서 저도 한참 헤맸어요. 하네스를 채우는 것부터 하나씩 같이 연습했어요.'),
             ('row', ['first-harness', 'first-selfie'], '산책 연습을 하던 겨울'),
             ('h2', '이 아이 없이는 못 살겠다'),
-            ('p', '함께 지낸 지 얼마 되지 않아, 우리 부부는 이 아이 없이는 못 살겠다고 생각했어요. 그렇게 임시보호는 입양이 됐어요.'),
+            ('p', '임시보호를 할 때는 한국보다 조금 더 펫 프렌들리한 해외로 입양을 보내고 싶었어요. 그래서 ‘로나’라는 영어 이름을 지어 주고, 성은 ‘메’로 붙였어요. 그렇게 메로나가 됐어요.'),
+            ('p', '그러다 남편이 먼저 말했어요. 이 아이 없이는 못 살겠다고, 우리가 입양하자고요. 그렇게 임시보호는 입양이 됐어요.'),
             ('p', '지금도 낯선 사람과 큰 소리, 트럭과 움직이는 사다리를 무서워하는 겁쟁이예요. 그래도 먹을 것 앞에서는 누구보다 용감한 먹보예요. 당근과 닭가슴살을 제일 좋아하고, 배가 고프면 앞발을 공손하게 내밀어요. 그리고 이제는 엄마아빠를 제일 좋아해요.'),
             ('mosaic', ['park-run', 'park-smile', 'park-friends'], '우리 가족이 되고 나서, 운동장에서'),
             ('h2', '집에서는 절대 안 싸는 아이'),
@@ -516,12 +517,12 @@ STORY = {
             ('p', '강아지를 여럿이 같이 돌보는 집이라면, 응가메이트가 “응댕이 똥 쌌어?” 전화를 조금이라도 줄여 주면 좋겠어요. 오늘도 우리 집 강아지는 최고의 똥 스팟을 찾아 산책을 나가요.'),
         ]},
     'en': {
-        'title': 'Why we built POOPIEMATE', 'cat': 'Our dog', 'date': 'Oct 7, 2026', 'by': 'The family behind POOPIEMATE',
+        'title': 'Why we built POOPIEMATE', 'cat': 'Our dog', 'date': 'Oct 7, 2026', 'by': 'Jin, developer of POOPIEMATE',
         'excerpt': 'The dog we first saw on a rescue group’s Instagram, and the “Did she poop?” calls we made every single day.',
         'blocks': [
-            ('p', 'Hi, we’re the family behind POOPIEMATE. Here’s how the app came to be, from the very beginning. It’s a bit of a long one.'),
+            ('p', 'Hi, I’m Jin, the developer behind POOPIEMATE. Here’s how the app came to be, from the very beginning. It’s a bit of a long one.'),
             ('h2', 'Bunhong-i, from an Instagram post'),
-            ('p', 'Our dog is now four, a 13 kg white Jindo mix. She’s part Jindo, part Bichon, which is why her fur curls slightly.'),
+            ('p', 'Our dog’s name is Melona. She’s now four, a 13 kg white Jindo mix — part Jindo, part Bichon, which is why her fur curls slightly.'),
             ('p', 'Her mother lived on a short chain in the countryside. She had been someone’s dog in Seoul, until her owner abandoned her out there and left. She had puppies with a stray dog, and our dog is one of them.'),
             ('p', 'They were about to be sold off to who knows where when the animal rescue group WithAllAnimals (WAA) rescued them. I first saw her in a photo on WAA’s Instagram. Back then she was called “Bunhong-i” — little pinky.'),
             ('img', 'pair-rescue', 'Bunhong-i, as I first saw her on WAA’s Instagram'),
@@ -536,7 +537,8 @@ STORY = {
             ('p', 'On our first walk, she couldn’t even walk on a leash. I didn’t know what to do either. We practiced together, one step at a time, starting with just putting on her harness.'),
             ('row', ['first-harness', 'first-selfie'], 'That winter of walk practice'),
             ('h2', 'We couldn’t live without her'),
-            ('p', 'Before long, my husband and I knew we couldn’t live without her. And so fostering turned into adoption.'),
+            ('p', 'While fostering, I hoped to find her a home abroad, somewhere a little more pet-friendly than Korea. So I gave her an English name, Lona, and the family name Me. That’s how she became Melona.'),
+            ('p', 'Then my husband said it first: we can’t live without her, let’s adopt her. And so fostering turned into adoption.'),
             ('p', 'She’s still a scaredy-cat around strangers, loud voices, trucks and moving ladders — but the bravest of us all in front of food. She loves carrots and chicken breast, and when she’s hungry she politely offers a paw. And now her favorite people are Mom and Dad.'),
             ('mosaic', ['park-run', 'park-smile', 'park-friends'], 'At the dog park, once she was family'),
             ('h2', 'A dog who never goes indoors'),
