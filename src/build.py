@@ -11,10 +11,13 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-10'
-ASSET_V = '12'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '13'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
-APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
-PLAY = {'ko': 'https://play.google.com/store/apps/details?id=com.pixelberry.poopiemate&hl=ko', 'en': 'https://play.google.com/store/apps/details?id=com.pixelberry.poopiemate&hl=en'}
+# 나라·언어를 고정하지 않은 링크 — 누르는 사람의 나라 스토어·기기 언어로 열린다 (전 세계 공통)
+APPSTORE_URL = 'https://apps.apple.com/app/id6781981502'
+PLAY_URL = 'https://play.google.com/store/apps/details?id=com.pixelberry.poopiemate'
+APPSTORE = {'ko': APPSTORE_URL, 'en': APPSTORE_URL}
+PLAY = {'ko': PLAY_URL, 'en': PLAY_URL}
 SNS = {
     'youtube': ('YouTube', 'https://www.youtube.com/@poopiemate'),
     'tiktok': ('TikTok', 'https://www.tiktok.com/@poopiemate'),
@@ -731,9 +734,8 @@ def download():
 <script>
   (function () {{
     var ua = navigator.userAgent || navigator.vendor || '';
-    var en = /[?&]lang=en/.test(location.search) || !/^ko/i.test(navigator.language || 'ko');
     var ios = /iPhone|iPad|iPod|Macintosh|Mac OS X/.test(ua);
-    location.replace(ios ? (en ? '{APPSTORE['en']}' : '{APPSTORE['ko']}') : (en ? '{PLAY['en']}' : '{PLAY['ko']}'));
+    location.replace(ios ? '{APPSTORE_URL}' : '{PLAY_URL}');
   }})();
 </script>
 </head>
