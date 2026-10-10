@@ -309,7 +309,7 @@
         <p class="section-sub">Pick any day that works for you.</p>
         <div class="field">
           <label class="field-label" for="date1">Preferred date <span class="required-tag">Required</span></label>
-          <input type="date" id="date1" name="date1" min="2026-10-12" required />
+          <select id="date1" name="date1" required><option value="">Choose a date</option></select>
         </div>
         <div class="field">
           <label class="field-label">Preferred time (your local time) <span class="required-tag">Required</span></label>
@@ -445,6 +445,18 @@
   </footer>
 
   <script>
+    (function () {
+      var sel = document.getElementById("date1");
+      var d = new Date(); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() + 2);
+      for (var i = 0; i < 42; i++) {
+        var iso = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+        var o = document.createElement("option");
+        o.value = iso;
+        o.textContent = d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
+        sel.appendChild(o);
+        d.setDate(d.getDate() + 1);
+      }
+    })();
     const SUPABASE_URL = "https://mjdgzdurhzickxombuuh.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_hZrUCKMRpkABGiZD6LiZrA_rWXZpcRR";
 

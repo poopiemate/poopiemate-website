@@ -271,7 +271,7 @@
   </style>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="/assets/css/site.css?v=19">
+<link rel="stylesheet" href="/assets/css/site.css?v=20">
 <link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PoopieMate">
@@ -314,7 +314,7 @@
         <p class="section-sub">Pick any day that works for you.</p>
         <div class="field">
           <label class="field-label" for="date1">Preferred date <span class="required-tag">Required</span></label>
-          <input type="date" id="date1" name="date1" min="2026-10-12" required />
+          <select id="date1" name="date1" required><option value="">Choose a date</option></select>
         </div>
         <div class="field">
           <label class="field-label">Preferred time (your local time) <span class="required-tag">Required</span></label>
@@ -449,6 +449,18 @@
 </a></div></div><nav class="f-links" aria-label="Site links"><a href="/en/how-it-works/">How it works</a><a href="/en/story/">Stories</a><a href="/en/notice/">Notices</a><a href="/en/support/">Support</a><a href="/en/privacy/" class="strong">Privacy Policy</a><a href="/en/terms/">Terms of Service</a><a href="/en/licenses/">Open-source licenses</a></nav><div class="f-bottom"><span>Operated by Pixelberry · <a href="mailto:poopiemate@pixelberry.io">poopiemate@pixelberry.io</a></span><span>© 2026 Pixelberry · PoopieMate</span><span class="lang-switch"><a href="/interview/" hreflang="ko" lang="ko">한국어</a><a href="/en/interview/" hreflang="en" lang="en" aria-current="true">English</a></span></div></div></footer>
 
   <script>
+    (function () {
+      var sel = document.getElementById("date1");
+      var d = new Date(); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() + 2);
+      for (var i = 0; i < 42; i++) {
+        var iso = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+        var o = document.createElement("option");
+        o.value = iso;
+        o.textContent = d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
+        sel.appendChild(o);
+        d.setDate(d.getDate() + 1);
+      }
+    })();
     const SUPABASE_URL = "https://mjdgzdurhzickxombuuh.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_hZrUCKMRpkABGiZD6LiZrA_rWXZpcRR";
 
@@ -557,6 +569,6 @@
       }
     });
   </script>
-<script src="/assets/js/site.js?v=19" defer></script>
+<script src="/assets/js/site.js?v=20" defer></script>
 </body>
 </html>

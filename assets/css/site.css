@@ -53,6 +53,8 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 img, video, svg { display: block; max-width: 100%; }
+/* 이미지·영상을 끌어다 놓거나 길게 눌러 저장하지 못하게 (우클릭은 site.js) */
+img, video { -webkit-user-drag: none; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
 a { color: inherit; }
 button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
 :focus-visible { outline: 3px solid var(--brand); outline-offset: 3px; border-radius: 8px; }
@@ -479,6 +481,8 @@ main.iv h2 { margin: 0 0 4px; font-family: var(--font-title); font-size: 19px; f
 main.iv .section-sub, main.iv .hint { font-size: 14px; color: var(--fg-3); }
 main.iv label.field-label { font-family: var(--font-title); font-size: 15px; font-weight: 800; color: var(--fg); }
 main.iv input[type="text"], main.iv input[type="tel"], main.iv input[type="date"], main.iv textarea { padding: 13px 15px; border: 1.5px solid var(--line); border-radius: 14px; font-family: inherit; font-size: 16px; color: var(--fg); }
+main.iv select { width: 100%; height: 50px; padding: 0 44px 0 15px; border: 1.5px solid var(--line); border-radius: 14px; background: var(--base) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%238B95A1' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center; font: inherit; font-size: 16px; color: var(--fg); -webkit-appearance: none; appearance: none; cursor: pointer; }
+main.iv select:focus-visible { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(24, 149, 90, 0.16); }
 main.iv .radio-grid { gap: 10px; align-items: stretch; }
 main.iv .radio-chip { display: flex; }
 main.iv .radio-chip span:not(.badge) { flex: 1; min-height: 64px; padding: 10px 8px; border: 1.5px solid var(--line); border-radius: 14px; font-family: var(--font-title); font-size: 15px; font-weight: 800; color: var(--fg-2); }

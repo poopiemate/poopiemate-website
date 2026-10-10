@@ -3,6 +3,14 @@
 (function () {
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // 이미지·영상 우클릭 저장·끌어서 저장 막기
+  document.addEventListener('contextmenu', function (e) {
+    if (e.target.closest && e.target.closest('img, video, .waver, .film, .step-media, .art-card')) e.preventDefault();
+  });
+  document.addEventListener('dragstart', function (e) {
+    if (e.target.closest && e.target.closest('img, video')) e.preventDefault();
+  });
+
   // 모바일 전체 메뉴
   var sheet = document.getElementById('menu');
   var openers = document.querySelectorAll('[data-menu-open]');

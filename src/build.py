@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-10'
-ASSET_V = '19'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '20'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -208,7 +208,7 @@ def intro_screen(lang):
 
 def reel(key, lang, label):
     """릴스 모션그래픽 — 그 화면(단계)이 들어오면 재생된다 (site.js)."""
-    return (f'<video data-step muted loop playsinline preload="none" poster="/assets/video/{key}-{lang}.webp" aria-label="{escape(label)}">'
+    return (f'<video data-step muted loop playsinline preload="none" controlslist="nodownload noremoteplayback" disablepictureinpicture poster="/assets/video/{key}-{lang}.webp" aria-label="{escape(label)}">'
             f'<source src="/assets/video/{key}-{lang}.mp4" type="video/mp4"></video>')
 
 
@@ -220,7 +220,7 @@ def intro_film(lang, label):
     """첫 화면 — 서비스 소개 영상(우리 사이트에 올린 mp4)이 화면 가득 바로 재생. 유튜브 버튼 없이, 소리는 버튼으로."""
     on, off = {'ko': ('소리 켜기', '소리 끄기'), 'en': ('Sound on', 'Sound off')}[lang]
     return (f'<section class="film" data-film aria-label="{escape(label)}">'
-            f'<video data-film-video muted loop playsinline autoplay preload="auto" poster="/assets/video/intro-{lang}.webp" aria-label="{escape(label)}">'
+            f'<video data-film-video muted loop playsinline autoplay preload="auto" controlslist="nodownload noremoteplayback" disablepictureinpicture poster="/assets/video/intro-{lang}.webp" aria-label="{escape(label)}">'
             f'<source src="/assets/video/intro-{lang}.mp4" type="video/mp4"></video>'
             f'<button class="film-sound" type="button" data-sound data-on="{on}" data-off="{off}" aria-pressed="false">{SOUND_OFF}{SOUND_ON}<span>{on}</span></button>'
             f'<a class="film-down" href="#start" aria-label="{"아래로" if lang == "ko" else "Scroll down"}">{CHEV_D}</a></section>')
