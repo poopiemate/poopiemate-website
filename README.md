@@ -52,9 +52,10 @@ Bump `ASSET_V` in `src/build.py` whenever CSS or JS changes, so browsers fetch t
 
 ## Policy pages at the legacy address
 
-App versions up to 2.0.0 open the policy pages at `viva-jinyi.github.io/poopiemate-legal/…`.
-That repo keeps serving copies of these pages, so after changing anything in `src/legal/`,
-run `python3 src/build.py` in [`poopiemate-legal`](https://github.com/viva-jinyi/poopiemate-legal) too and push both.
+App versions up to 2.0.0 and the store listings open the policy pages at `viva-jinyi.github.io/poopiemate-legal/…`
+and the old website at `viva-jinyi.github.io/poopiemate-website/`. Those addresses are served by
+[`viva-jinyi/viva-jinyi.github.io`](https://github.com/viva-jinyi/viva-jinyi.github.io) (a GitHub Pages address belongs to the account that serves it).
+After changing anything in `src/legal/`, run `python3 src/build.py` there too and push, so the copies stay identical.
 
 ## Checks before publishing
 
@@ -73,7 +74,7 @@ python3 -m http.server 8765   # then open http://localhost:8765/
 ## Related repositories
 
 - [`poopiemate`](https://github.com/poopiemate/poopiemate) — the iOS / Android app (private)
-- [`poopiemate-legal`](https://github.com/viva-jinyi/poopiemate-legal) — legacy policy URLs
+- [`viva-jinyi.github.io`](https://github.com/viva-jinyi/viva-jinyi.github.io) — keeps the legacy policy and website URLs working
 
 ---
 
