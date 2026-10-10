@@ -3,6 +3,7 @@
 python3 src/prepare_assets.py
 """
 import os, re, shutil, subprocess, sys, unicodedata
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pathlib import Path
 from PIL import Image, ImageOps, ImageEnhance
 
@@ -199,27 +200,7 @@ def erase(box):
     return fn
 
 
-def portrait_focus(mask_png, work=1800):
-    """인물 사진 모드처럼 — 강아지만 또렷하고 나머지(우리 얼굴까지)는 렌즈로 흐린 듯.
-    강아지 마스크(src/…dogmask: Mask R-CNN으로 뽑아 원본 옆에 둔 PNG) 밖만 흐리고, 흐릴 때 강아지 흰 털이 번져 후광이 생기지 않게 마스크로 나눠 준다."""
-    import numpy as np
-    from scipy import ndimage
-
-    def fn(im):
-        im = im.resize((work, round(im.height * work / im.width)), Image.LANCZOS)
-        m = np.array(Image.open(mask_png).convert('L').resize(im.size, Image.BILINEAR)).astype(np.float64) / 255
-        m = ndimage.grey_dilation(m, size=3)
-        a = np.array(im.convert('RGB')).astype(np.float64)
-        sigma = work / 55
-        w = 1 - m
-        den = ndimage.gaussian_filter(w, sigma) + 1e-6
-        soft = np.stack([ndimage.gaussian_filter(a[..., c] * w, sigma) / den for c in range(3)], axis=-1)
-        keep = ndimage.gaussian_filter(m, work / 600)[..., None]
-        return Image.fromarray(np.clip(a * keep + soft * (1 - keep), 0, 255).astype(np.uint8))
-    return fn
-
-
-FOCUS = {'family-2025-a', 'family-2025-b'}  # 가족사진 — 강아지만 초점, 우리 부부는 배경처럼 흐리게
+FAMILY = {'family-2025-a', 'family-2025-b'}  # 가족사진 — 얼굴을 살짝 바꾸고 엄마 얼굴은 환하게, 팔뚝은 얇게 (src/retouch.py)
 
 
 # ── 「응가메이트를 만든 이유」 사진·영상 — 사진 앱에서 꺼내 바탕화면 메로나/웹스토리에 모아 둔 원본
@@ -242,17 +223,13 @@ STORY_CLIP = [  # 원본, 출력 이름, 시작(초), 길이(초), 소리 — �
 
 
 def story():
-    # 웨딩 스냅 — 세로 사진에서 가로로 잘라 글 사이 가득 찬 폭으로 (이름표 전화번호는 자른 좌표로 옮겨 판 색으로 덮는다)
-    top, bottom = 340, 1106
-    for size in (1600, 900):
-        webp(PHOTOS / 'IMG_6047.jpeg', f'img/photo/wedding-snap-{size}.webp', width=size, height=size, q=82,
-             crop=(0, top / 1531, 1, bottom / 1531), fn=lambda im: photo_tone(erase((183, 756 - top, 215, 781 - top))(im)))
     for src, name, boxes, plates in STORY_PHOTO:
         def fn(im, boxes=boxes, plates=plates, name=name):
             for p in plates:
                 im = erase(p)(im)
-            if name in FOCUS:
-                im = portrait_focus(STORY_SRC / f'{name}-dog.png')(im)
+            if name in FAMILY:
+                from retouch import retouch
+                im = retouch(name, im, STORY_SRC / 'family-landmarks.json')
             return hide(boxes)(im)
         for size in (1600, 900):
             dim = webp(STORY_SRC / src, f'img/photo/{name}-{size}.webp', width=size, height=size, q=82, fn=fn)
