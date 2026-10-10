@@ -165,7 +165,7 @@ PHOTO = [  # 파일, 출력 이름, 이름표 전화번호 가릴 곳(원본 px)
 ]
 
 
-PAIRS = {'pair-rescue': ('kennel', 'kennel-house'), 'pair-wedding': ('wedding-jump', 'wedding-kiss')}
+PAIRS = {'pair-rescue': ('kennel', 'kennel-house'), 'pair-wedding': ('wedding-jump', 'wedding-kiss'), 'pair-family': ('family-2025-a', 'family-2025-b')}
 
 
 def hide(boxes):
@@ -202,16 +202,15 @@ def erase(box):
 STORY_SRC = PHOTOS / '웹스토리'
 STORY_PHOTO = [  # 파일, 출력 이름, 가릴 이름표(원본 px) — 뭉개기 / 판 색으로 덮기
     ('01-lap-sleep.jpeg', 'first-lap-sleep', [], []), ('02-lap-eyes.jpeg', 'first-lap-eyes', [], []),
-    ('03-paws.jpeg', 'first-paws', [(1240, 2400, 1400, 2580)], []), ('04-tongue.jpeg', 'first-tongue', [], []),
-    ('05-chin.jpeg', 'first-chin', [], []), ('06-pink-sleep.jpeg', 'first-pink-sleep', [], []),
-    ('07-lap-sleep2.jpeg', 'first-lap-sleep2', [], []), ('08-harness.jpeg', 'first-harness', [], []),
-    ('09-floor.jpeg', 'first-floor', [], []), ('10-selfie.jpeg', 'first-selfie', [], []),
+    ('03-paws.jpeg', 'first-paws', [(1240, 2400, 1400, 2580)], []), ('06-pink-sleep.jpeg', 'first-pink-sleep', [], []),
+    ('08-harness.jpeg', 'first-harness', [], []), ('10-selfie.jpeg', 'first-selfie', [], []),
     ('11-park-friends.jpeg', 'park-friends', [], [(2725, 2450, 3085, 2610)]), ('12-park-smile.jpeg', 'park-smile', [], []),
     ('13-park-run.jpeg', 'park-run', [], []),
     ('wedding-jump.jpg', 'wedding-jump', [], []), ('wedding-kiss.jpg', 'wedding-kiss', [], []),
+    ('family-2025-a.jpeg', 'family-2025-a', [], []), ('family-2025-b.jpeg', 'family-2025-b', [], []),
 ]
 STORY_CLIP = [  # 원본, 출력 이름, 시작(초), 길이(초) — 소리는 원본 그대로
-    (STORY_SRC / 'first-door.mp4', 'first-door', 0, None), (STORY_SRC / 'first-lick.mp4', 'first-lick', 0, None),
+    (STORY_SRC / 'first-meet.MOV', 'first-meet', 0, None), (STORY_SRC / 'first-lick.mp4', 'first-lick', 0, None),
     (STORY_SRC / 'snow-potty.MOV', 'potty-snow', 2.0, 14.0),
     (DESK / '응가메이트_틱톡/소스추가/DJI_20260727073257_0095_D.MP4', 'potty-summer', 0, None),
 ]

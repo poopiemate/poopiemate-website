@@ -478,15 +478,18 @@ STORY = {
             ('h2', '인스타그램에서 만난 분홍이'),
             ('p', '우리 집 강아지는 이제 네 살, 13kg의 하얀 진도믹스예요. 진돗개에 비숑이 섞여서 털이 살짝 곱슬거려요.'),
             ('p', '이 아이의 엄마는 시골에서 짧은 목줄에 묶여 살던 강아지였어요. 원래 서울에서 키우던 강아지였는데, 주인이 시골에 버려두고 떠나 버렸대요. 그곳에서 들개와의 사이에 새끼들이 태어났고, 우리 집 강아지는 그중 한 마리예요.'),
-            ('p', '동물 구조 단체 WithAllAnimals(WAA)가 이 새끼들을 구조했어요. 저는 WAA 인스타그램에 올라온 사진에서 이 아이를 처음 봤어요. 그때 이름은 ‘분홍이’였어요.'),
+            ('p', '어디론가 팔려 갈 뻔했던 그때, 동물 구조 단체 WithAllAnimals(WAA)가 이 새끼들을 구조했어요. 저는 WAA 인스타그램에 올라온 사진에서 이 아이를 처음 봤어요. 그때 이름은 ‘분홍이’였어요.'),
             ('img', 'pair-rescue', 'WAA 인스타그램에서 처음 본 분홍이'),
             ('p', '처음엔 임시보호를 하겠다고 연락했어요. 그런데 막상 한 생명을 맡는다고 생각하니 겁이 나서, 못 하겠다고 말씀드렸어요. 그러다 다음 날, 다시 연락했어요. “제가 임시보호 할게요.” 그렇게 이 아이는 우리 집에 오게 됐어요.'),
             ('h2', '무서워하면서도, 엄마인 걸 아는 것처럼'),
-            ('p', '우리 집에 처음 온 날, 이 아이는 저를 무서워하면서도 제가 엄마라는 걸 직감적으로 아는 것 같았어요. 조심조심 현관을 들어와서는, 슬금슬금 다가와 제 손 냄새를 맡고 꼬리를 흔들었어요.'),
-            ('clips', [('first-door', '처음 현관을 들어서던 순간'), ('first-lick', '그날 오후, 손을 핥으며')], '우리 집에 처음 온 날'),
-            ('p', '겁이 정말 많았어요. 사람 손길도 무서워했어요. 그런데, 정말 너무 귀여웠어요.'),
-            ('gallery', ['first-lap-sleep', 'first-lap-eyes', 'first-paws', 'first-tongue', 'first-chin', 'first-pink-sleep', 'first-lap-sleep2', 'first-harness', 'first-floor', 'first-selfie'],
-             '임시보호하던 겨울, 품에서 잠들던 날들'),
+            ('p', '우리 집에 처음 온 날, 이 아이는 저를 무서워하면서도 제가 엄마라는 걸 직감적으로 아는 것 같았어요. 잔뜩 겁먹은 얼굴로 제 손 냄새를 맡더니, 쓰다듬는 손길을 피하지 않고 가만히 저를 올려다봤어요.'),
+            ('clips', [('first-meet', '처음 만난 날 밤'), ('first-lick', '다음 날, 손을 핥으며')], '우리 집에 온 첫날과 그다음 날'),
+            ('p', '겁이 정말 많았어요. 사람 손길조차 무서워했어요. 가까이 다가가면 눈치를 살피며 한참을 저를 쳐다봤어요.'),
+            ('row', ['first-lap-eyes', 'first-paws'], '아직은 조심스럽던 눈빛'),
+            ('p', '그런데, 정말 너무 귀여웠어요. 그렇게 겁을 내던 아이가 집에 온 다음 날부터 제 무릎 위에서 잠들기 시작했어요. 잠든 얼굴을 보고 있으면 시간 가는 줄 몰랐어요.'),
+            ('row', ['first-lap-sleep', 'first-pink-sleep'], '무릎 위에서, 이불 속에서'),
+            ('p', '처음 산책을 나갔을 때는 목줄을 하고 걷는 것조차 못 했어요. 어떻게 해야 할지 몰라서 저도 한참 헤맸어요. 하네스를 채우는 것부터 하나씩 같이 연습했어요.'),
+            ('row', ['first-harness', 'first-selfie'], '산책 연습을 하던 겨울'),
             ('h2', '이 아이 없이는 못 살겠다'),
             ('p', '함께 지낸 지 얼마 되지 않아, 우리 부부는 이 아이 없이는 못 살겠다고 생각했어요. 그렇게 임시보호는 입양이 됐어요.'),
             ('p', '지금도 낯선 사람과 큰 소리, 트럭과 움직이는 사다리를 무서워하는 겁쟁이예요. 그래도 먹을 것 앞에서는 누구보다 용감한 먹보예요. 당근과 닭가슴살을 제일 좋아하고, 배가 고프면 앞발을 공손하게 내밀어요. 그리고 이제는 엄마아빠를 제일 좋아해요.'),
@@ -507,8 +510,11 @@ STORY = {
             ('img', 'lawn-walk', '오늘도 같이 나간 산책'),
             ('h2', '응댕이는 우리 집 강아지를 닮았어요'),
             ('p', '응가메이트의 캐릭터 응댕이는 우리 집 강아지에서 왔어요. 똥 모양 얼굴에 축 처진 큰 귀, 먹보에 겁쟁이, 배고프면 앞발을 내미는 것까지요. 앱을 켤 때마다 손을 흔드는 응댕이를 보면, 현관에서 신발을 물고 기다리는 우리 집 강아지가 떠올라요.'),
+            ('h2', '결혼식 화견, 그리고 매년 찍는 가족사진'),
+            ('p', '우리 집 강아지는 저희 결혼식에서 화견도 했어요. 웨딩 사진도 셋이 함께 찍었어요. 그리고 그 뒤로 매년, 가족사진을 같이 찍고 있어요.'),
+            ('img', 'pair-wedding', '셋이 함께 찍은 웨딩 사진'),
+            ('img', 'pair-family', '2025년 가족사진'),
             ('p', '강아지를 여럿이 같이 돌보는 집이라면, 응가메이트가 “응댕이 똥 쌌어?” 전화를 조금이라도 줄여 주면 좋겠어요. 오늘도 우리 집 강아지는 최고의 똥 스팟을 찾아 산책을 나가요.'),
-            ('img', 'pair-wedding', '엄마, 아빠, 그리고 우리 집 강아지'),
         ]},
     'en': {
         'title': 'Why we built POOPIEMATE', 'cat': 'Our dog', 'date': 'Oct 7, 2026', 'by': 'The family behind POOPIEMATE',
@@ -518,15 +524,18 @@ STORY = {
             ('h2', 'Bunhong-i, from an Instagram post'),
             ('p', 'Our dog is now four, a 13 kg white Jindo mix. She’s part Jindo, part Bichon, which is why her fur curls slightly.'),
             ('p', 'Her mother lived on a short chain in the countryside. She had been someone’s dog in Seoul, until her owner abandoned her out there and left. She had puppies with a stray dog, and our dog is one of them.'),
-            ('p', 'The animal rescue group WithAllAnimals (WAA) rescued the puppies. I first saw her in a photo on WAA’s Instagram. Back then she was called “Bunhong-i” — little pinky.'),
+            ('p', 'They were about to be sold off to who knows where when the animal rescue group WithAllAnimals (WAA) rescued them. I first saw her in a photo on WAA’s Instagram. Back then she was called “Bunhong-i” — little pinky.'),
             ('img', 'pair-rescue', 'Bunhong-i, as I first saw her on WAA’s Instagram'),
             ('p', 'At first I offered to foster her. Then the idea of being responsible for a life scared me, and I said I couldn’t. The next day I got back in touch: “I’ll foster her.” That’s how she came home with us.'),
             ('h2', 'Scared, yet somehow she knew I was Mom'),
-            ('p', 'On her first day with us, she was scared of me — and yet she seemed to sense that I was her mom. She tiptoed through the front door, then crept up to sniff my hand and wagged her tail.'),
-            ('clips', [('first-door', 'Coming through the door for the first time'), ('first-lick', 'That afternoon, licking my hand')], 'Her first day at our home'),
-            ('p', 'She was so timid. Even a person’s touch frightened her. But oh, she was so, so cute.'),
-            ('gallery', ['first-lap-sleep', 'first-lap-eyes', 'first-paws', 'first-tongue', 'first-chin', 'first-pink-sleep', 'first-lap-sleep2', 'first-harness', 'first-floor', 'first-selfie'],
-             'That foster winter, falling asleep in our arms'),
+            ('p', 'On her first day with us, she was scared of me — and yet she seemed to sense that I was her mom. Looking terrified, she sniffed my hand — then stood still, let me pet her, and looked up at me.'),
+            ('clips', [('first-meet', 'The night we first met'), ('first-lick', 'The next day, licking my hand')], 'Her first night with us, and the day after'),
+            ('p', 'She was so timid. Even a person’s touch frightened her. When I came close, she would study me for a long time, unsure.'),
+            ('row', ['first-lap-eyes', 'first-paws'], 'Still wary in those first days'),
+            ('p', 'But oh, she was so, so cute. This scared little dog started falling asleep on my lap from her very second day. I could watch her sleeping face for hours.'),
+            ('row', ['first-lap-sleep', 'first-pink-sleep'], 'Asleep on my lap, and under the blanket'),
+            ('p', 'On our first walk, she couldn’t even walk on a leash. I didn’t know what to do either. We practiced together, one step at a time, starting with just putting on her harness.'),
+            ('row', ['first-harness', 'first-selfie'], 'That winter of walk practice'),
             ('h2', 'We couldn’t live without her'),
             ('p', 'Before long, my husband and I knew we couldn’t live without her. And so fostering turned into adoption.'),
             ('p', 'She’s still a scaredy-cat around strangers, loud voices, trucks and moving ladders — but the bravest of us all in front of food. She loves carrots and chicken breast, and when she’s hungry she politely offers a paw. And now her favorite people are Mom and Dad.'),
@@ -547,14 +556,17 @@ STORY = {
             ('img', 'lawn-walk', 'Out on today’s walk together'),
             ('h2', 'Poochie looks just like her'),
             ('p', 'Our mascot Poochie comes straight from our dog: a poop-shaped face, big floppy ears, a foodie and a scaredy-cat who offers a paw when she’s hungry. Every time Poochie waves on the app’s screen, we think of her waiting at the door with a shoe in her mouth.'),
+            ('h2', 'Flower dog at our wedding, and a family photo every year'),
+            ('p', 'Our dog was even the flower dog at our wedding, and she’s in our wedding photos too. Ever since, we’ve taken a family photo together every year.'),
+            ('img', 'pair-wedding', 'Our wedding photos, the three of us'),
+            ('img', 'pair-family', 'Our 2025 family photo'),
             ('p', 'If your family shares one dog, we hope POOPIEMATE cuts down on the “Did Poochie poop?” texts, even a little. And today, as always, our dog is out looking for the best poop spot.'),
-            ('img', 'pair-wedding', 'Mom, Dad, and our dog'),
         ]},
 }
 
 
 STORY_THUMB = 'family-lawn'  # 목록 썸네일 = 글 머리 사진
-LANDSCAPE = {'pair-rescue', 'pair-wedding'}  # 나머지 사진은 세로 — 원본 비율 그대로, 폭만 좁게
+LANDSCAPE = {'pair-rescue', 'pair-wedding', 'pair-family'}  # 나머지 사진은 세로 — 원본 비율 그대로, 폭만 좁게
 
 
 def post_head(meta, title, art):
@@ -627,9 +639,10 @@ def story_why(lang):
             out.append(f'<figure class="fig {o}">{photo_img(b[1], "(min-width: 1100px) 1040px, 96vw" if o == "l" else "(min-width: 600px) 480px, 92vw", b[2])}<figcaption>{b[2]}</figcaption></figure>')
         elif b[0] == 'clips':
             out.append(f'<figure class="fig clips"><div class="clip-row">{"".join(story_clip(n, lab, lang) for n, lab in b[1])}</div><figcaption>{b[2]}</figcaption></figure>')
-        elif b[0] == 'gallery':
-            imgs = ''.join(photo_img(n, '(min-width: 1100px) 340px, (min-width: 700px) 31vw, 46vw') for n in b[1])
-            out.append(f'<figure class="fig l gallery"><div class="gal">{imgs}</div><figcaption>{b[2]}</figcaption></figure>')
+        elif b[0] == 'row':
+            # 같은 높이로 나란히 — 사진 비율만큼 폭을 나눠 가진다
+            imgs = ''.join(f'<span style="flex:{photo_size(n)[0] / photo_size(n)[1]:.3f}">{photo_img(n, "(min-width: 800px) 360px, 46vw")}</span>' for n in b[1])
+            out.append(f'<figure class="fig row"><div class="row-in">{imgs}</div><figcaption>{b[2]}</figcaption></figure>')
         elif b[0] == 'mosaic':
             big, *rest = b[1]
             imgs = photo_img(big, '(min-width: 1100px) 550px, 50vw') + ''.join(photo_img(n, '(min-width: 1100px) 490px, 46vw') for n in rest)
