@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-10'
-ASSET_V = '25'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '26'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -139,8 +139,9 @@ def footer(lang, ko_path, en_path):
     nav = ''.join(f'<a href="{h}"{" class=" + chr(34) + "strong" + chr(34) if label == priv else ""}>{label}</a>' for label, h in links)
     return (f'<footer class="footer"><div class="wrap">'
             f'<div class="f-row"><img src="/assets/brand/wordmark-{lang}-green.svg" alt="{t["name"]}" width="{"105" if lang == "ko" else "140"}" height="28">{sns_links(lang)}</div>'
-            f'<nav class="f-links" aria-label="{"사이트 링크" if lang == "ko" else "Site links"}">{nav}</nav>'
-            f'<div class="f-bottom"><span>{t["operator"]}</span><span>{t["copy"]}</span><span class="lang-switch">{lang_links(lang, ko_path, en_path, "foot")}</span></div>'
+            f'<div class="f-mid"><nav class="f-links" aria-label="{"사이트 링크" if lang == "ko" else "Site links"}">{nav}</nav>'
+            f'<span class="lang-switch">{lang_links(lang, ko_path, en_path, "foot")}</span></div>'
+            f'<div class="f-bottom"><span>{t["operator"]}</span><span>{t["copy"]}</span></div>'
             f'</div></footer>')
 
 
@@ -209,8 +210,8 @@ def intro_screen(lang):
 
 def reel(key, lang, label):
     """릴스 모션그래픽 — 그 화면(단계)이 들어오면 재생된다 (site.js)."""
-    return (f'<video data-step muted loop playsinline preload="none" controlslist="nodownload noremoteplayback" disablepictureinpicture poster="/assets/video/{key}-{lang}.webp" aria-label="{escape(label)}">'
-            f'<source src="/assets/video/{key}-{lang}.mp4" type="video/mp4"></video>')
+    return (f'<video data-step muted loop playsinline preload="none" controlslist="nodownload noremoteplayback" disablepictureinpicture poster="/assets/video/{key}-{lang}.webp?v={ASSET_V}" aria-label="{escape(label)}">'
+            f'<source src="/assets/video/{key}-{lang}.mp4?v={ASSET_V}" type="video/mp4"></video>')
 
 
 SOUND_OFF = '<svg class="i-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="m22 9-6 6M16 9l6 6"/></svg>'
@@ -222,17 +223,17 @@ def intro_film(lang, label):
     on, off = {'ko': ('소리 켜기', '소리 끄기'), 'en': ('Sound on', 'Sound off')}[lang]
     return (f'<section class="film" data-film aria-label="{escape(label)}">'
             f'<video data-film-video muted loop playsinline autoplay preload="auto" controlslist="nodownload noremoteplayback" disablepictureinpicture aria-label="{escape(label)}"'
-            f' data-land="/assets/video/intro-{lang}.mp4" data-port="/assets/video/intro-{lang}-v.mp4" data-land-poster="/assets/video/intro-{lang}.webp" data-port-poster="/assets/video/intro-{lang}-v.webp">'
-            f'<source src="/assets/video/intro-{lang}-v.mp4" type="video/mp4" media="(max-aspect-ratio: 1/1)">'
-            f'<source src="/assets/video/intro-{lang}.mp4" type="video/mp4"></video>'
+            f' data-land="/assets/video/intro-{lang}.mp4?v={ASSET_V}" data-port="/assets/video/intro-{lang}-v.mp4?v={ASSET_V}" data-land-poster="/assets/video/intro-{lang}.webp?v={ASSET_V}" data-port-poster="/assets/video/intro-{lang}-v.webp?v={ASSET_V}">'
+            f'<source src="/assets/video/intro-{lang}-v.mp4?v={ASSET_V}" type="video/mp4" media="(max-aspect-ratio: 1/1)">'
+            f'<source src="/assets/video/intro-{lang}.mp4?v={ASSET_V}" type="video/mp4"></video>'
             f'<button class="film-sound" type="button" data-sound data-on="{on}" data-off="{off}" aria-pressed="false">{SOUND_OFF}{SOUND_ON}<span>{on}</span></button>'
             f'<a class="film-down" href="#start" aria-label="{"아래로" if lang == "ko" else "Scroll down"}">{CHEV_D}</a></section>')
 
 
 def waver():
     return ('<div class="waver" aria-hidden="true"><img class="tail" src="/assets/img/mascot/wave-tail.webp" alt="">'
-            '<img class="sh" src="/assets/img/mascot/wave-shoulder.webp" alt=""><img src="/assets/img/mascot/wave-body.webp" alt="">'
-            '<img class="arm" src="/assets/img/mascot/wave-arm.webp" alt=""></div>')
+            '<img class="sh" src="/assets/img/mascot/wave-shoulder.webp" alt=""><img class="arm" src="/assets/img/mascot/wave-arm.webp" alt="">'
+            '<img src="/assets/img/mascot/wave-body.webp" alt=""></div>')
 
 
 def icons(items):
@@ -269,12 +270,6 @@ def list_head(icon_name, h, sub):
 
 def label(text, cls=''):
     return f'<p class="label{" " + cls if cls else ""}">{text}</p>'
-
-
-def art_card(dog, ics):
-    """글 머리 초록 카드 — 가운데 둥근 빛 + 3D 아이콘 + 응댕이 (v2 이야기·공지 상세)."""
-    ic = ''.join(f'<img class="ic" src="/assets/img/emoji/{n}.webp" alt="" style="{pos};width:{w}px;rotate:{r}deg">' for n, pos, w, r in ics)
-    return f'<div class="art-card" aria-hidden="true"><span class="glow"></span>{ic}<img class="dog" src="/assets/img/mascot/{dog}.webp" alt=""></div>'
 
 
 def cta_band(lang, cls=''):
@@ -354,7 +349,7 @@ def home(lang):
                'v_label': '응가메이트 서비스 소개 영상 (1분)',
                'b_tag': '이렇게 같이 돌봐요', 'b_h': '가족이 함께 쓰는 여섯 가지', 'f_more': '이렇게 써요 자세히 보기',
                's_tag': '응가메이트 이야기', 's_h': '“응댕이 똥 쌌어?”<br>그 전화에서 시작됐어요', 's_cap': ('분홍이 시절', '지금 우리 집'),
-               's_p': '밭 옆 견사에서 ‘분홍이’로 불리던 진도믹스는 이제 우리 가족이에요. 집에서는 절대 안 싸서 하루 세 번 똥책을 나가요. 맞벌이 엄마아빠는 매번 전화로 “응댕이 똥 쌌어?”를 물어야 했죠. 그래서 버튼 하나로 가족 모두가 아는 앱을 만들었어요.',
+               's_p': '구조 단체 인스타그램에서 ‘분홍이’로 처음 만난 진도믹스는 이제 우리 가족이에요. 집에서는 절대 안 싸서 하루 세 번 똥책을 나가요. 맞벌이 엄마아빠는 매번 전화로 “응댕이 똥 쌌어?”를 물어야 했죠. 그래서 버튼 하나로 가족 모두가 아는 앱을 만들었어요.',
                's_btn': '이야기 더 보기'},
         'en': {'title': 'POOPIEMATE — Your dog’s potty & walk log, shared with family',
                'desc': 'When one of you logs it, everyone knows. No more “Did Poochie poop?” texts. Invites, logs and alerts are free.',
@@ -362,8 +357,8 @@ def home(lang):
                'lead': 'An app for families who look after one dog together. <br>When one person logs a poop or pee, everyone knows right away.',
                'v_label': 'POOPIEMATE intro video (1 min)',
                'b_tag': 'Care together', 'b_h': 'Six things families share', 'f_more': 'See how it works',
-               's_tag': 'Our story', 's_h': '“Did she poop?”<br>It started with that call', 's_cap': ('Back at the kennel', 'Home with us now'),
-               's_p': 'Our white Jindo mix was once “Bunhong-i” at a farm-side kennel. She never goes indoors, so she walks three times a day. As a working couple, we kept calling to ask “Did Poochie poop?” So we built an app where one tap tells the whole family.',
+               's_tag': 'Our story', 's_h': '“Did she poop?”<br>It started with that call', 's_cap': ('Rescue days', 'Home with us now'),
+               's_p': 'We first saw our white Jindo mix as “Bunhong-i” on a rescue group’s Instagram. Now she’s family. She never goes indoors, so she walks three times a day. As a working couple, we kept calling to ask “Did Poochie poop?” So we built an app where one tap tells the whole family.',
                's_btn': 'Read our story'},
     }[lang]
     cards = ''.join(f'<article class="fcard" style="background:{bg}"><span class="chip">{chip}</span><h3 class="h3">{h}</h3><p>{sb(p)}</p>'
@@ -477,58 +472,89 @@ def how(lang):
 STORY = {
     'ko': {
         'title': '응가메이트를 만든 이유', 'cat': '우리 강아지 이야기', 'date': '2026.10.07', 'by': '응가메이트를 만든 보호자',
-        'excerpt': '밭 옆 견사에서 온 우리 집 강아지, 그리고 하루에도 몇 번씩 하던 “응댕이 똥 쌌어?” 전화 이야기.',
+        'excerpt': '구조 단체 인스타그램에서 처음 만난 우리 집 강아지, 그리고 하루에도 몇 번씩 하던 “응댕이 똥 쌌어?” 전화 이야기.',
         'blocks': [
             ('p', '안녕하세요, 응가메이트를 만든 보호자예요. 앱을 만들게 된 이야기를 처음부터 차근차근 해 볼게요. 조금 길어요.'),
-            ('h2', '밭 옆 견사의 분홍이'),
-            ('p', '우리 집 강아지는 이제 네 살, 13kg의 하얀 진도믹스예요. 진도에 비숑이 조금 섞였는지 털이 살짝 곱슬거려요.'),
-            ('p', '처음 만났을 때 이 아이는 밭 옆 견사에 짧은 줄로 묶여 지내고 있었어요. 제대로 돌봄을 받지 못한 채 바깥에서 지냈고, 그때 불리던 이름은 ‘분홍이’였어요. 구조와 임시보호를 거쳐, 이 아이는 우리 가족이 됐어요.'),
-            ('img', 'pair-kennel-home', '밭 옆 견사에서 지내던 분홍이 시절 · 우리 집에 막 왔을 무렵'),
-            ('p', '집에 온 첫날부터 성격이 보였어요. 낯선 사람과 큰 소리, 트럭과 움직이는 사다리를 무서워하는 겁쟁이인데, 먹을 것 앞에서는 누구보다 용감한 먹보였어요. 당근과 닭가슴살을 제일 좋아하고, 배가 고프면 앞발을 공손하게 내밀어요. 혼자서도 잘 지내는 독립적인 아이라 처음엔 곁을 잘 내주지 않았지만, 이제는 엄마아빠를 제일 좋아해요.'),
+            ('h2', '인스타그램에서 만난 분홍이'),
+            ('p', '우리 집 강아지는 이제 네 살, 13kg의 하얀 진도믹스예요. 진돗개에 비숑이 섞여서 털이 살짝 곱슬거려요.'),
+            ('p', '이 아이의 엄마는 시골에서 짧은 목줄에 묶여 살던 강아지였어요. 원래 서울에서 키우던 강아지였는데, 주인이 시골에 버려두고 떠나 버렸대요. 그곳에서 들개와의 사이에 새끼들이 태어났고, 우리 집 강아지는 그중 한 마리예요.'),
+            ('p', '동물 구조 단체 WithAllAnimals(WAA)가 이 새끼들을 구조했어요. 저는 WAA 인스타그램에 올라온 사진에서 이 아이를 처음 봤어요. 그때 이름은 ‘분홍이’였어요.'),
+            ('img', 'pair-rescue', 'WAA 인스타그램에서 처음 본 분홍이'),
+            ('p', '처음엔 임시보호를 하겠다고 연락했어요. 그런데 막상 한 생명을 맡는다고 생각하니 겁이 나서, 못 하겠다고 말씀드렸어요. 그러다 다음 날, 다시 연락했어요. “제가 임시보호 할게요.” 그렇게 이 아이는 우리 집에 오게 됐어요.'),
+            ('h2', '무서워하면서도, 엄마인 걸 아는 것처럼'),
+            ('p', '우리 집에 처음 온 날, 이 아이는 저를 무서워하면서도 제가 엄마라는 걸 직감적으로 아는 것 같았어요. 조심조심 현관을 들어와서는, 슬금슬금 다가와 제 손 냄새를 맡고 꼬리를 흔들었어요.'),
+            ('clips', [('first-door', '처음 현관을 들어서던 순간'), ('first-lick', '그날 오후, 손을 핥으며')], '우리 집에 처음 온 날'),
+            ('p', '겁이 정말 많았어요. 사람 손길도 무서워했어요. 그런데, 정말 너무 귀여웠어요.'),
+            ('gallery', ['first-lap-sleep', 'first-lap-eyes', 'first-paws', 'first-tongue', 'first-chin', 'first-pink-sleep', 'first-lap-sleep2', 'first-harness', 'first-floor', 'first-selfie'],
+             '임시보호하던 겨울, 품에서 잠들던 날들'),
+            ('h2', '이 아이 없이는 못 살겠다'),
+            ('p', '함께 지낸 지 얼마 되지 않아, 우리 부부는 이 아이 없이는 못 살겠다고 생각했어요. 그렇게 임시보호는 입양이 됐어요.'),
+            ('p', '지금도 낯선 사람과 큰 소리, 트럭과 움직이는 사다리를 무서워하는 겁쟁이예요. 그래도 먹을 것 앞에서는 누구보다 용감한 먹보예요. 당근과 닭가슴살을 제일 좋아하고, 배가 고프면 앞발을 공손하게 내밀어요. 그리고 이제는 엄마아빠를 제일 좋아해요.'),
+            ('mosaic', ['park-run', 'park-smile', 'park-friends'], '우리 가족이 되고 나서, 운동장에서'),
             ('h2', '집에서는 절대 안 싸는 아이'),
-            ('p', '바깥에서만 지낸 시간이 길어서인지, 우리 집 강아지는 집 안에서는 절대 응가도 쉬도 하지 않아요. 패드를 깔아 줘도, 아무리 오래 참아도 꼭 밖에서만 해요. 나가고 싶을 때는 현관에서 신발을 물어 와요.'),
+            ('p', '우리 집 강아지는 응가도 쉬도 꼭 밖에서만 해요. 패드를 깔아 줘도, 아무리 오래 참아도 꼭 밖에 나가야 해요. 나가고 싶을 때는 현관에서 신발을 물어 와요.'),
+            ('p', '한국 토종개인 진돗개는 열에 아홉이 실외배변을 한다고 할 만큼, 집 안에서는 볼일을 보지 않는 견종으로 알려져 있어요. 진돗개와 비숑이 섞인 우리 집 강아지도 그 습관을 그대로 물려받았어요.'),
             ('p', '그래서 비가 오나 눈이 오나 하루 세 번, 꼭 산책을 나가요. 산책에서 하는 일은 하나예요. 최고의 똥 스팟 찾기. 바싹 마른 낙엽, 폭신한 흙바닥, 솔방울이 잔뜩 떨어진 곳이면 합격이에요.'),
+            ('clips', [('potty-snow', '눈 덮인 겨울에도'), ('potty-summer', '한여름 아침에도')], '오늘의 똥 스팟을 찾아서'),
             ('h2', '하루에도 몇 번씩 하던 전화'),
-            ('p', '맞벌이인 저희 부부는 산책을 나눠서 해요. 문제는 그다음이었어요. 아침에 누가 데리고 나갔는지, 응가는 했는지, 쉬는 몇 번 했는지, 저녁엔 누가 나갈지. 매번 전화나 카톡으로 확인해야 했거든요.'),
-            ('quote', '“응댕이 똥 쌌어?” “아침 산책은 누가 갔어?” “저녁엔 누가 나갈래?”'),
-            ('p', '바쁜 날엔 전화를 놓치고, 같은 걸 두 번 묻고, 결국 산책을 두 번 나가거나 아무도 못 나가는 날도 생겼어요. 실외배변만 하는 아이라 응가를 언제 했는지는 건강과도 바로 이어지는 문제였어요. 하루 종일 참고 있는 건 아닌지, 마지막 응가가 몇 시간 전이었는지 늘 마음이 쓰였어요.'),
+            ('p', '저희 부부는 둘 다 일을 해서 산책을 나눠서 해요. 문제는 그다음이었어요. 아침에 누가 데리고 나갔는지, 응가는 했는지, 쉬는 몇 번 했는지. 매번 전화해서 확인해야 했거든요.'),
+            ('quote', ['응댕이 똥 쌌어?', '아침 산책은 누가 갔어?', '저녁엔 누가 나갈래?'], '하루에도 몇 번씩 오가던 전화'),
+            ('p', '바쁜 날엔 전화를 놓치고, 같은 걸 두 번 묻고, 산책을 두 번 나가거나 아무도 못 나가는 날도 생겼어요. 실외배변만 하는 아이라 응가를 언제 했는지는 건강과도 바로 이어지는 문제였어요. 하루 종일 참고 있는 건 아닌지, 마지막 응가가 몇 시간 전이었는지 늘 마음이 쓰였어요.'),
+            ('p', '결국 엄마인 저는 재택근무를 할 수 있는 일을 하게 됐어요. 그리고 생각했어요. 매번 이렇게 연락하는 것보다, 차라리 앱을 만들자.'),
             ('h2', '그 전화를 버튼 하나로'),
-            ('p', '그래서 그 전화를 버튼 하나로 바꾸기로 했어요. 한 사람이 응가·쉬를 기록하면 가족 모두의 폰에 바로 알림이 가는 앱이요. 누가 언제 산책하고 치웠는지는 하루 타임라인으로 모아 보고, 바쁜 날엔 산책을 부탁하고, 다녀오면 고맙다고 하트를 보내요.'),
+            ('p', '한 사람이 응가·쉬를 기록하면 가족 모두의 폰에 바로 알림이 가는 앱이에요. 누가 언제 산책하고 치웠는지는 하루 타임라인으로 모아 보고, 바쁜 날엔 산책을 부탁하고, 다녀오면 고맙다고 하트를 보내요.'),
             ('p', '한여름에는 언제 나가야 발바닥이 뜨겁지 않을지가 늘 고민이었어요. 그래서 우리 강아지의 체형과 털, 나이에 날씨를 더한 산책 안전도를 넣었어요. 배변 텀으로 차오르는 응가·쉬 게이지는 “오늘은 좀 오래 참고 있네”를 가족 모두가 같이 알아차리게 해 줘요.'),
-            ('img', 'pair-walk-family', '같이 나간 산책 · 가족이 다 같이 모인 날'),
+            ('img', 'lawn-walk', '오늘도 같이 나간 산책'),
             ('h2', '응댕이는 우리 집 강아지를 닮았어요'),
             ('p', '응가메이트의 캐릭터 응댕이는 우리 집 강아지에서 왔어요. 똥 모양 얼굴에 축 처진 큰 귀, 먹보에 겁쟁이, 배고프면 앞발을 내미는 것까지요. 앱을 켤 때마다 손을 흔드는 응댕이를 보면, 현관에서 신발을 물고 기다리는 우리 집 강아지가 떠올라요.'),
             ('p', '강아지를 여럿이 같이 돌보는 집이라면, 응가메이트가 “응댕이 똥 쌌어?” 전화를 조금이라도 줄여 주면 좋겠어요. 오늘도 우리 집 강아지는 최고의 똥 스팟을 찾아 산책을 나가요.'),
+            ('img', 'pair-wedding', '엄마, 아빠, 그리고 우리 집 강아지'),
         ]},
     'en': {
         'title': 'Why we built POOPIEMATE', 'cat': 'Our dog', 'date': 'Oct 7, 2026', 'by': 'The family behind POOPIEMATE',
-        'excerpt': 'Our dog from a farm-side kennel, and the “Did she poop?” calls we made every single day.',
+        'excerpt': 'The dog we first saw on a rescue group’s Instagram, and the “Did she poop?” calls we made every single day.',
         'blocks': [
             ('p', 'Hi, we’re the family behind POOPIEMATE. Here’s how the app came to be, from the very beginning. It’s a bit of a long one.'),
-            ('h2', 'Bunhong-i, from a kennel by the field'),
-            ('p', 'Our dog is now four, a 13 kg white Jindo mix. There’s a little Bichon in her somewhere — her fur curls slightly.'),
-            ('p', 'When we first met her, she lived on a short chain in a kennel next to a farm field. She hadn’t been looked after properly, and back then she was called “Bunhong-i” — little pinky. After a rescue and a stay in foster care, she became part of our family.'),
-            ('img', 'pair-kennel-home', 'Her days at the farm kennel · her first weeks with us'),
-            ('p', 'Her personality showed from day one. She’s a scaredy-cat around strangers, loud voices, trucks and moving ladders — but the bravest of us all in front of food. She loves carrots and chicken breast, and when she’s hungry she politely offers a paw. She’s independent and kept her distance at first, but now her favorite people are Mom and Dad.'),
+            ('h2', 'Bunhong-i, from an Instagram post'),
+            ('p', 'Our dog is now four, a 13 kg white Jindo mix. She’s part Jindo, part Bichon, which is why her fur curls slightly.'),
+            ('p', 'Her mother lived on a short chain in the countryside. She had been someone’s dog in Seoul, until her owner abandoned her out there and left. She had puppies with a stray dog, and our dog is one of them.'),
+            ('p', 'The animal rescue group WithAllAnimals (WAA) rescued the puppies. I first saw her in a photo on WAA’s Instagram. Back then she was called “Bunhong-i” — little pinky.'),
+            ('img', 'pair-rescue', 'Bunhong-i, as I first saw her on WAA’s Instagram'),
+            ('p', 'At first I offered to foster her. Then the idea of being responsible for a life scared me, and I said I couldn’t. The next day I got back in touch: “I’ll foster her.” That’s how she came home with us.'),
+            ('h2', 'Scared, yet somehow she knew I was Mom'),
+            ('p', 'On her first day with us, she was scared of me — and yet she seemed to sense that I was her mom. She tiptoed through the front door, then crept up to sniff my hand and wagged her tail.'),
+            ('clips', [('first-door', 'Coming through the door for the first time'), ('first-lick', 'That afternoon, licking my hand')], 'Her first day at our home'),
+            ('p', 'She was so timid. Even a person’s touch frightened her. But oh, she was so, so cute.'),
+            ('gallery', ['first-lap-sleep', 'first-lap-eyes', 'first-paws', 'first-tongue', 'first-chin', 'first-pink-sleep', 'first-lap-sleep2', 'first-harness', 'first-floor', 'first-selfie'],
+             'That foster winter, falling asleep in our arms'),
+            ('h2', 'We couldn’t live without her'),
+            ('p', 'Before long, my husband and I knew we couldn’t live without her. And so fostering turned into adoption.'),
+            ('p', 'She’s still a scaredy-cat around strangers, loud voices, trucks and moving ladders — but the bravest of us all in front of food. She loves carrots and chicken breast, and when she’s hungry she politely offers a paw. And now her favorite people are Mom and Dad.'),
+            ('mosaic', ['park-run', 'park-smile', 'park-friends'], 'At the dog park, once she was family'),
             ('h2', 'A dog who never goes indoors'),
-            ('p', 'Maybe because she spent so long outside, our dog never poops or pees indoors. Not on a pad, not even when she’s been holding it for hours. When she wants to go out, she brings us a shoe from the doorway.'),
+            ('p', 'Our dog only poops and pees outside. Not on a pad, not even when she’s been holding it for hours. When she wants to go out, she brings us a shoe from the doorway.'),
+            ('p', 'The Jindo, Korea’s native breed, is known for refusing to go indoors — it’s often said nine in ten Jindos only go outside. Our Jindo-Bichon mix inherited that habit, all of it.'),
             ('p', 'So rain or snow, she goes out three times a day. On every walk she has one mission: find the best poop spot. Crunchy dry leaves, soft dirt, or a patch covered in pinecones all pass the test.'),
+            ('clips', [('potty-snow', 'In the snow, in winter'), ('potty-summer', 'On a summer morning')], 'Searching for today’s poop spot'),
             ('h2', 'The calls we made every day'),
-            ('p', 'We’re a working couple, so we split the walks. The trouble came after. Who took her out this morning? Did she poop? How many pees? Who’s going tonight? We had to check by phone or message every time.'),
-            ('quote', '“Did she poop?” “Who took the morning walk?” “Who’s going out tonight?”'),
+            ('p', 'We both work, so we split the walks. The trouble came after. Who took her out this morning? Did she poop? How many pees? We had to call and check every time.'),
+            ('quote', ['Did she poop?', 'Who took the morning walk?', 'Who’s going out tonight?'], 'The calls we traded every single day'),
             ('p', 'On busy days we missed calls, asked the same thing twice, and sometimes she got walked twice — or not at all. For a dog who only goes outside, when she last pooped is a health question too. We always wondered whether she’d been holding it all day.'),
+            ('p', 'In the end, I — Mom — found work I could do from home. And I thought: rather than calling like this every time, why not build an app?'),
             ('h2', 'Turning that call into a button'),
-            ('p', 'So we decided to turn that call into a single button. One person logs a poop or pee and everyone in the family gets an alert right away. A daily timeline shows who walked and cleaned up, you can ask someone else to take the walk on a busy day, and send a heart when they’re back.'),
+            ('p', 'One person logs a poop or pee and everyone in the family gets an alert right away. A daily timeline shows who walked and cleaned up, you can ask someone else to take the walk on a busy day, and send a heart when they’re back.'),
             ('p', 'In summer we always worried about hot pavement, so we added a walk safety score that combines her body type, coat and age with the weather. The potty gauges, filling up with her rhythm, let the whole family notice when she’s been holding it a little too long.'),
-            ('img', 'pair-walk-family', 'Out for a walk together · a day with the whole family'),
+            ('img', 'lawn-walk', 'Out on today’s walk together'),
             ('h2', 'Poochie looks just like her'),
             ('p', 'Our mascot Poochie comes straight from our dog: a poop-shaped face, big floppy ears, a foodie and a scaredy-cat who offers a paw when she’s hungry. Every time Poochie waves on the app’s screen, we think of her waiting at the door with a shoe in her mouth.'),
             ('p', 'If your family shares one dog, we hope POOPIEMATE cuts down on the “Did Poochie poop?” texts, even a little. And today, as always, our dog is out looking for the best poop spot.'),
+            ('img', 'pair-wedding', 'Mom, Dad, and our dog'),
         ]},
 }
 
 
-LANDSCAPE = {'family-lawn', 'pair-kennel-home', 'pair-walk-family'}  # 나머지 사진은 세로 — 원본 비율 그대로, 폭만 좁게
+STORY_THUMB = 'family-lawn'  # 목록 썸네일 = 글 머리 사진
+LANDSCAPE = {'pair-rescue', 'pair-wedding'}  # 나머지 사진은 세로 — 원본 비율 그대로, 폭만 좁게
 
 
 def post_head(meta, title, art):
@@ -539,15 +565,15 @@ def story_list(lang):
     s = STORY[lang]
     c = {'ko': ('이야기', '응가메이트를 만든 가족이 겪은 이야기를 모아요', '이야기 — 응가메이트를 만든 가족 이야기', '응가메이트를 만든 가족과 우리 집 강아지 이야기. “응댕이 똥 쌌어?” 전화가 버튼 하나가 되기까지를 기록해요.',
                 ['전체', '우리 강아지 이야기', '만드는 이야기', '보호자 이야기'],
-                [('우리 강아지 이야기', '[다음 글] 분홍이가 우리 가족이 되기까지', '밭 옆 견사에서 우리 집 거실까지. 실외배변 루틴이 생긴 이야기.', 'photo:kennel-house'),
+                [('우리 강아지 이야기', '[다음 글] 비가 오나 눈이 오나, 똥책 사계절', '밖에서만 싸는 강아지와 보내는 사계절. 날씨 따라 달라지는 산책 루틴 이야기.', 'photo:park-run'),
                  ('만드는 이야기', '[다음 글] 가족이 같이 기록하면 무엇이 달라질까', '초기 사용자 기록을 보고 가족 초대를 먼저 고친 과정.', 'emoji')], '준비 중'),
          'en': ('Stories', 'Notes from the family behind POOPIEMATE', 'Stories — The family behind POOPIEMATE', 'Stories from the family and the dog behind POOPIEMATE.',
                 ['All', 'Our dog', 'Making the app', 'Owner stories'],
-                [('Our dog', '[Coming up] How Bunhong-i became family', 'From a farm-side kennel to our living room, and how her outdoor potty routine began.', 'photo:kennel-house'),
+                [('Our dog', '[Coming up] Rain or snow: a year of potty walks', 'Four seasons with a dog who only goes outside, and how the walk routine changes with the weather.', 'photo:park-run'),
                  ('Making the app', '[Coming up] What changes when a family logs together', 'What early users’ logs taught us, and why we fixed family invites first.', 'emoji')], 'Coming soon')}[lang]
     cats = c[4]
     chips = ''.join(f'<button type="button" data-cat="{"all" if i == 0 else i}" aria-pressed="{"true" if i == 0 else "false"}">{x}</button>' for i, x in enumerate(cats))
-    first = (f'<a class="post-card" data-cat="1" href="{url("why", lang)}"><span class="thumb"><img src="/assets/img/photo/family-lawn-900.webp" alt="" loading="lazy">{new_badge("2026-10-07")}</span>'
+    first = (f'<a class="post-card" data-cat="1" href="{url("why", lang)}"><span class="thumb"><img src="/assets/img/photo/{STORY_THUMB}-900.webp" alt="" loading="lazy">{new_badge("2026-10-07")}</span>'
              f'<span class="cat">{cats[1]}</span><b>{s["title"]}</b><span class="ex">{sb(s["excerpt"])}</span><time datetime="2026-10-07">{s["date"]}</time></a>')
     soon = ''
     for cat, t, ex, art in c[5]:
@@ -566,6 +592,27 @@ def story_list(lang):
     write(url('story', lang), page(lang, 'story', c[2] + (' | 응가메이트' if lang == 'ko' else ''), c[3], body, f'/assets/og/poopiemate-{lang}.jpg', active='story'))
 
 
+def photo_size(name):
+    from PIL import Image
+    with Image.open(ROOT / f'assets/img/photo/{name}-1600.webp') as im:
+        return im.size
+
+
+def photo_img(name, sizes, alt=''):
+    w, h = photo_size(name)
+    return (f'<img src="/assets/img/photo/{name}-1600.webp" srcset="/assets/img/photo/{name}-900.webp 900w, /assets/img/photo/{name}-1600.webp 1600w" '
+            f'sizes="{sizes}" width="{w}" height="{h}" alt="{escape(alt)}" loading="lazy">')
+
+
+def story_clip(name, label, lang):
+    """글 사이 세로 영상 — 화면에 들어오면 소리 없이 돌고, 버튼으로 원본 소리를 켠다 (site.js)."""
+    on, off = {'ko': ('소리 켜기', '소리 끄기'), 'en': ('Sound on', 'Sound off')}[lang]
+    return (f'<div class="clip" data-clip><div class="clip-box"><video muted loop playsinline preload="none" controlslist="nodownload noremoteplayback" disablepictureinpicture '
+            f'poster="/assets/video/story-{name}.webp?v={ASSET_V}" width="720" height="1280" aria-label="{escape(label)}"><source src="/assets/video/story-{name}.mp4?v={ASSET_V}" type="video/mp4"></video>'
+            f'<button class="clip-sound" type="button" data-clip-sound data-on="{on}" data-off="{off}" aria-pressed="false" aria-label="{on}">{SOUND_OFF}{SOUND_ON}</button></div>'
+            f'<span class="clip-cap">{label}</span></div>')
+
+
 def story_why(lang):
     s = STORY[lang]
     out = []
@@ -573,16 +620,24 @@ def story_why(lang):
         if b[0] == 'p':
             out.append(f'<p>{b[1]}</p>')
         elif b[0] == 'quote':
-            out.append(f'<blockquote>{b[1]}</blockquote>')
+            lines = ''.join(f'<p>{x}</p>' for x in b[1])
+            out.append(f'<blockquote class="pull">{lines}<cite>{b[2]}</cite></blockquote>')
         elif b[0] == 'img':
             o = 'l' if b[1] in LANDSCAPE else 'p'
-            out.append(f'<figure class="fig {o}"><img src="/assets/img/photo/{b[1]}-1600.webp" srcset="/assets/img/photo/{b[1]}-900.webp 900w, /assets/img/photo/{b[1]}-1600.webp 1600w" '
-                       f'sizes="{"(min-width: 1100px) 1040px, 96vw" if o == "l" else "(min-width: 600px) 480px, 92vw"}" alt="{escape(b[2])}" loading="lazy"><figcaption>{b[2]}</figcaption></figure>')
+            out.append(f'<figure class="fig {o}">{photo_img(b[1], "(min-width: 1100px) 1040px, 96vw" if o == "l" else "(min-width: 600px) 480px, 92vw", b[2])}<figcaption>{b[2]}</figcaption></figure>')
+        elif b[0] == 'clips':
+            out.append(f'<figure class="fig clips"><div class="clip-row">{"".join(story_clip(n, lab, lang) for n, lab in b[1])}</div><figcaption>{b[2]}</figcaption></figure>')
+        elif b[0] == 'gallery':
+            imgs = ''.join(photo_img(n, '(min-width: 1100px) 340px, (min-width: 700px) 31vw, 46vw') for n in b[1])
+            out.append(f'<figure class="fig l gallery"><div class="gal">{imgs}</div><figcaption>{b[2]}</figcaption></figure>')
+        elif b[0] == 'mosaic':
+            big, *rest = b[1]
+            imgs = photo_img(big, '(min-width: 1100px) 550px, 50vw') + ''.join(photo_img(n, '(min-width: 1100px) 490px, 46vw') for n in rest)
+            out.append(f'<figure class="fig l mosaic"><div class="mos">{imgs}</div><figcaption>{b[2]}</figcaption></figure>')
         elif b[0] == 'h2':
             out.append(f'<h2>{b[1]}</h2>')
-    art = art_card('pooping', [('house', 'left:5%;top:30px', 86, -10), ('growing_heart', 'left:24%;top:120px', 49, 10), ('love_letter', 'left:6%;top:196px', 71, 8),
-                               ('paw_prints', 'right:31%;top:23px', 53, 16), ('sparkles', 'right:8%;top:38px', 75, 10), ('bone', 'right:21%;top:162px', 56, -22),
-                               ('green_heart', 'right:6%;top:199px', 75, -8)])
+    # 목록 썸네일과 같은 사진을 글 머리에 — 목록에서 누른 그 사진으로 글이 열리게
+    art = f'<div class="post-hero">{photo_img(STORY_THUMB, "(min-width: 800px) 720px, 92vw", s["title"])}</div>'
     body = f'''
 <article class="post"><div class="wrap-post">
 {post_head(f'<time datetime="2026-10-07">{s["date"]}</time> · {s["by"]}', s['title'], art)}
@@ -590,7 +645,7 @@ def story_why(lang):
 <div class="post-end"><a class="btn-block btn-grey" href="{url('story', lang)}">{T[lang]['back']}</a></div>
 </div></article>
 '''
-    ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': s['title'], 'description': s['excerpt'], 'datePublished': '2026-10-07', 'inLanguage': lang,
+    ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': s['title'], 'description': s['excerpt'], 'datePublished': '2026-10-07', 'dateModified': '2026-10-10', 'inLanguage': lang,
           'image': f'{SITE}/assets/og/poopiemate-{lang}.jpg', 'author': {'@type': 'Organization', 'name': '응가메이트' if lang == 'ko' else 'POOPIEMATE'},
           'publisher': org_ld(lang)}
     title = s['title'] + (' | 응가메이트 이야기' if lang == 'ko' else ' | POOPIEMATE')

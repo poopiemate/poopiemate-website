@@ -5,7 +5,7 @@
 
   // 이미지·영상 우클릭 저장·끌어서 저장 막기
   document.addEventListener('contextmenu', function (e) {
-    if (e.target.closest && e.target.closest('img, video, .waver, .film, .step-media, .art-card')) e.preventDefault();
+    if (e.target.closest && e.target.closest('img, video, .waver, .film, .step-media')) e.preventDefault();
   });
   document.addEventListener('dragstart', function (e) {
     if (e.target.closest && e.target.closest('img, video')) e.preventDefault();
@@ -110,6 +110,33 @@
       new IntersectionObserver(function (es) {
         if (es[0].isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause();
       }, { threshold: 0.2 }).observe(box);
+    }
+  });
+
+  // 글 사이 세로 영상 — 화면에 들어오면 소리 없이 돌고, 소리 버튼은 한 번에 한 영상만 (다른 영상은 다시 음소거)
+  var clips = [].slice.call(document.querySelectorAll('[data-clip]'));
+  function muteClip(box) {
+    var v = box.querySelector('video'), b = box.querySelector('[data-clip-sound]');
+    v.muted = true; box.classList.remove('sound');
+    b.setAttribute('aria-pressed', 'false'); b.setAttribute('aria-label', b.getAttribute('data-on'));
+  }
+  clips.forEach(function (box) {
+    var v = box.querySelector('video');
+    var b = box.querySelector('[data-clip-sound]');
+    function play() { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+    if (reduce) { v.controls = true; v.preload = 'metadata'; }
+    b.addEventListener('click', function () {
+      if (v.muted) {
+        clips.forEach(function (o) { if (o !== box) muteClip(o); });
+        v.muted = false; v.currentTime = 0; box.classList.add('sound');
+        b.setAttribute('aria-pressed', 'true'); b.setAttribute('aria-label', b.getAttribute('data-off'));
+        play();
+      } else muteClip(box);
+    });
+    if ('IntersectionObserver' in window && !reduce) {
+      new IntersectionObserver(function (es) {
+        if (es[0].isIntersecting) play(); else { v.pause(); if (!v.muted) muteClip(box); }
+      }, { threshold: 0.4 }).observe(box);
     }
   });
 

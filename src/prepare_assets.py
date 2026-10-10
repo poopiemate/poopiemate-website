@@ -35,6 +35,30 @@ def webp(src, dst, width=None, height=None, q=86, crop=None, fn=None):
     return im.size
 
 
+def web_video(src, dst, width, crf=27, audio=False, t0=0, dur=None, frames=False):
+    """웹 영상 — H.264 8비트, BT.709·제한 범위(tv)로 맞춰 꼬리표를 단다. 사파리는 꼬리표 없는 영상이나 카톡·폰의
+    전체 범위(yuvj) 영상을 페이지 흰색과 다르게 그려서 영상 상자가 회색으로 비친다. 아이폰 HDR(HLG)은 SDR로 톤매핑."""
+    info = subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=color_transfer', '-of', 'csv=p=0', str(src)],
+                          capture_output=True, text=True).stdout if not frames else ''
+    hdr = 'arib-std-b67' in info or 'smpte2084' in info
+    tone = 'zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,' if hdr else ''
+    vf = f'{tone}scale={width}:-2:out_range=tv:out_color_matrix=bt709,fps=30,format=yuv420p,setparams=range=tv:colorspace=bt709:color_primaries=bt709:color_trc=bt709'
+    cut = (['-ss', str(t0)] if t0 else []) + (['-t', str(dur)] if dur else [])
+    inp = ['-framerate', '30', '-i', str(src)] if frames else [*cut, '-i', str(src)]
+    a = ['-map', '0:a:0?', '-c:a', 'aac', '-b:a', '128k'] if audio else ['-an']
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', *inp, '-vf', vf, '-map', '0:v:0', *a, '-c:v', 'libx264', '-profile:v', 'high', '-crf', str(crf), '-preset', 'slow',
+                    '-color_range', 'tv', '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-movflags', '+faststart', str(dst)], check=True)
+    return dst
+
+
+def web_poster(video, dst, width, at=0.4):
+    """포스터는 다시 인코딩한 웹 영상에서 뽑는다 — 영상과 포스터 색이 똑같게."""
+    png = ROOT / '.cache' / (Path(dst).stem + '.png')
+    png.parent.mkdir(exist_ok=True)
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', str(at), '-i', str(video), '-frames:v', '1', str(png)], check=True)
+    webp(png, dst, width=width, q=80)
+
+
 # ── 제목 글꼴 — 앱과 같은 나눔스퀘어 네오 Bold, 메인 제목만 ExtraBold (본문은 Pretendard). woff2로만 바꿈
 def fonts():
     from fontTools.ttLib import TTFont
@@ -76,12 +100,31 @@ def clean_edge(im):
     return Image.fromarray(a.astype(np.uint8))
 
 
+def arm_root(arm, body, reach=0.05):
+    """팔 뿌리를 몸 안쪽으로 늘려 그린다 — 팔은 몸 뒤에 깔리므로(site.css) 늘린 부분은 가만히 있을 땐 몸에 가려지고,
+    팔을 흔들어도 어깨에 잘린 단면이나 틈이 보이지 않는다."""
+    import numpy as np
+    from scipy import ndimage
+    a = np.array(arm.convert('RGBA')).astype(np.float64)
+    b = np.array(body.convert('RGBA').resize(arm.size))[..., 3] > 200
+    solid = a[..., 3] >= 245
+    dist, idx = ndimage.distance_transform_edt(~solid, return_indices=True)
+    below_face = np.arange(arm.size[1])[:, None] >= 0.52 * arm.size[1]  # 얼굴 쪽으로는 늘리지 않는다 (흔들 때 얼굴 옆으로 삐져나오지 않게)
+    grow = (~solid) & b & below_face & (dist <= reach * arm.size[0])
+    for ch in range(3):
+        a[..., ch] = np.where(grow, a[..., ch][idx[0], idx[1]], a[..., ch])
+    a[..., 3] = np.where(grow, 255, a[..., 3])
+    return Image.fromarray(a.astype(np.uint8))
+
+
 # ── 응댕이 — 앱 원본 (손 흔드는 3장, 응가하는 3장, 정지 포즈)
 def mascot():
     # 손 흔드는 응댕이 — 소개 영상(v10)에서 가장자리를 다듬은 판: 팔·꼬리 테두리 정리 + 팔 들 때 틈을 메우는 어깨
     rig = DESK / '서비스 소개 영상/v10_최종/_source/assets'
-    for n in ('wave-body', 'wave-arm', 'wave-tail', 'wave-shoulder'):
+    for n in ('wave-body', 'wave-tail', 'wave-shoulder'):
         webp(rig / f'{n}.png', f'img/mascot/{n}.webp', q=92, fn=clean_edge)
+    body = clean_edge(ImageOps.exif_transpose(Image.open(rig / 'wave-body.png')))
+    webp(rig / 'wave-arm.png', 'img/mascot/wave-arm.webp', q=92, fn=lambda im: arm_root(clean_edge(im), body))
     lay = DESK / '홈페이지_v3_레이어/응댕이/포즈'
     for n, en in (('귀쫑긋', 'ears'), ('긁기', 'scratch'), ('앉아있기', 'sit'), ('애교', 'beg'), ('안녕', 'hello'), ('응가중', 'pooping'), ('얼굴', 'face')):
         webp(lay / f'{n}.png', f'img/mascot/{en}.webp', width=480, q=88)
@@ -122,7 +165,7 @@ PHOTO = [  # 파일, 출력 이름, 이름표 전화번호 가릴 곳(원본 px)
 ]
 
 
-PAIRS = {'pair-kennel-home': ('kennel', 'home-first'), 'pair-walk-family': ('lawn-walk', 'family-lawn')}
+PAIRS = {'pair-rescue': ('kennel', 'kennel-house'), 'pair-wedding': ('wedding-jump', 'wedding-kiss')}
 
 
 def hide(boxes):
@@ -137,6 +180,56 @@ def hide(boxes):
             im.paste(part, box)
         return photo_tone(im)
     return fn
+
+
+def erase(box):
+    """이름표 글자를 판 색으로 덮기 — 글자(밝은 픽셀)를 뺀 판의 중간 색으로 채우고 가장자리만 살짝 흐리게."""
+    from PIL import ImageFilter, ImageDraw
+    import numpy as np
+
+    def fn(im):
+        part = np.array(im.crop(box).convert('RGB'))
+        plate = part[part.sum(axis=2) < 560]
+        fill = tuple(int(v) for v in np.median(plate, axis=0))
+        mask = Image.new('L', im.size, 0)
+        ImageDraw.Draw(mask).rounded_rectangle(box, radius=24, fill=255)
+        im.paste(Image.new('RGB', im.size, fill), (0, 0), mask.filter(ImageFilter.GaussianBlur(6)))
+        return im
+    return fn
+
+
+# ── 「응가메이트를 만든 이유」 사진·영상 — 사진 앱에서 꺼내 바탕화면 메로나/웹스토리에 모아 둔 원본
+STORY_SRC = PHOTOS / '웹스토리'
+STORY_PHOTO = [  # 파일, 출력 이름, 가릴 이름표(원본 px) — 뭉개기 / 판 색으로 덮기
+    ('01-lap-sleep.jpeg', 'first-lap-sleep', [], []), ('02-lap-eyes.jpeg', 'first-lap-eyes', [], []),
+    ('03-paws.jpeg', 'first-paws', [(1240, 2400, 1400, 2580)], []), ('04-tongue.jpeg', 'first-tongue', [], []),
+    ('05-chin.jpeg', 'first-chin', [], []), ('06-pink-sleep.jpeg', 'first-pink-sleep', [], []),
+    ('07-lap-sleep2.jpeg', 'first-lap-sleep2', [], []), ('08-harness.jpeg', 'first-harness', [], []),
+    ('09-floor.jpeg', 'first-floor', [], []), ('10-selfie.jpeg', 'first-selfie', [], []),
+    ('11-park-friends.jpeg', 'park-friends', [], [(2725, 2450, 3085, 2610)]), ('12-park-smile.jpeg', 'park-smile', [], []),
+    ('13-park-run.jpeg', 'park-run', [], []),
+    ('wedding-jump.jpg', 'wedding-jump', [], []), ('wedding-kiss.jpg', 'wedding-kiss', [], []),
+]
+STORY_CLIP = [  # 원본, 출력 이름, 시작(초), 길이(초) — 소리는 원본 그대로
+    (STORY_SRC / 'first-door.mp4', 'first-door', 0, None), (STORY_SRC / 'first-lick.mp4', 'first-lick', 0, None),
+    (STORY_SRC / 'snow-potty.MOV', 'potty-snow', 2.0, 14.0),
+    (DESK / '응가메이트_틱톡/소스추가/DJI_20260727073257_0095_D.MP4', 'potty-summer', 0, None),
+]
+
+
+def story():
+    for src, name, boxes, plates in STORY_PHOTO:
+        def fn(im, boxes=boxes, plates=plates):
+            for p in plates:
+                im = erase(p)(im)
+            return hide(boxes)(im)
+        for size in (1600, 900):
+            dim = webp(STORY_SRC / src, f'img/photo/{name}-{size}.webp', width=size, height=size, q=82, fn=fn)
+        print('photo', name, dim)
+    for src, name, t0, dur in STORY_CLIP:
+        dst = web_video(src, out(f'video/story-{name}.mp4'), 720, crf=26, audio=True, t0=t0, dur=dur)
+        web_poster(dst, f'video/story-{name}.webp', 720)
+        print('clip', name, dst.stat().st_size // 1024, 'KB')
 
 
 def photos():
@@ -172,12 +265,8 @@ def reels():
         files = {unicodedata.normalize('NFC', f.name)[:2]: f for f in d.glob('*.mp4')}
         for key, num in REELS.items():
             src = files[num]
-            dst = out(f'video/{key}-{lang}.mp4')
-            subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', str(src), '-vf', 'scale=720:-2', '-c:v', 'libx264', '-profile:v', 'high', '-crf', '27',
-                            '-preset', 'slow', '-pix_fmt', 'yuv420p', '-an', '-movflags', '+faststart', str(dst)], check=True)
-            poster = ROOT / '.cache' / f'{key}-{lang}.png'
-            subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', '2.5', '-i', str(src), '-frames:v', '1', str(poster)], check=True)
-            webp(poster, f'video/{key}-{lang}.webp', width=540, q=80)
+            dst = web_video(src, out(f'video/{key}-{lang}.mp4'), 720)
+            web_poster(dst, f'video/{key}-{lang}.webp', 540, at=2.5)
             print('reel', key, lang, dst.stat().st_size // 1024, 'KB')
 
 
@@ -185,9 +274,7 @@ def reels():
 def invite():
     for lang in ('ko', 'en'):
         frames = ROOT / f'.cache/invite-{lang}'
-        dst = out(f'video/invite-{lang}.mp4')
-        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-framerate', '30', '-i', str(frames / '%03d.png'), '-vf', 'scale=720:-2', '-c:v', 'libx264', '-profile:v', 'high',
-                        '-crf', '27', '-preset', 'slow', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', str(dst)], check=True)
+        dst = web_video(frames / '%03d.png', out(f'video/invite-{lang}.mp4'), 720, frames=True)
         webp(frames / '075.png', f'video/invite-{lang}.webp', width=540, q=80)
         print('invite', lang, dst.stat().st_size // 1024, 'KB')
 
@@ -207,24 +294,16 @@ def intro():
     files = {unicodedata.normalize('NFC', f.name): f for f in d.glob('*.mp4')}
     for lang, name in INTRO.items():
         src = files[name]
-        dst = out(f'video/intro-{lang}.mp4')
-        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', str(src), '-vf', 'scale=1600:-2', '-c:v', 'libx264', '-profile:v', 'high', '-crf', '28',
-                        '-preset', 'slow', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '96k', '-movflags', '+faststart', str(dst)], check=True)
-        poster = ROOT / '.cache' / f'intro-{lang}.png'
-        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', '0.6', '-i', str(src), '-frames:v', '1', str(poster)], check=True)
-        webp(poster, f'video/intro-{lang}.webp', width=1600, q=80)
+        dst = web_video(src, out(f'video/intro-{lang}.mp4'), 1600, crf=28, audio=True)
+        web_poster(dst, f'video/intro-{lang}.webp', 1600, at=0.6)
         print('intro', lang, dst.stat().st_size // 1024, 'KB')
     # 모바일(세로 화면)용 — 같은 영상의 숏폼 세로판
     d = DESK / '서비스 소개 영상/v10_최종/숏폼'
     files = {unicodedata.normalize('NFC', f.name): f for f in d.glob('*.mp4')}
     for lang, name in INTRO_V.items():
         src = files[name]
-        dst = out(f'video/intro-{lang}-v.mp4')
-        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', str(src), '-vf', 'scale=720:-2', '-c:v', 'libx264', '-profile:v', 'high', '-crf', '28',
-                        '-preset', 'slow', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '96k', '-movflags', '+faststart', str(dst)], check=True)
-        poster = ROOT / '.cache' / f'intro-{lang}-v.png'
-        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', '0.6', '-i', str(src), '-frames:v', '1', str(poster)], check=True)
-        webp(poster, f'video/intro-{lang}-v.webp', width=720, q=80)
+        dst = web_video(src, out(f'video/intro-{lang}-v.mp4'), 720, crf=28, audio=True)
+        web_poster(dst, f'video/intro-{lang}-v.webp', 720, at=0.6)
         print('intro vertical', lang, dst.stat().st_size // 1024, 'KB')
 
 
@@ -249,7 +328,7 @@ def favicon():
             shutil.copy(f, ROOT / f.name if f.name == 'favicon.ico' else out(f'icons/{f.name}'))
 
 
-STEPS = {'fonts': fonts, 'invite': invite, 'notice_hero': notice_hero, 'intro': intro, 'brand': brand, 'mascot': mascot, 'emoji': emoji, 'photos': photos, 'reels': reels, 'thumbs': thumbs, 'favicon': favicon}
+STEPS = {'fonts': fonts, 'invite': invite, 'notice_hero': notice_hero, 'intro': intro, 'brand': brand, 'mascot': mascot, 'emoji': emoji, 'story': story, 'photos': photos, 'reels': reels, 'thumbs': thumbs, 'favicon': favicon}
 if __name__ == '__main__':
     for k in (sys.argv[1:] or STEPS):
         print('==', k)
