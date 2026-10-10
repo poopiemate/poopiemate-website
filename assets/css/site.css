@@ -238,7 +238,7 @@ body.menu-open { overflow: hidden; }
 @keyframes wave { 0% { transform: rotate(0); } 8% { transform: rotate(6deg); } 18% { transform: rotate(-3deg); } 28% { transform: rotate(6deg); } 38% { transform: rotate(-3deg); } 48% { transform: rotate(3deg); } 58%, 100% { transform: rotate(0); } }
 
 /* ── 이렇게 써요 — 첫 화면은 가운데 제목 + 아래 초록 무대(손 흔드는 응댕이), 단계는 화면 가득 파스텔 바탕 */
-.how-hero { display: flex; flex-direction: column; min-height: 100vh; min-height: 100svh; padding: calc(var(--header-h) + clamp(28px, 5vh, 64px)) 0 0; text-align: center; overflow: hidden; }
+.how-hero { display: flex; flex-direction: column; min-height: 100vh; min-height: 100svh; padding: calc(var(--header-h) + clamp(52px, 10vh, 120px)) 0 0; text-align: center; overflow: hidden; }
 .how-hero .lead { margin-top: 18px; }
 /* 초록 무대 — 제목 아래 남은 화면을 다 채워서, 그라데이션이 화면 가운데보다 위에서 시작한다 */
 .stage { position: relative; flex: 1; display: flex; align-items: center; justify-content: center; margin-top: clamp(12px, 2vh, 28px); padding: clamp(16px, 3vh, 40px) 0 clamp(36px, 7vh, 88px); background: linear-gradient(0deg, var(--brand) 0%, #3FAE78 34%, #9EDDBF 66%, #E5F8F0 86%, var(--base) 100%); }
