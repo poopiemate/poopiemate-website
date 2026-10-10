@@ -198,6 +198,30 @@ def erase(box):
     return fn
 
 
+def blur_faces(faces, keep=()):
+    """사람 얼굴만 알아볼 수 없게 — 타원 안을 크게 흐리고 가장자리는 부드럽게. keep(강아지 얼굴)은 건드리지 않는다."""
+    from PIL import ImageFilter, ImageDraw
+
+    def fn(im):
+        w = max(rx for _, _, rx, _ in faces)
+        soft = im.filter(ImageFilter.GaussianBlur(w / 5)).filter(ImageFilter.GaussianBlur(w / 8))
+        mask = Image.new('L', im.size, 0)
+        d = ImageDraw.Draw(mask)
+        for cx, cy, rx, ry in faces:
+            d.ellipse((cx - rx, cy - ry, cx + rx, cy + ry), fill=255)
+        for cx, cy, rx, ry in keep:
+            d.ellipse((cx - rx, cy - ry, cx + rx, cy + ry), fill=0)
+        im.paste(soft, (0, 0), mask.filter(ImageFilter.GaussianBlur(w / 10)))
+        return im
+    return fn
+
+
+FACES = {  # 가족사진 — 우리 부부 얼굴(타원 중심 x·y, 반지름 x·y, 원본 px)은 흐리고 강아지 얼굴은 그대로
+    'family-2025-a': ([(1732, 1712, 330, 400), (2486, 1814, 320, 380)], []),
+    'family-2025-b': ([(1508, 2160, 520, 600), (2675, 1830, 500, 560)], [(2114, 2600, 470, 460)]),
+}
+
+
 # ── 「응가메이트를 만든 이유」 사진·영상 — 사진 앱에서 꺼내 바탕화면 메로나/웹스토리에 모아 둔 원본
 STORY_SRC = PHOTOS / '웹스토리'
 STORY_PHOTO = [  # 파일, 출력 이름, 가릴 이름표(원본 px) — 뭉개기 / 판 색으로 덮기
@@ -211,16 +235,19 @@ STORY_PHOTO = [  # 파일, 출력 이름, 가릴 이름표(원본 px) — 뭉개
 ]
 STORY_CLIP = [  # 원본, 출력 이름, 시작(초), 길이(초), 소리 — 소리는 원본 그대로 (바스락 잡음뿐인 영상만 소리 없이)
     (STORY_SRC / 'first-meet.MOV', 'first-meet', 0, None, True), (STORY_SRC / 'first-lick.mp4', 'first-lick', 0, None, False),
-    (STORY_SRC / 'snow-potty.MOV', 'potty-snow', 2.0, 14.0, True),
-    (DESK / '응가메이트_틱톡/소스추가/DJI_20260727073257_0095_D.MP4', 'potty-summer', 0, None, True),
+    # 똥 싸는 장면 — 똥이 몸에 가려 보이지 않는 구간만 (일어나 걸어가기 전에 끊는다)
+    (DESK / '응가메이트_틱톡/소스추가/DJI_20260727073257_0095_D.MP4', 'potty-morning', 0, 8.6, True),
+    (DESK / '응가메이트_틱톡/소스추가/DJI_20260726203218_0059_D.MP4', 'potty-evening', 3.5, 9.7, True),
 ]
 
 
 def story():
     for src, name, boxes, plates in STORY_PHOTO:
-        def fn(im, boxes=boxes, plates=plates):
+        def fn(im, boxes=boxes, plates=plates, name=name):
             for p in plates:
                 im = erase(p)(im)
+            if name in FACES:
+                im = blur_faces(*FACES[name])(im)
             return hide(boxes)(im)
         for size in (1600, 900):
             dim = webp(STORY_SRC / src, f'img/photo/{name}-{size}.webp', width=size, height=size, q=82, fn=fn)
