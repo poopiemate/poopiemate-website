@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-10'
-ASSET_V = '23'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '24'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -405,7 +405,7 @@ def home(lang):
     verify = ('<meta name="google-site-verification" content="vezMm0ELRBYYTtSoNa8gk8Smo0MrxGzfDn1pjxSJAa0">\n'
               '<meta name="naver-site-verification" content="a236950cd48d38555cc3d88c121cdfe2971aa08c">\n'
               '<meta name="msvalidate.01" content="71EA6D0F5FA0EFBBA4609AA122BA853D">\n') if lang == 'ko' else ''
-    write(url('home', lang), page(lang, 'home', c['title'], c['desc'], body, f'/assets/og/home-{lang}.jpg',
+    write(url('home', lang), page(lang, 'home', c['title'], c['desc'], body, f'/assets/og/poopiemate-{lang}.jpg',
                                   ld=[app_ld, site_ld, faq_ld(HOME_FAQ[lang]), video_ld(YT['service_long'][lang], c['v_label'], c['desc'], lang)], extra_head=verify, intro=True,
                                   keywords='응가메이트, PoopieMate, 강아지 배변 기록, 강아지 가족 공유 앱, 반려견 산책 기록, 실외배변, 진도믹스, 배변 텀 알림, 산책 안전도' if lang == 'ko' else 'PoopieMate, dog potty log, shared dog care app, family dog walk tracker, potty alerts'))
 
@@ -470,7 +470,7 @@ def how(lang):
 <section class="sec-more snap-sec"><div class="wrap"><div class="center-head rise"><span class="pill-tag">{c['more_tag']}</span><h2 class="h2">{c['more_h']}</h2></div>{bento}</div></section>
 {cta_soft(lang)}
 '''
-    write(url('how', lang), page(lang, 'how', c['title'], c['desc'], body, f'/assets/og/how-{lang}.jpg', active='how', snap=True))
+    write(url('how', lang), page(lang, 'how', c['title'], c['desc'], body, f'/assets/og/poopiemate-{lang}.jpg', active='how', snap=True))
 
 
 # ═════════════════════════════════════════════════════════ 이야기 (캔버스 「v2 이야기」)
@@ -563,7 +563,7 @@ def story_list(lang):
 {empty_state(lang, 'story')}
 </div></section>
 '''
-    write(url('story', lang), page(lang, 'story', c[2] + (' | 응가메이트' if lang == 'ko' else ''), c[3], body, f'/assets/og/story-{lang}.jpg', active='story'))
+    write(url('story', lang), page(lang, 'story', c[2] + (' | 응가메이트' if lang == 'ko' else ''), c[3], body, f'/assets/og/poopiemate-{lang}.jpg', active='story'))
 
 
 def story_why(lang):
@@ -591,10 +591,10 @@ def story_why(lang):
 </div></article>
 '''
     ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': s['title'], 'description': s['excerpt'], 'datePublished': '2026-10-07', 'inLanguage': lang,
-          'image': f'{SITE}/assets/og/why-{lang}.jpg', 'author': {'@type': 'Organization', 'name': '응가메이트' if lang == 'ko' else 'PoopieMate'},
+          'image': f'{SITE}/assets/og/poopiemate-{lang}.jpg', 'author': {'@type': 'Organization', 'name': '응가메이트' if lang == 'ko' else 'PoopieMate'},
           'publisher': org_ld(lang)}
     title = s['title'] + (' | 응가메이트 이야기' if lang == 'ko' else ' | PoopieMate')
-    write(url('why', lang), page(lang, 'why', title, s['excerpt'], body, f'/assets/og/why-{lang}.jpg', active='story', og_type='article', ld=[ld]))
+    write(url('why', lang), page(lang, 'why', title, s['excerpt'], body, f'/assets/og/poopiemate-{lang}.jpg', active='story', og_type='article', ld=[ld]))
 
 
 # ═════════════════════════════════════════════════════════ 공지사항 (캔버스 「v2 공지사항」)
@@ -631,7 +631,7 @@ def notice_list(lang):
 {empty_state(lang, 'notice')}
 </div></section>
 '''
-    write(url('notice', lang), page(lang, 'notice', c[2], c[3], body, f'/assets/og/notice-{lang}.jpg', active='notice'))
+    write(url('notice', lang), page(lang, 'notice', c[2], c[3], body, f'/assets/og/poopiemate-{lang}.jpg', active='notice'))
 
 
 def notice_interview(lang):
@@ -645,7 +645,7 @@ def notice_interview(lang):
 </div></article>
 '''
     write(url('interview_notice', lang), page(lang, 'interview_notice', n['title'] + (' | 응가메이트' if lang == 'ko' else ' | PoopieMate'), n['sub'], body,
-                                              f'/assets/og/interview-{lang}.jpg', active='notice', og_type='article'))
+                                              f'/assets/og/poopiemate-{lang}.jpg', active='notice', og_type='article'))
 
 
 # ═════════════════════════════════════════════════════════ 정책 (옛 poopiemate-legal에서 옮겨 옴 — 본문은 그대로, 겉모양만)
@@ -675,7 +675,7 @@ def legal(name, lang):
     if name == 'support':  # 문의 메일은 응가메이트 대표 메일로
         inner = inner.replace('jin@pixelberry.io', EMAIL)
     body = f'<article class="post legal"><div class="wrap-post"><div class="prose">{inner}</div></div></article>\n{script}'
-    write(url(name, lang), page(lang, name, title, LEGAL_DESC[name][0 if lang == 'ko' else 1], body, f'/assets/og/home-{lang}.jpg', active=None))
+    write(url(name, lang), page(lang, name, title, LEGAL_DESC[name][0 if lang == 'ko' else 1], body, f'/assets/og/poopiemate-{lang}.jpg', active=None))
 
 
 # ═════════════════════════════════════════════════════════ 검색 가이드 (옛 글 — 새 디자인으로)
@@ -693,7 +693,7 @@ def guides():
 <div class="prose">{rest}</div></div></article>
 {cta_band('ko')}
 '''
-        write(f'/{g["slug"]}/', page('ko', None, g['title'], g['description'], body, '/assets/og/home-ko.jpg', ko_path=f'/{g["slug"]}/', en_path=None,
+        write(f'/{g["slug"]}/', page('ko', None, g['title'], g['description'], body, '/assets/og/poopiemate-ko.jpg', ko_path=f'/{g["slug"]}/', en_path=None,
                                      og_type='article', ld=g['ld'], keywords=g['keywords']))
 
 
@@ -721,7 +721,7 @@ def interview(lang):
                 '<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">\n'
                 f'<meta property="og:type" content="website">\n<meta property="og:site_name" content="{og[0]}">\n<meta property="og:title" content="{og[1]}">\n'
                 f'<meta property="og:description" content="{og[2]}">\n<meta property="og:url" content="{SITE}{path}">\n'
-                f'<meta property="og:image" content="{SITE}/assets/og/interview-{lang}.jpg">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="robots" content="noindex, follow">\n'
+                f'<meta property="og:image" content="{SITE}/assets/og/poopiemate-{lang}.jpg">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="robots" content="noindex, follow">\n'
                 f'<link rel="alternate" hreflang="ko" href="{SITE}/interview/">\n<link rel="alternate" hreflang="en" href="{SITE}/en/interview/">\n'
                 '<style>:root{--pink-dark:#A2479A}</style>\n')
     s = s.replace('</head>', head_add + '</head>', 1)
@@ -756,11 +756,11 @@ def download():
 <meta property="og:title" content="응가메이트 무료 다운로드">
 <meta property="og:description" content="기록하면 가족 모두에게 바로 알림! 댕댕이 응가·산책을 함께 챙겨요.">
 <meta property="og:url" content="{SITE}/download/">
-<meta property="og:image" content="{SITE}/assets/og/download-ko.jpg">
+<meta property="og:image" content="{SITE}/assets/og/poopiemate-ko.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="{SITE}/assets/og/download-ko.jpg">
+<meta name="twitter:image" content="{SITE}/assets/og/poopiemate-ko.jpg">
 {PRETENDARD}
 <link rel="stylesheet" href="/assets/css/site.css?v={ASSET_V}">
 <script src="/assets/js/store-region.js?v={ASSET_V}"></script>
@@ -793,7 +793,7 @@ def not_found():
 <h1 class="h1">페이지를 찾지 못했어요</h1><p class="lead">주소가 바뀌었거나 없는 페이지예요. <span lang="en">Page not found.</span></p>
 <div class="nf-btns"><a class="btn-block btn-dark" href="/">홈으로</a><a class="btn-block btn-grey" href="/en/">English</a></div></div></section>
 '''
-    (ROOT / '404.html').write_text(page('ko', 'home', '페이지를 찾지 못했어요 | 응가메이트', '찾는 페이지가 없어요. 응가메이트 홈에서 가족이 함께 보는 강아지 응가 기록을 만나 보세요.', body, '/assets/og/home-ko.jpg', noindex=True), encoding='utf-8')
+    (ROOT / '404.html').write_text(page('ko', 'home', '페이지를 찾지 못했어요 | 응가메이트', '찾는 페이지가 없어요. 응가메이트 홈에서 가족이 함께 보는 강아지 응가 기록을 만나 보세요.', body, '/assets/og/poopiemate-ko.jpg', noindex=True), encoding='utf-8')
 
 
 def sitemap():
