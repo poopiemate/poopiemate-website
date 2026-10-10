@@ -35,6 +35,10 @@ python3 src/build.py            # every page (ko at /, en at /en/) + sitemap.xml
 - `src/build.py` — copy, layout and SEO for home, how-it-works, stories, notices, download, 404; the 9 search guides and the interview form are wrapped from `src/legacy/`.
 - `assets/css/site.css` — design tokens (same colors as the app's `tokens.js`) and the web type scale.
 - `/app/` is a separate Expo web export and is not touched by the build.
+- `src/legal/` — privacy, terms, support and licenses text, built to `/privacy/`, `/terms/`, `/support/`, `/licenses/` (and `/en/…`).
+  The app and store listings still link to `viva-jinyi.github.io/poopiemate-legal/privacy-ko` etc., so after changing these pages
+  run `python3 src/build.py` in `../poopiemate-legal` too and push both repos — that repo serves copies of these pages.
+- `src/render/` — the notice hero image and the family-invite reel (`node src/render/render.js`, needs Playwright), encoded by `prepare_assets.py invite notice_hero`.
 
 ## Local preview
 
