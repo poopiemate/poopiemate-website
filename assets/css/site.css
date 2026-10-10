@@ -360,10 +360,9 @@ body.menu-open { overflow: hidden; }
 .post-card.soon { opacity: .55; }
 .empty { margin: 40px 0 0; padding: clamp(32px, 5vw, 56px) 20px; border-radius: 28px; background: #F7F8FA; text-align: center; }
 .empty[hidden] { display: none; }
-.empty img { width: clamp(120px, 14vw, 160px); height: auto; margin: 0 auto; transform-origin: 50% 90%; animation: puzzled 2.8s ease-in-out infinite; }
+.empty img { width: clamp(120px, 14vw, 160px); height: auto; margin: 0 auto; }
 .empty b { display: block; margin-top: 18px; font-family: var(--font-title); font-size: clamp(20px, 2vw, 24px); font-weight: 800; letter-spacing: -0.02em; }
 .empty p { margin: 8px 0 0; font-size: 16px; line-height: 1.65; color: var(--fg-2); }
-@keyframes puzzled { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-5deg); } 40% { transform: rotate(4deg); } 60% { transform: rotate(-2deg); } 80% { transform: rotate(0); } }
 /* ── 글 상세 (이야기·공지 · 가이드) — 720 폭, 초록 머리 카드 */
 .post { padding: calc(var(--header-h) + 40px) 0 clamp(80px, 8vw, 96px); }
 .wrap-post { max-width: calc(720px + var(--gutter) * 2); margin: 0 auto; padding: 0 var(--gutter); }
@@ -504,7 +503,7 @@ main.iv .thanks h2 { font-size: 22px; }
   .waver .tail, .waver .arm, .waver .sh, .intro .dots i { animation: none; }
   .store, .intro, .bcard, .step-icon, .step-phone, .step-num::after { transition: none; }
   .js [data-mo] .w > span, .js .mo-fade { transform: none; opacity: 1; transition: none; }
-  .film-down, .stage-art .ic, .empty img { animation: none; }
+  .film-down, .stage-art .ic { animation: none; }
 }
 
 /* 스크립트가 없으면 단계 영상을 바로 보여 준다 */
