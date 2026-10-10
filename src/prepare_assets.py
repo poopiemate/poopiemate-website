@@ -220,7 +220,8 @@ def soft_focus(mask_png, sigma_ratio, work=1800):
 
 
 # 사람이 나오는 사진 — 원본 그대로, 초점만 강아지에게. 값이 클수록 사람이 더 흐리다 (셀카는 얼굴이 크게 나와 더 흐리게)
-FOCUS = {'family-2025-a': 1 / 400, 'family-2025-b': 1 / 400, 'wedding-jump': 1 / 400, 'wedding-kiss': 1 / 400, 'first-selfie': 1 / 200}
+FOCUS = {'family-2025-a': 1 / 320, 'family-2025-b': 1 / 320, 'wedding-jump': 1 / 320, 'wedding-kiss': 1 / 320, 'first-selfie': 1 / 170}
+MUTED = {'family-2025-a', 'family-2025-b', 'wedding-jump', 'wedding-kiss'}  # 웨딩·가족사진 — 채도를 조금 낮춰 차분하게
 
 
 # ── 「응가메이트를 만든 이유」 사진·영상 — 사진 앱에서 꺼내 바탕화면 메로나/웹스토리에 모아 둔 원본
@@ -249,6 +250,8 @@ def story():
                 im = erase(p)(im)
             if name in FOCUS:
                 im = soft_focus(STORY_SRC / f'{Path(src).stem}-dog.png', FOCUS[name])(im)
+            if name in MUTED:
+                im = ImageEnhance.Color(im).enhance(0.86)
             return hide(boxes)(im)
         for size in (1600, 900):
             dim = webp(STORY_SRC / src, f'img/photo/{name}-{size}.webp', width=size, height=size, q=82, fn=fn)
