@@ -35,7 +35,11 @@
 @media (min-width: 900px) { :root { --gutter: 32px; --header-h: 80px; } }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--header-h) + 16px); }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-top: calc(var(--header-h) + 16px); }
+/* 스크롤바는 숨기고 스크롤은 그대로 — Firefox · Chrome/Safari/Edge · 옛 Edge */
+html, body, * { scrollbar-width: none; -ms-overflow-style: none; }
+html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar { display: none; width: 0; height: 0; background: transparent; }
+body { overflow-x: hidden; }
 body {
   margin: 0;
   background: var(--base);
@@ -119,6 +123,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .sheet-lang a { flex: 1; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 14px; background: var(--surface); font-weight: 700; text-decoration: none; }
 .sheet-lang a[aria-current="true"] { background: var(--fg); color: var(--on-color); }
 .sheet .sns { margin-top: auto; }
+.sheet .sns a { background: var(--surface); }
 body.menu-open { overflow: hidden; }
 
 /* ── 스토어 버튼 — 흰 바탕 (초록 카드·연초록 상자 위) */
@@ -235,11 +240,12 @@ body.menu-open { overflow: hidden; }
 .how-hero { display: flex; flex-direction: column; min-height: 100vh; min-height: 100svh; padding: calc(var(--header-h) + clamp(28px, 5vh, 64px)) 0 0; text-align: center; overflow: hidden; }
 .how-hero .lead { margin-top: 18px; }
 /* 초록 무대 — 제목 아래 남은 화면을 다 채워서, 그라데이션이 화면 가운데보다 위에서 시작한다 */
-.stage { position: relative; flex: 1; display: flex; align-items: flex-end; justify-content: center; margin-top: clamp(12px, 2vh, 28px); padding: clamp(16px, 3vh, 40px) 0 clamp(36px, 7vh, 88px); background: linear-gradient(0deg, var(--brand) 0%, #3FAE78 34%, #9EDDBF 66%, #E5F8F0 86%, var(--base) 100%); }
-.stage-art { position: relative; width: min(94vw, 900px, calc((100svh - var(--header-h) - 400px) * 1.6)); aspect-ratio: 16 / 10; margin: 0 auto; }
-.stage-art .waver { position: absolute; left: 50%; bottom: 0; width: 46%; transform: translateX(-50%); }
-.stage-art .ic { position: absolute; width: 13%; animation: float 3.2s ease-in-out infinite; }
-@media (max-width: 759px) { .stage-art { width: min(100vw, calc((100svh - var(--header-h) - 300px) * 1.2)); aspect-ratio: 6 / 5; } .stage-art .waver { width: 58%; } .stage-art .ic { width: 15%; } }
+.stage { position: relative; flex: 1; display: flex; align-items: center; justify-content: center; margin-top: clamp(12px, 2vh, 28px); padding: clamp(16px, 3vh, 40px) 0 clamp(36px, 7vh, 88px); background: linear-gradient(0deg, var(--brand) 0%, #3FAE78 34%, #9EDDBF 66%, #E5F8F0 86%, var(--base) 100%); }
+.stage-art { position: relative; width: min(94vw, 600px, calc((100svh - var(--header-h) - 400px) * 1.6)); aspect-ratio: 16 / 10; margin: 0 auto; }
+/* 응댕이 원본이 408px라 크게 늘리면 가장자리가 깨진다 — 화면에서 270px를 넘지 않게 */
+.stage-art .waver { position: absolute; left: 50%; bottom: 0; width: min(45%, 270px); transform: translateX(-50%); }
+.stage-art .ic { position: absolute; width: min(12%, 72px); animation: float 3.2s ease-in-out infinite; }
+@media (max-width: 759px) { .stage-art { width: min(100vw, calc((100svh - var(--header-h) - 300px) * 1.2)); aspect-ratio: 6 / 5; } .stage-art .waver { width: 50%; } .stage-art .ic { width: 14%; } }
 .stage-art .ic:nth-child(2n) { animation-duration: 2.7s; animation-delay: -.8s; }
 @keyframes float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
 /* 단계 — 모바일까지 화면 한 장(svh) 가득 */
@@ -314,7 +320,7 @@ body.menu-open { overflow: hidden; }
 
 /* 풀페이지 — 넓은 화면에서 단계마다 한 화면씩 스르륵 (넘기기는 site.js) */
 @media (min-width: 900px) and (min-height: 680px) and (prefers-reduced-motion: no-preference) {
-  html.snap .snap-sec:not(.how-hero) { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: calc(var(--header-h) + 16px) 0 32px; }
+  html.snap .snap-sec:not(.how-hero):not(.film) { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: calc(var(--header-h) + 16px) 0 32px; }
   html.snap .snap-sec > div { width: 100%; }
   html.snap .snap-sec { scroll-margin-top: 0; }
   html.snap .step-media { height: min(720px, calc(100vh - var(--header-h) - 72px)); }
@@ -369,7 +375,7 @@ body.menu-open { overflow: hidden; }
 .prose ul, .prose ol { margin: 0 0 1.25em; padding-left: 1.2em; }
 .prose li { margin: .35em 0; }
 .prose strong, .prose b { font-weight: 700; }
-.prose blockquote { margin: 1.6em 0; padding: 22px 26px; border-radius: 18px; background: var(--brand-subtle); font-weight: 600; }
+.prose blockquote { margin: 1.8em 0; padding: 24px 28px; border-radius: 0; border-bottom: 1px solid var(--line-strong); background: #F5F6F7; color: #333D4B; text-align: center; font-family: var(--font-title); font-size: 18px; line-height: 1.7; font-weight: 700; }
 .prose a { color: var(--brand-deep); font-weight: 600; }
 .fig { margin: 40px auto; }
 .fig img { width: 100%; border-radius: 18px; }
@@ -377,6 +383,8 @@ body.menu-open { overflow: hidden; }
 .fig.l { margin-left: calc(50% - min(48vw, 520px)); margin-right: calc(50% - min(48vw, 520px)); }
 .fig.p { max-width: min(100%, 480px); }
 .post-end { margin-top: 40px; display: flex; flex-direction: column; gap: 12px; }
+.post-end.two { flex-direction: row; }
+.post-end.two .btn-block { flex: 1; }
 .btn-block { display: flex; align-items: center; justify-content: center; gap: 6px; height: 54px; border-radius: 20px; font-size: 15.5px; font-weight: 800; text-decoration: none; }
 .btn-block svg { width: 16px; height: 16px; }
 .btn-dark { background: var(--fg); color: var(--on-color); }
@@ -399,7 +407,7 @@ body.menu-open { overflow: hidden; }
 .nf-btns { margin: 28px auto 0; max-width: 360px; display: flex; flex-direction: column; gap: 10px; }
 
 /* ── 푸터 — 로고·SNS / 링크 / 운영 정보 */
-.footer { padding: 48px 0 44px; border-top: 1px solid var(--line); color: var(--fg-3); font-size: 14px; }
+.footer { padding: 56px 0 48px; background: #F7F8FA; color: var(--fg-2); font-size: 14px; }
 .f-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; }
 .f-row img { height: 26px; width: auto; }
 .f-links { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 0 24px; }
@@ -408,12 +416,12 @@ body.menu-open { overflow: hidden; }
 .f-links a.strong { color: var(--fg); font-weight: 800; }
 .f-bottom { margin-top: 24px; padding-top: 22px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; align-items: center; font-size: 13px; }
 .sns { display: flex; flex-wrap: wrap; gap: 8px; }
-.sns a { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--surface); color: var(--fg-2); transition: background .15s ease, color .15s ease; }
+.sns a { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--base); color: var(--fg-2); transition: background .15s ease, color .15s ease; }
 .sns a:hover { background: var(--brand); color: var(--on-color); }
 .sns svg { width: 19px; height: 19px; }
 .lang-switch { display: inline-flex; gap: 4px; }
 .lang-switch a { padding: 3px 10px; border-radius: 6px; text-decoration: none; }
-.lang-switch a[aria-current="true"] { background: var(--surface); color: var(--fg); font-weight: 700; }
+.lang-switch a[aria-current="true"] { background: var(--base); color: var(--fg); font-weight: 700; }
 
 /* ── 정책 (개인정보 처리방침·이용약관·고객 지원·오픈소스 라이선스) — 본문은 그대로, 글 상세와 같은 틀 */
 .legal .prose { margin-top: 0; }

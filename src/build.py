@@ -11,13 +11,11 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-10'
-ASSET_V = '15'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '17'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
-# 나라·언어를 고정하지 않은 링크 — 누르는 사람의 나라 스토어·기기 언어로 열린다 (전 세계 공통)
-APPSTORE_URL = 'https://apps.apple.com/app/id6781981502'
-PLAY_URL = 'https://play.google.com/store/apps/details?id=com.pixelberry.poopiemate'
-APPSTORE = {'ko': APPSTORE_URL, 'en': APPSTORE_URL}
-PLAY = {'ko': PLAY_URL, 'en': PLAY_URL}
+# 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
+APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
+PLAY = {'ko': 'https://play.google.com/store/apps/details?id=com.pixelberry.poopiemate&hl=ko', 'en': 'https://play.google.com/store/apps/details?id=com.pixelberry.poopiemate&hl=en'}
 SNS = {
     'youtube': ('YouTube', 'https://www.youtube.com/@poopiemate'),
     'tiktok': ('TikTok', 'https://www.tiktok.com/@poopiemate'),
@@ -125,12 +123,12 @@ def header(lang, active, ko_path, en_path):
             f'<a class="gnb-logo" href="{url("home", lang)}">{logo}</a>'
             f'<nav class="gnb-nav" aria-label="{"주 메뉴" if lang == "ko" else "Main menu"}">{nav}</nav>'
             f'<div class="gnb-side"><nav class="gnb-lang" aria-label="{t["lang_label"]}">{gl}</nav>'
-            f'<a class="gnb-cta" href="/download/{"?lang=en" if lang == "en" else ""}">{t["cta"]}</a>'
+            f'<a class="gnb-cta" href="/download/?lang={lang}">{t["cta"]}</a>'
             f'<button class="gnb-menu" type="button" aria-label="{t["menu"]}" aria-controls="menu" aria-expanded="false" data-menu-open>{MENU_ICON}</button></div>'
             f'</div></header>'
             f'<div class="sheet" id="menu" role="dialog" aria-modal="true" aria-label="{t["name"]}" aria-hidden="true">'
             f'<div class="sheet-top"><a href="{url("home", lang)}">{logo}</a><button type="button" class="gnb-menu" aria-label="{t["close"]}" data-menu-close>{CLOSE_ICON}</button></div>'
-            f'<nav aria-label="{"모바일 메뉴" if lang == "ko" else "Mobile menu"}">{nav}<a href="/download/{"?lang=en" if lang == "en" else ""}">{t["cta"]}</a></nav>'
+            f'<nav aria-label="{"모바일 메뉴" if lang == "ko" else "Mobile menu"}">{nav}<a href="/download/?lang={lang}">{t["cta"]}</a></nav>'
             f'<div class="sheet-lang">{lang_links(lang, ko_path, en_path, "sheet")}</div>{sns_links(lang)}</div>')
 
 
@@ -221,7 +219,7 @@ SOUND_ON = '<svg class="i-on" viewBox="0 0 24 24" fill="none" stroke="currentCol
 def intro_film(lang, label):
     """첫 화면 — 서비스 소개 영상(우리 사이트에 올린 mp4)이 화면 가득 바로 재생. 유튜브 버튼 없이, 소리는 버튼으로."""
     on, off = {'ko': ('소리 켜기', '소리 끄기'), 'en': ('Sound on', 'Sound off')}[lang]
-    return (f'<section class="film" data-film aria-label="{escape(label)}">'
+    return (f'<section class="film snap-sec" data-film aria-label="{escape(label)}">'
             f'<video data-film-video muted loop playsinline autoplay preload="auto" poster="/assets/video/intro-{lang}.webp" aria-label="{escape(label)}">'
             f'<source src="/assets/video/intro-{lang}.mp4" type="video/mp4"></video>'
             f'<button class="film-sound" type="button" data-sound data-on="{on}" data-off="{off}" aria-pressed="false">{SOUND_OFF}{SOUND_ON}<span>{on}</span></button>'
@@ -240,7 +238,8 @@ def icons(items):
 
 def sb(text):
     """문장이 끝나면 줄을 바꾼다 (한국어·영어 모두) — 설명 글이 문장 중간에서 어색하게 꺾이지 않게."""
-    text = re.sub(r'([.!?。])\s+(?=[^\s<])', r'\1<br>', text)
+    # 「네.」「Yes.」처럼 한 낱말짜리 대답 뒤에서는 끊지 않는다
+    text = re.sub(r'(^|<br>|\s)([^\s<]+?[.!?。])\s+(?=[^\s<])', lambda m: m.group(0) if len(m.group(2)) <= 4 and m.group(1) in ('', '<br>') else f'{m.group(1)}{m.group(2)}<br>', text)
     return re.sub(r'([!?][”’"])\s+(?=[A-Z])', r'\1<br>', text)
 
 
@@ -265,12 +264,12 @@ def art_card(dog, ics):
     return f'<div class="art-card" aria-hidden="true"><span class="glow"></span>{ic}<img class="dog" src="/assets/img/mascot/{dog}.webp" alt=""></div>'
 
 
-def cta_band(lang):
+def cta_band(lang, cls=''):
     """다운로드 — 초록 카드, 왼쪽 글·스토어 버튼, 오른쪽 손 흔드는 응댕이 (v3 지도 아래)."""
     c = {'ko': ('둘이 같이 키운다면,<br>둘이 같이 써보세요', '가족 초대도 기록도 알림도 무료예요'),
          'en': ('Raising your dog together?<br>Log it together.', 'Family invites, logs and alerts are all free.')}[lang]
-    return (f'<section class="sec-cta"><div class="wrap"><div class="cta-card rise">'
-            f'<div class="cta-text"><h2 class="h2">{c[0]}</h2><p>{sb(c[1])}</p></div>{stores(lang)}{waver()}</div></div></section>')
+    return (f'<section class="sec-cta {cls}"><div class="wrap"><div class="cta-card rise">'
+            f'<div class="cta-text"><h2 class="h2" data-mo>{c[0]}</h2><p>{sb(c[1])}</p></div>{stores(lang)}{waver()}</div></div></section>')
 
 
 def cta_soft(lang):
@@ -283,7 +282,7 @@ def cta_soft(lang):
 def faq_block(lang, items):
     h = {'ko': '자주 묻는 질문', 'en': 'Frequently asked questions'}[lang]
     rows = ''.join(f'<details{" open" if i == 0 else ""}><summary><span>{escape(q)}</span>{CHEV_D}</summary><p>{sb(escape(a))}</p></details>' for i, (q, a) in enumerate(items))
-    return f'<section class="sec-faq"><div class="wrap-faq rise">{label("FAQ")}<h2 class="h2">{h}</h2><div class="faq">{rows}</div></div></section>'
+    return f'<section class="sec-faq snap-sec"><div class="wrap-faq">{label("FAQ")}<h2 class="h2" data-mo>{h}</h2><div class="faq rise">{rows}</div></div></section>'
 
 
 def faq_ld(items):
@@ -362,26 +361,27 @@ def home(lang):
     body = f"""
 {intro_film(lang, c['v_label'])}
 
-<section class="hero" id="start"><div class="wrap">
+<section class="hero how-hero snap-sec" id="start"><div class="wrap">
 {label(c['label'])}
 <h1 class="hero-h1" data-mo>{c['h1']}</h1>
 <p class="hero-lead mo-fade">{c['lead']}</p>
-</div></section>
+</div>
+<div class="stage" aria-hidden="true"><div class="stage-art">{icons([('growing_heart', 8, 14, -12), ('pile_of_poo', 2, 52, -8), ('paw_prints', 15, 82, 10), ('sparkles', 84, 10, 8), ('green_heart', 90, 46, 12), ('bone', 80, 78, -16)])}{waver()}</div></div></section>
 
-<section class="sec-feat" data-carousel>
-<div class="wrap feat-head rise"><div>{label(c['b_tag'])}<h2 class="h2">{c['b_h']}</h2></div>{nav}</div>
+<section class="sec-feat snap-sec" data-carousel>
+<div class="wrap feat-head"><div>{label(c['b_tag'])}<h2 class="h2" data-mo>{c['b_h']}</h2></div>{nav}</div>
 <div class="track" tabindex="0" role="region" aria-label="{re.sub('<[^>]+>', ' ', c['b_h'])}">{cards}</div>
 <div class="wrap feat-foot"><div class="dots" aria-hidden="true">{dots}</div><a class="more-link" href="{url('how', lang)}">{c['f_more']}{ARROW_R}</a></div>
 </section>
 
-<section class="sec-story"><div class="wrap"><div class="story-card rise">
+<section class="sec-story snap-sec"><div class="wrap"><div class="story-card rise">
 <div class="polaroids"><figure><img src="/assets/img/photo/kennel-900.webp" alt="" loading="lazy"><figcaption>{c['s_cap'][0]}</figcaption></figure>
 <figure><img src="/assets/img/photo/home-first-900.webp" alt="" loading="lazy"><figcaption>{c['s_cap'][1]}</figcaption></figure></div>
-<div class="story-text">{label(c['s_tag'], 'gold')}<h2 class="h2">{c['s_h']}</h2><p>{sb(c['s_p'])}</p><a class="more-link" href="{url('why', lang)}">{c['s_btn']}{ARROW_R}</a></div>
+<div class="story-text">{label(c['s_tag'], 'gold')}<h2 class="h2" data-mo>{c['s_h']}</h2><p>{sb(c['s_p'])}</p><a class="more-link" href="{url('why', lang)}">{c['s_btn']}{ARROW_R}</a></div>
 </div></div></section>
 
 {faq_block(lang, HOME_FAQ[lang])}
-{cta_band(lang)}
+{cta_band(lang, 'snap-sec')}
 """
     app_ld = {'@context': 'https://schema.org', '@type': 'MobileApplication', 'name': '응가메이트' if lang == 'ko' else 'PoopieMate',
               'alternateName': ['PoopieMate', '응가메이트'], 'operatingSystem': ['iOS', 'Android'], 'applicationCategory': 'LifestyleApplication',
@@ -395,7 +395,7 @@ def home(lang):
               '<meta name="naver-site-verification" content="a236950cd48d38555cc3d88c121cdfe2971aa08c">\n'
               '<meta name="msvalidate.01" content="71EA6D0F5FA0EFBBA4609AA122BA853D">\n') if lang == 'ko' else ''
     write(url('home', lang), page(lang, 'home', c['title'], c['desc'], body, f'/assets/og/home-{lang}.jpg',
-                                  ld=[app_ld, site_ld, faq_ld(HOME_FAQ[lang]), video_ld(YT['service_long'][lang], c['v_label'], c['desc'], lang)], extra_head=verify, intro=True,
+                                  ld=[app_ld, site_ld, faq_ld(HOME_FAQ[lang]), video_ld(YT['service_long'][lang], c['v_label'], c['desc'], lang)], extra_head=verify, intro=True, snap=True,
                                   keywords='응가메이트, PoopieMate, 강아지 배변 기록, 강아지 가족 공유 앱, 반려견 산책 기록, 실외배변, 진도믹스, 배변 텀 알림, 산책 안전도' if lang == 'ko' else 'PoopieMate, dog potty log, shared dog care app, family dog walk tracker, potty alerts'))
 
 
@@ -629,7 +629,7 @@ def notice_interview(lang):
 <article class="post"><div class="wrap-post">
 {post_head(f'<time datetime="2026-10-05">{n["date"]}</time> · {n["by"]}', n['title'], art)}
 <div class="prose">{''.join(b if b.startswith('<ul') else f'<p>{sb(b)}</p>' for b in n['body'])}</div>
-<div class="post-end"><a class="btn-block btn-dark" href="{'/interview/' if lang == 'ko' else '/en/interview/'}">{n['apply']}{EXT_ICON}</a><a class="btn-block btn-grey" href="{url('notice', lang)}">{T[lang]['back']}</a></div>
+<div class="post-end two"><a class="btn-block btn-grey" href="{url('notice', lang)}">{T[lang]['back']}</a><a class="btn-block btn-dark" href="{'/interview/' if lang == 'ko' else '/en/interview/'}">{n['apply']}{EXT_ICON}</a></div>
 </div></article>
 '''
     write(url('interview_notice', lang), page(lang, 'interview_notice', n['title'] + (' | 응가메이트' if lang == 'ko' else ' | PoopieMate'), n['sub'], body,
@@ -755,7 +755,8 @@ def download():
   (function () {{
     var ua = navigator.userAgent || navigator.vendor || '';
     var ios = /iPhone|iPad|iPod|Macintosh|Mac OS X/.test(ua);
-    location.replace(ios ? '{APPSTORE_URL}' : '{PLAY_URL}');
+    var en = /[?&]lang=en/.test(location.search) || (!/[?&]lang=ko/.test(location.search) && !/^ko/i.test(navigator.language || 'ko'));
+    location.replace(ios ? (en ? '{APPSTORE['en']}' : '{APPSTORE['ko']}') : (en ? '{PLAY['en']}' : '{PLAY['ko']}'));
   }})();
 </script>
 </head>

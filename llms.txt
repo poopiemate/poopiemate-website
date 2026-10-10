@@ -26,8 +26,8 @@
 
 ## 다운로드
 
-- iOS App Store: https://apps.apple.com/app/id6781981502
-- Android (Google Play): https://play.google.com/store/apps/details?id=com.pixelberry.poopiemate
+- iOS App Store: https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502
+- Android (Google Play): https://play.google.com/store/apps/details?id=com.pixelberry.poopiemate&hl=ko
 
 ## 페이지
 
@@ -63,7 +63,7 @@
 
 Full English site: https://poopiemate.com/en/
 - iOS App Store: https://apps.apple.com/app/id6781981502
-- Android (Google Play): https://play.google.com/store/apps/details?id=com.pixelberry.poopiemate
+- Android (Google Play): https://play.google.com/store/apps/details?id=com.pixelberry.poopiemate&hl=en
 - Privacy Policy: https://poopiemate.com/en/privacy/
 - Terms of Service: https://poopiemate.com/en/terms/
 - How it works: https://poopiemate.com/en/how-it-works/
