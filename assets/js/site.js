@@ -11,6 +11,11 @@
     if (e.target.closest && e.target.closest('img, video')) e.preventDefault();
   });
 
+  // 나라 코드 없는 App Store 링크 → 방문자 나라 스토어로 (store-region.js)
+  if (window.pmAppStoreUrl) {
+    document.querySelectorAll('a[href^="https://apps.apple.com/app/"]').forEach(function (a) { a.href = window.pmAppStoreUrl(a.href); });
+  }
+
   // 모바일 전체 메뉴
   var sheet = document.getElementById('menu');
   var openers = document.querySelectorAll('[data-menu-open]');

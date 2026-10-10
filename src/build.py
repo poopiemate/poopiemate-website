@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-10'
-ASSET_V = '22'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '23'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -194,6 +194,7 @@ def page(lang, key, title, desc, body, og_image, active=None, ko_path=None, en_p
 {body}
 </main>
 {footer(lang, ko_path, en_path or '/en/')}
+<script src="/assets/js/store-region.js?v={ASSET_V}" defer></script>
 <script src="/assets/js/site.js?v={ASSET_V}" defer></script>
 </body>
 </html>
@@ -731,7 +732,7 @@ def interview(lang):
     # <p> 안에 목록(ul)은 들어갈 수 없다 — 안내 문단을 div로 (웹표준)
     s = re.sub(r'<p class="hint">(\s*[^<]*<ul>.*?</ul>\s*)</p>', r'<div class="hint">\1</div>', s, flags=re.S)
     s = re.sub(r'<footer>.*?</footer>', footer(lang, '/interview/', '/en/interview/'), s, count=1, flags=re.S)
-    s = s.replace('</body>', f'<script src="/assets/js/site.js?v={ASSET_V}" defer></script>\n</body>', 1)
+    s = s.replace('</body>', f'<script src="/assets/js/store-region.js?v={ASSET_V}" defer></script>\n<script src="/assets/js/site.js?v={ASSET_V}" defer></script>\n</body>', 1)
     out = ROOT / path.strip('/') / 'index.html'
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(s, encoding='utf-8')
@@ -762,12 +763,14 @@ def download():
 <meta name="twitter:image" content="{SITE}/assets/og/download-ko.jpg">
 {PRETENDARD}
 <link rel="stylesheet" href="/assets/css/site.css?v={ASSET_V}">
+<script src="/assets/js/store-region.js?v={ASSET_V}"></script>
 <script>
   (function () {{
     var ua = navigator.userAgent || navigator.vendor || '';
     var ios = /iPhone|iPad|iPod|Macintosh|Mac OS X/.test(ua);
     var en = /[?&]lang=en/.test(location.search) || (!/[?&]lang=ko/.test(location.search) && !/^ko/i.test(navigator.language || 'ko'));
-    location.replace(ios ? (en ? '{APPSTORE['en']}' : '{APPSTORE['ko']}') : (en ? '{PLAY['en']}' : '{PLAY['ko']}'));
+    var apple = en ? (window.pmAppStoreUrl ? window.pmAppStoreUrl('{APPSTORE['en']}') : '{APPSTORE['en']}') : '{APPSTORE['ko']}';
+    location.replace(ios ? apple : (en ? '{PLAY['en']}' : '{PLAY['ko']}'));
   }})();
 </script>
 </head>
