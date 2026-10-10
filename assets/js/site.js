@@ -78,6 +78,19 @@
     var b = box.querySelector('[data-sound]');
     var label = b.querySelector('span');
     var restarted = false;
+    // 세로 화면(휴대폰)은 숏폼 세로 영상, 가로 화면은 가로 영상 — 화면을 돌리면 바꿔 끼운다
+    var portrait = window.matchMedia('(max-aspect-ratio: 1/1)');
+    function pickSource() {
+      var want = portrait.matches ? v.getAttribute('data-port') : v.getAttribute('data-land');
+      v.poster = portrait.matches ? v.getAttribute('data-port-poster') : v.getAttribute('data-land-poster');
+      if (v.currentSrc && v.currentSrc.indexOf(want) === -1) {
+        v.src = want;
+        if (!reduce) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+      }
+    }
+    v.addEventListener('loadedmetadata', pickSource, { once: true });
+    pickSource();
+    if (portrait.addEventListener) portrait.addEventListener('change', pickSource); else if (portrait.addListener) portrait.addListener(pickSource);
     if (reduce) { v.removeAttribute('autoplay'); v.pause(); v.controls = true; }
     b.addEventListener('click', function () {
       v.muted = !v.muted;

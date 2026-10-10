@@ -199,6 +199,7 @@ def notice_hero():
 
 # ── 서비스 소개 롱폼 (1분) — 홈 첫 화면 가득 소리 없이 저절로 재생 (유튜브 버튼 없이 바로)
 INTRO = {'ko': '응가메이트_서비스소개_롱폼_KO.mp4', 'en': 'PoopieMate_Intro_Landscape_EN.mp4'}
+INTRO_V = {'ko': '응가메이트_서비스소개_숏폼_KO.mp4', 'en': 'PoopieMate_Intro_Vertical_EN.mp4'}
 
 
 def intro():
@@ -213,6 +214,18 @@ def intro():
         subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', '0.6', '-i', str(src), '-frames:v', '1', str(poster)], check=True)
         webp(poster, f'video/intro-{lang}.webp', width=1600, q=80)
         print('intro', lang, dst.stat().st_size // 1024, 'KB')
+    # 모바일(세로 화면)용 — 같은 영상의 숏폼 세로판
+    d = DESK / '서비스 소개 영상/v10_최종/숏폼'
+    files = {unicodedata.normalize('NFC', f.name): f for f in d.glob('*.mp4')}
+    for lang, name in INTRO_V.items():
+        src = files[name]
+        dst = out(f'video/intro-{lang}-v.mp4')
+        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', str(src), '-vf', 'scale=720:-2', '-c:v', 'libx264', '-profile:v', 'high', '-crf', '28',
+                        '-preset', 'slow', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '96k', '-movflags', '+faststart', str(dst)], check=True)
+        poster = ROOT / '.cache' / f'intro-{lang}-v.png'
+        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', '0.6', '-i', str(src), '-frames:v', '1', str(poster)], check=True)
+        webp(poster, f'video/intro-{lang}-v.webp', width=720, q=80)
+        print('intro vertical', lang, dst.stat().st_size // 1024, 'KB')
 
 
 # ── 유튜브 썸네일 (직접 만든 것) — 클릭 전엔 이미지만, 누르면 영상

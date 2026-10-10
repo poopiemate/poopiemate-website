@@ -150,7 +150,6 @@ body.menu-open { overflow: hidden; }
 .film { position: relative; display: flex; align-items: center; justify-content: center; height: 100vh; height: 100svh; min-height: 480px; padding-top: var(--header-h); background: #FFFFFF; overflow: hidden; }
 .film video { width: 100%; height: 100%; object-fit: contain; }
 @media (min-aspect-ratio: 16 / 10) { .film video { object-fit: cover; } }
-@media (max-aspect-ratio: 1 / 1) { .film { height: auto; min-height: 0; padding-bottom: 8px; } .film video { height: auto; aspect-ratio: 16 / 9; } }
 .film-sound { position: absolute; right: clamp(16px, 3vw, 40px); bottom: clamp(16px, 3vw, 40px); display: inline-flex; align-items: center; gap: 6px; height: 44px; padding: 0 16px; border-radius: 999px; background: rgba(25, 31, 40, 0.72); color: var(--on-color); font-family: var(--font-title); font-size: 14px; font-weight: 800; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
 .film-sound svg { width: 18px; height: 18px; }
 .film .i-on, .film.sound .i-off { display: none; }
@@ -158,7 +157,7 @@ body.menu-open { overflow: hidden; }
 .film-down { position: absolute; left: 50%; bottom: clamp(16px, 3vw, 36px); display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin-left: -22px; border-radius: 50%; color: var(--fg-2); animation: nudge 1.8s ease-in-out infinite; }
 .film-down svg { width: 26px; height: 26px; }
 @keyframes nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
-@media (max-aspect-ratio: 1 / 1) { .film { flex-direction: column; align-items: flex-end; } .film-down { display: none; } .film-sound { position: static; margin: 8px 16px 0 0; height: 38px; font-size: 13px; } }
+@media (max-aspect-ratio: 1 / 1) { .film-sound { height: 38px; font-size: 13px; } .film-down { bottom: 12px; } }
 
 /* ── 글자가 모션그래픽처럼 한 단어씩 톡톡 올라온다 (site.js가 단어로 나눈다) */
 .js [data-mo] .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .08em; margin-bottom: -.08em; }
