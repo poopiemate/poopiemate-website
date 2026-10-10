@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PoopieMate user interview — Apply</title>
+  <meta name="description" content="We’d love to hear how you use PoopieMate. Pick a date and time that suits you and apply for a short interview in English.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://poopiemate.com/interview/">
+  <link rel="icon" type="image/png" href="https://poopiemate.com/assets/favicon.png">
+  <link rel="apple-touch-icon" href="https://poopiemate.com/assets/favicon.png">
+  <meta name="theme-color" content="#18955A">
+
+  <style>
+    @font-face { font-family:"NanumSquareNeo"; src:url("../assets/fonts/NanumSquareNeo-bRg.ttf") format("truetype"); font-weight:400 600; font-style:normal; font-display:swap; }
+    @font-face { font-family:"NanumSquareNeo"; src:url("../assets/fonts/NanumSquareNeo-cBd.ttf") format("truetype"); font-weight:700 900; font-style:normal; font-display:swap; }
+
+    :root {
+      --bg: #ebf7f2;
+      --ink: #1d1f1f;
+      --muted: #56655c;
+      --green: #18955a;
+      --green-dark: #0e7041;
+      --green-light: #e5f8f0;
+      --pink: #e88add;
+      --pink-dark: #c865bc;
+      --pink-light: #fdeafa;
+      --line: #d8ebe3;
+      --card: #ffffff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "NanumSquareNeo", -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      line-height: 1.7;
+    }
+
+    a { color: var(--green-dark); }
+
+    header, main, footer {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    header { padding-top: 28px; padding-bottom: 8px; }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      font-weight: 800;
+      color: var(--green-dark);
+      font-size: 18px;
+    }
+
+    .lede {
+      font-size: 16.5px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px 22px;
+      margin: 20px 0 28px;
+    }
+
+    .lede strong { color: var(--ink); }
+
+    h1 {
+      font-size: clamp(24px, 4vw, 30px);
+      font-weight: 900;
+      margin: 18px 0 6px;
+      line-height: 1.35;
+      word-break: keep-all;
+    }
+
+    h2 {
+      font-size: 18px;
+      font-weight: 800;
+      margin: 0 0 4px;
+      color: var(--green-dark);
+    }
+
+    .section-sub { color: var(--muted); font-size: 13.5px; margin: 0 0 16px; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 16px;
+    }
+
+    .required-tag {
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+      background: var(--pink);
+      border-radius: 999px;
+      padding: 2px 9px;
+      letter-spacing: 0.02em;
+      vertical-align: middle;
+    }
+
+    .optional-tag {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--muted);
+      border: 1.5px solid var(--line);
+      border-radius: 999px;
+      padding: 1px 9px;
+      letter-spacing: 0.02em;
+      vertical-align: middle;
+    }
+
+    .field { margin-bottom: 16px; }
+    .field:last-child { margin-bottom: 0; }
+
+    label.field-label {
+      display: block;
+      font-weight: 700;
+      font-size: 14.5px;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .hint { font-size: 13px; color: var(--muted); margin: 0 0 8px; }
+    .hint ul { margin: 4px 0 0; padding-left: 18px; }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="date"],
+    textarea {
+      width: 100%;
+      font: inherit;
+      color: var(--ink);
+      background: #fff;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      transition: border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    textarea { min-height: 74px; resize: vertical; }
+
+    input:focus-visible, textarea:focus-visible {
+      outline: none;
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(24, 149, 90, 0.16);
+    }
+
+    .radio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .radio-chip { position: relative; }
+    .radio-chip input { position: absolute; opacity: 0; inset: 0; cursor: pointer; margin: 0; }
+
+    .radio-chip span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border: 1.5px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 8px;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--muted);
+      transition: all 180ms ease;
+      cursor: pointer;
+    }
+
+    .radio-chip .badge {
+      position: absolute;
+      top: -10px;
+      right: -6px;
+      font-size: 10.5px;
+      font-weight: 800;
+      white-space: nowrap;
+      color: #92400e;
+      background: #fef3c7;
+      border: 1px solid #fde68a;
+      border-radius: 999px;
+      padding: 2px 8px;
+      box-shadow: 0 2px 4px rgba(29, 31, 31, 0.15);
+    }
+
+    .radio-chip input:checked + span { border-color: transparent; background: var(--green); color: #fff; }
+    .radio-chip input:focus-visible + span { outline: 2px solid var(--green); outline-offset: 2px; }
+
+    .consent-box {
+      background: var(--green-light);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      font-size: 13px;
+      color: var(--ink);
+    }
+
+    .consent-box dl { margin: 10px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; }
+    .consent-box dt { font-weight: 700; color: var(--ink); white-space: nowrap; }
+    .consent-box dd { margin: 0; color: var(--muted); }
+
+    .consent-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 14px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .consent-check input {
+      width: 19px; height: 19px; margin-top: 1px;
+      accent-color: var(--green); cursor: pointer; flex: none;
+    }
+
+    .cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      text-align: center;
+      background: var(--green);
+      color: #fff;
+      font: inherit;
+      font-weight: 800;
+      font-size: 16px;
+      padding: 16px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      transition: background 150ms ease, opacity 150ms ease;
+    }
+
+    .cta:hover { background: var(--green-dark); }
+    .cta:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .form-actions { margin: 24px 0; }
+
+    .status-msg { text-align: center; font-size: 13.5px; color: var(--muted); margin-top: 10px; min-height: 18px; }
+    .status-msg.error { color: #c62828; font-weight: 700; }
+
+    .fallback {
+      display: none;
+      margin-top: 14px;
+      background: var(--pink-light);
+      border: 1px solid #f9e0f6;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 13px;
+      color: var(--ink);
+    }
+    .fallback.show { display: block; }
+    .fallback button {
+      margin-top: 8px;
+      font: inherit;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--pink-dark);
+      background: #fff;
+      border: 1.5px solid var(--pink);
+      border-radius: 999px;
+      padding: 6px 14px;
+      cursor: pointer;
+    }
+
+    .thanks { text-align: center; padding: 48px 8px; }
+    .thanks h2 { color: var(--ink); font-size: 22px; margin-bottom: 10px; }
+    .thanks p { color: var(--muted); }
+
+    footer { padding: 24px 24px 48px; color: var(--muted); font-size: 13px; }
+    footer a { color: var(--muted); }
+
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <header><a class="brand" href="https://poopiemate.com/">PoopieMate</a></header>
+
+  <main>
+    <h1>Hi, I’m Jin, the maker of PoopieMate</h1>
+    <p class="lede">
+      I raise a white Jindo mix with my husband. We both work, so keeping our dog’s potty log in sync was hard, and I built this app for us.
+      I’d love to hear how you use it, so I can make it better. Interviews are in English and take about 30 minutes online.
+    </p>
+    <form id="interview-form">
+      <section class="card">
+        <h2>About you</h2>
+        <p class="section-sub">We’ll use this to get in touch about the interview.</p>
+        <div class="field">
+          <label class="field-label" for="name">Name <span class="required-tag">Required</span></label>
+          <input type="text" id="name" name="name" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label class="field-label" for="phone">Email or phone <span class="required-tag">Required</span></label>
+          <input type="text" id="phone" name="phone" placeholder="you@example.com or +1 555 000 0000" autocomplete="email" required />
+          <p class="hint" style="margin-top:6px;margin-bottom:0;">If you leave a phone number, please include your country code.</p>
+        </div>
+      </section>
+      <section class="card">
+        <h2>When can you talk?</h2>
+        <p class="section-sub">Pick any day that works for you.</p>
+        <div class="field">
+          <label class="field-label" for="date1">Preferred date <span class="required-tag">Required</span></label>
+          <input type="date" id="date1" name="date1" min="2026-10-12" required />
+        </div>
+        <div class="field">
+          <label class="field-label">Preferred time (your local time) <span class="required-tag">Required</span></label>
+          <p class="hint">We’ll match your time zone automatically.</p>
+          <div class="radio-grid">
+            <label class="radio-chip">
+              <input type="radio" name="timeslot" value="Morning (9–12)" required />
+              <span>Morning<br />9–12</span>
+            </label>
+            <label class="radio-chip">
+              <input type="radio" name="timeslot" value="Afternoon (12–18)" />
+              <span>Afternoon<br />12–18</span>
+            </label>
+            <label class="radio-chip">
+              <input type="radio" name="timeslot" value="Evening (18–24)" />
+              <span>Evening<br />18–24</span>
+            </label>
+            <label class="radio-chip">
+              <input type="radio" name="timeslot" value="Any time" />
+              <span>Any time</span>
+            </label>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="altTime">Other times that work <span class="optional-tag">Optional</span></label>
+          <input type="text" id="altTime" name="altTime" placeholder="If that date doesn’t work out, when else could you talk?" />
+        </div>
+      </section>
+      <section class="card">
+        <h2>Your logging habits <span class="optional-tag">Optional</span></h2>
+        <div class="field" style="margin-top:12px;">
+          <div class="hint">
+            A few things we’re curious about. Write as much or as little as you like.
+            <ul>
+              <li>When do you usually log, and what prompts you? (right after a walk, a set time, etc.)</li>
+              <li>Do you log when a notification reminds you, or out of habit?</li>
+              <li>If you missed logging recently, what got in the way?</li>
+            </ul>
+          </div>
+          <textarea id="habit" name="habit" placeholder="Anything goes"></textarea>
+        </div>
+      </section>
+      <section class="card">
+        <h2>Before PoopieMate <span class="optional-tag">Optional</span></h2>
+        <div class="field" style="margin-top:12px;">
+          <div class="hint">
+            <ul>
+              <li>Before this app, how did you keep track of your dog’s potty and health, and share it?</li>
+              <li>Have you ever asked someone, or been asked, “Did the dog poop today?”</li>
+              <li>Without this app, what would be the most annoying part right now?</li>
+            </ul>
+          </div>
+          <textarea id="problem" name="problem" placeholder="Anything goes"></textarea>
+        </div>
+      </section>
+      <section class="card">
+        <h2>Who you care for your dog with <span class="optional-tag">Optional</span></h2>
+        <div class="field" style="margin-top:12px;">
+          <div class="hint">
+            <ul>
+              <li>Do you share dog care with family or roommates?</li>
+              <li>If so, do they use the app too? Why or why not?</li>
+            </ul>
+          </div>
+          <textarea id="family" name="family" placeholder="Anything goes"></textarea>
+        </div>
+      </section>
+      <section class="card">
+        <h2>Why you started <span class="optional-tag">Optional</span></h2>
+        <div class="field" style="margin-top:12px;">
+          <div class="hint">
+            <ul>
+              <li>What made you install the app and start logging?</li>
+              <li>Was there a moment the log actually helped? (a vet visit, a change in health, etc.)</li>
+            </ul>
+          </div>
+          <textarea id="value" name="value" placeholder="Anything goes"></textarea>
+        </div>
+        <div class="field">
+          <label class="field-label" for="acquisition">How did you hear about the app? <span class="optional-tag">Optional</span></label>
+          <input type="text" id="acquisition" name="acquisition" placeholder="App Store search, a friend, social media, etc." />
+        </div>
+      </section>
+      <section class="card">
+        <h2>Last one <span class="optional-tag">Optional</span></h2>
+        <div class="field" style="margin-top:12px;">
+          <div class="hint">
+            <ul>
+              <li>If you recommended this app to another dog owner, how would you describe it in one sentence?</li>
+              <li>What’s the one thing you’d most like us to fix or add?</li>
+            </ul>
+          </div>
+          <textarea id="wrap" name="wrap" placeholder="Anything goes"></textarea>
+        </div>
+      </section>
+      <section class="card">
+        <h2>Consent to collect personal data</h2>
+        <div class="consent-box">
+          <dl>
+            <dt>What</dt><dd>Name, email or phone number, and your answers above</dd>
+            <dt>Why</dt><dd>To confirm and schedule your interview</dd>
+            <dt>How long</dt><dd>Deleted right after the interview is done</dd>
+          </dl>
+          <p style="margin:12px 0 0;color:var(--muted);">
+            You can say no, but then we won’t be able to schedule an interview with you.
+          </p>
+          <label class="consent-check">
+            <input type="checkbox" id="consent" name="consent" required />
+            I agree to the above. <span class="required-tag" style="margin-left:2px;">Required</span>
+          </label>
+        </div>
+      </section>
+      <div class="form-actions">
+        <button type="submit" class="cta" id="submit-btn">Submit</button>
+        <p class="status-msg" id="status-msg"></p>
+        <div class="fallback" id="fallback-box">
+          If submitting doesn’t work, copy your answers and email them to <a href="mailto:poopiemate@pixelberry.io">poopiemate@pixelberry.io</a>.
+          <br />
+          <button type="button" id="copy-btn">Copy my answers</button>
+        </div>
+      </div>
+    </form>
+    <div class="thanks" id="thanks-view" style="display:none;">
+      <h2>Thank you!</h2>
+      <p>We got your answers and will be in touch soon.</p>
+    </div>
+  </main>
+
+  <textarea id="clipboard-source" style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true" tabindex="-1"></textarea>
+
+  <footer>
+    <p>Your answers are only used to arrange the interview.</p>
+  </footer>
+
+  <script>
+    const SUPABASE_URL = "https://mjdgzdurhzickxombuuh.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_hZrUCKMRpkABGiZD6LiZrA_rWXZpcRR";
+
+    function buildSummary(data) {
+      const lines = [
+        `Name: ${data.name}`,
+        `Email or phone: ${data.phone}`,
+        `Preferred date: ${data.date1}`,
+        `Preferred time: ${data.timeslot}`,
+        data.altTime ? `Other times: ${data.altTime}` : null,
+        "",
+        "[Logging habits]", data.habit || "(no answer)",
+        "",
+        "[Before PoopieMate]", data.problem || "(no answer)",
+        "",
+        "[Shared care]", data.family || "(no answer)",
+        "",
+        "[Why you started]", data.value || "(no answer)",
+        data.acquisition ? `Heard about the app: ${data.acquisition}` : null,
+        "",
+        "[Last one]", data.wrap || "(no answer)",
+      ].filter((line) => line !== null);
+      return lines.join("\n");
+    }
+
+    function collectData(form) {
+      const fd = new FormData(form);
+      const get = (k) => (fd.get(k) || "").toString().trim();
+      return {
+        name: get("name"), phone: get("phone"), date1: get("date1"), timeslot: get("timeslot") + " [EN, " + (Intl.DateTimeFormat().resolvedOptions().timeZone || "unknown time zone") + "]",
+        altTime: get("altTime"), habit: get("habit"), problem: get("problem"), family: get("family"),
+        value: get("value"), acquisition: get("acquisition"), wrap: get("wrap"),
+      };
+    }
+
+    const form = document.getElementById("interview-form");
+    const statusMsg = document.getElementById("status-msg");
+    const submitBtn = document.getElementById("submit-btn");
+    const fallbackBox = document.getElementById("fallback-box");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+
+      const data = collectData(form);
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending…";
+      statusMsg.textContent = "";
+      statusMsg.classList.remove("error");
+      fallbackBox.classList.remove("show");
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/interview_responses`, {
+          method: "POST",
+          headers: {
+            apikey: SUPABASE_ANON_KEY,
+            Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+            "Content-Type": "application/json",
+            Prefer: "return=minimal",
+          },
+          body: JSON.stringify({
+            name: data.name,
+            phone: data.phone,
+            preferred_date: data.date1,
+            preferred_timeslot: data.timeslot,
+            alt_time: data.altTime || null,
+            habit: data.habit || null,
+            problem: data.problem || null,
+            family: data.family || null,
+            value_moment: data.value || null,
+            acquisition: data.acquisition || null,
+            wrap_up: data.wrap || null,
+            consent: true,
+          }),
+        });
+
+        if (!res.ok) throw new Error(`submit failed: ${res.status}`);
+
+        form.style.display = "none";
+        document.getElementById("thanks-view").style.display = "block";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } catch (err) {
+        statusMsg.textContent = "Something went wrong. Please try the option below.";
+        statusMsg.classList.add("error");
+        fallbackBox.classList.add("show");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit";
+      }
+    });
+
+    document.getElementById("copy-btn").addEventListener("click", async () => {
+      const data = collectData(form);
+      const text = `[PoopieMate interview application]\n${buildSummary(data)}`;
+      try {
+        await navigator.clipboard.writeText(text);
+        statusMsg.textContent = "Copied! Please email it to us.";
+        statusMsg.classList.remove("error");
+      } catch (err) {
+        const src = document.getElementById("clipboard-source");
+        src.style.position = "static";
+        src.style.left = "0";
+        src.style.top = "0";
+        src.value = text;
+        src.select();
+        statusMsg.textContent = "Automatic copy didn’t work, so your answers are in the box below. Please copy them by hand.";
+      }
+    });
+  </script>
+</body>
+</html>

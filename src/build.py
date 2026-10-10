@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-10'
-ASSET_V = '14'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '15'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 나라·언어를 고정하지 않은 링크 — 누르는 사람의 나라 스토어·기기 언어로 열린다 (전 세계 공통)
 APPSTORE_URL = 'https://apps.apple.com/app/id6781981502'
@@ -595,14 +595,14 @@ NOTICE = {
                     '정답은 없어요. 편하게 이야기 나눠 주시면 돼요.', '참여해 주신 분께는 폴 바셋 아이스크림 라떼 기프티콘을 보내드려요.',
                     '원하는 날짜와 시간을 골라 신청해 주세요. 일정이 확정되면 남겨 주신 번호로 연락드릴게요.'],
            'apply': '인터뷰 신청하기', 'pinned': '고정'},
-    'en': {'title': 'Join a PoopieMate user interview', 'date': 'Oct 5, 2026', 'by': 'PoopieMate team', 'sub': 'Tell us how you use PoopieMate. Interviews are held in Korean for now.',
+    'en': {'title': 'Join a PoopieMate user interview', 'date': 'Oct 5, 2026', 'by': 'PoopieMate team', 'sub': 'Tell us how you use PoopieMate. Interviews are in English and take about 30 minutes.',
            'body': ['Hi from the PoopieMate team.<br>Thank you for logging your dog’s poops, pees and walks every day.',
                     'We want to make PoopieMate easier to use, so we’d love to hear from you directly.',
                     '<ul><li>How you use the app</li><li>What you like and what could be better</li><li>What logging with your family is like</li></ul>',
                     'There are no right answers — just chat with us.',
-                    'Interviews are held in Korean for now. The thank-you gift (a coffee voucher) can only be sent within Korea.',
-                    'Pick a date and time that suits you. We’ll contact you once the schedule is confirmed.'],
-           'apply': 'Apply for an interview (Korean)', 'pinned': 'Pinned'},
+                    'Interviews are in English and take about 30 minutes online.',
+                    'Pick a date and a time in your own time zone. We’ll contact you once the schedule is confirmed.'],
+           'apply': 'Apply for an interview', 'pinned': 'Pinned'},
 }
 
 
@@ -629,7 +629,7 @@ def notice_interview(lang):
 <article class="post"><div class="wrap-post">
 {post_head(f'<time datetime="2026-10-05">{n["date"]}</time> · {n["by"]}', n['title'], art)}
 <div class="prose">{''.join(b if b.startswith('<ul') else f'<p>{sb(b)}</p>' for b in n['body'])}</div>
-<div class="post-end"><a class="btn-block btn-dark" href="/interview/">{n['apply']}{EXT_ICON}</a><a class="btn-block btn-grey" href="{url('notice', lang)}">{T[lang]['back']}</a></div>
+<div class="post-end"><a class="btn-block btn-dark" href="{'/interview/' if lang == 'ko' else '/en/interview/'}">{n['apply']}{EXT_ICON}</a><a class="btn-block btn-grey" href="{url('notice', lang)}">{T[lang]['back']}</a></div>
 </div></article>
 '''
     write(url('interview_notice', lang), page(lang, 'interview_notice', n['title'] + (' | 응가메이트' if lang == 'ko' else ' | PoopieMate'), n['sub'], body,
@@ -686,8 +686,10 @@ def guides():
 
 
 # ═════════════════════════════════════════════════════════ 인터뷰 신청 (폼·스크립트는 그대로, 겉모양만)
-def interview():
-    s = (SRC / 'legacy/interview.html').read_text(encoding='utf-8')
+def interview(lang):
+    """인터뷰 신청 — 한국어는 /interview/, 영어는 /en/interview/ (폼·전송 스크립트는 옛 페이지 그대로, 겉모양만 사이트 디자인)."""
+    ko = lang == 'ko'
+    s = (SRC / f'legacy/interview{"" if ko else "-en"}.html').read_text(encoding='utf-8')
     s = re.sub(r'\n\s*@font-face \{ font-family:"NanumSquareNeo";[^}]*\}', '', s)
     # 옛 헤더·푸터 규칙은 새 헤더·푸터와 겹치지 않게 본문(main)에만
     s = re.sub(r'header, main, footer \{', 'main.iv {', s, count=1)
@@ -700,22 +702,28 @@ def interview():
     s = s.replace('font-family: "NanumSquareNeo", -apple-system', 'font-family: "Pretendard Variable", Pretendard, -apple-system', 1)
     s = s.replace('  <link rel="icon" type="image/png" href="https://poopiemate.com/assets/favicon.png">\n', '')
     s = s.replace('  <link rel="apple-touch-icon" href="https://poopiemate.com/assets/favicon.png">\n', '')
+    path = '/interview/' if ko else '/en/interview/'
+    og = ('응가메이트', '응가메이트 유저 인터뷰 신청', '보호자님 이야기를 들려주세요. 참여하면 폴 바셋 아이스크림 라떼를 드려요.') if ko else \
+         ('PoopieMate', 'PoopieMate user interview', 'Tell us how you use PoopieMate. Interviews are in English and take about 30 minutes.')
     head_add = (PRETENDARD + '\n<link rel="stylesheet" href="/assets/css/site.css?v=' + ASSET_V + '">\n'
                 '<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">\n'
-                '<meta property="og:type" content="website">\n<meta property="og:site_name" content="응가메이트">\n<meta property="og:title" content="응가메이트 유저 인터뷰 신청">\n'
-                '<meta property="og:description" content="보호자님 이야기를 들려주세요. 참여하면 폴 바셋 아이스크림 라떼를 드려요.">\n<meta property="og:url" content="' + SITE + '/interview/">\n'
-                '<meta property="og:image" content="' + SITE + '/assets/og/interview-ko.jpg">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="robots" content="noindex, follow">\n'
+                f'<meta property="og:type" content="website">\n<meta property="og:site_name" content="{og[0]}">\n<meta property="og:title" content="{og[1]}">\n'
+                f'<meta property="og:description" content="{og[2]}">\n<meta property="og:url" content="{SITE}{path}">\n'
+                f'<meta property="og:image" content="{SITE}/assets/og/interview-{lang}.jpg">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="robots" content="noindex, follow">\n'
+                f'<link rel="alternate" hreflang="ko" href="{SITE}/interview/">\n<link rel="alternate" hreflang="en" href="{SITE}/en/interview/">\n'
                 '<style>:root{--pink-dark:#A2479A}</style>\n')
     s = s.replace('</head>', head_add + '</head>', 1)
-    s = re.sub(r'<header>.*?</header>', header('ko', 'notice', '/interview/', '/en/notice/interview/'), s, count=1, flags=re.S)
+    s = re.sub(r'<header>.*?</header>', header(lang, 'notice', '/interview/', '/en/interview/'), s, count=1, flags=re.S)
     s = s.replace('<main>', '<main class="iv" id="main">', 1)
     s = s.replace('<body>', '<body class="iv-page">', 1)
     s = s.replace('꾸준히 응가메이트를 사용해주신 분들께 보내는 인터뷰 신청 페이지입니다.', '응가메이트를 쓰는 보호자님의 이야기를 듣고 싶어요. 원하는 날짜와 시간을 골라 인터뷰를 신청해 주세요.')
     # <p> 안에 목록(ul)은 들어갈 수 없다 — 안내 문단을 div로 (웹표준)
     s = re.sub(r'<p class="hint">(\s*[^<]*<ul>.*?</ul>\s*)</p>', r'<div class="hint">\1</div>', s, flags=re.S)
-    s = re.sub(r'<footer>.*?</footer>', footer('ko', '/interview/', '/en/notice/interview/'), s, count=1, flags=re.S)
+    s = re.sub(r'<footer>.*?</footer>', footer(lang, '/interview/', '/en/interview/'), s, count=1, flags=re.S)
     s = s.replace('</body>', f'<script src="/assets/js/site.js?v={ASSET_V}" defer></script>\n</body>', 1)
-    (ROOT / 'interview/index.html').write_text(s, encoding='utf-8')
+    out = ROOT / path.strip('/') / 'index.html'
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(s, encoding='utf-8')
 
 
 # ═════════════════════════════════════════════════════════ 다운로드 (스토어로 바로 보내기)
@@ -792,5 +800,5 @@ if __name__ == '__main__':
         home(lang); how(lang); story_list(lang); story_why(lang); notice_list(lang); notice_interview(lang)
         for n in ('privacy', 'terms', 'support', 'licenses'):
             legal(n, lang)
-    guides(); interview(); download(); not_found(); sitemap()
+    guides(); interview('ko'); interview('en'); download(); not_found(); sitemap()
     print('built')
