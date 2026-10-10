@@ -72,7 +72,7 @@ T = {
 # 페이지 키 → (한국어 경로, 영어 경로)
 PATHS = {
     'home': ('/', '/en/'), 'how': ('/how-it-works/', '/en/how-it-works/'), 'story': ('/story/', '/en/story/'),
-    'why': ('/story/why-we-built/', '/en/story/why-we-built/'), 'notice': ('/notice/', '/en/notice/'),
+    'why': ('/story/why-i-built-poopiemate/', '/en/story/why-i-built-poopiemate/'), 'notice': ('/notice/', '/en/notice/'),
     'interview_notice': ('/notice/interview/', '/en/notice/interview/'),
     'privacy': ('/privacy/', '/en/privacy/'), 'terms': ('/terms/', '/en/terms/'), 'support': ('/support/', '/en/support/'), 'licenses': ('/licenses/', '/en/licenses/'),
 }
@@ -517,7 +517,7 @@ STORY = {
             ('p', '강아지를 여럿이 같이 돌보는 집이라면, 응가메이트가 “응댕이 똥 쌌어?” 전화를 조금이라도 줄여 주면 좋겠어요. 오늘도 우리 집 강아지는 최고의 똥 스팟을 찾아 산책을 나가요.'),
         ]},
     'en': {
-        'title': 'Why we built POOPIEMATE', 'cat': 'Our dog', 'date': 'Oct 7, 2026', 'by': 'Jin, developer of POOPIEMATE',
+        'title': 'Why I built POOPIEMATE', 'cat': 'Our dog', 'date': 'Oct 7, 2026', 'by': 'Jin, developer of POOPIEMATE',
         'excerpt': 'The dog we first saw on a rescue group’s Instagram, and the “Did she poop?” calls we made every single day.',
         'blocks': [
             ('p', 'Hi, I’m Jin, the developer behind POOPIEMATE. Here’s how the app came to be, from the very beginning. It’s a bit of a long one.'),
@@ -858,7 +858,20 @@ def download():
     (ROOT / 'download/index.html').write_text(html, encoding='utf-8')
 
 
-# ═════════════════════════════════════════════════════════ 404 · sitemap
+# ═════════════════════════════════════════════════════════ 옮긴 주소 · 404 · sitemap
+# 예전 주소 → 새 주소. 이미 공유된 링크가 끊기지 않게 예전 자리에 바로 넘어가는 작은 페이지를 둔다
+MOVED = {'/story/why-we-built/': url('why', 'ko'), '/en/story/why-we-built/': url('why', 'en')}
+
+
+def moved():
+    for old, new in MOVED.items():
+        write(old, f'''<!doctype html><html lang="{'en' if old.startswith('/en/') else 'ko'}"><head><meta charset="utf-8"><title>{SITE}{new}</title>
+<meta name="robots" content="noindex"><link rel="canonical" href="{SITE}{new}"><meta http-equiv="refresh" content="0; url={new}">
+<script>location.replace({json.dumps(new)} + location.search + location.hash)</script></head>
+<body><a href="{new}">{SITE}{new}</a></body></html>
+''')
+
+
 def not_found():
     body = '''
 <section class="nf"><div class="wrap"><img src="/assets/img/mascot/scratch.webp" alt="" width="200">
@@ -887,5 +900,5 @@ if __name__ == '__main__':
         home(lang); how(lang); story_list(lang); story_why(lang); notice_list(lang); notice_interview(lang)
         for n in ('privacy', 'terms', 'support', 'licenses'):
             legal(n, lang)
-    guides(); interview('ko'); interview('en'); download(); not_found(); sitemap()
+    guides(); interview('ko'); interview('en'); download(); moved(); not_found(); sitemap()
     print('built')
