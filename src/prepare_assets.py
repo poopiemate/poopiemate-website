@@ -199,7 +199,7 @@ def erase(box):
     return fn
 
 
-def soft_focus(mask_png, work=1800, sigma_ratio=1 / 160):
+def soft_focus(mask_png, sigma_ratio, work=1800):
     """강아지에게만 초점 — 사람과 배경은 살짝 초점이 어긋난 것처럼만 흐린다(얼굴 모양이 비칠 만큼).
     강아지 마스크는 Mask R-CNN으로 뽑아 원본 옆에 둔 PNG. 흰 털이 번져 후광이 생기지 않게 마스크로 나눠 흐린다."""
     import numpy as np
@@ -219,7 +219,8 @@ def soft_focus(mask_png, work=1800, sigma_ratio=1 / 160):
     return fn
 
 
-FAMILY = {'family-2025-a', 'family-2025-b'}  # 가족사진 — 원본 그대로, 초점만 강아지에게
+# 사람이 나오는 사진 — 원본 그대로, 초점만 강아지에게. 값이 클수록 사람이 더 흐리다 (셀카는 얼굴이 크게 나와 더 흐리게)
+FOCUS = {'family-2025-a': 1 / 260, 'family-2025-b': 1 / 260, 'wedding-jump': 1 / 260, 'wedding-kiss': 1 / 260, 'first-selfie': 1 / 130}
 
 
 # ── 「응가메이트를 만든 이유」 사진·영상 — 사진 앱에서 꺼내 바탕화면 메로나/웹스토리에 모아 둔 원본
@@ -243,11 +244,11 @@ STORY_CLIP = [  # 원본, 출력 이름, 시작(초), 길이(초), 소리 — �
 
 def story():
     for src, name, boxes, plates in STORY_PHOTO:
-        def fn(im, boxes=boxes, plates=plates, name=name):
+        def fn(im, boxes=boxes, plates=plates, name=name, src=src):
             for p in plates:
                 im = erase(p)(im)
-            if name in FAMILY:
-                im = soft_focus(STORY_SRC / f'{name}-dog.png')(im)
+            if name in FOCUS:
+                im = soft_focus(STORY_SRC / f'{Path(src).stem}-dog.png', FOCUS[name])(im)
             return hide(boxes)(im)
         for size in (1600, 900):
             dim = webp(STORY_SRC / src, f'img/photo/{name}-{size}.webp', width=size, height=size, q=82, fn=fn)
