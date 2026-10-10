@@ -26,7 +26,8 @@
     sheet.setAttribute('aria-hidden', open ? 'false' : 'true');
     document.body.classList.toggle('menu-open', open);
     openers.forEach(function (b) { b.setAttribute('aria-expanded', open ? 'true' : 'false'); });
-    if (open) { var first = sheet.querySelector('a, button'); if (first) first.focus(); }
+    // 메뉴 자체에 포커스 — 첫 링크(로고)에 주면 터치로 열어도 초록 테두리가 생긴다
+    if (open) sheet.focus();
     else if (openers[0]) openers[0].focus();
   }
   openers.forEach(function (b) { b.addEventListener('click', function () { setMenu(true); }); });
@@ -38,7 +39,7 @@
     // 메뉴가 열려 있으면 Tab이 메뉴 밖으로 나가지 않게
     var items = sheet.querySelectorAll('a, button');
     var first = items[0], last = items[items.length - 1];
-    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    if (e.shiftKey && (document.activeElement === first || document.activeElement === sheet)) { e.preventDefault(); last.focus(); }
     else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   });
 

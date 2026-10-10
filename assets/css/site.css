@@ -118,6 +118,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* 모바일 전체 메뉴 */
 .sheet { position: fixed; inset: 0; z-index: 40; display: flex; flex-direction: column; background: var(--base); padding: 0 var(--gutter) 32px; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity .2s ease, transform .2s ease, visibility 0s .2s; }
 .sheet.open { opacity: 1; visibility: visible; transform: none; transition: opacity .2s ease, transform .2s ease; }
+.sheet:focus { outline: none; }
 .sheet-top { height: var(--header-h); display: flex; align-items: center; justify-content: space-between; }
 .sheet-top img { height: 24px; width: auto; }
 .sheet nav { display: flex; flex-direction: column; margin-top: 16px; }
@@ -240,7 +241,8 @@ body.menu-open { overflow: hidden; }
 
 /* ── 이렇게 써요 — 첫 화면은 가운데 제목 + 아래 초록 무대(손 흔드는 응댕이), 단계는 화면 가득 파스텔 바탕 */
 .how-hero { display: flex; flex-direction: column; min-height: 100vh; min-height: 100svh; padding: calc(var(--header-h) + clamp(52px, 10vh, 120px)) 0 0; text-align: center; overflow: hidden; }
-.how-hero .lead { margin-top: 18px; }
+.how-hero .lead { margin-top: 18px; text-wrap: balance; }
+@media (min-width: 760px) { .m-br { display: none; } }
 /* 초록 무대 — 제목 아래 남은 화면을 다 채워서, 그라데이션이 화면 가운데보다 위에서 시작한다 */
 .stage { position: relative; flex: 1; display: flex; align-items: center; justify-content: center; margin-top: clamp(12px, 2vh, 28px); padding: clamp(16px, 3vh, 40px) 0 clamp(36px, 7vh, 88px); background: linear-gradient(0deg, var(--brand) 0%, #3FAE78 34%, #9EDDBF 66%, #E5F8F0 86%, var(--base) 100%); }
 .stage-art { position: relative; width: min(94vw, 600px, calc((100svh - var(--header-h) - 400px) * 1.6)); aspect-ratio: 16 / 10; margin: 0 auto; }

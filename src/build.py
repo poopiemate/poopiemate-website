@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-10'
-ASSET_V = '33'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '34'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -125,7 +125,7 @@ def header(lang, active, ko_path, en_path):
             f'<a class="gnb-cta" href="/download/?lang={lang}">{t["cta"]}</a>'
             f'<button class="gnb-menu" type="button" aria-label="{t["menu"]}" aria-controls="menu" aria-expanded="false" data-menu-open>{MENU_ICON}</button></div>'
             f'</div></header>'
-            f'<div class="sheet" id="menu" role="dialog" aria-modal="true" aria-label="{t["name"]}" aria-hidden="true">'
+            f'<div class="sheet" id="menu" tabindex="-1" role="dialog" aria-modal="true" aria-label="{t["name"]}" aria-hidden="true">'
             f'<div class="sheet-top"><a href="{url("home", lang)}">{logo}</a><button type="button" class="gnb-menu" aria-label="{t["close"]}" data-menu-close>{CLOSE_ICON}</button></div>'
             f'<nav aria-label="{"모바일 메뉴" if lang == "ko" else "Mobile menu"}">{nav}<a href="/download/?lang={lang}">{t["cta"]}</a></nav>'
             f'<div class="sheet-lang">{lang_links(lang, ko_path, en_path, "sheet")}</div>{sns_links(lang)}</div>')
@@ -408,7 +408,7 @@ def home(lang):
 def how(lang):
     c = {
         'ko': {'title': '이렇게 써요 — 가족이 같이 쓰는 법 | 응가메이트', 'desc': '초대 → 기록 → 알림, 세 단계면 끝. 돌봄 부탁·하트·산책 안전도까지 영상으로 보세요.',
-               'h': '이제 “응댕이 똥 쌌어?”<br>안 물어봐도 돼요', 'lede': '산책 다녀온 사람이 버튼 하나만 누르면 가족 모두의 폰에 바로 알림이 가요.',
+               'h': '이제 “응댕이 똥 쌌어?”<br>안 물어봐도 돼요', 'lede': '산책 다녀온 사람이 버튼 하나만 누르면 <br class="m-br">가족 모두의 폰에 바로 알림이 가요.',
                'steps': [('가족을 초대해요', '카톡으로 초대 코드를 보내면 같은 강아지를 함께 돌보는 가족이 돼요. 엄마·아빠·형제·돌봄 도우미 누구든요.', 'invite', 'house', 'purple'),
                          ('한 명이 기록하면<br>모두에게 알림이 가요', '산책에서 응가·쉬를 버튼 하나로 기록해요. 다른 가족 폰에 바로 알림이 가서 따로 물어볼 필요가 없어요.', 'record', 'pile_of_poo', 'pink'),
                          ('지금 상태를 한눈에 봐요', '마지막 응가·쉬와 신호 게이지를 홈에서 바로 봐요. 오늘 누가 산책했는지도 한눈에 보여요.', 'alerts', 'mobile_phone', 'green'),
@@ -422,7 +422,7 @@ def how(lang):
                'b3': ('가족 초대', '가족 초대는<br>코드 하나면 끝', '카톡으로 코드만 보내면 같은 강아지를 함께 기록해요.'),
                'b4': ('산책 루틴 · 안전도', '오늘 언제 나가면<br>좋을까요?', '산책 시간이 되면 가족 모두에게 알려줘요. 날씨와 우리 강아지 몸에 맞춘 산책 안전도도 보여줘요.')},
         'en': {'title': 'How it works — Sharing dog care with family | POOPIEMATE', 'desc': 'Invite, log, get alerts — three steps. Watch how help requests, hearts and walk safety work.',
-               'h': 'No more asking<br>“Did Poochie poop?”', 'lede': 'Whoever comes back from the walk taps one button, and everyone’s phone gets the alert right away.',
+               'h': 'No more asking<br>“Did Poochie poop?”', 'lede': 'Whoever comes back from the walk taps one button,<br>and everyone’s phone gets the alert right away.',
                'steps': [('Invite your family', 'Send an invite code by message and you’re caring for the same dog. Parents, siblings, the dog sitter — anyone.', 'invite', 'house', 'purple'),
                          ('One person logs it,<br>everyone gets an alert', 'Log poops and pees on the walk with one button. Everyone else gets an alert right away, so nobody has to ask.', 'record', 'pile_of_poo', 'pink'),
                          ('See where things stand', 'See the last poop and pee and how full the gauges are. Who walked today is right there on the home screen too.', 'alerts', 'mobile_phone', 'green'),
