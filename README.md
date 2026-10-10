@@ -1,10 +1,10 @@
 <div align="center">
 
-<img src="assets/og/poopiemate-en.jpg" alt="PoopieMate" width="560">
+<img src="assets/og/poopiemate-en.jpg" alt="POOPIEMATE" width="560">
 
 # poopiemate.com
 
-The website for **PoopieMate (응가메이트)** — your dog’s potty log, shared with the whole family.
+The website for **POOPIEMATE (응가메이트)** — your dog’s potty log, shared with the whole family.
 
 **[poopiemate.com](https://poopiemate.com)** (Korean) · **[poopiemate.com/en](https://poopiemate.com/en/)** (English)
 
@@ -77,4 +77,4 @@ python3 -m http.server 8765   # then open http://localhost:8765/
 
 ---
 
-<sub>© 2026 Pixelberry · PoopieMate · <a href="mailto:poopiemate@pixelberry.io">poopiemate@pixelberry.io</a></sub>
+<sub>© 2026 Pixelberry · POOPIEMATE · <a href="mailto:poopiemate@pixelberry.io">poopiemate@pixelberry.io</a></sub>

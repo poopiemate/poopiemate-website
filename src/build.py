@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-10'
-ASSET_V = '24'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '25'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -62,10 +62,10 @@ T = {
         'play': '영상 재생', 'more': '자세히 보기', 'back': '목록으로',
     },
     'en': {
-        'name': 'PoopieMate', 'nav': [('how', 'How it works'), ('story', 'Stories'), ('notice', 'Notices')], 'cta': 'Get the app', 'cta_short': 'Get the app',
+        'name': 'POOPIEMATE', 'nav': [('how', 'How it works'), ('story', 'Stories'), ('notice', 'Notices')], 'cta': 'Get the app', 'cta_short': 'Get the app',
         'menu': 'Open menu', 'close': 'Close menu', 'skip': 'Skip to content', 'get': 'Download on the', 'lang_label': 'Language',
         'f_links': [('Support', '/en/support/'), ('Privacy Policy', '/en/privacy/'), ('Terms of Service', '/en/terms/'), ('Open-source licenses', '/en/licenses/')],
-        'operator': f'Operated by Pixelberry · <a href="mailto:{EMAIL}">{EMAIL}</a>', 'copy': '© 2026 Pixelberry · PoopieMate',
+        'operator': f'Operated by Pixelberry · <a href="mailto:{EMAIL}">{EMAIL}</a>', 'copy': '© 2026 Pixelberry · POOPIEMATE',
         'play': 'Play video', 'more': 'Learn more', 'back': 'Back to list',
     },
 }
@@ -101,7 +101,7 @@ def sns_links(lang):
 
 def org_ld(lang):
     """운영사 — 이메일과 모든 SNS를 sameAs로 묶어 검색엔진·AI가 같은 브랜드로 알아보게."""
-    return {'@type': 'Organization', 'name': '응가메이트' if lang == 'ko' else 'PoopieMate', 'alternateName': ['PoopieMate', '응가메이트', '픽셀베리', 'Pixelberry'],
+    return {'@type': 'Organization', 'name': '응가메이트' if lang == 'ko' else 'POOPIEMATE', 'alternateName': ['POOPIEMATE', '응가메이트', '픽셀베리', 'Pixelberry'],
             'url': SITE, 'logo': f'{SITE}/assets/icons/apple-touch-icon.png', 'email': EMAIL,
             'contactPoint': {'@type': 'ContactPoint', 'contactType': 'customer support', 'email': EMAIL, 'availableLanguage': ['ko', 'en']},
             'sameAs': [SNS['youtube'][1], SNS['tiktok'][1], SNS['instagram'][1]['ko'], SNS['instagram'][1]['en'], SNS['linkedin'][1]]}
@@ -338,7 +338,7 @@ HOME_FAQ = {
            ('산책 안전도는 어떻게 계산하나요?', '체형, 단두종 여부, 털 길이, 나이, 심장·호흡기 질환 여부 같은 강아지 정보에 실시간 체감온도와 강수확률을 더해 1~5단계로 알려줘요. 반려견 온열질환 예방 가이드를 참고해 만들었어요.')],
     'en': [('Can the whole family use it together?', 'Yes. Send an invite code by message and everyone logs the same dog. Whoever logs it, everyone else gets an alert right away. Invites, logs and alerts are all free.'),
            ('We both work. Can we split walk and potty duty?', 'Yes. Logs from different people at different times land on one shared dog profile in real time. You can see who walked today, and on busy days ask someone else to take the walk with one button.'),
-           ('Does it work for dogs that only go outside?', 'Yes. PoopieMate was built by a family whose dog only goes on walks, never indoors. Logging on walks, potty gauges and walk reminders keep that routine on track. Indoor-trained dogs work just as well.'),
+           ('Does it work for dogs that only go outside?', 'Yes. POOPIEMATE was built by a family whose dog only goes on walks, never indoors. Logging on walks, potty gauges and walk reminders keep that routine on track. Indoor-trained dogs work just as well.'),
            ('Can I add more than one dog?', 'Yes. Add as many dogs as you have and switch between them from the top of the screen. Family members can follow each dog too.'),
            ('How is the walk safety score calculated?', 'It looks at your dog’s body type, short nose, coat, age and heart or breathing health. It adds the live feels-like temperature and rain chance. The result is a 1–5 score based on heatstroke-prevention guidance for dogs.')],
 }
@@ -356,11 +356,11 @@ def home(lang):
                's_tag': '응가메이트 이야기', 's_h': '“응댕이 똥 쌌어?”<br>그 전화에서 시작됐어요', 's_cap': ('분홍이 시절', '지금 우리 집'),
                's_p': '밭 옆 견사에서 ‘분홍이’로 불리던 진도믹스는 이제 우리 가족이에요. 집에서는 절대 안 싸서 하루 세 번 똥책을 나가요. 맞벌이 엄마아빠는 매번 전화로 “응댕이 똥 쌌어?”를 물어야 했죠. 그래서 버튼 하나로 가족 모두가 아는 앱을 만들었어요.',
                's_btn': '이야기 더 보기'},
-        'en': {'title': 'PoopieMate — Your dog’s potty & walk log, shared with family',
+        'en': {'title': 'POOPIEMATE — Your dog’s potty & walk log, shared with family',
                'desc': 'When one of you logs it, everyone knows. No more “Did Poochie poop?” texts. Invites, logs and alerts are free.',
                'h1': '“Did Poochie poop?”<br><span class="hl">No need to ask anymore</span>',
                'lead': 'An app for families who look after one dog together. <br>When one person logs a poop or pee, everyone knows right away.',
-               'v_label': 'PoopieMate intro video (1 min)',
+               'v_label': 'POOPIEMATE intro video (1 min)',
                'b_tag': 'Care together', 'b_h': 'Six things families share', 'f_more': 'See how it works',
                's_tag': 'Our story', 's_h': '“Did she poop?”<br>It started with that call', 's_cap': ('Back at the kennel', 'Home with us now'),
                's_p': 'Our white Jindo mix was once “Bunhong-i” at a farm-side kennel. She never goes indoors, so she walks three times a day. As a working couple, we kept calling to ask “Did Poochie poop?” So we built an app where one tap tells the whole family.',
@@ -394,20 +394,20 @@ def home(lang):
 {faq_block(lang, HOME_FAQ[lang])}
 {cta_band(lang)}
 """
-    app_ld = {'@context': 'https://schema.org', '@type': 'MobileApplication', 'name': '응가메이트' if lang == 'ko' else 'PoopieMate',
-              'alternateName': ['PoopieMate', '응가메이트'], 'operatingSystem': ['iOS', 'Android'], 'applicationCategory': 'LifestyleApplication',
+    app_ld = {'@context': 'https://schema.org', '@type': 'MobileApplication', 'name': '응가메이트' if lang == 'ko' else 'POOPIEMATE',
+              'alternateName': ['POOPIEMATE', '응가메이트'], 'operatingSystem': ['iOS', 'Android'], 'applicationCategory': 'LifestyleApplication',
               'description': c['desc'], 'url': f'{SITE}{url("home", lang)}', 'inLanguage': lang,
               'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'KRW' if lang == 'ko' else 'USD'},
               'author': org_ld(lang),
               'sameAs': [SNS['youtube'][1], SNS['tiktok'][1], SNS['instagram'][1][lang], SNS['linkedin'][1], APPSTORE[lang], PLAY[lang]]}
-    site_ld = {'@context': 'https://schema.org', '@type': 'WebSite', 'name': '응가메이트' if lang == 'ko' else 'PoopieMate', 'alternateName': ['PoopieMate', '응가메이트'],
+    site_ld = {'@context': 'https://schema.org', '@type': 'WebSite', 'name': '응가메이트' if lang == 'ko' else 'POOPIEMATE', 'alternateName': ['POOPIEMATE', '응가메이트'],
                'url': f'{SITE}{url("home", lang)}', 'inLanguage': lang, 'publisher': org_ld(lang)}
     verify = ('<meta name="google-site-verification" content="vezMm0ELRBYYTtSoNa8gk8Smo0MrxGzfDn1pjxSJAa0">\n'
               '<meta name="naver-site-verification" content="a236950cd48d38555cc3d88c121cdfe2971aa08c">\n'
               '<meta name="msvalidate.01" content="71EA6D0F5FA0EFBBA4609AA122BA853D">\n') if lang == 'ko' else ''
     write(url('home', lang), page(lang, 'home', c['title'], c['desc'], body, f'/assets/og/poopiemate-{lang}.jpg',
                                   ld=[app_ld, site_ld, faq_ld(HOME_FAQ[lang]), video_ld(YT['service_long'][lang], c['v_label'], c['desc'], lang)], extra_head=verify, intro=True,
-                                  keywords='응가메이트, PoopieMate, 강아지 배변 기록, 강아지 가족 공유 앱, 반려견 산책 기록, 실외배변, 진도믹스, 배변 텀 알림, 산책 안전도' if lang == 'ko' else 'PoopieMate, dog potty log, shared dog care app, family dog walk tracker, potty alerts'))
+                                  keywords='응가메이트, POOPIEMATE, 강아지 배변 기록, 강아지 가족 공유 앱, 반려견 산책 기록, 실외배변, 진도믹스, 배변 텀 알림, 산책 안전도' if lang == 'ko' else 'POOPIEMATE, dog potty log, shared dog care app, family dog walk tracker, potty alerts'))
 
 
 # ═════════════════════════════════════════════════════════ 이렇게 써요 (캔버스 「v2 이렇게 써요」 + 풀페이지)
@@ -427,7 +427,7 @@ def how(lang):
                'b2': ('돌봄 부탁 · 하트', '바쁜 날엔 부탁,<br>다녀오면 하트', '“저녁 산책 부탁해!” 전화 대신 버튼 하나로.'),
                'b3': ('가족 초대', '가족 초대는<br>코드 하나면 끝', '카톡으로 코드만 보내면 같은 강아지를 함께 기록해요.'),
                'b4': ('산책 루틴 · 안전도', '오늘 언제 나가면<br>좋을까요?', '산책 시간이 되면 가족 모두에게 알려줘요. 날씨와 우리 강아지 몸에 맞춘 산책 안전도도 보여줘요.')},
-        'en': {'title': 'How it works — Sharing dog care with family | PoopieMate', 'desc': 'Invite, log, get alerts — three steps. Watch how help requests, hearts and walk safety work.',
+        'en': {'title': 'How it works — Sharing dog care with family | POOPIEMATE', 'desc': 'Invite, log, get alerts — three steps. Watch how help requests, hearts and walk safety work.',
                'label': 'How it works', 'h': 'Share it with family and<br>the “Did Poochie poop?” calls stop', 'lede': 'Invite → log → alert. Three steps is all it takes.',
                'steps': [('Invite your family', 'Send an invite code by message and you’re caring for the same dog. Parents, siblings, the dog sitter — anyone.', 'invite', 'house', 'purple'),
                          ('One person logs it,<br>everyone gets an alert', 'Log poops and pees on the walk with one button. Everyone else gets an alert right away, so nobody has to ask.', 'record', 'pile_of_poo', 'pink'),
@@ -501,10 +501,10 @@ STORY = {
             ('p', '강아지를 여럿이 같이 돌보는 집이라면, 응가메이트가 “응댕이 똥 쌌어?” 전화를 조금이라도 줄여 주면 좋겠어요. 오늘도 우리 집 강아지는 최고의 똥 스팟을 찾아 산책을 나가요.'),
         ]},
     'en': {
-        'title': 'Why we built PoopieMate', 'cat': 'Our dog', 'date': 'Oct 7, 2026', 'by': 'The family behind PoopieMate',
+        'title': 'Why we built POOPIEMATE', 'cat': 'Our dog', 'date': 'Oct 7, 2026', 'by': 'The family behind POOPIEMATE',
         'excerpt': 'Our dog from a farm-side kennel, and the “Did she poop?” calls we made every single day.',
         'blocks': [
-            ('p', 'Hi, we’re the family behind PoopieMate. Here’s how the app came to be, from the very beginning. It’s a bit of a long one.'),
+            ('p', 'Hi, we’re the family behind POOPIEMATE. Here’s how the app came to be, from the very beginning. It’s a bit of a long one.'),
             ('h2', 'Bunhong-i, from a kennel by the field'),
             ('p', 'Our dog is now four, a 13 kg white Jindo mix. There’s a little Bichon in her somewhere — her fur curls slightly.'),
             ('p', 'When we first met her, she lived on a short chain in a kennel next to a farm field. She hadn’t been looked after properly, and back then she was called “Bunhong-i” — little pinky. After a rescue and a stay in foster care, she became part of our family.'),
@@ -523,7 +523,7 @@ STORY = {
             ('img', 'pair-walk-family', 'Out for a walk together · a day with the whole family'),
             ('h2', 'Poochie looks just like her'),
             ('p', 'Our mascot Poochie comes straight from our dog: a poop-shaped face, big floppy ears, a foodie and a scaredy-cat who offers a paw when she’s hungry. Every time Poochie waves on the app’s screen, we think of her waiting at the door with a shoe in her mouth.'),
-            ('p', 'If your family shares one dog, we hope PoopieMate cuts down on the “Did Poochie poop?” texts, even a little. And today, as always, our dog is out looking for the best poop spot.'),
+            ('p', 'If your family shares one dog, we hope POOPIEMATE cuts down on the “Did Poochie poop?” texts, even a little. And today, as always, our dog is out looking for the best poop spot.'),
         ]},
 }
 
@@ -541,7 +541,7 @@ def story_list(lang):
                 ['전체', '우리 강아지 이야기', '만드는 이야기', '보호자 이야기'],
                 [('우리 강아지 이야기', '[다음 글] 분홍이가 우리 가족이 되기까지', '밭 옆 견사에서 우리 집 거실까지. 실외배변 루틴이 생긴 이야기.', 'photo:kennel-house'),
                  ('만드는 이야기', '[다음 글] 가족이 같이 기록하면 무엇이 달라질까', '초기 사용자 기록을 보고 가족 초대를 먼저 고친 과정.', 'emoji')], '준비 중'),
-         'en': ('Stories', 'Notes from the family behind PoopieMate', 'Stories — The family behind PoopieMate', 'Stories from the family and the dog behind PoopieMate.',
+         'en': ('Stories', 'Notes from the family behind POOPIEMATE', 'Stories — The family behind POOPIEMATE', 'Stories from the family and the dog behind POOPIEMATE.',
                 ['All', 'Our dog', 'Making the app', 'Owner stories'],
                 [('Our dog', '[Coming up] How Bunhong-i became family', 'From a farm-side kennel to our living room, and how her outdoor potty routine began.', 'photo:kennel-house'),
                  ('Making the app', '[Coming up] What changes when a family logs together', 'What early users’ logs taught us, and why we fixed family invites first.', 'emoji')], 'Coming soon')}[lang]
@@ -591,9 +591,9 @@ def story_why(lang):
 </div></article>
 '''
     ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': s['title'], 'description': s['excerpt'], 'datePublished': '2026-10-07', 'inLanguage': lang,
-          'image': f'{SITE}/assets/og/poopiemate-{lang}.jpg', 'author': {'@type': 'Organization', 'name': '응가메이트' if lang == 'ko' else 'PoopieMate'},
+          'image': f'{SITE}/assets/og/poopiemate-{lang}.jpg', 'author': {'@type': 'Organization', 'name': '응가메이트' if lang == 'ko' else 'POOPIEMATE'},
           'publisher': org_ld(lang)}
-    title = s['title'] + (' | 응가메이트 이야기' if lang == 'ko' else ' | PoopieMate')
+    title = s['title'] + (' | 응가메이트 이야기' if lang == 'ko' else ' | POOPIEMATE')
     write(url('why', lang), page(lang, 'why', title, s['excerpt'], body, f'/assets/og/poopiemate-{lang}.jpg', active='story', og_type='article', ld=[ld]))
 
 
@@ -606,9 +606,9 @@ NOTICE = {
                     '정답은 없어요. 편하게 이야기 나눠 주시면 돼요.', '참여해 주신 분께는 폴 바셋 아이스크림 라떼 기프티콘을 보내드려요.',
                     '원하는 날짜와 시간을 골라 신청해 주세요. 일정이 확정되면 남겨 주신 번호로 연락드릴게요.'],
            'apply': '인터뷰 신청하기', 'pinned': '고정'},
-    'en': {'title': 'Join a PoopieMate user interview', 'date': 'Oct 5, 2026', 'by': 'PoopieMate team', 'sub': 'Tell us how you use PoopieMate. Interviews are in English and take about 30 minutes.',
-           'body': ['Hi from the PoopieMate team.<br>Thank you for logging your dog’s poops, pees and walks every day.',
-                    'We want to make PoopieMate easier to use, so we’d love to hear from you directly.',
+    'en': {'title': 'Join a POOPIEMATE user interview', 'date': 'Oct 5, 2026', 'by': 'POOPIEMATE team', 'sub': 'Tell us how you use POOPIEMATE. Interviews are in English and take about 30 minutes.',
+           'body': ['Hi from the POOPIEMATE team.<br>Thank you for logging your dog’s poops, pees and walks every day.',
+                    'We want to make POOPIEMATE easier to use, so we’d love to hear from you directly.',
                     '<ul><li>How you use the app</li><li>What you like and what could be better</li><li>What logging with your family is like</li></ul>',
                     'There are no right answers — just chat with us.',
                     'Interviews are in English and take about 30 minutes online.',
@@ -620,7 +620,7 @@ NOTICE = {
 def notice_list(lang):
     n = NOTICE[lang]
     c = {'ko': ('공지사항', '업데이트와 이벤트 소식을 알려드려요', '공지사항 | 응가메이트', '가족이 함께 보는 강아지 응가 기록 앱, 응가메이트의 업데이트와 이벤트 소식을 알려드려요.'),
-         'en': ('Notices', 'Updates and events from PoopieMate', 'Notices | PoopieMate', 'Updates and events from PoopieMate, the dog potty log your whole family shares.')}[lang]
+         'en': ('Notices', 'Updates and events from POOPIEMATE', 'Notices | POOPIEMATE', 'Updates and events from POOPIEMATE, the dog potty log your whole family shares.')}[lang]
     body = f'''
 <section class="list-page"><div class="wrap-list">
 {list_head('megaphone', c[0], c[1])}
@@ -644,20 +644,20 @@ def notice_interview(lang):
 <div class="post-end two"><a class="btn-block btn-grey" href="{url('notice', lang)}">{T[lang]['back']}</a><a class="btn-block btn-dark" href="{'/interview/' if lang == 'ko' else '/en/interview/'}">{n['apply']}{EXT_ICON}</a></div>
 </div></article>
 '''
-    write(url('interview_notice', lang), page(lang, 'interview_notice', n['title'] + (' | 응가메이트' if lang == 'ko' else ' | PoopieMate'), n['sub'], body,
+    write(url('interview_notice', lang), page(lang, 'interview_notice', n['title'] + (' | 응가메이트' if lang == 'ko' else ' | POOPIEMATE'), n['sub'], body,
                                               f'/assets/og/poopiemate-{lang}.jpg', active='notice', og_type='article'))
 
 
 # ═════════════════════════════════════════════════════════ 정책 (옛 poopiemate-legal에서 옮겨 옴 — 본문은 그대로, 겉모양만)
 LEGAL_DESC = {
     'privacy': ('응가메이트가 어떤 개인정보를 왜 모으고 어떻게 지키는지 알려드려요. 수집 항목, 이용 목적, 보관 기간, 이용자의 권리를 담았어요.',
-                'What personal data PoopieMate collects, why, how long we keep it and how we protect it, plus your rights under Korean, UK and EU law.'),
+                'What personal data POOPIEMATE collects, why, how long we keep it and how we protect it, plus your rights under Korean, UK and EU law.'),
     'terms': ('응가메이트를 쓸 때 지켜야 할 약속과 서비스 이용 조건을 담은 이용약관이에요. 금지 콘텐츠 신고 방법도 안내해요.',
-              'The terms for using PoopieMate: your account, family sharing, prohibited content and how to report it, and our responsibilities.'),
+              'The terms for using POOPIEMATE: your account, family sharing, prohibited content and how to report it, and our responsibilities.'),
     'support': ('응가메이트를 쓰다 궁금한 점이 생기면 이메일로 물어봐 주세요. 자주 묻는 질문과 계정 삭제 방법도 안내해요.',
-                'Questions about PoopieMate? Email us. Answers to common questions and how to delete your account.'),
+                'Questions about POOPIEMATE? Email us. Answers to common questions and how to delete your account.'),
     'licenses': ('응가메이트 앱에 쓰인 오픈소스 소프트웨어와 각 라이선스 전문을 모았어요.',
-                 'Open-source software used in the PoopieMate app, with the full text of each license.'),
+                 'Open-source software used in the POOPIEMATE app, with the full text of each license.'),
 }
 
 
@@ -716,7 +716,7 @@ def interview(lang):
     s = s.replace('  <link rel="apple-touch-icon" href="https://poopiemate.com/assets/favicon.png">\n', '')
     path = '/interview/' if ko else '/en/interview/'
     og = ('응가메이트', '응가메이트 유저 인터뷰 신청', '보호자님 이야기를 들려주세요. 참여하면 폴 바셋 아이스크림 라떼를 드려요.') if ko else \
-         ('PoopieMate', 'PoopieMate user interview', 'Tell us how you use PoopieMate. Interviews are in English and take about 30 minutes.')
+         ('POOPIEMATE', 'POOPIEMATE user interview', 'Tell us how you use POOPIEMATE. Interviews are in English and take about 30 minutes.')
     head_add = (PRETENDARD + '\n<link rel="stylesheet" href="/assets/css/site.css?v=' + ASSET_V + '">\n'
                 '<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">\n'
                 f'<meta property="og:type" content="website">\n<meta property="og:site_name" content="{og[0]}">\n<meta property="og:title" content="{og[1]}">\n'

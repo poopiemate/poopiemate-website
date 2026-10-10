@@ -1,10 +1,10 @@
-# 응가메이트 (PoopieMate)
+# 응가메이트 (POOPIEMATE)
 
 > 가족이 함께 보는 우리 강아지 응가 기록. “응댕이 똥 쌌어?” 이제 안 물어봐도 돼요.
 
 ## 앱 소개
 
-응가메이트(PoopieMate)는 가족 여러 명이 반려견의 응가·쉬야·산책 기록을 실시간으로 공유하는 무료 반려견 케어 앱입니다. 한 명이 기록하면 모두에게 바로 알림이 갑니다.
+응가메이트(POOPIEMATE)는 가족 여러 명이 반려견의 응가·쉬야·산책 기록을 실시간으로 공유하는 무료 반려견 케어 앱입니다. 한 명이 기록하면 모두에게 바로 알림이 갑니다.
 실외배변을 하는 반려견, 진도믹스, 믹스견 등 모든 견종에 사용할 수 있습니다.
 
 ## 주요 기능
@@ -59,7 +59,7 @@
 
 ## English
 
-> Your dog’s potty log, shared with the whole family. PoopieMate is a free dog care app where family members share potty (poopie/pee) and walk records in real time. When one caregiver logs it, everyone in the family is notified instantly. Also built for outdoor-potty dogs, Jindo mixes, and mixed breeds, with potty interval alerts and a weather-based walk safety score.
+> Your dog’s potty log, shared with the whole family. POOPIEMATE is a free dog care app where family members share potty (poopie/pee) and walk records in real time. When one caregiver logs it, everyone in the family is notified instantly. Also built for outdoor-potty dogs, Jindo mixes, and mixed breeds, with potty interval alerts and a weather-based walk safety score.
 
 Full English site: https://poopiemate.com/en/
 - iOS App Store: https://apps.apple.com/app/id6781981502
@@ -67,7 +67,7 @@ Full English site: https://poopiemate.com/en/
 - Privacy Policy: https://poopiemate.com/en/privacy/
 - Terms of Service: https://poopiemate.com/en/terms/
 - How it works: https://poopiemate.com/en/how-it-works/
-- Why we built PoopieMate: https://poopiemate.com/en/story/why-we-built/
+- Why we built POOPIEMATE: https://poopiemate.com/en/story/why-we-built/
 - Contact: poopiemate@pixelberry.io
 - Intro video: https://www.youtube.com/watch?v=xiX6nDBh7yE
 - Family invite video: https://www.youtube.com/watch?v=zX687PzYXzY
