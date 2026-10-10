@@ -35,14 +35,14 @@ def webp(src, dst, width=None, height=None, q=86, crop=None, fn=None):
     return im.size
 
 
-def web_video(src, dst, width, crf=27, audio=False, t0=0, dur=None, frames=False):
+def web_video(src, dst, width, crf=27, audio=False, t0=0, dur=None, frames=False, crop=''):
     """웹 영상 — H.264 8비트, BT.709·제한 범위(tv)로 맞춰 꼬리표를 단다. 사파리는 꼬리표 없는 영상이나 카톡·폰의
     전체 범위(yuvj) 영상을 페이지 흰색과 다르게 그려서 영상 상자가 회색으로 비친다. 아이폰 HDR(HLG)은 SDR로 톤매핑."""
     info = subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=color_transfer', '-of', 'csv=p=0', str(src)],
                           capture_output=True, text=True).stdout if not frames else ''
     hdr = 'arib-std-b67' in info or 'smpte2084' in info
     tone = 'zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,' if hdr else ''
-    vf = f'{tone}scale={width}:-2:out_range=tv:out_color_matrix=bt709,fps=30,format=yuv420p,setparams=range=tv:colorspace=bt709:color_primaries=bt709:color_trc=bt709'
+    vf = f'{tone}{crop + "," if crop else ""}scale={width}:-2:out_range=tv:out_color_matrix=bt709,fps=30,format=yuv420p,setparams=range=tv:colorspace=bt709:color_primaries=bt709:color_trc=bt709'
     cut = (['-ss', str(t0)] if t0 else []) + (['-t', str(dur)] if dur else [])
     inp = ['-framerate', '30', '-i', str(src)] if frames else [*cut, '-i', str(src)]
     a = ['-map', '0:a:0?', '-c:a', 'aac', '-b:a', '128k'] if audio else ['-an']
@@ -161,8 +161,9 @@ PHOTO = [  # 파일, 출력 이름, 이름표 전화번호 가릴 곳(원본 px)
     ('로나아가시절.jpeg', 'home-first', [(562, 850, 650, 905)]),
     ('분홍이시절.jpeg', 'kennel-house', []),
     ('IMG_6047.jpeg', 'lawn-walk', [(172, 746, 226, 790)]),
-    ('IMG_5506.JPG', 'family-lawn', [(1925, 700, 2125, 870)]),
+    ('로나여왕님.jpeg', 'home-now', []),
 ]
+CROP = {'home-now': (0.3486, 0.3554, 0.8176, 0.6793)}  # 거실 전체 사진에서 웃는 로나만 — 폴라로이드 칸(176:216) 비율로 당겨서
 
 
 PAIRS = {'pair-rescue': ('kennel', 'kennel-house'), 'pair-wedding': ('wedding-jump', 'wedding-kiss'), 'pair-family': ('family-2025-a', 'family-2025-b')}
@@ -230,7 +231,6 @@ STORY_PHOTO = [  # 파일, 출력 이름, 가릴 이름표(원본 px) — 뭉개
     ('01-lap-sleep.jpeg', 'first-lap-sleep', [], []), ('02-lap-eyes.jpeg', 'first-lap-eyes', [], []),
     ('03-paws.jpeg', 'first-paws', [(1240, 2400, 1400, 2580)], []), ('06-pink-sleep.jpeg', 'first-pink-sleep', [], []),
     ('08-harness.jpeg', 'first-harness', [], []), ('10-selfie.jpeg', 'first-selfie', [], []),
-    ('11-park-friends.jpeg', 'park-friends', [], [(2725, 2450, 3085, 2610)]), ('12-park-smile.jpeg', 'park-smile', [], []),
     ('13-park-run.jpeg', 'park-run', [], []),
     ('wedding-jump.jpg', 'wedding-jump', [], []), ('wedding-kiss.jpg', 'wedding-kiss', [], []),
     ('family-2025-a.jpeg', 'family-2025-a', [], []), ('family-2025-b.jpeg', 'family-2025-b', [], []),
@@ -239,8 +239,12 @@ STORY_CLIP = [  # 원본, 출력 이름, 시작(초), 길이(초), 소리 — �
     (STORY_SRC / 'first-meet.MOV', 'first-meet', 0, None, True), (STORY_SRC / 'first-lick.mp4', 'first-lick', 0, None, False),
     # 똥 싸는 장면 — 똥이 몸에 가려 보이지 않는 구간만 (일어나 걸어가기 전에 끊는다)
     (DESK / '응가메이트_틱톡/소스추가/DJI_20260727073257_0095_D.MP4', 'potty-morning', 0, 8.6, True),
-    (DESK / '응가메이트_틱톡/소스추가/DJI_20260726203218_0059_D.MP4', 'potty-evening', 3.5, 9.7, True),
+    # 쉬 — 풀숲에 다가가 앉는 데서 시작해 일어나기 전에 끊는다
+    (STORY_SRC / 'potty-pee.mp4', 'potty-pee', 11.0, 6.8, True),
+    # 공손하게 내미는 앞발 — 코를 킁킁거리는 데서 시작, 소리 없이
+    (STORY_SRC / 'paw.mp4', 'paw', 3.7, None, False),
 ]
+CLIP_CROP = {'paw': 'iw:iw*4/3:0:ih-iw*4/3'}  # 앞발 — 위쪽 선반을 잘라 운동장 사진과 같은 3:4로 (강아지가 있는 아래는 그대로)
 
 
 def story():
@@ -257,7 +261,7 @@ def story():
             dim = webp(STORY_SRC / src, f'img/photo/{name}-{size}.webp', width=size, height=size, q=82, fn=fn)
         print('photo', name, dim)
     for src, name, t0, dur, sound in STORY_CLIP:
-        dst = web_video(src, out(f'video/story-{name}.mp4'), 720, crf=26, audio=sound, t0=t0, dur=dur)
+        dst = web_video(src, out(f'video/story-{name}.mp4'), 720, crf=26, audio=sound, t0=t0, dur=dur, crop=f'crop={CLIP_CROP[name]}' if name in CLIP_CROP else '')
         web_poster(dst, f'video/story-{name}.webp', 720)
         print('clip', name, dst.stat().st_size // 1024, 'KB')
 
@@ -265,7 +269,7 @@ def story():
 def photos():
     for src, name, boxes in PHOTO:
         for size in (1600, 900):
-            dim = webp(PHOTOS / src, f'img/photo/{name}-{size}.webp', width=size, height=size, q=82, fn=hide(boxes))
+            dim = webp(PHOTOS / src, f'img/photo/{name}-{size}.webp', width=size, height=size, q=82, crop=CROP.get(name), fn=hide(boxes))
         print('photo', name, dim)
     # 글 사이 가득 찬 폭 — 세로 사진 두 장을 같은 높이로 붙여 한 장으로
     for name, parts in PAIRS.items():

@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-10'
-ASSET_V = '32'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '33'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -493,14 +493,14 @@ STORY = {
             ('p', '임시보호를 할 때는 한국보다 조금 더 펫 프렌들리한 해외로 입양을 보내고 싶었어요. 그래서 ‘로나’라는 영어 이름을 지어 주고, 성은 ‘메’로 붙였어요. 그렇게 메로나가 됐어요.'),
             ('p', '그러다 남편이 먼저 말했어요. 이 아이 없이는 못 살겠다고, 우리가 입양하자고요. 그렇게 임시보호는 입양이 됐어요.'),
             ('p', '지금도 낯선 사람과 큰 소리, 트럭과 움직이는 사다리를 무서워하는 겁쟁이예요. 그래도 먹을 것 앞에서는 누구보다 용감한 먹보예요. 당근과 닭가슴살을 제일 좋아하고, 배가 고프면 앞발을 공손하게 내밀어요. 그리고 이제는 엄마아빠를 제일 좋아해요.'),
-            ('mosaic', ['park-run', 'park-smile', 'park-friends'], '우리 가족이 되고 나서, 운동장에서'),
+            ('mix', ['park-run', 'clip:paw'], '운동장에서 뛰놀고, 배고프면 공손하게 앞발'),
             ('h2', '집에서는 절대 안 싸는 아이'),
             ('p', '우리 집 강아지는 응가도 쉬도 꼭 밖에서만 해요. 패드를 깔아 줘도, 아무리 오래 참아도 꼭 밖에 나가야 해요. 나가고 싶을 때는 현관에서 신발을 물어 와요.'),
             ('p', '한국 토종개인 진돗개는 열에 아홉이 실외배변을 한다고 할 만큼, 집 안에서는 볼일을 보지 않는 견종으로 알려져 있어요. 진돗개와 비숑이 섞인 우리 집 강아지도 그 습관을 그대로 물려받았어요.'),
             ('p', '그래서 비가 오나 눈이 오나 하루 세 번, 꼭 산책을 나가요. 산책에서 하는 일은 하나예요. 최고의 똥 스팟 찾기. 바싹 마른 낙엽, 폭신한 흙바닥, 솔방울이 잔뜩 떨어진 곳이면 합격이에요.'),
-            ('clips', [('potty-morning', '아침 산책에서도'), ('potty-evening', '저녁 산책에서도')], '오늘의 똥 스팟을 찾아서'),
+            ('clips', [('potty-morning', '아침 산책에서도'), ('potty-pee', '쉬도 꼭 밖에서')], '오늘의 똥 스팟을 찾아서'),
             ('h2', '하루에도 몇 번씩 하던 전화'),
-            ('p', '저희 부부는 둘 다 일을 해서 산책을 나눠서 해요. 문제는 그다음이었어요. 아침에 누가 데리고 나갔는지, 응가는 했는지, 쉬는 몇 번 했는지. 매번 전화해서 확인해야 했거든요.'),
+            ('p', '저희 부부는 둘 다 일을 해서 산책을 나눠서 해요. 문제는 그다음이었어요. 아침에 몇 시에 나가서 산책을 얼마나 했는지, 응가는 했는지, 쉬는 몇 번 했는지. 매번 전화해서 확인해야 했거든요.'),
             ('quote', ['로나 똥 쌌어?', '아침 산책에 몇 번 똥 쌌어?', '저녁엔 누가 나갈래?'], '하루에도 몇 번씩 오가던 전화'),
             ('p', '외출했다가 집에 들어오는 시간도 늘 서로 알려 줘야 했어요. 누가 언제 산책을 나갈지 매번 전화로 스케줄을 맞추는 게 생각보다 쉽지 않았어요. 실외배변만 하는 아이라 응가를 언제 했는지는 건강과도 바로 이어지는 문제였어요. 하루 종일 참고 있는 건 아닌지, 마지막 응가가 몇 시간 전이었는지 늘 마음이 쓰였어요.'),
             ('p', '결국 엄마인 저는 재택근무를 할 수 있는 일을 하게 됐어요. 그리고 생각했어요. 매번 이렇게 연락하는 것보다, 차라리 앱을 만들자.'),
@@ -513,7 +513,7 @@ STORY = {
             ('h2', '결혼식 화견, 그리고 매년 찍는 가족사진'),
             ('p', '우리 집 강아지는 저희 결혼식에서 화견도 했어요. 웨딩 사진도 셋이 함께 찍었어요. 그리고 그 뒤로 매년, 가족사진을 같이 찍고 있어요.'),
             ('img', 'pair-family', '2025년 가족사진'),
-            ('p', '강아지를 여럿이 같이 돌보는 집이라면, 응가메이트가 “응댕이 똥 쌌어?” 전화를 조금이라도 줄여 주면 좋겠어요. 오늘도 우리 집 강아지는 최고의 똥 스팟을 찾아 산책을 나가요.'),
+            ('p', '강아지를 여럿이 같이 돌보는 집이라면, 응가메이트가 “우리 강아지 똥 쌌어?” 전화를 조금이라도 줄여 주면 좋겠어요. 오늘도 우리 집 강아지는 최고의 똥 스팟을 찾아 산책을 나가요.'),
         ]},
     'en': {
         'title': 'Why I built POOPIEMATE', 'cat': 'Our dog', 'date': 'Oct 7, 2026', 'by': 'Jin, developer of POOPIEMATE',
@@ -539,14 +539,14 @@ STORY = {
             ('p', 'While fostering, I hoped to find her a home abroad, somewhere a little more pet-friendly than Korea. So I gave her an English name, Lona, and the family name Me. That’s how she became Melona.'),
             ('p', 'Then my husband said it first: we can’t live without her, let’s adopt her. And so fostering turned into adoption.'),
             ('p', 'She’s still a scaredy-cat around strangers, loud voices, trucks and moving ladders — but the bravest of us all in front of food. She loves carrots and chicken breast, and when she’s hungry she politely offers a paw. And now her favorite people are Mom and Dad.'),
-            ('mosaic', ['park-run', 'park-smile', 'park-friends'], 'At the dog park, once she was family'),
+            ('mix', ['park-run', 'clip:paw'], 'Running at the dog park, and a polite paw when she’s hungry'),
             ('h2', 'A dog who never goes indoors'),
             ('p', 'Our dog only poops and pees outside. Not on a pad, not even when she’s been holding it for hours. When she wants to go out, she brings us a shoe from the doorway.'),
             ('p', 'The Jindo, Korea’s native breed, is known for refusing to go indoors — it’s often said nine in ten Jindos only go outside. Our Jindo-Bichon mix inherited that habit, all of it.'),
             ('p', 'So rain or snow, she goes out three times a day. On every walk she has one mission: find the best poop spot. Crunchy dry leaves, soft dirt, or a patch covered in pinecones all pass the test.'),
-            ('clips', [('potty-morning', 'On the morning walk'), ('potty-evening', 'On the evening walk')], 'Searching for today’s poop spot'),
+            ('clips', [('potty-morning', 'On the morning walk'), ('potty-pee', 'Pees outside too')], 'Searching for today’s poop spot'),
             ('h2', 'The calls we made every day'),
-            ('p', 'We both work, so we split the walks. The trouble came after. Who took her out this morning? Did she poop? How many pees? We had to call and check every time.'),
+            ('p', 'We both work, so we split the walks. The trouble came after. What time did she go out this morning, and how long was the walk? Did she poop? How many pees? We had to call and check every time.'),
             ('quote', ['Did Lona poop?', 'How many poops on the morning walk?', 'Who’s going out tonight?'], 'The calls we traded every single day'),
             ('p', 'We always had to tell each other when we’d be back home. Lining up who walks her when, one phone call after another, was harder than it sounds. For a dog who only goes outside, when she last pooped is a health question too. We always wondered whether she’d been holding it all day.'),
             ('p', 'In the end, I — Mom — found work I could do from home. And I thought: rather than calling like this every time, why not build an app?'),
@@ -559,12 +559,11 @@ STORY = {
             ('h2', 'Flower dog at our wedding, and a family photo every year'),
             ('p', 'Our dog was even the flower dog at our wedding, and she’s in our wedding photos too. Ever since, we’ve taken a family photo together every year.'),
             ('img', 'pair-family', 'Our 2025 family photo'),
-            ('p', 'If your family shares one dog, we hope POOPIEMATE cuts down on the “Did Poochie poop?” texts, even a little. And today, as always, our dog is out looking for the best poop spot.'),
+            ('p', 'If your family shares one dog, we hope POOPIEMATE cuts down on the “Did our dog poop?” texts, even a little. And today, as always, our dog is out looking for the best poop spot.'),
         ]},
 }
 
 
-STORY_THUMB = 'family-lawn'  # 목록 썸네일 = 글 머리 사진
 THUMB_POS = {'park-run': '50% 60%'}  # 썸네일에서 강아지가 가운데 오게 — 사진마다 잘라 보일 위치
 LANDSCAPE = {'pair-rescue', 'pair-wedding', 'pair-family'}  # 나머지 사진은 세로 — 원본 비율 그대로, 폭만 좁게
 
@@ -585,7 +584,7 @@ def story_list(lang):
                  ('Making the app', '[Coming up] What changes when a family logs together', 'What early users’ logs taught us, and why we fixed family invites first.', 'emoji')], 'Coming soon')}[lang]
     cats = c[4]
     chips = ''.join(f'<button type="button" data-cat="{"all" if i == 0 else i}" aria-pressed="{"true" if i == 0 else "false"}">{x}</button>' for i, x in enumerate(cats))
-    first = (f'<a class="post-card" data-cat="1" href="{url("why", lang)}"><span class="thumb"><img src="/assets/img/photo/{STORY_THUMB}-900.webp" alt="" loading="lazy">{new_badge("2026-10-07")}</span>'
+    first = (f'<a class="post-card" data-cat="1" href="{url("why", lang)}"><span class="thumb"><img src="/assets/img/story-thumb-{lang}.webp" alt="" loading="lazy" width="1600" height="1000">{new_badge("2026-10-07")}</span>'
              f'<span class="cat">{cats[1]}</span><b>{s["title"]}</b><span class="ex">{sb(s["excerpt"])}</span><time datetime="2026-10-07">{s["date"]}</time></a>')
     soon = ''
     for cat, t, ex, art in c[5]:
@@ -602,7 +601,7 @@ def story_list(lang):
 {empty_state(lang, 'story')}
 </div></section>
 '''
-    write(url('story', lang), page(lang, 'story', c[2] + (' | 응가메이트' if lang == 'ko' else ''), c[3], body, f'/assets/og/poopiemate-{lang}.jpg', active='story'))
+    write(url('story', lang), page(lang, 'story', c[2] + (' | 응가메이트' if lang == 'ko' else ''), c[3], body, f'/assets/og/story-{lang}.jpg', active='story'))
 
 
 def photo_size(name):
@@ -617,17 +616,25 @@ def photo_img(name, sizes, alt=''):
             f'sizes="{sizes}" width="{w}" height="{h}" alt="{escape(alt)}" loading="lazy">')
 
 
-def story_clip(name, label, lang):
+def clip_size(name):
+    out = subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height', '-of', 'csv=p=0',
+                          str(ROOT / f'assets/video/story-{name}.mp4')], capture_output=True, text=True).stdout
+    return tuple(int(x) for x in out.strip().split(',')[:2])
+
+
+def story_clip(name, label, lang, cap=True):
     """글 사이 세로 영상 — 화면에 들어오면 소리 없이 돌고, 버튼으로 원본 소리를 켠다 (site.js)."""
     on, off = {'ko': ('소리 켜기', '소리 끄기'), 'en': ('Sound on', 'Sound off')}[lang]
     has_sound = subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'a', '-show_entries', 'stream=index', '-of', 'csv=p=0',
                                 str(ROOT / f'assets/video/story-{name}.mp4')], capture_output=True, text=True).stdout.strip()
     sound = (f'<button class="clip-sound" type="button" data-clip-sound data-on="{on}" data-off="{off}" aria-pressed="false" aria-label="{on}">{SOUND_OFF}{SOUND_ON}</button>'
              if has_sound else '')
-    return (f'<div class="clip" data-clip><div class="clip-box"><video muted loop playsinline preload="none" controlslist="nodownload noremoteplayback" disablepictureinpicture '
-            f'poster="/assets/video/story-{name}.webp?v={ASSET_V}" width="720" height="1280" aria-label="{escape(label)}"><source src="/assets/video/story-{name}.mp4?v={ASSET_V}" type="video/mp4"></video>'
+    w, h = clip_size(name)
+    ratio = '' if (w, h) == (720, 1280) else f' style="aspect-ratio:{w} / {h}"'  # 기본은 9:16 (css), 잘라 낸 영상만 제 비율로
+    return (f'<div class="clip" data-clip><div class="clip-box"{ratio}><video muted loop playsinline preload="none" controlslist="nodownload noremoteplayback" disablepictureinpicture '
+            f'poster="/assets/video/story-{name}.webp?v={ASSET_V}" width="{w}" height="{h}" aria-label="{escape(label)}"><source src="/assets/video/story-{name}.mp4?v={ASSET_V}" type="video/mp4"></video>'
             f'{sound}</div>'
-            f'<span class="clip-cap">{label}</span></div>')
+            f'{f"<span class=\"clip-cap\">{label}</span>" if cap else ""}</div>')
 
 
 def story_why(lang):
@@ -648,26 +655,32 @@ def story_why(lang):
             # 같은 높이로 나란히 — 사진 비율만큼 폭을 나눠 가진다
             imgs = ''.join(f'<span style="flex:{photo_size(n)[0] / photo_size(n)[1]:.3f}">{photo_img(n, "(min-width: 800px) 360px, 46vw")}</span>' for n in b[1])
             out.append(f'<figure class="fig row"><div class="row-in">{imgs}</div><figcaption>{b[2]}</figcaption></figure>')
-        elif b[0] == 'mosaic':
-            big, *rest = b[1]
-            imgs = photo_img(big, '(min-width: 1100px) 550px, 50vw') + ''.join(photo_img(n, '(min-width: 1100px) 490px, 46vw') for n in rest)
-            out.append(f'<figure class="fig l mosaic"><div class="mos">{imgs}</div><figcaption>{b[2]}</figcaption></figure>')
+        elif b[0] == 'mix':
+            # 사진과 세로 영상을 같은 높이로 나란히 — 'clip:이름'은 영상
+            cells = []
+            for n in b[1]:
+                if n.startswith('clip:'):
+                    cells.append(f'<span style="flex:{clip_size(n[5:])[0] / clip_size(n[5:])[1]:.3f}">{story_clip(n[5:], b[2], lang, cap=False)}</span>')
+                else:
+                    cells.append(f'<span style="flex:{photo_size(n)[0] / photo_size(n)[1]:.3f}">{photo_img(n, "(min-width: 1100px) 600px, 54vw")}</span>')
+            out.append(f'<figure class="fig l row mix"><div class="row-in">{"".join(cells)}</div><figcaption>{b[2]}</figcaption></figure>')
         elif b[0] == 'h2':
             out.append(f'<h2>{b[1]}</h2>')
-    # 목록 썸네일과 같은 사진을 글 머리에 — 목록에서 누른 그 사진으로 글이 열리게
-    art = f'<div class="post-hero">{photo_img(STORY_THUMB, "(min-width: 800px) 720px, 92vw", s["title"])}</div>'
+    # 목록 썸네일과 같은 그림(홈의 폴라로이드 두 장, src/og.py)을 글 머리에 — 목록에서 누른 그 그림으로 글이 열리게
+    art = f'<div class="post-hero"><img src="/assets/img/story-thumb-{lang}.webp" alt="{escape(s["title"])}" width="1600" height="1000"></div>'
     body = f'''
 <article class="post"><div class="wrap-post">
 {post_head(f'<time datetime="2026-10-07">{s["date"]}</time> · {s["by"]}', s['title'], art)}
 <div class="prose">{''.join(out)}</div>
 <div class="post-end"><a class="btn-block btn-grey" href="{url('story', lang)}">{T[lang]['back']}</a></div>
 </div></article>
+{cta_band(lang)}
 '''
     ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': s['title'], 'description': s['excerpt'], 'datePublished': '2026-10-07', 'dateModified': '2026-10-10', 'inLanguage': lang,
-          'image': f'{SITE}/assets/og/poopiemate-{lang}.jpg', 'author': {'@type': 'Organization', 'name': '응가메이트' if lang == 'ko' else 'POOPIEMATE'},
+          'image': f'{SITE}/assets/og/story-{lang}.jpg', 'author': {'@type': 'Organization', 'name': '응가메이트' if lang == 'ko' else 'POOPIEMATE'},
           'publisher': org_ld(lang)}
     title = s['title'] + (' | 응가메이트 이야기' if lang == 'ko' else ' | POOPIEMATE')
-    write(url('why', lang), page(lang, 'why', title, s['excerpt'], body, f'/assets/og/poopiemate-{lang}.jpg', active='story', og_type='article', ld=[ld]))
+    write(url('why', lang), page(lang, 'why', title, s['excerpt'], body, f'/assets/og/story-{lang}.jpg', active='story', og_type='article', ld=[ld]))
 
 
 # ═════════════════════════════════════════════════════════ 공지사항 (캔버스 「v2 공지사항」)
@@ -704,7 +717,7 @@ def notice_list(lang):
 {empty_state(lang, 'notice')}
 </div></section>
 '''
-    write(url('notice', lang), page(lang, 'notice', c[2], c[3], body, f'/assets/og/poopiemate-{lang}.jpg', active='notice'))
+    write(url('notice', lang), page(lang, 'notice', c[2], c[3], body, '/assets/og/notice.jpg', active='notice'))
 
 
 def notice_interview(lang):
@@ -718,7 +731,7 @@ def notice_interview(lang):
 </div></article>
 '''
     write(url('interview_notice', lang), page(lang, 'interview_notice', n['title'] + (' | 응가메이트' if lang == 'ko' else ' | POOPIEMATE'), n['sub'], body,
-                                              f'/assets/og/poopiemate-{lang}.jpg', active='notice', og_type='article'))
+                                              '/assets/og/notice.jpg', active='notice', og_type='article'))
 
 
 # ═════════════════════════════════════════════════════════ 정책 (옛 poopiemate-legal에서 옮겨 옴 — 본문은 그대로, 겉모양만)
