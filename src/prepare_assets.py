@@ -220,7 +220,7 @@ def soft_focus(mask_png, sigma_ratio, work=1800):
 
 
 # 사람이 나오는 사진 — 원본 그대로, 초점만 강아지에게. 값이 클수록 사람이 더 흐리다 (셀카는 얼굴이 크게 나와 더 흐리게)
-FOCUS = {'family-2025-a': 1 / 260, 'family-2025-b': 1 / 260, 'wedding-jump': 1 / 260, 'wedding-kiss': 1 / 260, 'first-selfie': 1 / 130}
+FOCUS = {'family-2025-a': 1 / 400, 'family-2025-b': 1 / 400, 'wedding-jump': 1 / 400, 'wedding-kiss': 1 / 400, 'first-selfie': 1 / 200}
 
 
 # ── 「응가메이트를 만든 이유」 사진·영상 — 사진 앱에서 꺼내 바탕화면 메로나/웹스토리에 모아 둔 원본
