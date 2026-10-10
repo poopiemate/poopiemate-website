@@ -3,7 +3,7 @@
 python3 src/build.py          # 페이지 HTML + sitemap.xml
 에셋 준비는 src/prepare_assets.py, OG 이미지는 src/og.py.
 """
-import html as html_mod, json, re
+import html as html_mod, json, re, subprocess
 from html import escape
 from pathlib import Path
 
@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-10'
-ASSET_V = '26'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '27'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -483,7 +483,7 @@ STORY = {
             ('p', '처음엔 임시보호를 하겠다고 연락했어요. 그런데 막상 한 생명을 맡는다고 생각하니 겁이 나서, 못 하겠다고 말씀드렸어요. 그러다 다음 날, 다시 연락했어요. “제가 임시보호 할게요.” 그렇게 이 아이는 우리 집에 오게 됐어요.'),
             ('h2', '무서워하면서도, 엄마인 걸 아는 것처럼'),
             ('p', '우리 집에 처음 온 날, 이 아이는 저를 무서워하면서도 제가 엄마라는 걸 직감적으로 아는 것 같았어요. 잔뜩 겁먹은 얼굴로 제 손 냄새를 맡더니, 쓰다듬는 손길을 피하지 않고 가만히 저를 올려다봤어요.'),
-            ('clips', [('first-meet', '처음 만난 날 밤'), ('first-lick', '다음 날, 손을 핥으며')], '우리 집에 온 첫날과 그다음 날'),
+            ('clips', [('first-meet', '처음 만난 날 밤'), ('first-lick', '바로 다음날!')], '우리 집에 온 첫날과 그다음 날'),
             ('p', '겁이 정말 많았어요. 사람 손길조차 무서워했어요. 가까이 다가가면 눈치를 살피며 한참을 저를 쳐다봤어요.'),
             ('row', ['first-lap-eyes', 'first-paws'], '아직은 조심스럽던 눈빛'),
             ('p', '그런데, 정말 너무 귀여웠어요. 그렇게 겁을 내던 아이가 집에 온 다음 날부터 제 무릎 위에서 잠들기 시작했어요. 잠든 얼굴을 보고 있으면 시간 가는 줄 몰랐어요.'),
@@ -529,7 +529,7 @@ STORY = {
             ('p', 'At first I offered to foster her. Then the idea of being responsible for a life scared me, and I said I couldn’t. The next day I got back in touch: “I’ll foster her.” That’s how she came home with us.'),
             ('h2', 'Scared, yet somehow she knew I was Mom'),
             ('p', 'On her first day with us, she was scared of me — and yet she seemed to sense that I was her mom. Looking terrified, she sniffed my hand — then stood still, let me pet her, and looked up at me.'),
-            ('clips', [('first-meet', 'The night we first met'), ('first-lick', 'The next day, licking my hand')], 'Her first night with us, and the day after'),
+            ('clips', [('first-meet', 'The night we first met'), ('first-lick', 'The very next day!')], 'Her first night with us, and the day after'),
             ('p', 'She was so timid. Even a person’s touch frightened her. When I came close, she would study me for a long time, unsure.'),
             ('row', ['first-lap-eyes', 'first-paws'], 'Still wary in those first days'),
             ('p', 'But oh, she was so, so cute. This scared little dog started falling asleep on my lap from her very second day. I could watch her sleeping face for hours.'),
@@ -619,9 +619,13 @@ def photo_img(name, sizes, alt=''):
 def story_clip(name, label, lang):
     """글 사이 세로 영상 — 화면에 들어오면 소리 없이 돌고, 버튼으로 원본 소리를 켠다 (site.js)."""
     on, off = {'ko': ('소리 켜기', '소리 끄기'), 'en': ('Sound on', 'Sound off')}[lang]
+    has_sound = subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'a', '-show_entries', 'stream=index', '-of', 'csv=p=0',
+                                str(ROOT / f'assets/video/story-{name}.mp4')], capture_output=True, text=True).stdout.strip()
+    sound = (f'<button class="clip-sound" type="button" data-clip-sound data-on="{on}" data-off="{off}" aria-pressed="false" aria-label="{on}">{SOUND_OFF}{SOUND_ON}</button>'
+             if has_sound else '')
     return (f'<div class="clip" data-clip><div class="clip-box"><video muted loop playsinline preload="none" controlslist="nodownload noremoteplayback" disablepictureinpicture '
             f'poster="/assets/video/story-{name}.webp?v={ASSET_V}" width="720" height="1280" aria-label="{escape(label)}"><source src="/assets/video/story-{name}.mp4?v={ASSET_V}" type="video/mp4"></video>'
-            f'<button class="clip-sound" type="button" data-clip-sound data-on="{on}" data-off="{off}" aria-pressed="false" aria-label="{on}">{SOUND_OFF}{SOUND_ON}</button></div>'
+            f'{sound}</div>'
             f'<span class="clip-cap">{label}</span></div>')
 
 

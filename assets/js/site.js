@@ -118,6 +118,7 @@
   function muteClip(box) {
     var v = box.querySelector('video'), b = box.querySelector('[data-clip-sound]');
     v.muted = true; box.classList.remove('sound');
+    if (!b) return;  // 소리 없는 영상은 버튼이 없다
     b.setAttribute('aria-pressed', 'false'); b.setAttribute('aria-label', b.getAttribute('data-on'));
   }
   clips.forEach(function (box) {
@@ -125,7 +126,7 @@
     var b = box.querySelector('[data-clip-sound]');
     function play() { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
     if (reduce) { v.controls = true; v.preload = 'metadata'; }
-    b.addEventListener('click', function () {
+    if (b) b.addEventListener('click', function () {
       if (v.muted) {
         clips.forEach(function (o) { if (o !== box) muteClip(o); });
         v.muted = false; v.currentTime = 0; box.classList.add('sound');

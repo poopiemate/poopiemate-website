@@ -209,10 +209,10 @@ STORY_PHOTO = [  # 파일, 출력 이름, 가릴 이름표(원본 px) — 뭉개
     ('wedding-jump.jpg', 'wedding-jump', [], []), ('wedding-kiss.jpg', 'wedding-kiss', [], []),
     ('family-2025-a.jpeg', 'family-2025-a', [], []), ('family-2025-b.jpeg', 'family-2025-b', [], []),
 ]
-STORY_CLIP = [  # 원본, 출력 이름, 시작(초), 길이(초) — 소리는 원본 그대로
-    (STORY_SRC / 'first-meet.MOV', 'first-meet', 0, None), (STORY_SRC / 'first-lick.mp4', 'first-lick', 0, None),
-    (STORY_SRC / 'snow-potty.MOV', 'potty-snow', 2.0, 14.0),
-    (DESK / '응가메이트_틱톡/소스추가/DJI_20260727073257_0095_D.MP4', 'potty-summer', 0, None),
+STORY_CLIP = [  # 원본, 출력 이름, 시작(초), 길이(초), 소리 — 소리는 원본 그대로 (바스락 잡음뿐인 영상만 소리 없이)
+    (STORY_SRC / 'first-meet.MOV', 'first-meet', 0, None, True), (STORY_SRC / 'first-lick.mp4', 'first-lick', 0, None, False),
+    (STORY_SRC / 'snow-potty.MOV', 'potty-snow', 2.0, 14.0, True),
+    (DESK / '응가메이트_틱톡/소스추가/DJI_20260727073257_0095_D.MP4', 'potty-summer', 0, None, True),
 ]
 
 
@@ -225,8 +225,8 @@ def story():
         for size in (1600, 900):
             dim = webp(STORY_SRC / src, f'img/photo/{name}-{size}.webp', width=size, height=size, q=82, fn=fn)
         print('photo', name, dim)
-    for src, name, t0, dur in STORY_CLIP:
-        dst = web_video(src, out(f'video/story-{name}.mp4'), 720, crf=26, audio=True, t0=t0, dur=dur)
+    for src, name, t0, dur, sound in STORY_CLIP:
+        dst = web_video(src, out(f'video/story-{name}.mp4'), 720, crf=26, audio=sound, t0=t0, dur=dur)
         web_poster(dst, f'video/story-{name}.webp', 720)
         print('clip', name, dst.stat().st_size // 1024, 'KB')
 
