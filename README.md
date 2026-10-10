@@ -1,47 +1,80 @@
-# PoopieMate Website
+<div align="center">
 
-Static GitHub Pages website for 응가메이트.
+<img src="assets/og/poopiemate-en.jpg" alt="PoopieMate" width="560">
 
-Published URL:
+# poopiemate.com
 
-https://viva-jinyi.github.io/poopiemate-website/
+The website for **PoopieMate (응가메이트)** — your dog’s potty log, shared with the whole family.
 
-## Google Search Console verification
+**[poopiemate.com](https://poopiemate.com)** (Korean) · **[poopiemate.com/en](https://poopiemate.com/en/)** (English)
 
-Place the HTML verification file from Google Search Console in this repository root, next to `index.html`.
+</div>
 
-Example:
+---
 
-```text
-google1234567890abcdef.html
-```
+## Pages
 
-After committing and pushing it to `main`, it will be available at:
+| Page | Korean | English |
+|---|---|---|
+| Home — full-screen intro video, features, story, FAQ | `/` | `/en/` |
+| How it works — five full-screen steps with app reels | `/how-it-works/` | `/en/how-it-works/` |
+| Stories | `/story/` | `/en/story/` |
+| Notices | `/notice/` | `/en/notice/` |
+| User interview form | `/interview/` | `/en/interview/` |
+| Privacy · Terms · Support · Open-source licenses | `/privacy/` `/terms/` `/support/` `/licenses/` | `/en/…` |
+| Search guides (Korean only) | `/potty-interval/` and 8 more | — |
+| Store redirect | `/download/` (`?lang=en`) | |
 
-```text
-https://viva-jinyi.github.io/poopiemate-website/google1234567890abcdef.html
-```
+The site is static HTML on GitHub Pages with the custom domain `poopiemate.com`.
 
 ## Build
 
-Pages are generated — edit `src/`, not the HTML.
+Pages are generated. Edit `src/`, not the HTML.
 
 ```bash
-python3 src/prepare_assets.py   # wordmarks, mascot, 3D emoji, photos, reels, YouTube thumbnails, favicons (from the app repo + ~/Desktop/응가메이트)
-python3 src/og.py               # share images 1200×630 → assets/og/
-python3 src/build.py            # every page (ko at /, en at /en/) + sitemap.xml
+python3 src/prepare_assets.py   # mascot, 3D emoji, photos, videos, favicons (from the app repo + ~/Desktop/응가메이트)
+python3 src/og.py               # share image 1200×630 per language → assets/og/
+python3 src/build.py            # every page (Korean at /, English at /en/) + sitemap.xml
 ```
 
-- `src/build.py` — copy, layout and SEO for home, how-it-works, stories, notices, download, 404; the 9 search guides and the interview form are wrapped from `src/legacy/`.
-- `assets/css/site.css` — design tokens (same colors as the app's `tokens.js`) and the web type scale.
-- `/app/` is a separate Expo web export and is not touched by the build.
-- `src/legal/` — privacy, terms, support and licenses text, built to `/privacy/`, `/terms/`, `/support/`, `/licenses/` (and `/en/…`).
-  The app and store listings still link to `viva-jinyi.github.io/poopiemate-legal/privacy-ko` etc., so after changing these pages
-  run `python3 src/build.py` in `../poopiemate-legal` too and push both repos — that repo serves copies of these pages.
-- `src/render/` — the notice hero image and the family-invite reel (`node src/render/render.js`, needs Playwright), encoded by `prepare_assets.py invite notice_hero`.
+| Path | What it holds |
+|---|---|
+| `src/build.py` | Copy, layout, SEO (meta, hreflang, JSON-LD) for every page |
+| `src/legal/` | Privacy, terms, support and licenses text |
+| `src/legacy/` | Search guides and the interview form, wrapped in the site design |
+| `src/render/` | Notice hero image and the family-invite reel (`node src/render/render.js`, needs Playwright) |
+| `assets/css/site.css` | Design tokens (same colors as the app) and the web type scale |
+| `assets/js/site.js` | Menu, header, intro video, full-page steps, word-by-word headlines, filters |
+| `assets/js/store-region.js` | Sends English visitors to their own country’s App Store |
+| `app/` | A separate Expo web export, not touched by the build |
+
+Bump `ASSET_V` in `src/build.py` whenever CSS or JS changes, so browsers fetch the new files.
+
+## Policy pages at the legacy address
+
+App versions up to 2.0.0 open the policy pages at `viva-jinyi.github.io/poopiemate-legal/…`.
+That repo keeps serving copies of these pages, so after changing anything in `src/legal/`,
+run `python3 src/build.py` in [`poopiemate-legal`](https://github.com/viva-jinyi/poopiemate-legal) too and push both.
+
+## Checks before publishing
+
+- HTML: `html-validate` (standard rules) — no errors
+- CSS: `csstree-validator` — no errors
+- Accessibility: axe-core (WCAG 2.2 AA) on desktop and mobile — no violations
+- Mobile: no horizontal scroll at 320 / 360 / 768 px, tap targets ≥ 24 px
+- Browsers: Chromium, Firefox and WebKit
 
 ## Local preview
 
 ```bash
 python3 -m http.server 8765   # then open http://localhost:8765/
 ```
+
+## Related repositories
+
+- [`poopiemate`](https://github.com/poopiemate/poopiemate) — the iOS / Android app (private)
+- [`poopiemate-legal`](https://github.com/viva-jinyi/poopiemate-legal) — legacy policy URLs
+
+---
+
+<sub>© 2026 Pixelberry · PoopieMate · <a href="mailto:poopiemate@pixelberry.io">poopiemate@pixelberry.io</a></sub>
