@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-10'
-ASSET_V = '13'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '14'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 나라·언어를 고정하지 않은 링크 — 누르는 사람의 나라 스토어·기기 언어로 열린다 (전 세계 공통)
 APPSTORE_URL = 'https://apps.apple.com/app/id6781981502'
@@ -43,6 +43,7 @@ CHEV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=
 ARROW_R = CHEV.replace('m{d}', 'M5 12h14M13 6l6 6-6 6')
 CHEV_L = CHEV.replace('m{d}', 'M15 18l-6-6 6-6')
 CHEV_R = CHEV.replace('m{d}', 'M9 18l6-6-6-6')
+PIN_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 3a1 1 0 0 1 .7 1.7L15.4 6v4.6l2.9 2.9a1 1 0 0 1-.7 1.7H13v6l-1 1-1-1v-6H6.4a1 1 0 0 1-.7-1.7l2.9-2.9V6L7.3 4.7A1 1 0 0 1 8 3h8Z"/></svg>'
 EXT_ICON = CHEV.replace('m{d}', 'M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6')
 CHEV_D = CHEV.replace('m{d}', 'M6 9l6 6 6-6')
 PLAY_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.14v13.72a1 1 0 0 0 1.52.85l10.6-6.86a1 1 0 0 0 0-1.7L9.52 4.29A1 1 0 0 0 8 5.14Z"/></svg>'
@@ -96,7 +97,7 @@ def sns_links(lang):
         h = href[lang] if isinstance(href, dict) else href
         if key == 'email':
             label = f'{"이메일" if lang == "ko" else "Email"} {EMAIL}'
-        out.append(f'<a href="{h}"{"" if key == "email" else " rel=" + chr(34) + "noopener" + chr(34)} aria-label="{label}">{icon(key)}</a>')
+        out.append(f'<a href="{h}"{"" if key == "email" else " target=" + chr(34) + "_blank" + chr(34) + " rel=" + chr(34) + "noopener" + chr(34)} aria-label="{label}">{icon(key)}</a>')
     return '<div class="sns">' + ''.join(out) + '</div>'
 
 
@@ -237,10 +238,21 @@ def icons(items):
     return ''.join(f'<img class="ic" src="/assets/img/emoji/{n}.webp" alt="" style="left:{x}%;top:{y}%;rotate:{r}deg">' for n, x, y, r in items)
 
 
+def sb(text):
+    """문장이 끝나면 줄을 바꾼다 (한국어·영어 모두) — 설명 글이 문장 중간에서 어색하게 꺾이지 않게."""
+    text = re.sub(r'([.!?。])\s+(?=[^\s<])', r'\1<br>', text)
+    return re.sub(r'([!?][”’"])\s+(?=[A-Z])', r'\1<br>', text)
+
+
+def new_badge(date):
+    """새 글 표시 — 올린 날부터 14일 동안만 보인다 (site.js가 오늘 날짜로 판단)."""
+    return f'<span class="new-badge" data-new="{date}" hidden>NEW</span>'
+
+
 def list_head(icon_name, h, sub):
     """이야기·공지사항 목록 머리 — 3D 아이콘 + 제목 + 한 줄 설명 (공지사항 시안)."""
     return (f'<div class="list-head"><img src="/assets/img/emoji/{icon_name}.webp" alt="" width="56" height="56">'
-            f'<div><h1 class="list-h1">{h}</h1><p class="list-sub">{sub}</p></div></div>')
+            f'<div><h1 class="list-h1">{h}</h1><p class="list-sub">{sb(sub)}</p></div></div>')
 
 
 def label(text, cls=''):
@@ -258,19 +270,19 @@ def cta_band(lang):
     c = {'ko': ('둘이 같이 키운다면,<br>둘이 같이 써보세요', '가족 초대도 기록도 알림도 무료예요'),
          'en': ('Raising your dog together?<br>Log it together.', 'Family invites, logs and alerts are all free.')}[lang]
     return (f'<section class="sec-cta"><div class="wrap"><div class="cta-card rise">'
-            f'<div class="cta-text"><h2 class="h2">{c[0]}</h2><p>{c[1]}</p></div>{stores(lang)}{waver()}</div></div></section>')
+            f'<div class="cta-text"><h2 class="h2">{c[0]}</h2><p>{sb(c[1])}</p></div>{stores(lang)}{waver()}</div></div></section>')
 
 
 def cta_soft(lang):
     """다운로드 — 연한 초록 상자 (v2 이렇게 써요 아래)."""
     c = {'ko': ('가족에게 매번 물어본다면,<br>같이 깔아보세요', '초대도 기록도 알림도 무료예요'),
          'en': ('Always asking your family?<br>Get it together.', 'Invites, logs and alerts are all free.')}[lang]
-    return (f'<section class="sec-soft"><div class="wrap-mid"><div class="soft-cta rise"><div><h2 class="h3">{c[0]}</h2><p>{c[1]}</p></div>{stores(lang)}</div></div></section>')
+    return (f'<section class="sec-soft"><div class="wrap-mid"><div class="soft-cta rise"><div><h2 class="h3">{c[0]}</h2><p>{sb(c[1])}</p></div>{stores(lang)}</div></div></section>')
 
 
 def faq_block(lang, items):
     h = {'ko': '자주 묻는 질문', 'en': 'Frequently asked questions'}[lang]
-    rows = ''.join(f'<details{" open" if i == 0 else ""}><summary><span>{escape(q)}</span>{CHEV_D}</summary><p>{escape(a)}</p></details>' for i, (q, a) in enumerate(items))
+    rows = ''.join(f'<details{" open" if i == 0 else ""}><summary><span>{escape(q)}</span>{CHEV_D}</summary><p>{sb(escape(a))}</p></details>' for i, (q, a) in enumerate(items))
     return f'<section class="sec-faq"><div class="wrap-faq rise">{label("FAQ")}<h2 class="h2">{h}</h2><div class="faq">{rows}</div></div></section>'
 
 
@@ -293,18 +305,18 @@ def write(path, html):
 
 # ═════════════════════════════════════════════════════════ 홈 (캔버스 「v3 지도 아래」)
 FEATURES = {  # 여섯 가지 카드 — 바탕색, 칩, 제목, 설명, 3D 아이콘
-    'ko': [('#EDE3FF', '가족 기록 공유', '한 명이 누르면<br>가족 폰이 울려요', '“응댕이 똥 쌌어?” 대신 알림 하나. 누가 언제 산책하고 치웠는지 하루 타임라인으로 모아 봐요.', 'house'),
-           ('#FFE9D6', '돌봄 부탁', '바쁜 날엔<br>버튼으로 부탁해요', '“저녁 산책 부탁해!” 전화 대신 산책·응가 부탁을 보내고, 누가 맡았는지 바로 보여요.', 'love_letter'),
-           ('#FFE3F0', '하트', '다녀오면<br>고맙다고 하트', '가족이 남긴 기록에 하트를 보내요. 산책 당번이 조금 덜 외로워져요.', 'growing_heart'),
-           ('#FFE3F7', '응가 · 쉬 신호', '마지막 기록과 신호를<br>한눈에', '배변 텀으로 응가·쉬 게이지가 차오르고, 가득 차면 가족에게 알림이 가요.', 'pile_of_poo'),
-           ('#FFF3CC', '산책 루틴', '정해 둔 시간에<br>같이 알려줘요', '아침·저녁 산책 시간을 정해 두면 가족 모두에게 같은 시간에 알림이 가요.', 'alarm_clock'),
-           ('#DDF4E6', '산책 안전도', '오늘 언제 나가면<br>좋을까요', '체형·털·나이와 날씨를 더해 시간별 안전도와 다음 산책하기 좋은 때를 알려줘요.', 'sun_behind_small_cloud')],
-    'en': [('#EDE3FF', 'Shared family log', 'One tap,<br>every phone buzzes', 'One alert instead of “Did Poochie poop?” See who walked and cleaned up on one daily timeline.', 'house'),
-           ('#FFE9D6', 'Help requests', 'Busy day?<br>Ask with a button', 'Skip the “Can you take the evening walk?” call. Send a request and see who picked it up.', 'love_letter'),
-           ('#FFE3F0', 'Hearts', 'Back from a walk?<br>Send a heart', 'Tap a heart on a family member’s log. Walk duty feels a little less lonely.', 'growing_heart'),
-           ('#FFE3F7', 'Potty signals', 'Last log and signals<br>at a glance', 'Poop and pee gauges fill with your dog’s rhythm, and the family hears when they’re full.', 'pile_of_poo'),
-           ('#FFF3CC', 'Walk routines', 'Set the time,<br>everyone gets reminded', 'Pick morning and evening walk times and the whole family gets the same reminder.', 'alarm_clock'),
-           ('#DDF4E6', 'Walk safety', 'When is it safe<br>to head out?', 'Body type, coat, age and the weather add up to an hourly score and the next good time to walk.', 'sun_behind_small_cloud')],
+    'ko': [('#EDE3FF', '가족 기록 공유', '한 명이 누르면<br>가족 폰이 울려요', '“응댕이 똥 쌌어?” 대신 알림 하나. 누가 산책하고 치웠는지 한눈에 봐요.', 'house'),
+           ('#FFE9D6', '돌봄 부탁', '바쁜 날엔<br>버튼으로 부탁해요', '전화 대신 버튼으로 부탁해요. 누가 맡았는지 바로 보여요.', 'love_letter'),
+           ('#FFE3F0', '하트', '다녀오면<br>고맙다고 하트', '가족이 남긴 기록에 하트를 보내요. 산책 당번이 덜 외로워져요.', 'growing_heart'),
+           ('#FFE3F7', '응가 · 쉬 신호', '마지막 기록과 신호를<br>한눈에', '배변 텀으로 게이지가 차올라요. 가득 차면 가족에게 알림이 가요.', 'pile_of_poo'),
+           ('#FFF3CC', '산책 루틴', '정해 둔 시간에<br>같이 알려줘요', '산책 시간을 정해 두세요. 가족 모두에게 같은 시간에 알려줘요.', 'alarm_clock'),
+           ('#DDF4E6', '산책 안전도', '오늘 언제 나가면<br>좋을까요', '체형·털·나이와 날씨를 더해요. 다음 산책하기 좋은 때를 알려줘요.', 'sun_behind_small_cloud')],
+    'en': [('#EDE3FF', 'Shared family log', 'One tap,<br>every phone buzzes', 'One alert, no more asking. See who walked and cleaned up.', 'house'),
+           ('#FFE9D6', 'Help requests', 'Busy day?<br>Ask with a button', 'Ask for a walk with one button. See who picked it up.', 'love_letter'),
+           ('#FFE3F0', 'Hearts', 'Back from a walk?<br>Send a heart', 'Send a heart on a family log. Walk duty feels less lonely.', 'growing_heart'),
+           ('#FFE3F7', 'Potty signals', 'Last log and signals<br>at a glance', 'Gauges fill with your dog’s rhythm. The family hears when they’re full.', 'pile_of_poo'),
+           ('#FFF3CC', 'Walk routines', 'Set the time,<br>everyone gets reminded', 'Pick your walk times. Everyone gets the same reminder.', 'alarm_clock'),
+           ('#DDF4E6', 'Walk safety', 'When is it safe<br>to head out?', 'We add up body, coat, age and weather. Then show the next good time to walk.', 'sun_behind_small_cloud')],
 }
 HOME_FAQ = {
     'ko': [('가족 여러 명이 같이 쓸 수 있나요?', '네. 카톡이나 문자로 초대 코드를 보내면 같은 강아지를 함께 기록해요. 누가 기록해도 다른 가족 모두에게 바로 알림이 가요. 초대도 기록도 알림도 무료예요.'),
@@ -316,7 +328,7 @@ HOME_FAQ = {
            ('We both work. Can we split walk and potty duty?', 'Yes. Logs from different people at different times land on one shared dog profile in real time. You can see who walked today, and on busy days ask someone else to take the walk with one button.'),
            ('Does it work for dogs that only go outside?', 'Yes. PoopieMate was built by a family whose dog only goes on walks, never indoors. Logging on walks, potty gauges and walk reminders keep that routine on track. Indoor-trained dogs work just as well.'),
            ('Can I add more than one dog?', 'Yes. Add as many dogs as you have and switch between them from the top of the screen. Family members can follow each dog too.'),
-           ('How is the walk safety score calculated?', 'It combines your dog’s profile — body type, short-nosed breed, coat, age, heart or breathing conditions — with live feels-like temperature and rain chance into a 1–5 score. It follows heatstroke-prevention guidance for dogs.')],
+           ('How is the walk safety score calculated?', 'It looks at your dog’s body type, short nose, coat, age and heart or breathing health. It adds the live feels-like temperature and rain chance. The result is a 1–5 score based on heatstroke-prevention guidance for dogs.')],
 }
 
 
@@ -330,7 +342,7 @@ def home(lang):
                'v_label': '응가메이트 서비스 소개 영상 (1분)',
                'b_tag': '이렇게 같이 돌봐요', 'b_h': '가족이 함께 쓰는 여섯 가지', 'f_more': '이렇게 써요 자세히 보기',
                's_tag': '응가메이트 이야기', 's_h': '“응댕이 똥 쌌어?”<br>그 전화에서 시작됐어요', 's_cap': ('분홍이 시절', '지금 우리 집'),
-               's_p': '밭 옆 견사에서 ‘분홍이’로 불리던 진도믹스는 이제 우리 가족이에요. 집에서는 절대 안 싸서 하루 세 번 똥책을 나가는데, 맞벌이 엄마아빠는 매번 전화로 “똥 쌌어?”를 물어야 했죠. 그래서 버튼 하나로 가족 모두가 아는 앱을 만들었어요.',
+               's_p': '밭 옆 견사에서 ‘분홍이’로 불리던 진도믹스는 이제 우리 가족이에요. 집에서는 절대 안 싸서 하루 세 번 똥책을 나가요. 맞벌이 엄마아빠는 매번 전화로 “응댕이 똥 쌌어?”를 물어야 했죠. 그래서 버튼 하나로 가족 모두가 아는 앱을 만들었어요.',
                's_btn': '이야기 더 보기'},
         'en': {'title': 'PoopieMate — Your dog’s potty & walk log, shared with family',
                'desc': 'When one of you logs it, everyone knows. No more “Did Poochie poop?” texts. Invites, logs and alerts are free.',
@@ -339,10 +351,10 @@ def home(lang):
                'v_label': 'PoopieMate intro video (1 min)',
                'b_tag': 'Care together', 'b_h': 'Six things families share', 'f_more': 'See how it works',
                's_tag': 'Our story', 's_h': '“Did she poop?”<br>It started with that call', 's_cap': ('Back at the kennel', 'Home with us now'),
-               's_p': 'Our white Jindo mix, once called “Bunhong-i” at a kennel by a farm field, is family now. She never goes indoors, so she walks three times a day — and as a working couple we kept calling to ask “Did she poop?” So we built an app where one tap tells the whole family.',
+               's_p': 'Our white Jindo mix was once “Bunhong-i” at a farm-side kennel. She never goes indoors, so she walks three times a day. As a working couple, we kept calling to ask “Did Poochie poop?” So we built an app where one tap tells the whole family.',
                's_btn': 'Read our story'},
     }[lang]
-    cards = ''.join(f'<article class="fcard" style="background:{bg}"><span class="chip">{chip}</span><h3 class="h3">{h}</h3><p>{p}</p>'
+    cards = ''.join(f'<article class="fcard" style="background:{bg}"><span class="chip">{chip}</span><h3 class="h3">{h}</h3><p>{sb(p)}</p>'
                     f'<img src="/assets/img/emoji/{ic}.webp" alt="" loading="lazy" width="132" height="132"></article>' for bg, chip, h, p, ic in FEATURES[lang])
     dots = ''.join('<i></i>' for _ in FEATURES[lang])
     nav = (f'<div class="carousel-nav"><button type="button" data-prev aria-label="{"이전" if lang == "ko" else "Previous"}">{CHEV_L}</button>'
@@ -365,7 +377,7 @@ def home(lang):
 <section class="sec-story"><div class="wrap"><div class="story-card rise">
 <div class="polaroids"><figure><img src="/assets/img/photo/kennel-900.webp" alt="" loading="lazy"><figcaption>{c['s_cap'][0]}</figcaption></figure>
 <figure><img src="/assets/img/photo/home-first-900.webp" alt="" loading="lazy"><figcaption>{c['s_cap'][1]}</figcaption></figure></div>
-<div class="story-text">{label(c['s_tag'], 'gold')}<h2 class="h2">{c['s_h']}</h2><p>{c['s_p']}</p><a class="more-link" href="{url('why', lang)}">{c['s_btn']}{ARROW_R}</a></div>
+<div class="story-text">{label(c['s_tag'], 'gold')}<h2 class="h2">{c['s_h']}</h2><p>{sb(c['s_p'])}</p><a class="more-link" href="{url('why', lang)}">{c['s_btn']}{ARROW_R}</a></div>
 </div></div></section>
 
 {faq_block(lang, HOME_FAQ[lang])}
@@ -394,35 +406,35 @@ def how(lang):
                'label': '이렇게 써요', 'h': '가족이 같이 쓰면<br>“응댕이 똥 쌌어?” 전화가 사라져요', 'lede': '초대 → 기록 → 알림. 세 단계면 충분해요.',
                'steps': [('가족을 초대해요', '카톡으로 초대 코드를 보내면 같은 강아지를 함께 돌보는 가족이 돼요. 엄마·아빠·형제·돌봄 도우미 누구든요.', 'invite', 'house', 'purple'),
                          ('한 명이 기록하면<br>모두에게 알림이 가요', '산책에서 응가·쉬를 버튼 하나로 기록해요. 다른 가족 폰에 바로 알림이 가서 따로 물어볼 필요가 없어요.', 'record', 'pile_of_poo', 'pink'),
-                         ('지금 상태를 한눈에 봐요', '마지막 응가·쉬가 언제였는지, 신호 게이지가 얼마나 찼는지, 오늘 누가 산책했는지 홈에서 바로 보여요.', 'alerts', 'mobile_phone', 'green'),
-                         ('바쁜 날엔 부탁,<br>다녀오면 하트', '“저녁 산책 부탁해!” 전화 대신 버튼 하나로 산책·응가를 부탁하고, 다녀온 가족에게 고맙다고 하트를 보내요.', 'family', 'love_letter', 'peach'),
-                         ('오늘 언제 나가면<br>좋을까요?', '정해 둔 산책 시간이 되면 가족 모두에게 알려주고, 체형·털·나이와 날씨를 더해 시간별 산책 안전도를 보여줘요.', 'walk', 'sun_behind_small_cloud', 'sky')],
+                         ('지금 상태를 한눈에 봐요', '마지막 응가·쉬와 신호 게이지를 홈에서 바로 봐요. 오늘 누가 산책했는지도 한눈에 보여요.', 'alerts', 'mobile_phone', 'green'),
+                         ('바쁜 날엔 부탁,<br>다녀오면 하트', '“저녁 산책 부탁해!” 전화 대신 버튼 하나로 부탁해요. 다녀온 가족에게는 고맙다고 하트를 보내요.', 'family', 'love_letter', 'peach'),
+                         ('오늘 언제 나가면<br>좋을까요?', '정해 둔 산책 시간이 되면 가족 모두에게 알려줘요. 체형·털·나이와 날씨로 시간별 산책 안전도도 보여줘요.', 'walk', 'sun_behind_small_cloud', 'sky')],
                'labels': {'invite': '가족 초대하는 법 모션그래픽', 'record': '기록과 가족 알림 모션그래픽', 'alerts': '배변 신호 모션그래픽', 'family': '돌봄 부탁과 하트 모션그래픽', 'walk': '산책 루틴과 안전도 모션그래픽'},
                'more_tag': '더 함께 돌보는 기능', 'more_h': '산책은 나눠서 해도,<br>기록은 <em>가족 모두가</em> 함께 봐요',
                'b1': ('가족 기록 공유', '한 명이 누르면<br>가족 폰이 울려요', '“응댕이 똥 쌌어?” 대신 알림 하나. 누가 언제 산책하고 치웠는지 하루 타임라인으로 모아 봐요.'),
                'toasts': [('응댕이가 응가를 했어요 💩', '엄마가 방금 기록했어요', '방금'), ('아빠가 하트를 보냈어요 💜', '아침 산책 기록에', '1분 전')],
                'b2': ('돌봄 부탁 · 하트', '바쁜 날엔 부탁,<br>다녀오면 하트', '“저녁 산책 부탁해!” 전화 대신 버튼 하나로.'),
                'b3': ('가족 초대', '가족 초대는<br>코드 하나면 끝', '카톡으로 코드만 보내면 같은 강아지를 함께 기록해요.'),
-               'b4': ('산책 루틴 · 안전도', '오늘 언제 나가면<br>좋을까요?', '산책 시간이 되면 같이 알려주고, 날씨와 우리 강아지 몸에 맞춘 산책 안전도를 보여줘요.')},
+               'b4': ('산책 루틴 · 안전도', '오늘 언제 나가면<br>좋을까요?', '산책 시간이 되면 가족 모두에게 알려줘요. 날씨와 우리 강아지 몸에 맞춘 산책 안전도도 보여줘요.')},
         'en': {'title': 'How it works — Sharing dog care with family | PoopieMate', 'desc': 'Invite, log, get alerts — three steps. Watch how help requests, hearts and walk safety work.',
                'label': 'How it works', 'h': 'Share it with family and<br>the “Did Poochie poop?” calls stop', 'lede': 'Invite → log → alert. Three steps is all it takes.',
                'steps': [('Invite your family', 'Send an invite code by message and you’re caring for the same dog. Parents, siblings, the dog sitter — anyone.', 'invite', 'house', 'purple'),
                          ('One person logs it,<br>everyone gets an alert', 'Log poops and pees on the walk with one button. Everyone else gets an alert right away, so nobody has to ask.', 'record', 'pile_of_poo', 'pink'),
-                         ('See where things stand', 'When the last poop and pee were, how full the gauges are, who walked today — all on the home screen.', 'alerts', 'mobile_phone', 'green'),
-                         ('Ask on busy days,<br>thank with a heart', 'Skip the “Can you take the evening walk?” call: ask with one button, and send a heart when they’re back.', 'family', 'love_letter', 'peach'),
-                         ('When should<br>we head out?', 'Everyone gets the same walk reminder, plus an hourly safety score from your dog’s body type, coat, age and the weather.', 'walk', 'sun_behind_small_cloud', 'sky')],
+                         ('See where things stand', 'See the last poop and pee and how full the gauges are. Who walked today is right there on the home screen too.', 'alerts', 'mobile_phone', 'green'),
+                         ('Ask on busy days,<br>thank with a heart', 'Skip the “Can you take the evening walk?” call. Ask with one button, and send a heart when they’re back.', 'family', 'love_letter', 'peach'),
+                         ('When should<br>we head out?', 'Everyone gets the same reminder when it’s walk time. You also see an hourly safety score for your dog and the weather.', 'walk', 'sun_behind_small_cloud', 'sky')],
                'labels': {'invite': 'How to invite your family, motion graphic', 'record': 'Logging and family alerts, motion graphic', 'alerts': 'Potty signals, motion graphic', 'family': 'Help requests and hearts, motion graphic', 'walk': 'Walk routine and safety, motion graphic'},
                'more_tag': 'More ways to care together', 'more_h': 'Split the walks,<br>share the log with <em>everyone</em>',
-               'b1': ('Shared family log', 'One tap,<br>every phone buzzes', 'One alert instead of “Did Poochie poop?” See who walked and cleaned up on one daily timeline.'),
+               'b1': ('Shared family log', 'One tap,<br>every phone buzzes', '“Did Poochie poop?” becomes one alert. See who walked and cleaned up on one timeline.'),
                'toasts': [('Poochie just pooped 💩', 'Mom logged it just now', 'now'), ('Dad sent a heart 💜', 'On the morning walk', '1m ago')],
-               'b2': ('Requests · Hearts', 'Ask on busy days,<br>thank with a heart', '“Can you take the evening walk?” — one button instead of a call.'),
-               'b3': ('Family invites', 'One code<br>brings them in', 'Send a code by message and log the same dog together.'),
-               'b4': ('Walk routine · Safety', 'When should<br>we head out?', 'Everyone gets the walk reminder, plus a safety score fitted to the weather and your dog.')},
+               'b2': ('Requests · Hearts', 'Ask on busy days,<br>thank with a heart', 'Ask for the evening walk with one button. No phone call needed.'),
+               'b3': ('Family invites', 'One code<br>brings them in', 'Send a code by message. Then log the same dog together.'),
+               'b4': ('Walk routine · Safety', 'When should<br>we head out?', 'Everyone gets the walk reminder. Plus a safety score for the weather and your dog.')},
     }[lang]
     steps = ''
     for i, (h, p, key, ic, tone) in enumerate(c['steps'], 1):
         steps += (f'<section class="how-step snap-sec t-{tone}" id="step-{i}" data-live><div class="wrap-mid step-grid">'
-                  f'<div class="step-text"><span class="step-num">{i:02d}</span><h2 class="h2" data-mo>{h}</h2><p class="mo-fade">{p}</p></div>'
+                  f'<div class="step-text"><span class="step-num">{i:02d}</span><h2 class="h2" data-mo>{h}</h2><p class="mo-fade">{sb(p)}</p></div>'
                   f'<div class="step-media"><img class="step-icon" src="/assets/img/emoji/{ic}.webp" alt="">'
                   f'<div class="step-phone">{reel(key, lang, c["labels"][key])}</div></div></div></section>')
     toasts = ''.join(f'<div class="toast"><img src="/assets/icons/apple-touch-icon.png" alt="" width="36" height="36"><span><b>{b}</b><i>{sub}</i></span><time>{t}</time></div>'
@@ -430,18 +442,18 @@ def how(lang):
     bento = f'''
 <div class="bento">
 <div class="bento-col">
-<a class="bcard b-pink tall" href="#step-2"><span class="chip">{c['b1'][0]}</span><h3 class="h3">{c['b1'][1]}</h3><p>{c['b1'][2]}</p>
+<a class="bcard b-pink tall" href="#step-2"><span class="chip">{c['b1'][0]}</span><h3 class="h3">{c['b1'][1]}</h3><p>{sb(c['b1'][2])}</p>
 <div class="toasts" aria-hidden="true">{toasts}</div><img class="dog" src="/assets/img/mascot/pooping.webp" alt="" loading="lazy"><span class="go">{ARROW_R}</span></a>
-<a class="bcard b-lav" href="#step-4"><span class="chip">{c['b2'][0]}</span><h3 class="h3">{c['b2'][1]}</h3><p>{c['b2'][2]}</p>
+<a class="bcard b-lav" href="#step-4"><span class="chip">{c['b2'][0]}</span><h3 class="h3">{c['b2'][1]}</h3><p>{sb(c['b2'][2])}</p>
 <img class="obj" src="/assets/img/emoji/love_letter.webp" alt="" loading="lazy"><span class="go">{ARROW_R}</span></a>
 </div>
 <div class="bento-col">
-<a class="bcard b-green" href="#step-1"><span class="chip">{c['b3'][0]}</span><h3 class="h3">{c['b3'][1]}</h3><p>{c['b3'][2]}</p><span class="go">{ARROW_R}</span></a>
-<a class="bcard b-photo tall" href="#step-5"><img class="bg" src="/assets/img/photo/lawn-walk-900.webp" alt="" loading="lazy"><span class="chip">{c['b4'][0]}</span><h3 class="h3">{c['b4'][1]}</h3><p>{c['b4'][2]}</p><span class="go">{ARROW_R}</span></a>
+<a class="bcard b-green" href="#step-1"><span class="chip">{c['b3'][0]}</span><h3 class="h3">{c['b3'][1]}</h3><p>{sb(c['b3'][2])}</p><span class="go">{ARROW_R}</span></a>
+<a class="bcard b-photo tall" href="#step-5"><img class="bg" src="/assets/img/photo/lawn-walk-900.webp" alt="" loading="lazy"><span class="chip">{c['b4'][0]}</span><h3 class="h3">{c['b4'][1]}</h3><p>{sb(c['b4'][2])}</p><span class="go">{ARROW_R}</span></a>
 </div>
 </div>'''
     body = f'''
-<section class="how-hero snap-sec"><div class="wrap">{label(c['label'])}<h1 class="h1" data-mo>{c['h']}</h1><p class="lead mo-fade">{c['lede']}</p></div>
+<section class="how-hero snap-sec"><div class="wrap">{label(c['label'])}<h1 class="h1" data-mo>{c['h']}</h1><p class="lead mo-fade">{sb(c['lede'])}</p></div>
 <div class="stage" aria-hidden="true"><div class="stage-art">{icons([('house', 8, 16, -10), ('pile_of_poo', 2, 54, -8), ('paw_prints', 15, 82, 10), ('sparkles', 84, 10, 8), ('green_heart', 90, 46, 12), ('bone', 80, 78, -16)])}{waver()}</div></div></section>
 {steps}
 <section class="sec-more snap-sec"><div class="wrap"><div class="center-head rise"><span class="pill-tag">{c['more_tag']}</span><h2 class="h2">{c['more_h']}</h2></div>{bento}</div></section>
@@ -524,14 +536,14 @@ def story_list(lang):
                  ('Making the app', '[Coming up] What changes when a family logs together', 'What early users’ logs taught us, and why we fixed family invites first.', 'emoji')], 'Coming soon')}[lang]
     cats = c[4]
     chips = ''.join(f'<button type="button" data-cat="{"all" if i == 0 else i}" aria-pressed="{"true" if i == 0 else "false"}">{x}</button>' for i, x in enumerate(cats))
-    first = (f'<a class="post-card" data-cat="1" href="{url("why", lang)}"><span class="thumb"><img src="/assets/img/photo/family-lawn-900.webp" alt="" loading="lazy"></span>'
-             f'<span class="cat">{cats[1]}</span><b>{s["title"]}</b><span class="ex">{s["excerpt"]}</span><time datetime="2026-10-07">{s["date"]}</time></a>')
+    first = (f'<a class="post-card" data-cat="1" href="{url("why", lang)}"><span class="thumb"><img src="/assets/img/photo/family-lawn-900.webp" alt="" loading="lazy">{new_badge("2026-10-07")}</span>'
+             f'<span class="cat">{cats[1]}</span><b>{s["title"]}</b><span class="ex">{sb(s["excerpt"])}</span><time datetime="2026-10-07">{s["date"]}</time></a>')
     soon = ''
     for cat, t, ex, art in c[6]:
         thumb = (f'<img src="/assets/img/photo/{art[6:]}-900.webp" alt="" loading="lazy">' if art.startswith('photo:')
                  else '<span class="emoji-tile"><img src="/assets/img/emoji/house.webp" alt=""><img src="/assets/img/emoji/growing_heart.webp" alt=""></span>')
         soon += (f'<div class="post-card soon" data-cat="{cats.index(cat)}" aria-disabled="true"><span class="thumb">{thumb}</span>'
-                 f'<span class="cat">{cat}</span><b>{t}</b><span class="ex">{ex}</span><span class="date">{c[7]}</span></div>')
+                 f'<span class="cat">{cat}</span><b>{t}</b><span class="ex">{sb(ex)}</span><span class="date">{c[7]}</span></div>')
     body = f'''
 <section class="list-page"><div class="wrap-list">
 {list_head('love_letter', c[0], c[1])}
@@ -588,7 +600,7 @@ NOTICE = {
                     'We want to make PoopieMate easier to use, so we’d love to hear from you directly.',
                     '<ul><li>How you use the app</li><li>What you like and what could be better</li><li>What logging with your family is like</li></ul>',
                     'There are no right answers — just chat with us.',
-                    'Interviews are held in Korean for now, and the thank-you gift (a coffee voucher) can only be sent within Korea.',
+                    'Interviews are held in Korean for now. The thank-you gift (a coffee voucher) can only be sent within Korea.',
                     'Pick a date and time that suits you. We’ll contact you once the schedule is confirmed.'],
            'apply': 'Apply for an interview (Korean)', 'pinned': 'Pinned'},
 }
@@ -602,8 +614,8 @@ def notice_list(lang):
 <section class="list-page"><div class="wrap-list">
 {list_head('megaphone', c[0], c[1])}
 <div class="post-grid">
-<a class="post-card" href="{url('interview_notice', lang)}"><span class="thumb green"><img src="/assets/img/notice-hero.webp" alt="" loading="lazy" width="1038" height="510"></span>
-<span class="cat">{n['pinned']}</span><b>{n['title']}</b><span class="ex">{n['sub']}</span><time datetime="2026-10-05">{n['date']}</time></a>
+<a class="post-card" href="{url('interview_notice', lang)}"><span class="thumb green"><img src="/assets/img/notice-hero.webp" alt="" loading="lazy" width="1038" height="510">{new_badge("2026-10-05")}<span class="pin-ic" role="img" aria-label="{n['pinned']}">{PIN_ICON}</span></span>
+<b>{n['title']}</b><span class="ex">{sb(n['sub'])}</span><time datetime="2026-10-05">{n['date']}</time></a>
 </div>
 </div></section>
 '''
@@ -616,7 +628,7 @@ def notice_interview(lang):
     body = f'''
 <article class="post"><div class="wrap-post">
 {post_head(f'<time datetime="2026-10-05">{n["date"]}</time> · {n["by"]}', n['title'], art)}
-<div class="prose">{''.join(b if b.startswith('<ul') else f'<p>{b}</p>' for b in n['body'])}</div>
+<div class="prose">{''.join(b if b.startswith('<ul') else f'<p>{sb(b)}</p>' for b in n['body'])}</div>
 <div class="post-end"><a class="btn-block btn-dark" href="/interview/">{n['apply']}{EXT_ICON}</a><a class="btn-block btn-grey" href="{url('notice', lang)}">{T[lang]['back']}</a></div>
 </div></article>
 '''

@@ -240,6 +240,13 @@
     });
   });
 
+  // 새 글 표시 — 올린 날부터 14일 동안
+  var today = new Date();
+  document.querySelectorAll('[data-new]').forEach(function (el) {
+    var d = new Date(el.getAttribute('data-new') + 'T00:00:00+09:00');
+    if (today - d >= 0 && today - d < 14 * 864e5) el.hidden = false;
+  });
+
   // 들어올 때 살짝 떠오름
   var rises = document.querySelectorAll('.rise');
   if (reduce || !('IntersectionObserver' in window)) {
