@@ -224,6 +224,12 @@
     });
   }
 
+  // 목록이 비어 있으면 머리 긁는 응댕이
+  document.querySelectorAll('.post-grid').forEach(function (grid) {
+    var empty = grid.parentNode.querySelector('.empty');
+    if (empty && !grid.querySelector('.post-card')) { grid.hidden = true; empty.hidden = false; }
+  });
+
   // 이야기 분류 칩
   document.querySelectorAll('[data-filter]').forEach(function (bar) {
     var root = bar.parentNode;

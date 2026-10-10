@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-10'
-ASSET_V = '17'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '19'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -219,7 +219,7 @@ SOUND_ON = '<svg class="i-on" viewBox="0 0 24 24" fill="none" stroke="currentCol
 def intro_film(lang, label):
     """첫 화면 — 서비스 소개 영상(우리 사이트에 올린 mp4)이 화면 가득 바로 재생. 유튜브 버튼 없이, 소리는 버튼으로."""
     on, off = {'ko': ('소리 켜기', '소리 끄기'), 'en': ('Sound on', 'Sound off')}[lang]
-    return (f'<section class="film snap-sec" data-film aria-label="{escape(label)}">'
+    return (f'<section class="film" data-film aria-label="{escape(label)}">'
             f'<video data-film-video muted loop playsinline autoplay preload="auto" poster="/assets/video/intro-{lang}.webp" aria-label="{escape(label)}">'
             f'<source src="/assets/video/intro-{lang}.mp4" type="video/mp4"></video>'
             f'<button class="film-sound" type="button" data-sound data-on="{on}" data-off="{off}" aria-pressed="false">{SOUND_OFF}{SOUND_ON}<span>{on}</span></button>'
@@ -246,6 +246,16 @@ def sb(text):
 def new_badge(date):
     """새 글 표시 — 올린 날부터 14일 동안만 보인다 (site.js가 오늘 날짜로 판단)."""
     return f'<span class="new-badge" data-new="{date}" hidden>NEW</span>'
+
+
+def empty_state(lang, kind):
+    """글이 없을 때 — 머리 긁는 응댕이 + 가벼운 한마디 (분류 탭에 글이 없거나 목록이 비면 site.js가 보여 준다)."""
+    t = {('ko', 'story'): ('아직 아무 이야기도 없어요 ^^;;', '응댕이가 열심히 쓰는 중이에요.<br>곧 채워 넣을게요!'),
+         ('ko', 'notice'): ('아직 아무 소식도 없어요 ^^;;', '새 소식이 생기면 제일 먼저 여기 올릴게요.<br>조금만 기다려 주세요!'),
+         ('en', 'story'): ('Nothing here yet ^^;;', 'Poochie is busy writing.<br>We’ll fill this up soon!'),
+         ('en', 'notice'): ('No news yet ^^;;', 'When something new happens, it lands here first.<br>Hang tight!')}[(lang, kind)]
+    return (f'<div class="empty" hidden><img src="/assets/img/mascot/scratch.webp" alt="" width="160" height="185" loading="lazy">'
+            f'<b>{t[0]}</b><p>{t[1]}</p></div>')
 
 
 def list_head(icon_name, h, sub):
@@ -282,7 +292,7 @@ def cta_soft(lang):
 def faq_block(lang, items):
     h = {'ko': '자주 묻는 질문', 'en': 'Frequently asked questions'}[lang]
     rows = ''.join(f'<details{" open" if i == 0 else ""}><summary><span>{escape(q)}</span>{CHEV_D}</summary><p>{sb(escape(a))}</p></details>' for i, (q, a) in enumerate(items))
-    return f'<section class="sec-faq snap-sec"><div class="wrap-faq">{label("FAQ")}<h2 class="h2" data-mo>{h}</h2><div class="faq rise">{rows}</div></div></section>'
+    return f'<section class="sec-faq"><div class="wrap-faq">{label("FAQ")}<h2 class="h2" data-mo>{h}</h2><div class="faq rise">{rows}</div></div></section>'
 
 
 def faq_ld(items):
@@ -336,7 +346,7 @@ def home(lang):
     c = {
         'ko': {'title': '응가메이트 — 가족이 함께 보는 강아지 응가·산책 기록',
                'desc': '한 명이 기록하면 가족 모두가 바로 알아요. “응댕이 똥 쌌어?” 이제 안 물어봐도 돼요. 초대·기록·알림 모두 무료예요.',
-               'label': '응가메이트', 'h1': '“응댕이 똥 쌌어?”<br><span class="hl">이제 안 물어봐도 돼요</span>',
+               'h1': '“응댕이 똥 쌌어?”<br><span class="hl">이제 안 물어봐도 돼요</span>',
                'lead': '강아지를 여럿이 같이 돌보는 집을 위한 앱. <br>한 사람이 응가·쉬를 기록하면 가족 모두가 바로 알아요.',
                'v_label': '응가메이트 서비스 소개 영상 (1분)',
                'b_tag': '이렇게 같이 돌봐요', 'b_h': '가족이 함께 쓰는 여섯 가지', 'f_more': '이렇게 써요 자세히 보기',
@@ -345,7 +355,7 @@ def home(lang):
                's_btn': '이야기 더 보기'},
         'en': {'title': 'PoopieMate — Your dog’s potty & walk log, shared with family',
                'desc': 'When one of you logs it, everyone knows. No more “Did Poochie poop?” texts. Invites, logs and alerts are free.',
-               'label': 'PoopieMate', 'h1': '“Did Poochie poop?”<br><span class="hl">No need to ask anymore</span>',
+               'h1': '“Did Poochie poop?”<br><span class="hl">No need to ask anymore</span>',
                'lead': 'An app for families who look after one dog together. <br>When one person logs a poop or pee, everyone knows right away.',
                'v_label': 'PoopieMate intro video (1 min)',
                'b_tag': 'Care together', 'b_h': 'Six things families share', 'f_more': 'See how it works',
@@ -361,27 +371,25 @@ def home(lang):
     body = f"""
 {intro_film(lang, c['v_label'])}
 
-<section class="hero how-hero snap-sec" id="start"><div class="wrap">
-{label(c['label'])}
+<section class="hero" id="start"><div class="wrap">
 <h1 class="hero-h1" data-mo>{c['h1']}</h1>
 <p class="hero-lead mo-fade">{c['lead']}</p>
-</div>
-<div class="stage" aria-hidden="true"><div class="stage-art">{icons([('growing_heart', 8, 14, -12), ('pile_of_poo', 2, 52, -8), ('paw_prints', 15, 82, 10), ('sparkles', 84, 10, 8), ('green_heart', 90, 46, 12), ('bone', 80, 78, -16)])}{waver()}</div></div></section>
+</div></section>
 
-<section class="sec-feat snap-sec" data-carousel>
+<section class="sec-feat" data-carousel>
 <div class="wrap feat-head"><div>{label(c['b_tag'])}<h2 class="h2" data-mo>{c['b_h']}</h2></div>{nav}</div>
 <div class="track" tabindex="0" role="region" aria-label="{re.sub('<[^>]+>', ' ', c['b_h'])}">{cards}</div>
 <div class="wrap feat-foot"><div class="dots" aria-hidden="true">{dots}</div><a class="more-link" href="{url('how', lang)}">{c['f_more']}{ARROW_R}</a></div>
 </section>
 
-<section class="sec-story snap-sec"><div class="wrap"><div class="story-card rise">
+<section class="sec-story"><div class="wrap"><div class="story-card rise">
 <div class="polaroids"><figure><img src="/assets/img/photo/kennel-900.webp" alt="" loading="lazy"><figcaption>{c['s_cap'][0]}</figcaption></figure>
 <figure><img src="/assets/img/photo/home-first-900.webp" alt="" loading="lazy"><figcaption>{c['s_cap'][1]}</figcaption></figure></div>
 <div class="story-text">{label(c['s_tag'], 'gold')}<h2 class="h2" data-mo>{c['s_h']}</h2><p>{sb(c['s_p'])}</p><a class="more-link" href="{url('why', lang)}">{c['s_btn']}{ARROW_R}</a></div>
 </div></div></section>
 
 {faq_block(lang, HOME_FAQ[lang])}
-{cta_band(lang, 'snap-sec')}
+{cta_band(lang)}
 """
     app_ld = {'@context': 'https://schema.org', '@type': 'MobileApplication', 'name': '응가메이트' if lang == 'ko' else 'PoopieMate',
               'alternateName': ['PoopieMate', '응가메이트'], 'operatingSystem': ['iOS', 'Android'], 'applicationCategory': 'LifestyleApplication',
@@ -395,7 +403,7 @@ def home(lang):
               '<meta name="naver-site-verification" content="a236950cd48d38555cc3d88c121cdfe2971aa08c">\n'
               '<meta name="msvalidate.01" content="71EA6D0F5FA0EFBBA4609AA122BA853D">\n') if lang == 'ko' else ''
     write(url('home', lang), page(lang, 'home', c['title'], c['desc'], body, f'/assets/og/home-{lang}.jpg',
-                                  ld=[app_ld, site_ld, faq_ld(HOME_FAQ[lang]), video_ld(YT['service_long'][lang], c['v_label'], c['desc'], lang)], extra_head=verify, intro=True, snap=True,
+                                  ld=[app_ld, site_ld, faq_ld(HOME_FAQ[lang]), video_ld(YT['service_long'][lang], c['v_label'], c['desc'], lang)], extra_head=verify, intro=True,
                                   keywords='응가메이트, PoopieMate, 강아지 배변 기록, 강아지 가족 공유 앱, 반려견 산책 기록, 실외배변, 진도믹스, 배변 텀 알림, 산책 안전도' if lang == 'ko' else 'PoopieMate, dog potty log, shared dog care app, family dog walk tracker, potty alerts'))
 
 
@@ -527,11 +535,11 @@ def post_head(meta, title, art):
 def story_list(lang):
     s = STORY[lang]
     c = {'ko': ('이야기', '응가메이트를 만든 가족이 겪은 이야기를 모아요', '이야기 — 응가메이트를 만든 가족 이야기', '응가메이트를 만든 가족과 우리 집 강아지 이야기. “응댕이 똥 쌌어?” 전화가 버튼 하나가 되기까지를 기록해요.',
-                ['전체', '우리 강아지 이야기', '만드는 이야기', '보호자 이야기'], '아직 올라온 글이 없어요.',
+                ['전체', '우리 강아지 이야기', '만드는 이야기', '보호자 이야기'],
                 [('우리 강아지 이야기', '[다음 글] 분홍이가 우리 가족이 되기까지', '밭 옆 견사에서 우리 집 거실까지. 실외배변 루틴이 생긴 이야기.', 'photo:kennel-house'),
                  ('만드는 이야기', '[다음 글] 가족이 같이 기록하면 무엇이 달라질까', '초기 사용자 기록을 보고 가족 초대를 먼저 고친 과정.', 'emoji')], '준비 중'),
          'en': ('Stories', 'Notes from the family behind PoopieMate', 'Stories — The family behind PoopieMate', 'Stories from the family and the dog behind PoopieMate.',
-                ['All', 'Our dog', 'Making the app', 'Owner stories'], 'No stories here yet.',
+                ['All', 'Our dog', 'Making the app', 'Owner stories'],
                 [('Our dog', '[Coming up] How Bunhong-i became family', 'From a farm-side kennel to our living room, and how her outdoor potty routine began.', 'photo:kennel-house'),
                  ('Making the app', '[Coming up] What changes when a family logs together', 'What early users’ logs taught us, and why we fixed family invites first.', 'emoji')], 'Coming soon')}[lang]
     cats = c[4]
@@ -539,17 +547,17 @@ def story_list(lang):
     first = (f'<a class="post-card" data-cat="1" href="{url("why", lang)}"><span class="thumb"><img src="/assets/img/photo/family-lawn-900.webp" alt="" loading="lazy">{new_badge("2026-10-07")}</span>'
              f'<span class="cat">{cats[1]}</span><b>{s["title"]}</b><span class="ex">{sb(s["excerpt"])}</span><time datetime="2026-10-07">{s["date"]}</time></a>')
     soon = ''
-    for cat, t, ex, art in c[6]:
+    for cat, t, ex, art in c[5]:
         thumb = (f'<img src="/assets/img/photo/{art[6:]}-900.webp" alt="" loading="lazy">' if art.startswith('photo:')
                  else '<span class="emoji-tile"><img src="/assets/img/emoji/house.webp" alt=""><img src="/assets/img/emoji/growing_heart.webp" alt=""></span>')
         soon += (f'<div class="post-card soon" data-cat="{cats.index(cat)}" aria-disabled="true"><span class="thumb">{thumb}</span>'
-                 f'<span class="cat">{cat}</span><b>{t}</b><span class="ex">{sb(ex)}</span><span class="date">{c[7]}</span></div>')
+                 f'<span class="cat">{cat}</span><b>{t}</b><span class="ex">{sb(ex)}</span><span class="date">{c[6]}</span></div>')
     body = f'''
 <section class="list-page"><div class="wrap-list">
 {list_head('love_letter', c[0], c[1])}
 <div class="chips" data-filter role="group" aria-label="{c[0]}">{chips}</div>
 <div class="post-grid">{first}{soon}</div>
-<p class="empty" hidden>{c[5]}</p>
+{empty_state(lang, 'story')}
 </div></section>
 '''
     write(url('story', lang), page(lang, 'story', c[2] + (' | 응가메이트' if lang == 'ko' else ''), c[3], body, f'/assets/og/story-{lang}.jpg', active='story'))
@@ -617,6 +625,7 @@ def notice_list(lang):
 <a class="post-card" href="{url('interview_notice', lang)}"><span class="thumb green"><img src="/assets/img/notice-hero.webp" alt="" loading="lazy" width="1038" height="510">{new_badge("2026-10-05")}<span class="pin-ic" role="img" aria-label="{n['pinned']}">{PIN_ICON}</span></span>
 <b>{n['title']}</b><span class="ex">{sb(n['sub'])}</span><time datetime="2026-10-05">{n['date']}</time></a>
 </div>
+{empty_state(lang, 'notice')}
 </div></section>
 '''
     write(url('notice', lang), page(lang, 'notice', c[2], c[3], body, f'/assets/og/notice-{lang}.jpg', active='notice'))
