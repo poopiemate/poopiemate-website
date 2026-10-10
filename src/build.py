@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-10'
-ASSET_V = '29'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '30'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -41,7 +41,6 @@ CHEV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=
 ARROW_R = CHEV.replace('m{d}', 'M5 12h14M13 6l6 6-6 6')
 CHEV_L = CHEV.replace('m{d}', 'M15 18l-6-6 6-6')
 CHEV_R = CHEV.replace('m{d}', 'M9 18l6-6-6-6')
-PIN_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 3a1 1 0 0 1 .7 1.7L15.4 6v4.6l2.9 2.9a1 1 0 0 1-.7 1.7H13v6l-1 1-1-1v-6H6.4a1 1 0 0 1-.7-1.7l2.9-2.9V6L7.3 4.7A1 1 0 0 1 8 3h8Z"/></svg>'
 EXT_ICON = CHEV.replace('m{d}', 'M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6')
 CHEV_D = CHEV.replace('m{d}', 'M6 9l6 6 6-6')
 PLAY_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.14v13.72a1 1 0 0 0 1.52.85l10.6-6.86a1 1 0 0 0 0-1.7L9.52 4.29A1 1 0 0 0 8 5.14Z"/></svg>'
@@ -677,7 +676,7 @@ NOTICE = {
                     '<ul><li>앱을 어떻게 쓰고 계신지</li><li>어떤 점이 좋았고, 어떤 점이 아쉬웠는지</li><li>가족과 함께 기록할 때는 어땠는지</li></ul>',
                     '정답은 없어요. 편하게 이야기 나눠 주시면 돼요.', '참여해 주신 분께는 폴 바셋 아이스크림 라떼 기프티콘을 보내드려요.',
                     '원하는 날짜와 시간을 골라 신청해 주세요. 일정이 확정되면 남겨 주신 번호로 연락드릴게요.'],
-           'apply': '인터뷰 신청하기', 'pinned': '고정'},
+           'apply': '인터뷰 신청하기'},
     'en': {'title': 'Join a POOPIEMATE user interview', 'date': 'Oct 5, 2026', 'by': 'POOPIEMATE team', 'sub': 'Tell us how you use POOPIEMATE. Interviews are in English and take about 30 minutes.',
            'body': ['Hi from the POOPIEMATE team.<br>Thank you for logging your dog’s poops, pees and walks every day.',
                     'We want to make POOPIEMATE easier to use, so we’d love to hear from you directly.',
@@ -685,7 +684,7 @@ NOTICE = {
                     'There are no right answers — just chat with us.',
                     'Interviews are in English and take about 30 minutes online.',
                     'Pick a date and a time in your own time zone. We’ll contact you once the schedule is confirmed.'],
-           'apply': 'Apply for an interview', 'pinned': 'Pinned'},
+           'apply': 'Apply for an interview'},
 }
 
 
@@ -697,7 +696,7 @@ def notice_list(lang):
 <section class="list-page"><div class="wrap-list">
 {list_head('megaphone', c[0], c[1])}
 <div class="post-grid">
-<a class="post-card" href="{url('interview_notice', lang)}"><span class="thumb green"><img src="/assets/img/notice-hero.webp" alt="" loading="lazy" width="1038" height="510">{new_badge("2026-10-05")}<span class="pin-ic" role="img" aria-label="{n['pinned']}">{PIN_ICON}</span></span>
+<a class="post-card" href="{url('interview_notice', lang)}"><span class="thumb green"><img src="/assets/img/notice-hero.webp" alt="" loading="lazy" width="1038" height="510">{new_badge("2026-10-05")}</span>
 <b>{n['title']}</b><span class="ex">{sb(n['sub'])}</span><time datetime="2026-10-05">{n['date']}</time></a>
 </div>
 {empty_state(lang, 'notice')}
