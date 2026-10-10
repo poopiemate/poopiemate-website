@@ -1,4 +1,4 @@
-// 응가메이트 웹 — 모바일 메뉴 · 투명 헤더 · 첫 방문 로딩 · 여섯 가지 카드 넘기기 · 유튜브(화면에 들어오면 소리 없이 재생)
+// 응가메이트 웹 — 모바일 메뉴 · 투명 헤더 · 첫 방문 로딩 · 여섯 가지 카드 넘기기 · 첫 화면 소개 영상 · 단어씩 올라오는 제목
 // · 이렇게 써요 단계(들어오면 아이콘 → 영상) · 풀페이지 넘기기 · 이야기 분류 칩 · 등장 효과
 (function () {
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -64,31 +64,65 @@
     update();
   });
 
-  // 유튜브 소개 영상 — 화면에 들어오면 소리 없이 저절로, 누르면 소리와 함께 처음부터
-  document.querySelectorAll('[data-yt-auto]').forEach(function (box) {
-    var id = box.getAttribute('data-yt-auto');
-    var frame = box.querySelector('.yt-frame');
-    var btn = box.querySelector('.yt-play');
-    var label = btn.getAttribute('aria-label');
-    function load(muted) {
-      var old = frame.querySelector('iframe');
-      if (old) old.remove();
-      var f = document.createElement('iframe');
-      f.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&playsinline=1&rel=0&loop=1&playlist=' + id + (muted ? '&mute=1' : '') + '&hl=' + document.documentElement.lang;
-      f.title = label;
-      f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-      f.allowFullscreen = true;
-      frame.appendChild(f);
-      if (btn.parentNode) btn.remove();
-    }
-    btn.addEventListener('click', function () { load(false); });
-    if (!reduce && 'IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function (entries) {
-        if (entries[0].isIntersecting) { io.disconnect(); load(true); }
-      }, { threshold: 0.4 });
-      io.observe(box);
+  // 첫 화면 소개 영상 — 소리 없이 바로 돌고, 소리 켜기를 누르면 처음부터 소리와 함께
+  document.querySelectorAll('[data-film]').forEach(function (box) {
+    var v = box.querySelector('video');
+    var b = box.querySelector('[data-sound]');
+    var label = b.querySelector('span');
+    var restarted = false;
+    if (reduce) { v.removeAttribute('autoplay'); v.pause(); v.controls = true; }
+    b.addEventListener('click', function () {
+      v.muted = !v.muted;
+      if (!v.muted && !restarted) { restarted = true; v.currentTime = 0; }
+      var p = v.play(); if (p && p.catch) p.catch(function () {});
+      b.setAttribute('aria-pressed', v.muted ? 'false' : 'true');
+      label.textContent = b.getAttribute(v.muted ? 'data-on' : 'data-off');
+      box.classList.toggle('sound', !v.muted);
+    });
+    // 화면에서 벗어나면 멈췄다가 돌아오면 이어서
+    if ('IntersectionObserver' in window && !reduce) {
+      new IntersectionObserver(function (es) {
+        if (es[0].isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause();
+      }, { threshold: 0.2 }).observe(box);
     }
   });
+
+  // 제목 글자 — 단어마다 감싸서 모션그래픽처럼 하나씩 올라오게 (형광펜 알약은 한 덩어리로)
+  var mos = [].slice.call(document.querySelectorAll('[data-mo]'));
+  mos.forEach(function (el) {
+    var i = 0;
+    function wrap(node) {
+      [].slice.call(node.childNodes).forEach(function (n) {
+        if (n.nodeType === 3) {
+          var frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(function (part) {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(' ')); return; }
+            var w = document.createElement('span'); w.className = 'w';
+            var inner = document.createElement('span'); inner.textContent = part; inner.style.setProperty('--i', i++);
+            w.appendChild(inner); frag.appendChild(w);
+          });
+          node.replaceChild(frag, n);
+        } else if (n.nodeType === 1 && n.tagName !== 'BR') {
+          var w = document.createElement('span'); w.className = 'w';
+          node.replaceChild(w, n);
+          var inner = document.createElement('span'); inner.style.setProperty('--i', i++);
+          inner.appendChild(n); w.appendChild(inner);
+        }
+      });
+    }
+    wrap(el);
+  });
+  // 단계 밖의 제목은 화면에 들어오면 한 번
+  var moOnce = mos.filter(function (el) { return !el.closest('[data-live]'); });
+  function showMo(el) { el.classList.add('on'); if (el.parentNode) el.parentNode.classList.add('mo-on'); }
+  if (reduce || !('IntersectionObserver' in window)) moOnce.forEach(showMo);
+  else {
+    var mio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { showMo(e.target); mio.unobserve(e.target); } });
+    }, { threshold: 0.3 });
+    moOnce.forEach(function (el) { mio.observe(el); });
+  }
 
   // 이렇게 써요 단계 — 화면에 가장 크게 들어온 단계만 아이콘이 영상으로 바뀌고 재생된다
   var steps = [].slice.call(document.querySelectorAll('[data-live]'));
@@ -101,12 +135,14 @@
       if (seen > score) { score = seen; best = sec; }
     });
     steps.forEach(function (sec) {
-      var on = sec === best && !reduce;
+      var on = sec === best;
       if (sec.classList.contains('live') === on) return;
       sec.classList.toggle('live', on);
+      var mo = sec.querySelector('[data-mo]');
+      if (mo) { mo.classList.toggle('on', on); mo.parentNode.classList.toggle('mo-on', on); }
       var v = sec.querySelector('video');
       if (!v) return;
-      if (on) { try { v.currentTime = 0; } catch (e) {} var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+      if (on && !reduce) { try { v.currentTime = 0; } catch (e) {} var p = v.play(); if (p && p.catch) p.catch(function () {}); }
       else v.pause();
     });
   }

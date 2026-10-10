@@ -54,8 +54,8 @@
 픽셀베리 (Pixelberry)
 - 이메일: poopiemate@pixelberry.io
 - 웹사이트: https://poopiemate.com/
-- 개인정보처리방침: https://viva-jinyi.github.io/poopiemate-legal/privacy-ko
-- 이용약관: https://viva-jinyi.github.io/poopiemate-legal/terms-ko
+- 개인정보처리방침: https://poopiemate.com/privacy/
+- 이용약관: https://poopiemate.com/terms/
 
 ## English
 
@@ -64,8 +64,8 @@
 Full English site: https://poopiemate.com/en/
 - iOS App Store: https://apps.apple.com/app/id6781981502
 - Android (Google Play): https://play.google.com/store/apps/details?id=com.pixelberry.poopiemate&hl=en
-- Privacy Policy: https://viva-jinyi.github.io/poopiemate-legal/privacy-en
-- Terms of Service: https://viva-jinyi.github.io/poopiemate-legal/terms-en
+- Privacy Policy: https://poopiemate.com/en/privacy/
+- Terms of Service: https://poopiemate.com/en/terms/
 - How it works: https://poopiemate.com/en/how-it-works/
 - Why we built PoopieMate: https://poopiemate.com/en/story/why-we-built/
 - Contact: poopiemate@pixelberry.io

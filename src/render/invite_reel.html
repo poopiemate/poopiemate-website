@@ -1,0 +1,94 @@
+<!doctype html>
+<!-- 「가족을 초대해요」 릴스 — 인스타 릴스(앱 기능 소개 화면 녹화)와 같은 틀: 흰 바탕 · 연한 무대 · 흰 앱 화면 조각 · 아래 제목과 설명.
+     앱 가족 초대 화면(src/domains/family/screens/InviteFamilyScreen.tsx)을 옮겼다. 360×640을 render.js가 3배(1080×1920)로 한 장씩 찍는다.
+     ?lang=en 이면 영어. render(t)는 0~1 한 바퀴(10초). -->
+<html><head><meta charset="utf-8"><style>
+@font-face{font-family:N;src:url("APP/assets/fonts/NanumSquareNeo-bRg.ttf");font-weight:400}
+@font-face{font-family:N;src:url("APP/assets/fonts/NanumSquareNeo-cBd.ttf");font-weight:700}
+html,body{margin:0;width:360px;height:640px;overflow:hidden;background:#FDFDFD;font-family:N,sans-serif;color:#191F28;-webkit-font-smoothing:antialiased}
+.stage{position:absolute;left:16px;top:64.7px;width:326px;height:402px;border-radius:34px;background:linear-gradient(180deg,#EDFAF3 0%,#E3F6EC 100%);overflow:hidden}
+.piece{position:absolute;left:15.7px;right:15.7px;top:14.6px;height:460px;border-radius:24px;background:#FDFDFD;box-shadow:0 10px 30px rgba(24,149,90,.14)}
+.nav{height:46px;display:flex;align-items:center;justify-content:center;position:relative;font-size:16px;font-weight:700}
+.nav svg{position:absolute;left:12px;top:13px}
+.hero{margin:2px 12px 0;padding:16px 14px 13px;border-radius:20px;background:#18955A;color:#fff}
+.hero h1{margin:0;font-size:18.5px;line-height:1.38;font-weight:700;white-space:pre-line}
+.hero p{margin:7px 0 0;font-size:12px;line-height:1.5;opacity:.85}
+.codes{margin-top:11px;display:flex;gap:4.5px}
+.codes span{flex:1;height:36px;border-radius:9px;background:#fff;color:#191F28;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700}
+.copy{margin:10px auto 0;display:flex;width:max-content;align-items:center;gap:5px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.2);font-size:12px;font-weight:700}
+.exp{margin-top:6px;text-align:center;font-size:10.5px;opacity:.7}
+.btn{margin:10px 12px 0;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:14px;font-weight:700}
+.kakao{background:#FEE500;color:#191919}
+.share{margin-top:7px;border:1px solid #E5E8EB;color:#191F28}
+.steps{margin:18px 16px 0}
+.steps b{font-size:15px}
+.steps div{display:flex;align-items:center;gap:8px;margin-top:9px;font-size:12px;color:#4E5968}
+.steps i{flex:none;width:20px;height:20px;border-radius:50%;background:#E5F8F0;color:#0E7041;font-style:normal;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.banner{position:absolute;left:12px;right:12px;top:12px;display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:20px;background:rgba(255,255,255,.95);box-shadow:0 12px 30px rgba(24,149,90,.2)}
+.banner img{width:38px;height:38px;border-radius:10px}
+.banner .t{flex:1;min-width:0}
+.banner .t b{display:flex;justify-content:space-between;font-size:13.5px}
+.banner .t b em{font-style:normal;font-weight:400;font-size:11px;color:#8B95A1}
+.banner .t span{display:block;margin-top:2px;font-size:12px;color:#4E5968}
+.cap{position:absolute;left:0;right:0;top:494px;text-align:center}
+.cap h2{margin:0;font-size:22.5px;font-weight:700;letter-spacing:-.3px}
+.cap p{margin:12px 0 0;font-size:15px;line-height:1.5;color:#4E5968;white-space:pre-line}
+</style></head><body>
+<div class="stage"><div class="piece">
+<div class="nav"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#191F28" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span id="navT"></span></div>
+<div class="hero" id="hero"><h1 id="heroT"></h1><p id="heroS"></p><div class="codes" id="codes"></div>
+<div class="copy" id="copy"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span id="copyT"></span></div>
+<div class="exp" id="exp"></div></div>
+<div class="btn kakao" id="kakao"><svg width="17" height="17" viewBox="0 0 24 24"><path fill="#191919" d="M12 3C6.48 3 2 6.58 2 11c0 2.85 1.86 5.35 4.66 6.76-.2.74-.74 2.7-.85 3.12-.13.52.19.51.4.37.17-.11 2.62-1.78 3.68-2.5.69.1 1.39.15 2.11.15 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg><span id="kakaoT"></span></div>
+<div class="btn share" id="share"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#191F28" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg><span id="shareT"></span></div>
+<div class="steps" id="steps"></div>
+</div>
+<div class="banner" id="banner"><img src="APP/assets/feature-tour/notification-icon.png"><div class="t"><b><span id="bT"></span><em id="bNow"></em></b><span id="bB"></span></div></div>
+</div>
+<div class="cap" id="cap"><h2 id="capT"></h2><p id="capP"></p></div>
+<script>
+const en = /lang=en/.test(location.search);
+const T = en ? {nav:'Invite', hero:'Invite family to care\nfor Poochie together', sub:'When family enters this code in the app, you’ll share the same records.', copy:'Copy Code', copied:'Copied! ✓', exp:'Valid for 24 hours',
+  kakao:'Share via WhatsApp', share:'Share invite message', steps:['How it works','Family installs PoopieMate','On the start screen, tap “Start with a family code”','Enter the code and start logging together'],
+  bT:'Mom joined your family', bB:'Now you both see Poochie’s logs', now:'now', capT:'One code brings everyone in', capP:'Send an invite code from the My tab\nand log the same dog together.'}
+ : {nav:'가족 초대', hero:'응댕이를 함께 돌볼\n가족을 초대해요', sub:'가족이 앱에서 이 코드를 입력하면 같은 기록을 함께 봐요.', copy:'코드 복사', copied:'복사됐어요! ✓', exp:'24시간 유효',
+  kakao:'카카오톡으로 공유', share:'초대 메시지 공유', steps:['이렇게 연결돼요','가족이 응가메이트를 설치해요','시작 화면에서 「가족 초대코드로 시작하기」를 눌러요','코드를 입력하면 바로 함께 기록해요'],
+  bT:'엄마가 가족으로 합류했어요', bB:'이제 응댕이 기록을 함께 봐요', now:'지금', capT:'코드 하나면 가족 모두 함께', capP:'마이 탭에서 초대 코드를 보내면\n같은 강아지를 함께 기록해요.'};
+const $ = id => document.getElementById(id);
+$('navT').textContent = T.nav; $('heroT').textContent = T.hero; $('heroS').textContent = T.sub; $('exp').textContent = T.exp;
+$('kakaoT').textContent = T.kakao; $('shareT').textContent = T.share; $('bT').textContent = T.bT; $('bB').textContent = T.bB; $('bNow').textContent = T.now;
+$('capT').textContent = T.capT; $('capP').textContent = T.capP;
+if (en) { $('kakao').style.background = '#25D366'; $('kakao').style.color = '#fff'; $('kakao').querySelector('path').setAttribute('fill', '#fff'); }
+$('steps').innerHTML = '<b>' + T.steps[0] + '</b>' + T.steps.slice(1).map((s, i) => '<div><i>' + (i + 1) + '</i>' + s + '</div>').join('');
+const CODE = '7KQR4M';
+$('codes').innerHTML = CODE.split('').map(c => '<span>' + c + '</span>').join('');
+// 앱 소개 화면(tourTimeline)과 같은 방식 — 퍼센트 구간마다 값을 잇고, 튀어나올 땐 살짝 넘쳤다 돌아온다
+const ease = { out: x => 1 - Math.pow(1 - x, 3), pop: x => { const c = 1.7; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); } };
+function kf(p, stops, vals, e) {
+  if (p <= stops[0]) return vals[0];
+  for (let i = 1; i < stops.length; i++) if (p <= stops[i]) { const k = (p - stops[i - 1]) / (stops[i] - stops[i - 1] || 1); return vals[i - 1] + (vals[i] - vals[i - 1]) * (e || ease.out)(k); }
+  return vals[vals.length - 1];
+}
+function render(t) {
+  const p = t * 100, fade = kf(p, [0, 86, 92, 100], [1, 1, 0, 0]);
+  const heroIn = kf(p, [0, 0.5, 4], [0, 0, 1]);
+  $('hero').style.opacity = heroIn * fade; $('hero').style.transform = `translateY(${(1 - heroIn) * 10}px)`;
+  [...$('codes').children].forEach((el, i) => {
+    const at = 8 + i * 2.2;
+    el.style.opacity = kf(p, [0, at, at + 2.4, 100], [0, 0, 1, 1]);
+    el.style.transform = `scale(${kf(p, [0, at, at + 2.4, at + 3.8, at + 5, 100], [0.6, 0.6, 1.08, 0.97, 1, 1])})`;
+  });
+  const press = (a) => kf(p, [0, a, a + 1, a + 2.6, 100], [1, 1, 0.93, 1, 1]);
+  $('copy').style.transform = `scale(${press(30)})`;
+  $('copyT').textContent = p > 31 && p < 46 ? T.copied : T.copy;
+  $('kakao').style.transform = `scale(${kf(p, [0, 50, 51, 53.5, 100], [1, 1, 0.96, 1, 1])})`;
+  $('kakao').style.filter = `brightness(${kf(p, [0, 50, 51, 53.5, 100], [1, 1, 0.92, 1, 1])})`;
+  const restIn = kf(p, [0, 2, 6], [0, 0, 1]);
+  ['kakao', 'share', 'steps', 'navT'].forEach(id => { $(id).style.opacity = restIn * fade; });
+  const b = [0, 57, 60.5, 62, 80, 84, 100];
+  $('banner').style.opacity = kf(p, b, [0, 0, 1, 1, 1, 0, 0]);
+  $('banner').style.transform = `translateY(${kf(p, b, [-72, -72, 4, 0, 0, -72, -72])}px) scale(${kf(p, b, [0.96, 0.96, 1, 1, 1, 0.96, 0.96])})`;
+  $('codes').style.opacity = fade; $('copy').style.opacity = fade; $('exp').style.opacity = fade;
+}
+render(0);
+</script></body></html>

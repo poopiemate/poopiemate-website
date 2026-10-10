@@ -3,7 +3,7 @@
 python3 src/build.py          # 페이지 HTML + sitemap.xml
 에셋 준비는 src/prepare_assets.py, OG 이미지는 src/og.py.
 """
-import json, re
+import html as html_mod, json, re
 from html import escape
 from pathlib import Path
 
@@ -15,7 +15,6 @@ ASSET_V = '10'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
 PLAY = {'ko': 'https://play.google.com/store/apps/details?id=com.pixelberry.poopiemate&hl=ko', 'en': 'https://play.google.com/store/apps/details?id=com.pixelberry.poopiemate&hl=en'}
-LEGAL = 'https://viva-jinyi.github.io/poopiemate-legal'
 SNS = {
     'youtube': ('YouTube', 'https://www.youtube.com/@poopiemate'),
     'tiktok': ('TikTok', 'https://www.tiktok.com/@poopiemate'),
@@ -56,14 +55,14 @@ T = {
     'ko': {
         'name': '응가메이트', 'nav': [('how', '이렇게 써요'), ('story', '이야기'), ('notice', '공지사항')], 'cta': '앱 다운로드', 'cta_short': '앱 받기',
         'menu': '메뉴 열기', 'close': '메뉴 닫기', 'skip': '본문으로 건너뛰기', 'get': '지금 다운로드', 'lang_label': '언어',
-        'f_links': [('고객 지원', f'{LEGAL}/support-ko'), ('개인정보 처리방침', f'{LEGAL}/privacy-ko'), ('이용약관', f'{LEGAL}/terms-ko'), ('오픈소스 라이선스', f'{LEGAL}/licenses-ko')],
+        'f_links': [('고객 지원', '/support/'), ('개인정보 처리방침', '/privacy/'), ('이용약관', '/terms/'), ('오픈소스 라이선스', '/licenses/')],
         'operator': f'운영 픽셀베리 · 문의 <a href="mailto:{EMAIL}">{EMAIL}</a>', 'copy': '© 2026 픽셀베리 · 응가메이트',
         'play': '영상 재생', 'more': '자세히 보기', 'back': '목록으로',
     },
     'en': {
         'name': 'PoopieMate', 'nav': [('how', 'How it works'), ('story', 'Stories'), ('notice', 'Notices')], 'cta': 'Get the app', 'cta_short': 'Get the app',
         'menu': 'Open menu', 'close': 'Close menu', 'skip': 'Skip to content', 'get': 'Download on the', 'lang_label': 'Language',
-        'f_links': [('Support', f'{LEGAL}/support-en'), ('Privacy Policy', f'{LEGAL}/privacy-en'), ('Terms of Service', f'{LEGAL}/terms-en'), ('Open-source licenses', f'{LEGAL}/licenses-en')],
+        'f_links': [('Support', '/en/support/'), ('Privacy Policy', '/en/privacy/'), ('Terms of Service', '/en/terms/'), ('Open-source licenses', '/en/licenses/')],
         'operator': f'Operated by Pixelberry · <a href="mailto:{EMAIL}">{EMAIL}</a>', 'copy': '© 2026 Pixelberry · PoopieMate',
         'play': 'Play video', 'more': 'Learn more', 'back': 'Back to list',
     },
@@ -73,6 +72,7 @@ PATHS = {
     'home': ('/', '/en/'), 'how': ('/how-it-works/', '/en/how-it-works/'), 'story': ('/story/', '/en/story/'),
     'why': ('/story/why-we-built/', '/en/story/why-we-built/'), 'notice': ('/notice/', '/en/notice/'),
     'interview_notice': ('/notice/interview/', '/en/notice/interview/'),
+    'privacy': ('/privacy/', '/en/privacy/'), 'terms': ('/terms/', '/en/terms/'), 'support': ('/support/', '/en/support/'), 'licenses': ('/licenses/', '/en/licenses/'),
 }
 
 
@@ -210,17 +210,34 @@ def reel(key, lang, label):
             f'<source src="/assets/video/{key}-{lang}.mp4" type="video/mp4"></video>')
 
 
-def yt_full(vid, thumb, label):
-    """유튜브 소개 영상 — 화면 가득. 화면에 들어오면 소리 없이 저절로 재생, 누르면 소리와 함께."""
-    return (f'<section class="yt-full" data-yt-auto="{vid}" aria-label="{escape(label)}"><div class="yt-frame">'
-            f'<img src="{thumb}" alt="" loading="lazy" decoding="async">'
-            f'<button class="yt-play" type="button" aria-label="{escape(label)}"><span>{PLAY_ICON}</span></button></div></section>')
+SOUND_OFF = '<svg class="i-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="m22 9-6 6M16 9l6 6"/></svg>'
+SOUND_ON = '<svg class="i-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>'
+
+
+def intro_film(lang, label):
+    """첫 화면 — 서비스 소개 영상(우리 사이트에 올린 mp4)이 화면 가득 바로 재생. 유튜브 버튼 없이, 소리는 버튼으로."""
+    on, off = {'ko': ('소리 켜기', '소리 끄기'), 'en': ('Sound on', 'Sound off')}[lang]
+    return (f'<section class="film" data-film aria-label="{escape(label)}">'
+            f'<video data-film-video muted loop playsinline autoplay preload="auto" poster="/assets/video/intro-{lang}.webp" aria-label="{escape(label)}">'
+            f'<source src="/assets/video/intro-{lang}.mp4" type="video/mp4"></video>'
+            f'<button class="film-sound" type="button" data-sound data-on="{on}" data-off="{off}" aria-pressed="false">{SOUND_OFF}{SOUND_ON}<span>{on}</span></button>'
+            f'<a class="film-down" href="#start" aria-label="{"아래로" if lang == "ko" else "Scroll down"}">{CHEV_D}</a></section>')
 
 
 def waver():
     return ('<div class="waver" aria-hidden="true"><img class="tail" src="/assets/img/mascot/wave-tail.webp" alt="">'
             '<img class="sh" src="/assets/img/mascot/wave-shoulder.webp" alt=""><img src="/assets/img/mascot/wave-body.webp" alt="">'
             '<img class="arm" src="/assets/img/mascot/wave-arm.webp" alt=""></div>')
+
+
+def icons(items):
+    return ''.join(f'<img class="ic" src="/assets/img/emoji/{n}.webp" alt="" style="left:{x}%;top:{y}%;rotate:{r}deg">' for n, x, y, r in items)
+
+
+def list_head(icon_name, h, sub):
+    """이야기·공지사항 목록 머리 — 3D 아이콘 + 제목 + 한 줄 설명 (공지사항 시안)."""
+    return (f'<div class="list-head"><img src="/assets/img/emoji/{icon_name}.webp" alt="" width="56" height="56">'
+            f'<div><h1 class="list-h1">{h}</h1><p class="list-sub">{sub}</p></div></div>')
 
 
 def label(text, cls=''):
@@ -262,7 +279,7 @@ def faq_ld(items):
 def video_ld(vid, name, desc, lang):
     return {'@context': 'https://schema.org', '@type': 'VideoObject', 'name': name, 'description': desc, 'inLanguage': lang,
             'thumbnailUrl': f'https://i.ytimg.com/vi/{vid}/hqdefault.jpg', 'uploadDate': '2026-10-09',
-            'embedUrl': f'https://www.youtube.com/embed/{vid}', 'contentUrl': f'https://www.youtube.com/watch?v={vid}'}
+            'embedUrl': f'https://www.youtube.com/embed/{vid}', 'contentUrl': f'{SITE}/assets/video/intro-{lang}.mp4', 'duration': 'PT1M7S'}
 
 
 def write(path, html):
@@ -328,13 +345,13 @@ def home(lang):
     nav = (f'<div class="carousel-nav"><button type="button" data-prev aria-label="{"이전" if lang == "ko" else "Previous"}">{CHEV_L}</button>'
            f'<button type="button" data-next aria-label="{"다음" if lang == "ko" else "Next"}">{CHEV_R}</button></div>')
     body = f"""
-<section class="hero"><div class="wrap">
-{label(c['label'])}
-<h1 class="hero-h1">{c['h1']}</h1>
-<p class="hero-lead">{c['lead']}</p>
-</div></section>
+{intro_film(lang, c['v_label'])}
 
-{yt_full(YT['service_long'][lang], f'/assets/img/yt/long-service_{lang}.webp', c['v_label'])}
+<section class="hero" id="start"><div class="wrap">
+{label(c['label'])}
+<h1 class="hero-h1" data-mo>{c['h1']}</h1>
+<p class="hero-lead mo-fade">{c['lead']}</p>
+</div></section>
 
 <section class="sec-feat" data-carousel>
 <div class="wrap feat-head rise"><div>{label(c['b_tag'])}<h2 class="h2">{c['b_h']}</h2></div>{nav}</div>
@@ -372,9 +389,9 @@ def how(lang):
     c = {
         'ko': {'title': '이렇게 써요 — 가족이 같이 쓰는 법 | 응가메이트', 'desc': '초대 → 기록 → 알림, 세 단계면 끝. 돌봄 부탁·하트·산책 안전도까지 영상으로 보세요.',
                'label': '이렇게 써요', 'h': '가족이 같이 쓰면<br>“응댕이 똥 쌌어?” 전화가 사라져요', 'lede': '초대 → 기록 → 알림. 세 단계면 충분해요.',
-               'steps': [('가족을 초대해요', '카톡으로 초대 코드를 보내면 같은 강아지를 함께 돌보는 가족이 돼요. 엄마·아빠·형제·돌봄 도우미 누구든요.', 'invite', 'house', '#EDE3FF'),
-                         ('한 명이 기록하면<br>모두에게 알림이 가요', '산책에서 응가·쉬를 버튼 하나로 기록해요. 다른 가족 폰에 바로 알림이 가서 따로 물어볼 필요가 없어요.', 'record', 'pile_of_poo', '#FFE3F7'),
-                         ('지금 상태를 한눈에 봐요', '마지막 응가·쉬가 언제였는지, 신호 게이지가 얼마나 찼는지, 오늘 누가 산책했는지 홈에서 바로 보여요.', 'alerts', 'mobile_phone', '#DDF4E6')],
+               'steps': [('가족을 초대해요', '카톡으로 초대 코드를 보내면 같은 강아지를 함께 돌보는 가족이 돼요. 엄마·아빠·형제·돌봄 도우미 누구든요.', 'invite', 'house', 'purple'),
+                         ('한 명이 기록하면<br>모두에게 알림이 가요', '산책에서 응가·쉬를 버튼 하나로 기록해요. 다른 가족 폰에 바로 알림이 가서 따로 물어볼 필요가 없어요.', 'record', 'pile_of_poo', 'pink'),
+                         ('지금 상태를 한눈에 봐요', '마지막 응가·쉬가 언제였는지, 신호 게이지가 얼마나 찼는지, 오늘 누가 산책했는지 홈에서 바로 보여요.', 'alerts', 'mobile_phone', 'green')],
                'labels': {'invite': '가족 초대하는 법 모션그래픽', 'record': '기록과 가족 알림 모션그래픽', 'alerts': '배변 신호 모션그래픽'},
                'more_tag': '더 함께 돌보는 기능', 'more_h': '산책은 나눠서 해도,<br>기록은 <em>가족 모두가</em> 함께 봐요',
                'b1': ('가족 기록 공유', '한 명이 누르면<br>가족 폰이 울려요', '“응댕이 똥 쌌어?” 대신 알림 하나. 누가 언제 산책하고 치웠는지 하루 타임라인으로 모아 봐요.'),
@@ -384,9 +401,9 @@ def how(lang):
                'b4': ('산책 루틴 · 안전도', '오늘 언제 나가면<br>좋을까요?', '산책 시간이 되면 같이 알려주고, 날씨와 우리 강아지 몸에 맞춘 산책 안전도를 보여줘요.')},
         'en': {'title': 'How it works — Sharing dog care with family | PoopieMate', 'desc': 'Invite, log, get alerts — three steps. Watch how help requests, hearts and walk safety work.',
                'label': 'How it works', 'h': 'Share it with family and<br>the “Did Poochie poop?” calls stop', 'lede': 'Invite → log → alert. Three steps is all it takes.',
-               'steps': [('Invite your family', 'Send an invite code by message and you’re caring for the same dog. Parents, siblings, the dog sitter — anyone.', 'invite', 'house', '#EDE3FF'),
-                         ('One person logs it,<br>everyone gets an alert', 'Log poops and pees on the walk with one button. Everyone else gets an alert right away, so nobody has to ask.', 'record', 'pile_of_poo', '#FFE3F7'),
-                         ('See where things stand', 'When the last poop and pee were, how full the gauges are, who walked today — all on the home screen.', 'alerts', 'mobile_phone', '#DDF4E6')],
+               'steps': [('Invite your family', 'Send an invite code by message and you’re caring for the same dog. Parents, siblings, the dog sitter — anyone.', 'invite', 'house', 'purple'),
+                         ('One person logs it,<br>everyone gets an alert', 'Log poops and pees on the walk with one button. Everyone else gets an alert right away, so nobody has to ask.', 'record', 'pile_of_poo', 'pink'),
+                         ('See where things stand', 'When the last poop and pee were, how full the gauges are, who walked today — all on the home screen.', 'alerts', 'mobile_phone', 'green')],
                'labels': {'invite': 'How to invite your family, motion graphic', 'record': 'Logging and family alerts, motion graphic', 'alerts': 'Potty signals, motion graphic'},
                'more_tag': 'More ways to care together', 'more_h': 'Split the walks,<br>share the log with <em>everyone</em>',
                'b1': ('Shared family log', 'One tap,<br>every phone buzzes', 'One alert instead of “Did Poochie poop?” See who walked and cleaned up on one daily timeline.'),
@@ -396,10 +413,10 @@ def how(lang):
                'b4': ('Walk routine · Safety', 'When should<br>we head out?', 'Everyone gets the walk reminder, plus a safety score fitted to the weather and your dog.')},
     }[lang]
     steps = ''
-    for i, (h, p, key, ic, bg) in enumerate(c['steps'], 1):
-        steps += (f'<section class="how-step snap-sec" id="step-{i}" data-live><div class="wrap-mid step-grid">'
-                  f'<div class="step-text rise"><span class="step-num">{i}</span><h2 class="h2">{h}</h2><p>{p}</p></div>'
-                  f'<div class="step-card" style="background:{bg}"><img class="step-icon" src="/assets/img/emoji/{ic}.webp" alt="">'
+    for i, (h, p, key, ic, tone) in enumerate(c['steps'], 1):
+        steps += (f'<section class="how-step snap-sec t-{tone}" id="step-{i}" data-live><div class="wrap-mid step-grid">'
+                  f'<div class="step-text"><span class="step-num">{i:02d}</span><h2 class="h2" data-mo>{h}</h2><p class="mo-fade">{p}</p></div>'
+                  f'<div class="step-media"><img class="step-icon" src="/assets/img/emoji/{ic}.webp" alt="">'
                   f'<div class="step-phone">{reel(key, lang, c["labels"][key])}</div></div></div></section>')
     toasts = ''.join(f'<div class="toast"><img src="/assets/icons/apple-touch-icon.png" alt="" width="36" height="36"><span><b>{b}</b><i>{sub}</i></span><time>{t}</time></div>'
                      for b, sub, t in c['toasts'])
@@ -418,7 +435,8 @@ def how(lang):
 </div>
 </div>'''
     body = f'''
-<section class="how-hero snap-sec"><div class="wrap rise">{label(c['label'])}<h1 class="h1">{c['h']}</h1><p class="lead">{c['lede']}</p></div></section>
+<section class="how-hero snap-sec"><div class="wrap">{label(c['label'])}<h1 class="h1" data-mo>{c['h']}</h1><p class="lead mo-fade">{c['lede']}</p></div>
+<div class="stage" aria-hidden="true"><div class="stage-art">{icons([('house', 8, 16, -10), ('pile_of_poo', 2, 54, -8), ('paw_prints', 15, 82, 10), ('sparkles', 84, 10, 8), ('green_heart', 90, 46, 12), ('bone', 80, 78, -16)])}{waver()}</div></div></section>
 {steps}
 <section class="sec-more snap-sec"><div class="wrap"><div class="center-head rise"><span class="pill-tag">{c['more_tag']}</span><h2 class="h2">{c['more_h']}</h2></div>{bento}</div></section>
 {cta_soft(lang)}
@@ -510,7 +528,7 @@ def story_list(lang):
                  f'<span class="cat">{cat}</span><b>{t}</b><span class="ex">{ex}</span><span class="date">{c[7]}</span></div>')
     body = f'''
 <section class="list-page"><div class="wrap-list">
-<h1 class="list-h1">{c[0]}</h1><p class="list-sub">{c[1]}</p>
+{list_head('love_letter', c[0], c[1])}
 <div class="chips" data-filter role="group" aria-label="{c[0]}">{chips}</div>
 <div class="post-grid">{first}{soon}</div>
 <p class="empty" hidden>{c[5]}</p>
@@ -575,10 +593,11 @@ def notice_list(lang):
     c = {'ko': ('공지사항', '업데이트와 이벤트 소식을 알려드려요', '공지사항 | 응가메이트', '가족이 함께 보는 강아지 응가 기록 앱, 응가메이트의 업데이트와 이벤트 소식을 알려드려요.'),
          'en': ('Notices', 'Updates and events from PoopieMate', 'Notices | PoopieMate', 'Updates and events from PoopieMate, the dog potty log your whole family shares.')}[lang]
     body = f'''
-<section class="list-page"><div class="wrap-notice">
-<div class="notice-head"><img src="/assets/img/emoji/megaphone.webp" alt="" width="56" height="56"><div><h1 class="list-h1">{c[0]}</h1><p class="list-sub">{c[1]}</p></div></div>
-<div class="notice-rows">
-<a href="{url('interview_notice', lang)}"><span class="pin">{n['pinned']}</span><b>{n['title']}</b><span>{n['sub']}</span><time datetime="2026-10-05">{n['date']}</time></a>
+<section class="list-page"><div class="wrap-list">
+{list_head('megaphone', c[0], c[1])}
+<div class="post-grid">
+<a class="post-card" href="{url('interview_notice', lang)}"><span class="thumb green"><img src="/assets/img/notice-hero.webp" alt="" loading="lazy" width="1038" height="510"></span>
+<span class="cat">{n['pinned']}</span><b>{n['title']}</b><span class="ex">{n['sub']}</span><time datetime="2026-10-05">{n['date']}</time></a>
 </div>
 </div></section>
 '''
@@ -587,9 +606,7 @@ def notice_list(lang):
 
 def notice_interview(lang):
     n = NOTICE[lang]
-    art = art_card('ears', [('megaphone', 'left:5%;top:30px', 86, -14), ('sparkles', 'left:24%;top:120px', 49, 10), ('speech_balloon', 'left:6%;top:196px', 71, 8),
-                            ('paw_prints', 'right:31%;top:23px', 53, 16), ('love_letter', 'right:8%;top:38px', 83, 10), ('bone', 'right:21%;top:162px', 56, -22),
-                            ('green_heart', 'right:6%;top:199px', 75, -8)])
+    art = '<img class="notice-hero" src="/assets/img/notice-hero.webp" alt="" width="1038" height="510">'
     body = f'''
 <article class="post"><div class="wrap-post">
 {post_head(f'<time datetime="2026-10-05">{n["date"]}</time> · {n["by"]}', n['title'], art)}
@@ -599,6 +616,36 @@ def notice_interview(lang):
 '''
     write(url('interview_notice', lang), page(lang, 'interview_notice', n['title'] + (' | 응가메이트' if lang == 'ko' else ' | PoopieMate'), n['sub'], body,
                                               f'/assets/og/interview-{lang}.jpg', active='notice', og_type='article'))
+
+
+# ═════════════════════════════════════════════════════════ 정책 (옛 poopiemate-legal에서 옮겨 옴 — 본문은 그대로, 겉모양만)
+LEGAL_DESC = {
+    'privacy': ('응가메이트가 어떤 개인정보를 왜 모으고 어떻게 지키는지 알려드려요. 수집 항목, 이용 목적, 보관 기간, 이용자의 권리를 담았어요.',
+                'What personal data PoopieMate collects, why, how long we keep it and how we protect it, plus your rights under Korean, UK and EU law.'),
+    'terms': ('응가메이트를 쓸 때 지켜야 할 약속과 서비스 이용 조건을 담은 이용약관이에요. 금지 콘텐츠 신고 방법도 안내해요.',
+              'The terms for using PoopieMate: your account, family sharing, prohibited content and how to report it, and our responsibilities.'),
+    'support': ('응가메이트를 쓰다 궁금한 점이 생기면 이메일로 물어봐 주세요. 자주 묻는 질문과 계정 삭제 방법도 안내해요.',
+                'Questions about PoopieMate? Email us. Answers to common questions and how to delete your account.'),
+    'licenses': ('응가메이트 앱에 쓰인 오픈소스 소프트웨어와 각 라이선스 전문을 모았어요.',
+                 'Open-source software used in the PoopieMate app, with the full text of each license.'),
+}
+
+
+def legal(name, lang):
+    src = (SRC / f'legal/{name}-{lang}.html').read_text(encoding='utf-8')
+    title = html_mod.unescape(re.search(r'<title>(.*?)</title>', src, re.S).group(1)).strip()
+    m = re.search(r'<div class="container">(.*)</div>\s*(<script>.*?</script>)?\s*</body>', src, re.S)
+    inner, script = m.group(1), m.group(2) or ''
+    inner = re.sub(r'\s*<footer>.*?</footer>', '', inner, flags=re.S)
+    inner = re.sub(r'\s*<div class="app-name">.*?</div>', '', inner, flags=re.S)
+    inner = re.sub(r'\s*<div class="lang-switch">.*?</div>', '', inner, flags=re.S)
+    inner = inner.replace('<header>', '<div class="legal-head">', 1).replace('</header>', '</div>', 1)
+    inner = inner.replace('<h1>', '<h1 class="post-h1">', 1)
+    inner = re.sub(r'href="\./(privacy|terms|support|licenses)-(ko|en)(#[^"]*)?"', lambda m: f'href="{url(m.group(1), m.group(2))}{m.group(3) or ""}"', inner)
+    if name == 'support':  # 문의 메일은 응가메이트 대표 메일로
+        inner = inner.replace('jin@pixelberry.io', EMAIL)
+    body = f'<article class="post legal"><div class="wrap-post"><div class="prose">{inner}</div></div></article>\n{script}'
+    write(url(name, lang), page(lang, name, title, LEGAL_DESC[name][0 if lang == 'ko' else 1], body, f'/assets/og/home-{lang}.jpg', active=None))
 
 
 # ═════════════════════════════════════════════════════════ 검색 가이드 (옛 글 — 새 디자인으로)
@@ -640,10 +687,11 @@ def interview():
                 '<meta property="og:type" content="website">\n<meta property="og:site_name" content="응가메이트">\n<meta property="og:title" content="응가메이트 유저 인터뷰 신청">\n'
                 '<meta property="og:description" content="보호자님 이야기를 들려주세요. 참여하면 폴 바셋 아이스크림 라떼를 드려요.">\n<meta property="og:url" content="' + SITE + '/interview/">\n'
                 '<meta property="og:image" content="' + SITE + '/assets/og/interview-ko.jpg">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="robots" content="noindex, follow">\n'
-                '<style>body{background:var(--bg)} main.iv{padding-top:calc(var(--header-h) + 40px);padding-bottom:56px} .gnb{background:rgba(255,255,255,.95)} .footer{background:#FFFFFF} :root{--pink-dark:#A2479A} .required-tag{background:#A2479A} #submit-btn{background:#127F4A} .required-tag, .optional-tag, .radio-chip .badge{font-size:12px}</style>\n')
+                '<style>:root{--pink-dark:#A2479A}</style>\n')
     s = s.replace('</head>', head_add + '</head>', 1)
     s = re.sub(r'<header>.*?</header>', header('ko', 'notice', '/interview/', '/en/notice/interview/'), s, count=1, flags=re.S)
     s = s.replace('<main>', '<main class="iv" id="main">', 1)
+    s = s.replace('<body>', '<body class="iv-page">', 1)
     s = s.replace('꾸준히 응가메이트를 사용해주신 분들께 보내는 인터뷰 신청 페이지입니다.', '응가메이트를 쓰는 보호자님의 이야기를 듣고 싶어요. 원하는 날짜와 시간을 골라 인터뷰를 신청해 주세요.')
     # <p> 안에 목록(ul)은 들어갈 수 없다 — 안내 문단을 div로 (웹표준)
     s = re.sub(r'<p class="hint">(\s*[^<]*<ul>.*?</ul>\s*)</p>', r'<div class="hint">\1</div>', s, flags=re.S)
@@ -725,5 +773,7 @@ def sitemap():
 if __name__ == '__main__':
     for lang in ('ko', 'en'):
         home(lang); how(lang); story_list(lang); story_why(lang); notice_list(lang); notice_interview(lang)
+        for n in ('privacy', 'terms', 'support', 'licenses'):
+            legal(n, lang)
     guides(); interview(); download(); not_found(); sitemap()
     print('built')

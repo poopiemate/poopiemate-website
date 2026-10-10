@@ -163,7 +163,7 @@ def photos():
 
 
 # ── 영상 — 인스타 릴스(기능별, 한/영) 720p로 다시 인코딩 + 첫 장면 포스터
-REELS = {'record': '01', 'family': '02', 'alerts': '03', 'walk': '04'}
+REELS = {'record': '01', 'alerts': '03'}  # 이렇게 써요 2·3단계
 REEL_SRC = {'ko': DESK / '응가메이트_인스타그램/한국어/9칸_B_기능별/릴스', 'en': DESK / '응가메이트_인스타그램/영어/Reels'}
 
 
@@ -181,22 +181,38 @@ def reels():
             print('reel', key, lang, dst.stat().st_size // 1024, 'KB')
 
 
-# ── 가족 초대 모션그래픽 (소개 영상 v10 숏폼) — 유튜브 대신 화면에서 바로 돌게, 소리 없이 작게
-INVITE = {'ko': '응가메이트_가족초대_숏폼_KO.mp4', 'en': 'PoopieMate_FamilyInvite_Vertical_EN.mp4'}
-
-
+# ── 「가족을 초대해요」 릴스 — 다른 기능 릴스와 같은 틀로 새로 그린 것 (src/render/render.js가 프레임을 찍는다)
 def invite():
-    d = DESK / '서비스 소개 영상/v10_최종/숏폼'
-    files = {unicodedata.normalize('NFC', f.name): f for f in d.glob('*.mp4')}
-    for lang, name in INVITE.items():
-        src = files[name]
+    for lang in ('ko', 'en'):
+        frames = ROOT / f'.cache/invite-{lang}'
         dst = out(f'video/invite-{lang}.mp4')
-        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', str(src), '-vf', 'scale=540:-2,fps=30', '-c:v', 'libx264', '-profile:v', 'high', '-crf', '28',
-                        '-preset', 'slow', '-pix_fmt', 'yuv420p', '-an', '-movflags', '+faststart', str(dst)], check=True)
-        poster = ROOT / '.cache' / f'invite-{lang}.png'
-        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', '2.5', '-i', str(src), '-frames:v', '1', str(poster)], check=True)
-        webp(poster, f'video/invite-{lang}.webp', width=540, q=80)
+        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-framerate', '30', '-i', str(frames / '%03d.png'), '-vf', 'scale=720:-2', '-c:v', 'libx264', '-profile:v', 'high',
+                        '-crf', '27', '-preset', 'slow', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', str(dst)], check=True)
+        webp(frames / '075.png', f'video/invite-{lang}.webp', width=540, q=80)
         print('invite', lang, dst.stat().st_size // 1024, 'KB')
+
+
+# ── 앱 공지 상세 무대 그림 (src/render/notice_hero.html → .cache/notice-hero.png)
+def notice_hero():
+    webp(ROOT / '.cache/notice-hero.png', 'img/notice-hero.webp', q=88)
+
+
+# ── 서비스 소개 롱폼 (1분) — 홈 첫 화면 가득 소리 없이 저절로 재생 (유튜브 버튼 없이 바로)
+INTRO = {'ko': '응가메이트_서비스소개_롱폼_KO.mp4', 'en': 'PoopieMate_Intro_Landscape_EN.mp4'}
+
+
+def intro():
+    d = DESK / '서비스 소개 영상/v10_최종/롱폼'
+    files = {unicodedata.normalize('NFC', f.name): f for f in d.glob('*.mp4')}
+    for lang, name in INTRO.items():
+        src = files[name]
+        dst = out(f'video/intro-{lang}.mp4')
+        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', str(src), '-vf', 'scale=1600:-2', '-c:v', 'libx264', '-profile:v', 'high', '-crf', '28',
+                        '-preset', 'slow', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '96k', '-movflags', '+faststart', str(dst)], check=True)
+        poster = ROOT / '.cache' / f'intro-{lang}.png'
+        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', '0.6', '-i', str(src), '-frames:v', '1', str(poster)], check=True)
+        webp(poster, f'video/intro-{lang}.webp', width=1600, q=80)
+        print('intro', lang, dst.stat().st_size // 1024, 'KB')
 
 
 # ── 유튜브 썸네일 (직접 만든 것) — 클릭 전엔 이미지만, 누르면 영상
@@ -220,7 +236,7 @@ def favicon():
             shutil.copy(f, ROOT / f.name if f.name == 'favicon.ico' else out(f'icons/{f.name}'))
 
 
-STEPS = {'fonts': fonts, 'invite': invite, 'brand': brand, 'mascot': mascot, 'emoji': emoji, 'photos': photos, 'reels': reels, 'thumbs': thumbs, 'favicon': favicon}
+STEPS = {'fonts': fonts, 'invite': invite, 'notice_hero': notice_hero, 'intro': intro, 'brand': brand, 'mascot': mascot, 'emoji': emoji, 'photos': photos, 'reels': reels, 'thumbs': thumbs, 'favicon': favicon}
 if __name__ == '__main__':
     for k in (sys.argv[1:] or STEPS):
         print('==', k)
