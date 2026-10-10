@@ -357,7 +357,7 @@ def home(lang):
                'v_label': 'POOPIEMATE intro video (1 min)',
                'b_tag': 'Care together', 'b_h': 'Six things families share', 'f_more': 'See how it works',
                's_tag': 'Our story', 's_h': '“Did she poop?”<br>It started with that call', 's_cap': ('Rescue days', 'Home with us now'),
-               's_p': 'We first saw our white Jindo mix as “Bunhong-i” on a rescue group’s Instagram. Now she’s family. She never goes indoors, so she walks three times a day. As a working couple, we kept calling to ask “Did Poochie poop?” So we built an app where one tap tells the whole family.',
+               's_p': 'We first saw our white Jindo mix as “Bunhong” on a rescue group’s Instagram. Now she’s family. She never goes indoors, so she walks three times a day. As a working couple, we kept calling to ask “Did Poochie poop?” So we built an app where one tap tells the whole family.',
                's_btn': 'Read our story'},
     }[lang]
     cards = ''.join(f'<article class="fcard" style="background:{bg}"><span class="chip">{chip}</span><h3 class="h3">{h}</h3><p>{sb(p)}</p>'
@@ -520,11 +520,11 @@ STORY = {
         'excerpt': 'The dog we first saw on a rescue group’s Instagram, and the “Did she poop?” calls we made every single day.',
         'blocks': [
             ('p', 'Hi, I’m Jin, the developer behind POOPIEMATE. Here’s how the app came to be, from the very beginning. It’s a bit of a long one.'),
-            ('h2', 'Bunhong-i, from an Instagram post'),
+            ('h2', 'Bunhong, from an Instagram post'),
             ('p', 'Our dog’s name is Melona. She’s now four, a 13 kg white Jindo mix — part Jindo, part Bichon, which is why her fur curls slightly.'),
             ('p', 'Her mother lived on a short chain in the countryside. She had been someone’s dog in Seoul, until her owner abandoned her out there and left. She had puppies with a stray dog, and our dog is one of them.'),
-            ('p', 'They were about to be sold off to who knows where when the animal rescue group WithAllAnimals (WAA) rescued them. I first saw her in a photo on WAA’s Instagram. Back then she was called “Bunhong-i” — little pinky.'),
-            ('img', 'pair-rescue', 'Bunhong-i, as I first saw her on WAA’s Instagram'),
+            ('p', 'They were about to be sold off to who knows where when the animal rescue group WithAllAnimals (WAA) rescued them. I first saw her in a photo on WAA’s Instagram. Back then she was called “Bunhong” — little pinky.'),
+            ('img', 'pair-rescue', 'Bunhong, as I first saw her on WAA’s Instagram'),
             ('p', 'At first I offered to foster her. Then the idea of being responsible for a life scared me, and I said I couldn’t. The next day I got back in touch: “I’ll foster her.” That’s how she came home with us.'),
             ('h2', 'Scared, yet somehow she knew I was Mom'),
             ('p', 'On her first day with us, she was scared of me — and yet she seemed to sense that I was her mom. Looking terrified, she sniffed my hand — then stood still, let me pet her, and looked up at me.'),
@@ -565,6 +565,7 @@ STORY = {
 
 
 STORY_THUMB = 'family-lawn'  # 목록 썸네일 = 글 머리 사진
+THUMB_POS = {'park-run': '50% 60%'}  # 썸네일에서 강아지가 가운데 오게 — 사진마다 잘라 보일 위치
 LANDSCAPE = {'pair-rescue', 'pair-wedding', 'pair-family'}  # 나머지 사진은 세로 — 원본 비율 그대로, 폭만 좁게
 
 
@@ -588,7 +589,8 @@ def story_list(lang):
              f'<span class="cat">{cats[1]}</span><b>{s["title"]}</b><span class="ex">{sb(s["excerpt"])}</span><time datetime="2026-10-07">{s["date"]}</time></a>')
     soon = ''
     for cat, t, ex, art in c[5]:
-        thumb = (f'<img src="/assets/img/photo/{art[6:]}-900.webp" alt="" loading="lazy">' if art.startswith('photo:')
+        pos = THUMB_POS.get(art[6:])
+        thumb = (f'<img src="/assets/img/photo/{art[6:]}-900.webp" alt="" loading="lazy"{f" style={chr(34)}object-position:{pos}{chr(34)}" if pos else ""}>' if art.startswith('photo:')
                  else '<span class="emoji-tile"><img src="/assets/img/emoji/house.webp" alt=""><img src="/assets/img/emoji/growing_heart.webp" alt=""></span>')
         soon += (f'<div class="post-card soon" data-cat="{cats.index(cat)}" aria-disabled="true"><span class="thumb">{thumb}</span>'
                  f'<span class="cat">{cat}</span><b>{t}</b><span class="ex">{sb(ex)}</span><span class="date">{c[6]}</span></div>')
