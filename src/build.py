@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-10'
-ASSET_V = '11'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '12'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
 PLAY = {'ko': 'https://play.google.com/store/apps/details?id=com.pixelberry.poopiemate&hl=ko', 'en': 'https://play.google.com/store/apps/details?id=com.pixelberry.poopiemate&hl=en'}
@@ -391,8 +391,10 @@ def how(lang):
                'label': '이렇게 써요', 'h': '가족이 같이 쓰면<br>“응댕이 똥 쌌어?” 전화가 사라져요', 'lede': '초대 → 기록 → 알림. 세 단계면 충분해요.',
                'steps': [('가족을 초대해요', '카톡으로 초대 코드를 보내면 같은 강아지를 함께 돌보는 가족이 돼요. 엄마·아빠·형제·돌봄 도우미 누구든요.', 'invite', 'house', 'purple'),
                          ('한 명이 기록하면<br>모두에게 알림이 가요', '산책에서 응가·쉬를 버튼 하나로 기록해요. 다른 가족 폰에 바로 알림이 가서 따로 물어볼 필요가 없어요.', 'record', 'pile_of_poo', 'pink'),
-                         ('지금 상태를 한눈에 봐요', '마지막 응가·쉬가 언제였는지, 신호 게이지가 얼마나 찼는지, 오늘 누가 산책했는지 홈에서 바로 보여요.', 'alerts', 'mobile_phone', 'green')],
-               'labels': {'invite': '가족 초대하는 법 모션그래픽', 'record': '기록과 가족 알림 모션그래픽', 'alerts': '배변 신호 모션그래픽'},
+                         ('지금 상태를 한눈에 봐요', '마지막 응가·쉬가 언제였는지, 신호 게이지가 얼마나 찼는지, 오늘 누가 산책했는지 홈에서 바로 보여요.', 'alerts', 'mobile_phone', 'green'),
+                         ('바쁜 날엔 부탁,<br>다녀오면 하트', '“저녁 산책 부탁해!” 전화 대신 버튼 하나로 산책·응가를 부탁하고, 다녀온 가족에게 고맙다고 하트를 보내요.', 'family', 'love_letter', 'peach'),
+                         ('오늘 언제 나가면<br>좋을까요?', '정해 둔 산책 시간이 되면 가족 모두에게 알려주고, 체형·털·나이와 날씨를 더해 시간별 산책 안전도를 보여줘요.', 'walk', 'sun_behind_small_cloud', 'sky')],
+               'labels': {'invite': '가족 초대하는 법 모션그래픽', 'record': '기록과 가족 알림 모션그래픽', 'alerts': '배변 신호 모션그래픽', 'family': '돌봄 부탁과 하트 모션그래픽', 'walk': '산책 루틴과 안전도 모션그래픽'},
                'more_tag': '더 함께 돌보는 기능', 'more_h': '산책은 나눠서 해도,<br>기록은 <em>가족 모두가</em> 함께 봐요',
                'b1': ('가족 기록 공유', '한 명이 누르면<br>가족 폰이 울려요', '“응댕이 똥 쌌어?” 대신 알림 하나. 누가 언제 산책하고 치웠는지 하루 타임라인으로 모아 봐요.'),
                'toasts': [('응댕이가 응가를 했어요 💩', '엄마가 방금 기록했어요', '방금'), ('아빠가 하트를 보냈어요 💜', '아침 산책 기록에', '1분 전')],
@@ -403,8 +405,10 @@ def how(lang):
                'label': 'How it works', 'h': 'Share it with family and<br>the “Did Poochie poop?” calls stop', 'lede': 'Invite → log → alert. Three steps is all it takes.',
                'steps': [('Invite your family', 'Send an invite code by message and you’re caring for the same dog. Parents, siblings, the dog sitter — anyone.', 'invite', 'house', 'purple'),
                          ('One person logs it,<br>everyone gets an alert', 'Log poops and pees on the walk with one button. Everyone else gets an alert right away, so nobody has to ask.', 'record', 'pile_of_poo', 'pink'),
-                         ('See where things stand', 'When the last poop and pee were, how full the gauges are, who walked today — all on the home screen.', 'alerts', 'mobile_phone', 'green')],
-               'labels': {'invite': 'How to invite your family, motion graphic', 'record': 'Logging and family alerts, motion graphic', 'alerts': 'Potty signals, motion graphic'},
+                         ('See where things stand', 'When the last poop and pee were, how full the gauges are, who walked today — all on the home screen.', 'alerts', 'mobile_phone', 'green'),
+                         ('Ask on busy days,<br>thank with a heart', 'Skip the “Can you take the evening walk?” call: ask with one button, and send a heart when they’re back.', 'family', 'love_letter', 'peach'),
+                         ('When should<br>we head out?', 'Everyone gets the same walk reminder, plus an hourly safety score from your dog’s body type, coat, age and the weather.', 'walk', 'sun_behind_small_cloud', 'sky')],
+               'labels': {'invite': 'How to invite your family, motion graphic', 'record': 'Logging and family alerts, motion graphic', 'alerts': 'Potty signals, motion graphic', 'family': 'Help requests and hearts, motion graphic', 'walk': 'Walk routine and safety, motion graphic'},
                'more_tag': 'More ways to care together', 'more_h': 'Split the walks,<br>share the log with <em>everyone</em>',
                'b1': ('Shared family log', 'One tap,<br>every phone buzzes', 'One alert instead of “Did Poochie poop?” See who walked and cleaned up on one daily timeline.'),
                'toasts': [('Poochie just pooped 💩', 'Mom logged it just now', 'now'), ('Dad sent a heart 💜', 'On the morning walk', '1m ago')],
@@ -420,18 +424,17 @@ def how(lang):
                   f'<div class="step-phone">{reel(key, lang, c["labels"][key])}</div></div></div></section>')
     toasts = ''.join(f'<div class="toast"><img src="/assets/icons/apple-touch-icon.png" alt="" width="36" height="36"><span><b>{b}</b><i>{sub}</i></span><time>{t}</time></div>'
                      for b, sub, t in c['toasts'])
-    dl = f'/download/{"?lang=en" if lang == "en" else ""}'
     bento = f'''
 <div class="bento">
 <div class="bento-col">
 <a class="bcard b-pink tall" href="#step-2"><span class="chip">{c['b1'][0]}</span><h3 class="h3">{c['b1'][1]}</h3><p>{c['b1'][2]}</p>
 <div class="toasts" aria-hidden="true">{toasts}</div><img class="dog" src="/assets/img/mascot/pooping.webp" alt="" loading="lazy"><span class="go">{ARROW_R}</span></a>
-<a class="bcard b-lav" href="{dl}"><span class="chip">{c['b2'][0]}</span><h3 class="h3">{c['b2'][1]}</h3><p>{c['b2'][2]}</p>
+<a class="bcard b-lav" href="#step-4"><span class="chip">{c['b2'][0]}</span><h3 class="h3">{c['b2'][1]}</h3><p>{c['b2'][2]}</p>
 <img class="obj" src="/assets/img/emoji/love_letter.webp" alt="" loading="lazy"><span class="go">{ARROW_R}</span></a>
 </div>
 <div class="bento-col">
 <a class="bcard b-green" href="#step-1"><span class="chip">{c['b3'][0]}</span><h3 class="h3">{c['b3'][1]}</h3><p>{c['b3'][2]}</p><span class="go">{ARROW_R}</span></a>
-<a class="bcard b-photo tall" href="{dl}"><img class="bg" src="/assets/img/photo/lawn-walk-900.webp" alt="" loading="lazy"><span class="chip">{c['b4'][0]}</span><h3 class="h3">{c['b4'][1]}</h3><p>{c['b4'][2]}</p><span class="go">{ARROW_R}</span></a>
+<a class="bcard b-photo tall" href="#step-5"><img class="bg" src="/assets/img/photo/lawn-walk-900.webp" alt="" loading="lazy"><span class="chip">{c['b4'][0]}</span><h3 class="h3">{c['b4'][1]}</h3><p>{c['b4'][2]}</p><span class="go">{ARROW_R}</span></a>
 </div>
 </div>'''
     body = f'''

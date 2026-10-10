@@ -202,6 +202,16 @@
       if (now < lock || !fresh) return;
       glide(to);
     }, { passive: false });
+    // 아래 카드의 단계 링크 — 그 단계 화면으로 스르륵
+    document.querySelectorAll('a[href^="#step-"]').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        var target = document.querySelector(link.getAttribute('href'));
+        if (!target) return;
+        e.preventDefault();
+        glide(target.offsetTop);
+        history.replaceState(null, '', link.getAttribute('href'));
+      });
+    });
     document.addEventListener('keydown', function (e) {
       if (e.altKey || e.ctrlKey || e.metaKey || /input|textarea|select/i.test(e.target.tagName)) return;
       if (e.key === ' ' && e.target.closest && e.target.closest('a, button, summary, [tabindex]')) return;  // 버튼·링크 위의 스페이스는 원래 동작대로
