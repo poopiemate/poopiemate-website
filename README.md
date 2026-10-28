@@ -34,7 +34,7 @@ Pages are generated. Edit `src/`, not the HTML.
 ```bash
 python3 src/prepare_assets.py   # mascot, 3D emoji, photos, videos, favicons (from the app repo + ~/Desktop/응가메이트)
 python3 src/og.py               # share image 1200×630 per language → assets/og/
-python3 src/build.py            # every page (Korean at /, English at /en/) + sitemap.xml
+python3 src/build.py            # every page (Korean at /, English at /en/) + sitemap.xml + rss.xml, en/rss.xml
 ```
 
 | Path | What it holds |

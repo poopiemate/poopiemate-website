@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>POOPIEMATE stories and guides</title>
+  <link>https://poopiemate.com/en/</link>
+  <description>Stories and dog guides from POOPIEMATE, the dog potty log your whole family shares</description>
+  <language>en</language>
+  <atom:link href="https://poopiemate.com/en/rss.xml" rel="self" type="application/rss+xml"/>
+  <lastBuildDate>Wed, 28 Oct 2026 15:40:41 +0900</lastBuildDate>
+  <item>
+    <title>Two Working Parents? How to Never Miss a Dog Walk or Mix Up Whose Turn It Is</title>
+    <link>https://poopiemate.com/en/dual-income-dog-walk-schedule/</link>
+    <guid isPermaLink="true">https://poopiemate.com/en/dual-income-dog-walk-schedule/</guid>
+    <description>For dual-income homes: keep dog walk times on track and stop mixing up whose turn it is by seeing who walked the dog and when.</description>
+    <category>Guides</category>
+    <pubDate>Wed, 28 Oct 2026 15:40:41 +0900</pubDate>
+  </item>
+  <item>
+    <title>Jindo Mix Potty Training: Why Does It Feel So Hard?</title>
+    <link>https://poopiemate.com/en/jindo-mix-potty-training/</link>
+    <guid isPermaLink="true">https://poopiemate.com/en/jindo-mix-potty-training/</guid>
+    <description>Jindo mixes are smart and independent, so knowing their outdoor potty pattern matters most. Breed traits, training tips and how to keep a log.</description>
+    <category>Guides</category>
+    <pubDate>Wed, 28 Oct 2026 15:40:41 +0900</pubDate>
+  </item>
+  <item>
+    <title>Raising Multiple Dogs? How to Keep Their Potty Logs Straight</title>
+    <link>https://poopiemate.com/en/multi-dog-household-tracking/</link>
+    <guid isPermaLink="true">https://poopiemate.com/en/multi-dog-household-tracking/</guid>
+    <description>In a multi-dog home it&#x27;s easy to lose track of whose poop is whose. Log each dog in its own profile and share it with your family.</description>
+    <category>Guides</category>
+    <pubDate>Wed, 28 Oct 2026 15:40:41 +0900</pubDate>
+  </item>
+  <item>
+    <title>How to Track Potty for a Dog Who Only Goes Outside</title>
+    <link>https://poopiemate.com/en/outdoor-potty-dog-tracking/</link>
+    <guid isPermaLink="true">https://poopiemate.com/en/outdoor-potty-dog-tracking/</guid>
+    <description>With an outdoor-only dog, only the walker knows if they went. Log it right after the walk and share it with your family in the app.</description>
+    <category>Guides</category>
+    <pubDate>Wed, 28 Oct 2026 15:40:41 +0900</pubDate>
+  </item>
+  <item>
+    <title>Healthy Dog Poop: What Good Poop Looks Like, and What Poop Color Means</title>
+    <link>https://poopiemate.com/en/poop-condition-guide/</link>
+    <guid isPermaLink="true">https://poopiemate.com/en/poop-condition-guide/</guid>
+    <description>What healthy dog poop looks like, and what texture and color (gray, black, bloody, green) can mean, including diarrhea color and when to see a vet.</description>
+    <category>Guides</category>
+    <pubDate>Wed, 28 Oct 2026 15:40:41 +0900</pubDate>
+  </item>
+  <item>
+    <title>How Often Should a Dog Poop? Daily Potty Count and Intervals</title>
+    <link>https://poopiemate.com/en/potty-interval/</link>
+    <guid isPermaLink="true">https://poopiemate.com/en/potty-interval/</guid>
+    <description>How many times a day puppies, adult and senior dogs poop, what a normal potty interval is, and when to talk to a vet.</description>
+    <category>Guides</category>
+    <pubDate>Wed, 28 Oct 2026 15:40:41 +0900</pubDate>
+  </item>
+  <item>
+    <title>How to Share Your Dog&#x27;s Potty Log with Family in Real Time</title>
+    <link>https://poopiemate.com/en/share-dog-potty-log-with-family/</link>
+    <guid isPermaLink="true">https://poopiemate.com/en/share-dog-potty-log-with-family/</guid>
+    <description>Skip the chat screenshots and notes. Share your dog&#x27;s poop, pee and walk records with the whole family in real time, with one tap in the free POOPIEMATE app.</description>
+    <category>Guides</category>
+    <pubDate>Wed, 28 Oct 2026 15:40:41 +0900</pubDate>
+  </item>
+  <item>
+    <title>What Is a Dog Walk Safety Index? Is It Safe to Walk Today?</title>
+    <link>https://poopiemate.com/en/walk-safety-index/</link>
+    <guid isPermaLink="true">https://poopiemate.com/en/walk-safety-index/</guid>
+    <description>Check if today&#x27;s walk is safe on a 1 to 5 scale from feels-like temperature, chance of rain and your dog&#x27;s size, age and coat. Plus summer and winter tips.</description>
+    <category>Guides</category>
+    <pubDate>Wed, 28 Oct 2026 15:40:41 +0900</pubDate>
+  </item>
+  <item>
+    <title>From developer to solo builder: the POOPIEMATE story</title>
+    <link>https://poopiemate.com/en/story/developer-to-solo-builder/</link>
+    <guid isPermaLink="true">https://poopiemate.com/en/story/developer-to-solo-builder/</guid>
+    <description>Leaving ComfyUI and building POOPIEMATE alone, from design and code to store reviews and marketing: 120 first users, then the 2.0.0 family care app.</description>
+    <category>Stories</category>
+    <pubDate>Wed, 28 Oct 2026 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>Why I built POOPIEMATE</title>
+    <link>https://poopiemate.com/en/story/why-i-built-poopiemate/</link>
+    <guid isPermaLink="true">https://poopiemate.com/en/story/why-i-built-poopiemate/</guid>
+    <description>The dog we first saw on a rescue group’s Instagram, and the “Did she poop?” calls we made every single day.</description>
+    <category>Stories</category>
+    <pubDate>Wed, 07 Oct 2026 09:00:00 +0900</pubDate>
+  </item>
+</channel>
+</rss>

@@ -168,7 +168,8 @@ def page(lang, key, title, desc, body, og_image, active=None, ko_path=None, en_p
 {f'<meta name="keywords" content="{escape(keywords)}">' if keywords else ''}
 <meta name="robots" content="{'noindex, follow' if noindex else 'index, follow, max-image-preview:large'}">
 <link rel="canonical" href="{SITE}{path}">
-{alt}<meta name="theme-color" content="#18955A">
+{alt}<link rel="alternate" type="application/rss+xml" title="{t['name']}" href="{SITE}{'/rss.xml' if lang == 'ko' else '/en/rss.xml'}">
+<meta name="theme-color" content="#18955A">
 <meta property="og:type" content="{og_type}">
 <meta property="og:site_name" content="{t['name']}">
 <meta property="og:title" content="{escape(title)}">
@@ -1043,6 +1044,54 @@ def not_found():
     (ROOT / '404.html').write_text(page('ko', 'home', '페이지를 찾지 못했어요 | 응가메이트', '찾는 페이지가 없어요. 응가메이트 홈에서 가족이 함께 보는 강아지 응가 기록을 만나 보세요.', body, '/assets/og/poopiemate-ko.jpg', noindex=True), encoding='utf-8')
 
 
+def rss(lang):
+    """새 글 알림용 RSS — 이야기와 가이드. 네이버 서치어드바이저에 /rss.xml을 등록해 두면 새 글을 바로 가져간다."""
+    from email.utils import format_datetime
+    from datetime import datetime, timezone, timedelta
+    kst = timezone(timedelta(hours=9))
+    items = []
+    for key, (src, date, _, _, thumb, _) in POSTS.items():
+        s = src[lang]
+        items.append((datetime.fromisoformat(date).replace(hour=9, tzinfo=kst), s['title'], SITE + url(key, lang), s['excerpt'], T[lang]['nav'][1][1]))
+    for f in sorted((SRC / 'legacy/guides').glob('*.json')):
+        g = guide_json(f.stem, lang)
+        if not g:
+            continue
+        src_file = f if lang == 'ko' else SRC / f'legacy/guides/en/{f.stem}.json'
+        # 가이드는 날짜가 없어서 원본 파일이 저장소에 처음 들어온 날을 쓴다
+        added = subprocess.run(['git', 'log', '--diff-filter=A', '--format=%aI', '--', str(src_file)], capture_output=True, text=True, cwd=ROOT).stdout.split()
+        when = datetime.fromisoformat(added[-1]) if added else datetime.now(kst)
+        h1 = html_mod.unescape(re.sub(r'<[^>]+>', '', re.search(r'<h1[^>]*>(.*?)</h1>', g['main'], re.S).group(1))).strip()
+        items.append((when, h1, f'{SITE}{"" if lang == "ko" else "/en"}/{f.stem}/', g['description'], T[lang]['nav'][2][1]))
+    items.sort(key=lambda x: x[0], reverse=True)
+    home = SITE + url('home', lang)
+    title, desc = {'ko': ('응가메이트 이야기·가이드', '가족이 함께 보는 강아지 응가·산책 기록 앱, 응가메이트의 이야기와 강아지 가이드'),
+                   'en': ('POOPIEMATE stories and guides', 'Stories and dog guides from POOPIEMATE, the dog potty log your whole family shares')}[lang]
+    feed = url('home', lang) + 'rss.xml'
+    body = ''.join(f'''
+  <item>
+    <title>{escape(t_)}</title>
+    <link>{link}</link>
+    <guid isPermaLink="true">{link}</guid>
+    <description>{escape(d)}</description>
+    <category>{escape(cat)}</category>
+    <pubDate>{format_datetime(when)}</pubDate>
+  </item>''' for when, t_, link, d, cat in items)
+    xml = f'''<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>{title}</title>
+  <link>{home}</link>
+  <description>{desc}</description>
+  <language>{lang}</language>
+  <atom:link href="{SITE}{feed}" rel="self" type="application/rss+xml"/>
+  <lastBuildDate>{format_datetime(items[0][0])}</lastBuildDate>{body}
+</channel>
+</rss>
+'''
+    (ROOT / feed.lstrip('/')).write_text(xml, encoding='utf-8')
+
+
 def sitemap():
     rows = []
     for key, (ko, en) in PATHS.items():
@@ -1067,5 +1116,5 @@ if __name__ == '__main__':
         home(lang); how(lang); story_list(lang); story_post(lang, 'why'); story_post(lang, 'solo'); notice_list(lang); notice_interview(lang)
         for n in ('privacy', 'terms', 'support', 'licenses'):
             legal(n, lang)
-    guides(); guide_list('ko'); guide_list('en'); interview('ko'); interview('en'); download(); moved(); not_found(); sitemap()
+    guides(); guide_list('ko'); guide_list('en'); interview('ko'); interview('en'); download(); moved(); not_found(); sitemap(); rss('ko'); rss('en')
     print('built')
