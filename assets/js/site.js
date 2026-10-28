@@ -1,5 +1,5 @@
 // 응가메이트 웹 — 모바일 메뉴 · 투명 헤더 · 첫 방문 로딩 · 여섯 가지 카드 넘기기 · 첫 화면 소개 영상 · 단어씩 올라오는 제목
-// · 이렇게 써요 단계(들어오면 아이콘 → 영상) · 풀페이지 넘기기 · 이야기 분류 칩 · 등장 효과
+// · 이렇게 써요 단계(들어오면 아이콘 → 영상) · 풀페이지 넘기기 · 이야기 분류 칩 · 글 공유하기 · 등장 효과
 (function () {
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -297,6 +297,21 @@
         var shown = 0;
         cards.forEach(function (c) { var on = cat === 'all' || c.getAttribute('data-cat') === cat; c.hidden = !on; if (on) shown++; });
         if (empty) empty.hidden = shown > 0;
+      });
+    });
+  });
+
+  // 글 공유하기 — 휴대폰은 공유 시트, 안 되면 링크를 복사하고 버튼 글자로 알려 준다
+  document.querySelectorAll('[data-share]').forEach(function (b) {
+    var label = b.querySelector('span');
+    var text = label.textContent;
+    b.addEventListener('click', function () {
+      var data = { title: b.getAttribute('data-title'), url: location.href.split('#')[0] };
+      if (navigator.share) { navigator.share(data).catch(function () {}); return; }
+      if (!navigator.clipboard) return;
+      navigator.clipboard.writeText(data.url).then(function () {
+        label.textContent = b.getAttribute('data-copied');
+        setTimeout(function () { label.textContent = text; }, 2000);
       });
     });
   });

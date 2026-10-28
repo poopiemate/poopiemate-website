@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-28'
-ASSET_V = '36'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '37'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -41,6 +41,7 @@ CHEV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=
 ARROW_R = CHEV.replace('m{d}', 'M5 12h14M13 6l6 6-6 6')
 CHEV_L = CHEV.replace('m{d}', 'M15 18l-6-6 6-6')
 CHEV_R = CHEV.replace('m{d}', 'M9 18l6-6-6-6')
+SHARE_ICON = CHEV.replace('m{d}', 'M12 15V3M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6')
 EXT_ICON = CHEV.replace('m{d}', 'M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6')
 CHEV_D = CHEV.replace('m{d}', 'M6 9l6 6 6-6')
 PLAY_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.14v13.72a1 1 0 0 0 1.52.85l10.6-6.86a1 1 0 0 0 0-1.7L9.52 4.29A1 1 0 0 0 8 5.14Z"/></svg>'
@@ -58,14 +59,14 @@ T = {
         'menu': '메뉴 열기', 'close': '메뉴 닫기', 'skip': '본문으로 건너뛰기', 'get': '지금 다운로드', 'lang_label': '언어',
         'f_links': [('고객 지원', '/support/'), ('개인정보 처리방침', '/privacy/'), ('이용약관', '/terms/'), ('오픈소스 라이선스', '/licenses/')],
         'operator': f'운영 픽셀베리 · 문의 <a href="mailto:{EMAIL}">{EMAIL}</a>', 'copy': '© 2026 픽셀베리 · 응가메이트',
-        'play': '영상 재생', 'more': '자세히 보기', 'back': '목록으로',
+        'play': '영상 재생', 'more': '자세히 보기', 'back': '목록으로', 'share': '공유하기', 'copied': '링크를 복사했어요', 'next': '다음 글', 'read': '이야기 읽기',
     },
     'en': {
         'name': 'POOPIEMATE', 'nav': [('how', 'How it works'), ('story', 'Stories'), ('notice', 'Notices')], 'cta': 'Get the app', 'cta_short': 'Get the app',
         'menu': 'Open menu', 'close': 'Close menu', 'skip': 'Skip to content', 'get': 'Download on the', 'lang_label': 'Language',
         'f_links': [('Support', '/en/support/'), ('Privacy Policy', '/en/privacy/'), ('Terms of Service', '/en/terms/'), ('Open-source licenses', '/en/licenses/')],
         'operator': f'Operated by Pixelberry · <a href="mailto:{EMAIL}">{EMAIL}</a>', 'copy': '© 2026 Pixelberry · POOPIEMATE',
-        'play': 'Play video', 'more': 'Learn more', 'back': 'Back to list',
+        'play': 'Play video', 'more': 'Learn more', 'back': 'Back to list', 'share': 'Share', 'copied': 'Link copied', 'next': 'Next story', 'read': 'Read the story',
     },
 }
 # 페이지 키 → (한국어 경로, 영어 경로)
@@ -716,6 +717,18 @@ def story_clip(name, label, lang, cap=True):
             f'{f"<span class=\"clip-cap\">{label}</span>" if cap else ""}</div>')
 
 
+def next_post(lang, key):
+    """글 끝의 다음 글 — 홈의 이야기 카드(크림 바탕, 그림 + 라벨·제목·요약·더 보기)와 같은 모양.
+    목록 순서(새 글 먼저)로 다음 것, 마지막 글이면 맨 앞 글로."""
+    keys = list(POSTS)
+    nxt = keys[(keys.index(key) + 1) % len(keys)]
+    src, _, _, _, thumb, _ = POSTS[nxt]
+    s = src[lang]
+    return (f'<div class="story-card next-card"><a class="next-art" href="{url(nxt, lang)}" tabindex="-1" aria-hidden="true"><img src="{thumb.format(lang=lang)}" alt="" width="1600" height="1000" loading="lazy"></a>'
+            f'<div class="story-text">{label(T[lang]["next"], "gold")}<h2 class="h2">{s["title"]}</h2><p>{s["excerpt"]}</p>'
+            f'<a class="more-link" href="{url(nxt, lang)}">{T[lang]["read"]}{ARROW_R}</a></div></div>')
+
+
 def story_post(lang, key):
     src, date, modified, _, thumb, og = POSTS[key]
     s = src[lang]
@@ -752,7 +765,8 @@ def story_post(lang, key):
 <article class="post"><div class="wrap-post">
 {post_head(f'<time datetime="{date}">{s["date"]}</time> · {s["by"]}', s['title'], art)}
 <div class="prose">{''.join(out)}</div>
-<div class="post-end"><a class="btn-block btn-grey" href="{url('story', lang)}">{T[lang]['back']}</a></div>
+{next_post(lang, key)}
+<div class="post-end two"><button class="btn-block btn-dark" type="button" data-share data-title="{escape(s['title'])}" data-copied="{T[lang]['copied']}">{SHARE_ICON}<span aria-live="polite">{T[lang]['share']}</span></button><a class="btn-block btn-grey" href="{url('story', lang)}">{T[lang]['back']}</a></div>
 </div></article>
 {cta_band(lang)}
 '''
