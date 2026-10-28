@@ -35,6 +35,7 @@
 - 이야기: https://poopiemate.com/story/
 - 응가메이트를 만든 이유: https://poopiemate.com/story/why-i-built-poopiemate/
 - 개발자에서 1인 빌더로, 응가메이트 이야기: https://poopiemate.com/story/developer-to-solo-builder/
+- 강아지 가이드 (배변 상태, 배변 텀, 실외배변, 산책 안전, 맞벌이 산책, 다견가정): https://poopiemate.com/guide/
 - 공지사항: https://poopiemate.com/notice/
 
 ## 영상 · SNS

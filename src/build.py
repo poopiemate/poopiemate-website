@@ -57,7 +57,7 @@ T = {
     'ko': {
         'name': '응가메이트', 'nav': [('how', '이렇게 써요'), ('story', '이야기'), ('notice', '공지사항')], 'cta': '앱 다운로드', 'cta_short': '앱 받기',
         'menu': '메뉴 열기', 'close': '메뉴 닫기', 'skip': '본문으로 건너뛰기', 'get': '지금 다운로드', 'lang_label': '언어',
-        'f_links': [('고객 지원', '/support/'), ('개인정보 처리방침', '/privacy/'), ('이용약관', '/terms/'), ('오픈소스 라이선스', '/licenses/')],
+        'f_links': [('강아지 가이드', '/guide/'), ('고객 지원', '/support/'), ('개인정보 처리방침', '/privacy/'), ('이용약관', '/terms/'), ('오픈소스 라이선스', '/licenses/')],
         'operator': f'운영 픽셀베리 · 문의 <a href="mailto:{EMAIL}">{EMAIL}</a>', 'copy': '© 2026 픽셀베리 · 응가메이트',
         'play': '영상 재생', 'more': '자세히 보기', 'back': '목록으로', 'share': '공유하기', 'copied': '링크를 복사했어요', 'next': '다음 글', 'read': '이야기 읽기',
     },
@@ -136,7 +136,7 @@ def header(lang, active, ko_path, en_path):
 def footer(lang, ko_path, en_path):
     t = T[lang]
     links = [(label, url(k, lang)) for k, label in t['nav']] + t['f_links']
-    priv = t['f_links'][1][0]
+    priv = next(label for label, h in t['f_links'] if 'privacy' in h)
     nav = ''.join(f'<a href="{h}"{" class=" + chr(34) + "strong" + chr(34) if label == priv else ""}>{label}</a>' for label, h in links)
     return (f'<footer class="footer"><div class="wrap">'
             f'<div class="f-row"><img src="/assets/brand/wordmark-{lang}-green.svg" alt="{t["name"]}" width="{"105" if lang == "ko" else "140"}" height="28">{sns_links(lang)}</div>'
@@ -870,12 +870,47 @@ def guides():
         rest = main[h1.end():] if h1 else main
         body = f'''
 <article class="post"><div class="wrap-post">
-<p class="post-meta"><a href="/">응가메이트</a> › 강아지 배변 가이드</p>{h1.group(0).replace('class="h1"', 'class="post-h1"') if h1 else ''}
+<p class="post-meta"><a href="/">응가메이트</a> › <a href="/guide/">강아지 가이드</a></p>{h1.group(0).replace('class="h1"', 'class="post-h1"') if h1 else ''}
 <div class="prose">{rest}</div></div></article>
 {cta_band('ko')}
 '''
         write(f'/{g["slug"]}/', page('ko', None, g['title'], g['description'], body, '/assets/og/poopiemate-ko.jpg', ko_path=f'/{g["slug"]}/', en_path=None,
                                      og_type='article', ld=g['ld'], keywords=g['keywords']))
+
+
+# 가이드 목록 — 한국어만 (글이 한국어뿐). 분류와 카드의 3D 아이콘 두 개, 바탕색
+GUIDE_CARDS = {
+    'poop-condition-guide': ('배변', ('pile_of_poo', 'sparkles'), 'cream'),
+    'potty-interval': ('배변', ('alarm_clock', 'pile_of_poo'), ''),
+    'outdoor-potty-dog-tracking': ('배변', ('paw_prints', 'sun_behind_small_cloud'), 'mint'),
+    'jindo-mix-potty-training': ('배변', ('bone', 'paw_prints'), 'cream'),
+    'walk-safety-index': ('산책·가족', ('sun_behind_small_cloud', 'paw_prints'), ''),
+    'dual-income-dog-walk-schedule': ('산책·가족', ('house', 'alarm_clock'), 'mint'),
+    'share-dog-potty-log-with-family': ('산책·가족', ('mobile_phone', 'green_heart'), 'cream'),
+    'multi-dog-household-tracking': ('산책·가족', ('paw_prints', 'growing_heart'), ''),
+}
+
+
+def guide_list():
+    cats = ['전체', '배변', '산책·가족']
+    chips = ''.join(f'<button type="button" data-cat="{"all" if i == 0 else i}" aria-pressed="{"true" if i == 0 else "false"}">{x}</button>' for i, x in enumerate(cats))
+    cards = ''
+    for slug, (cat, (a, b), tone) in GUIDE_CARDS.items():
+        g = json.loads((SRC / f'legacy/guides/{slug}.json').read_text(encoding='utf-8'))
+        h1 = html_mod.unescape(re.sub(r'<[^>]+>', '', re.search(r'<h1[^>]*>(.*?)</h1>', g['main'], re.S).group(1))).strip()
+        cards += (f'<a class="post-card" data-cat="{cats.index(cat)}" href="/{slug}/"><span class="thumb{" " + tone if tone else ""}"><span class="emoji-tile">'
+                  f'<img src="/assets/img/emoji/{a}.webp" alt=""><img src="/assets/img/emoji/{b}.webp" alt=""></span></span>'
+                  f'<span class="cat">{cat}</span><b>{escape(h1)}</b><span class="ex">{sb(escape(g["description"]))}</span></a>')
+    body = f'''
+<section class="list-page"><div class="wrap-list">
+{list_head('paw_prints', '강아지 가이드', '배변 상태부터 산책 당번까지, 강아지를 같이 돌볼 때 알아 두면 좋은 것들을 모아요')}
+<div class="chips" data-filter role="group" aria-label="강아지 가이드">{chips}</div>
+<div class="post-grid">{cards}</div>
+{empty_state('ko', 'story')}
+</div></section>
+'''
+    write('/guide/', page('ko', None, '강아지 가이드 | 응가메이트', '강아지 응가 상태, 배변 텀, 실외배변, 산책 안전, 맞벌이 산책 당번, 다견가정 기록까지. 가족이 같이 강아지를 돌볼 때 알아 두면 좋은 가이드를 모았어요.',
+                          body, '/assets/og/poopiemate-ko.jpg', ko_path='/guide/', en_path=None))
 
 
 # ═════════════════════════════════════════════════════════ 인터뷰 신청 (폼·스크립트는 그대로, 겉모양만)
@@ -969,7 +1004,8 @@ def download():
 
 # ═════════════════════════════════════════════════════════ 옮긴 주소 · 404 · sitemap
 # 예전 주소 → 새 주소. 이미 공유된 링크가 끊기지 않게 예전 자리에 바로 넘어가는 작은 페이지를 둔다
-MOVED = {'/story/why-we-built/': url('why', 'ko'), '/en/story/why-we-built/': url('why', 'en')}
+MOVED = {'/story/why-we-built/': url('why', 'ko'), '/en/story/why-we-built/': url('why', 'en'),
+         '/dog-walk-schedule-sharing/': '/dual-income-dog-walk-schedule/'}  # 산책 당번 가이드는 맞벌이 산책 가이드에 합쳤다
 
 
 def moved():
@@ -997,6 +1033,7 @@ def sitemap():
         for loc in (ko, en):
             rows.append(f'''  <url><loc>{SITE}{loc}</loc><lastmod>{UPDATED}</lastmod><priority>{pr}</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="{SITE}{ko}"/><xhtml:link rel="alternate" hreflang="en" href="{SITE}{en}"/><xhtml:link rel="alternate" hreflang="x-default" href="{SITE}{ko}"/></url>''')
+    rows.append(f'  <url><loc>{SITE}/guide/</loc><lastmod>{UPDATED}</lastmod><priority>0.7</priority></url>')
     rows.append(f'  <url><loc>{SITE}/download/</loc><lastmod>{UPDATED}</lastmod><priority>0.6</priority></url>')
     for f in sorted((SRC / 'legacy/guides').glob('*.json')):
         rows.append(f'  <url><loc>{SITE}/{f.stem}/</loc><lastmod>{UPDATED}</lastmod><priority>0.6</priority></url>')
@@ -1009,5 +1046,5 @@ if __name__ == '__main__':
         home(lang); how(lang); story_list(lang); story_post(lang, 'why'); story_post(lang, 'solo'); notice_list(lang); notice_interview(lang)
         for n in ('privacy', 'terms', 'support', 'licenses'):
             legal(n, lang)
-    guides(); interview('ko'); interview('en'); download(); moved(); not_found(); sitemap()
+    guides(); guide_list(); interview('ko'); interview('en'); download(); moved(); not_found(); sitemap()
     print('built')

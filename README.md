@@ -22,7 +22,7 @@ The website for **POOPIEMATE (응가메이트)** — your dog’s potty log, sha
 | Notices | `/notice/` | `/en/notice/` |
 | User interview form | `/interview/` | `/en/interview/` |
 | Privacy · Terms · Support · Open-source licenses | `/privacy/` `/terms/` `/support/` `/licenses/` | `/en/…` |
-| Search guides (Korean only) | `/potty-interval/` and 8 more | — |
+| Dog guides (Korean only) — list and 8 guides | `/guide/`, `/potty-interval/` and 7 more | — |
 | Store redirect | `/download/` (`?lang=en`) | |
 
 The site is static HTML on GitHub Pages with the custom domain `poopiemate.com`.
