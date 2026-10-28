@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-28'
-ASSET_V = '40'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '41'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -516,10 +516,10 @@ def how(lang):
                'b4': ('Walk routine · Safety', 'When should<br>we head out?', 'Everyone gets the walk reminder. Plus a safety score for the weather and your dog.')},
     }[lang]
     steps = ''
-    for i, (h, p, key, ic, tone) in enumerate(c['steps'], 1):
+    for i, (h, p, key, _, tone) in enumerate(c['steps'], 1):
         steps += (f'<section class="how-step snap-sec t-{tone}" id="step-{i}" data-live><div class="wrap-mid step-grid">'
-                  f'<div class="step-text"><span class="step-num">{i:02d}</span><h2 class="h2" data-mo>{h}</h2><p class="mo-fade">{sb(p)}</p></div>'
-                  f'<div class="step-media"><img class="step-icon" src="/assets/img/emoji/{ic}.webp" alt="">'
+                  f'<div class="step-text"><span class="step-num">{i:02d}<i>/ {len(c['steps']):02d}</i></span><h2 class="h2" data-mo>{h}</h2><p class="mo-fade">{sb(p)}</p></div>'
+                  f'<div class="step-media">'
                   f'<div class="step-phone">{reel(key, lang, c["labels"][key])}</div></div></div></section>')
     toasts = ''.join(f'<div class="toast"><img src="/assets/icons/apple-touch-icon.png" alt="" width="36" height="36"><span><b>{b}</b><i>{sub}</i></span><time>{t}</time></div>'
                      for b, sub, t in c['toasts'])

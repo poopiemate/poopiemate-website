@@ -378,29 +378,36 @@ body.menu-open { overflow: hidden; }
   .hh-row.new { grid-template-rows: 1fr; opacity: 1; }
 }
 
-/* 단계 — 모바일까지 화면 한 장(svh) 가득 */
-.how-step { display: flex; flex-direction: column; justify-content: center; min-height: 100vh; min-height: 100svh; padding: calc(var(--header-h) + 16px) 0 32px; }
+/* 단계 — 흰 바탕에 화면 한 장씩. 릴스는 단계 색 타일 위에 놓이고, 글과 타일은 단계마다 좌우가 바뀐다 */
+.how-step { display: flex; flex-direction: column; justify-content: center; min-height: 100vh; min-height: 100svh; padding: calc(var(--header-h) + 24px) 0 40px; background: var(--base); }
 .how-step > div { width: 100%; }
-.t-purple { background: #EDE3FF; --deep: #6B3FC4; }
-.t-pink { background: #FFE3F7; --deep: #B0389F; }
-.t-green { background: #DDF4E6; --deep: #127F4A; }
-.t-peach { background: #FFE9D6; --deep: #B4531A; }
-.t-sky { background: #E1F0FA; --deep: #1F6FB2; }
-.step-grid { display: grid; gap: 32px; align-items: center; }
-@media (min-width: 760px) { .step-grid { grid-template-columns: minmax(0, 1fr) auto; gap: clamp(32px, 6vw, 96px); } }
-.step-num { position: relative; display: inline-block; padding-bottom: 10px; font-family: var(--font-title); font-size: clamp(52px, 6vw, 80px); line-height: 1; font-weight: 800; letter-spacing: -0.03em; color: var(--deep); }
-.step-num::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 8px; border-radius: 4px; background: var(--deep); transform-origin: left; transition: transform .6s cubic-bezier(.2, .7, .2, 1) .1s; }
-.js .how-step:not(.live) .step-num::after { transform: scaleX(0); }
-.step-text .h2 { margin-top: 28px; font-size: clamp(26px, 3.2vw, 38px); line-height: 1.32; }
-.step-text p { margin: 16px 0 0; font-size: 18px; line-height: 1.65; color: var(--fg-2); }
-.step-media { position: relative; justify-self: center; height: min(78vh, 720px); aspect-ratio: 9 / 16; }
-@media (max-width: 759px) { .step-media { height: min(50svh, 520px); } .step-grid { gap: 24px; } .step-num { font-size: 44px; } .step-text .h2 { margin-top: 16px; } .step-text p { font-size: 16px; } }
-.step-icon { position: absolute; left: 50%; top: 50%; width: 46%; transform: translate(-50%, -50%); transition: opacity .5s ease, transform .6s cubic-bezier(.2, .7, .2, 1); }
-.step-phone { position: absolute; inset: 0; border-radius: 28px; overflow: hidden; background: #FDFDFD; box-shadow: 0 24px 60px rgba(25, 31, 40, 0.16); opacity: 0; transform: translateY(56px) scale(.96); transition: opacity .55s ease .1s, transform .75s cubic-bezier(.2, .9, .3, 1.1) .1s; }
-.step-phone { -webkit-mask-image: -webkit-radial-gradient(white, black); isolation: isolate; }
+.t-purple { --tile: #EFE8FF; --deep: #6B3FC4; }
+.t-pink { --tile: #FDE7F8; --deep: #B0389F; }
+.t-green { --tile: #E2F6EA; --deep: #127F4A; }
+.t-peach { --tile: #FFEDDD; --deep: #B4531A; }
+.t-sky { --tile: #E4F1FB; --deep: #1F6FB2; }
+.step-grid { display: grid; gap: 28px; align-items: center; }
+@media (min-width: 760px) {
+  .step-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(40px, 7vw, 112px); }
+  .how-step:nth-of-type(odd) .step-media { order: -1; }
+}
+.step-num { display: inline-flex; align-items: baseline; gap: 6px; font-family: var(--font-title); font-size: 17px; font-weight: 800; letter-spacing: 0; color: var(--deep); }
+.step-num i { font-style: normal; font-size: 14px; color: var(--fg-4); }
+.step-text .h2 { margin-top: 16px; font-size: clamp(28px, 3.4vw, 44px); line-height: 1.28; letter-spacing: -0.03em; }
+.step-text p { margin: 20px 0 0; max-width: 26em; font-size: 18px; line-height: 1.65; color: var(--fg-2); }
+/* 타일 — 단계 색 둥근 판 위에 릴스 화면 */
+.step-media { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: min(76vh, 680px); border-radius: 40px; background: var(--tile); overflow: hidden; isolation: isolate; }
+.step-phone { position: relative; height: 86%; aspect-ratio: 9 / 16; border-radius: 26px; overflow: hidden; background: #FDFDFD; box-shadow: 0 30px 60px -20px rgba(25, 31, 40, .22), 0 0 0 1px rgba(25, 31, 40, .04); opacity: 0; transform: translateY(40px); transition: opacity .55s ease .1s, transform .75s cubic-bezier(.2, .9, .3, 1.05) .1s; }
+.step-phone { -webkit-mask-image: -webkit-radial-gradient(white, black); }
 .step-phone video { position: absolute; inset: -1px; width: calc(100% + 2px); height: calc(100% + 2px); max-width: none; object-fit: cover; }
-.how-step.live .step-icon { opacity: 0; transform: translate(-50%, -50%) scale(.6); }
 .how-step.live .step-phone { opacity: 1; transform: none; }
+@media (max-width: 759px) {
+  .how-step { min-height: 0; padding: 72px 0; }
+  .step-media { height: min(66svh, 560px); border-radius: 32px; }
+  .step-num { font-size: 15px; }
+  .step-text .h2 { margin-top: 10px; }
+  .step-text p { margin-top: 14px; font-size: 16px; }
+}
 
 /* 더 함께 돌보는 기능 — 두 줄 벤토 */
 .sec-more { padding: clamp(80px, 9vw, 120px) 0; }
@@ -454,7 +461,7 @@ body.menu-open { overflow: hidden; }
   html.snap .snap-sec:not(.how-hero):not(.film) { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: calc(var(--header-h) + 16px) 0 32px; }
   html.snap .snap-sec > div { width: 100%; }
   html.snap .snap-sec { scroll-margin-top: 0; }
-  html.snap .step-media { height: min(720px, calc(100vh - var(--header-h) - 72px)); }
+  html.snap .step-media { height: min(680px, calc(100vh - var(--header-h) - 88px)); }
 }
 
 /* ── 목록 (이야기·공지사항) */
@@ -668,11 +675,10 @@ main.iv .thanks h2 { font-size: 22px; }
 @media (prefers-reduced-motion: reduce) {
   .js .rise { opacity: 1; transform: none; transition: none; }
   .waver .tail, .waver .arm, .waver .sh, .intro .dots i { animation: none; }
-  .store, .intro, .bcard, .step-icon, .step-phone, .step-num::after { transition: none; }
+  .store, .intro, .bcard, .step-phone { transition: none; }
   .js [data-mo] .w > span, .js .mo-fade { transform: none; opacity: 1; transition: none; }
   .film-down { animation: none; }
 }
 
 /* 스크립트가 없으면 단계 영상을 바로 보여 준다 */
 html:not(.js) .step-phone { opacity: 1; transform: none; }
-html:not(.js) .step-icon { opacity: 0; }
