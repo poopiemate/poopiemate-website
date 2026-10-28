@@ -22,7 +22,7 @@ The website for **POOPIEMATE (응가메이트)** — your dog’s potty log, sha
 | Notices | `/notice/` | `/en/notice/` |
 | User interview form | `/interview/` | `/en/interview/` |
 | Privacy · Terms · Support · Open-source licenses | `/privacy/` `/terms/` `/support/` `/licenses/` | `/en/…` |
-| Dog guides (Korean only) — list and 8 guides | `/guide/`, `/potty-interval/` and 7 more | — |
+| Dog guides — list and 8 guides | `/guide/`, `/potty-interval/` and 7 more | `/en/guide/`, `/en/potty-interval/` … |
 | Store redirect | `/download/` (`?lang=en`) | |
 
 The site is static HTML on GitHub Pages with the custom domain `poopiemate.com`.
@@ -41,7 +41,7 @@ python3 src/build.py            # every page (Korean at /, English at /en/) + si
 |---|---|
 | `src/build.py` | Copy, layout, SEO (meta, hreflang, JSON-LD) for every page |
 | `src/legal/` | Privacy, terms, support and licenses text |
-| `src/legacy/` | Search guides and the interview form, wrapped in the site design |
+| `src/legacy/` | Guides (`guides/*.json` Korean, `guides/en/*.json` English) and the interview form, wrapped in the site design |
 | `src/render/` | Notice hero image and the family-invite reel (`node src/render/render.js`, needs Playwright) |
 | `assets/css/site.css` | Design tokens (same colors as the app) and the web type scale |
 | `assets/js/site.js` | Menu, header, intro video, full-page steps, word-by-word headlines, filters |

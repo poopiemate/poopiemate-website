@@ -71,6 +71,7 @@ Full English site: https://poopiemate.com/en/
 - How it works: https://poopiemate.com/en/how-it-works/
 - Why I built POOPIEMATE: https://poopiemate.com/en/story/why-i-built-poopiemate/
 - From developer to solo builder: https://poopiemate.com/en/story/developer-to-solo-builder/
+- Dog guides (poop condition, potty intervals, outdoor-only dogs, walk safety, working parents, multi-dog homes): https://poopiemate.com/en/guide/
 - Contact: poopiemate@pixelberry.io
 - Intro video: https://www.youtube.com/watch?v=xiX6nDBh7yE
 - Family invite video: https://www.youtube.com/watch?v=zX687PzYXzY
