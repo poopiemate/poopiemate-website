@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-28'
-ASSET_V = '42'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '43'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -475,18 +475,18 @@ ROW_ICON = {
 def how(lang):
     c = {
         'ko': {'title': '이렇게 써요 — 가족이 같이 쓰는 법 | 응가메이트', 'desc': '초대 → 기록 → 알림, 세 단계면 끝. 돌봄 부탁·하트·산책 안전도까지 영상으로 보세요.',
-               'h': '산책하다 응가하면<br>응가 게이지를 톡.', 'lede': '게이지가 비워지고, 가족 모두의 폰에 바로 알림이 가요.',
+               'h': '산책하다 응가하면<br><em>응가 게이지를 톡.</em>', 'lede': '게이지가 비워지고, 가족 모두의 폰에 바로 알림이 가요.',
                'dog': '응댕이',
                'route': [('가족 초대', '카톡으로 코드만 보내요'), ('게이지 톡', '응가·쉬 게이지를 눌러요'), ('모두에게 알림', '가족 폰이 바로 울려요')],
                'mood': {'now': '지금 나가야 해요!', 'relief': '개운해요!', 'calm': '여유 있어요', 'puff': '휴~'},
                'push': ('응가메이트', '지금', '응가 게이지가 비워졌어요', '방금 응가 기록을 남겼어요'),
                'rows': [('08:40', '나', 'poop', '응가', '개운해요'), ('08:12', '나', 'walk', '산책', '충분해요 · 32분')],
                'cap': '엄마·아빠 폰에도 같은 알림이 가요',
-               'steps': [('코드 하나면<br>가족 모두 함께', '마이 탭에서 초대 코드를 보내면 같은 강아지를 함께 기록해요.', 'invite', 'house', 'purple'),
-                         ('가족 모두의 기록을<br>한눈에', '누가 언제 산책하고 치웠는지 하루 타임라인으로 모아 보여줘요.', 'record', 'pile_of_poo', 'pink'),
-                         ('배변 신호·산책 루틴을<br>미리 챙겨요', '게이지가 차거나 산책 시간이 되면 알려주고, 산책 시간에 비가 오면 먼저 알려줘요.', 'alerts', 'mobile_phone', 'green'),
-                         ('가족과 함께 돌봐요', '고마운 기록엔 하트가 날아오고, 바쁠 땐 가족에게 돌봄을 부탁해요.', 'family', 'love_letter', 'peach'),
-                         ('댕댕이 맞춤<br>산책 안전도', '체형·털에 날씨를 더해 계산하고, 시간별 안전도와 다음 산책까지 알려줘요.', 'walk', 'sun_behind_small_cloud', 'sky')],
+               'steps': [('코드 하나면<br><em>가족 모두 함께</em>', '마이 탭에서 초대 코드를 보내면 같은 강아지를 함께 기록해요.', 'invite', 'house', 'purple'),
+                         ('<em>가족 모두의 기록</em>을<br>한눈에', '누가 언제 산책하고 치웠는지 하루 타임라인으로 모아 보여줘요.', 'record', 'pile_of_poo', 'pink'),
+                         ('배변 신호·산책 루틴을<br><em>미리 챙겨요</em>', '게이지가 차거나 산책 시간이 되면 알려주고, 산책 시간에 비가 오면 먼저 알려줘요.', 'alerts', 'mobile_phone', 'green'),
+                         ('<em>가족과 함께</em> 돌봐요', '고마운 기록엔 하트가 날아오고, 바쁠 땐 가족에게 돌봄을 부탁해요.', 'family', 'love_letter', 'peach'),
+                         ('댕댕이 맞춤<br><em>산책 안전도</em>', '체형·털에 날씨를 더해 계산하고, 시간별 안전도와 다음 산책까지 알려줘요.', 'walk', 'sun_behind_small_cloud', 'sky')],
                'labels': {'invite': '가족 초대하는 법 모션그래픽', 'record': '기록과 가족 알림 모션그래픽', 'alerts': '배변 신호 모션그래픽', 'family': '돌봄 부탁과 하트 모션그래픽', 'walk': '산책 루틴과 안전도 모션그래픽'},
                'more_tag': '더 함께 돌보는 기능', 'more_h': '산책은 나눠서 해도,<br>기록은 <em>가족 모두가</em> 함께 봐요',
                'b1': ('가족 기록 공유', '한 명이 누르면<br>가족 폰이 울려요', '“응댕이 똥 쌌어?” 대신 알림 하나. 누가 언제 산책하고 치웠는지 하루 타임라인으로 모아 봐요.'),
@@ -495,18 +495,18 @@ def how(lang):
                'b3': ('가족 초대', '가족 초대는<br>코드 하나면 끝', '카톡으로 코드만 보내면 같은 강아지를 함께 기록해요.'),
                'b4': ('산책 루틴 · 안전도', '오늘 언제 나가면<br>좋을까요?', '산책 시간이 되면 가족 모두에게 알려줘요. 날씨와 우리 강아지 몸에 맞춘 산책 안전도도 보여줘요.')},
         'en': {'title': 'How it works — Sharing dog care with family | POOPIEMATE', 'desc': 'Invite, log, get alerts — three steps. Watch how help requests, hearts and walk safety work.',
-               'h': 'Pooped on the walk?<br>Tap the poop gauge.', 'lede': 'It empties, and everyone’s phone gets the alert right away.',
+               'h': 'Pooped on the walk?<br><em>Tap the poop gauge.</em>', 'lede': 'It empties, and everyone’s phone gets the alert right away.',
                'dog': 'Poochie',
                'route': [('Invite family', 'Send one code by message'), ('Tap the gauge', 'Tap it when they go'), ('Everyone knows', 'Every phone buzzes')],
                'mood': {'now': 'Time to go!', 'relief': 'All clear!', 'calm': 'All good', 'puff': 'Phew~'},
                'push': ('POOPIEMATE', 'now', 'Poopie Gauge is empty', 'A poop was just logged'),
                'rows': [('8:40', 'Me', 'poop', 'Poop', 'All clear'), ('8:12', 'Me', 'walk', 'Walk', 'Plenty · 32 min')],
                'cap': 'Mom and Dad get the same alert',
-               'steps': [('One code brings<br>everyone in', 'Send an invite code from the My tab and log the same dog together.', 'invite', 'house', 'purple'),
-                         ('Every family log<br>at a glance', 'See who walked and cleaned up, and when — all in one daily timeline.', 'record', 'pile_of_poo', 'pink'),
-                         ('Stay ahead of<br>potty & walks', 'Alerts when a gauge fills or it’s walk time, plus a heads-up when rain is coming.', 'alerts', 'mobile_phone', 'green'),
-                         ('Care together<br>as a family', 'Hearts fly in for your care logs, and family can lend a hand when you’re busy.', 'family', 'love_letter', 'peach'),
-                         ('Walk safety made<br>for your dog', 'Scored from body type, coat and weather, with hourly safety and your next walks.', 'walk', 'sun_behind_small_cloud', 'sky')],
+               'steps': [('One code brings<br><em>everyone in</em>', 'Send an invite code from the My tab and log the same dog together.', 'invite', 'house', 'purple'),
+                         ('<em>Every family log</em><br>at a glance', 'See who walked and cleaned up, and when — all in one daily timeline.', 'record', 'pile_of_poo', 'pink'),
+                         ('Stay ahead of<br><em>potty & walks</em>', 'Alerts when a gauge fills or it’s walk time, plus a heads-up when rain is coming.', 'alerts', 'mobile_phone', 'green'),
+                         ('<em>Care together</em><br>as a family', 'Hearts fly in for your care logs, and family can lend a hand when you’re busy.', 'family', 'love_letter', 'peach'),
+                         ('Walk safety made<br><em>for your dog</em>', 'Scored from body type, coat and weather, with hourly safety and your next walks.', 'walk', 'sun_behind_small_cloud', 'sky')],
                'labels': {'invite': 'How to invite your family, motion graphic', 'record': 'Logging and family alerts, motion graphic', 'alerts': 'Potty signals, motion graphic', 'family': 'Help requests and hearts, motion graphic', 'walk': 'Walk routine and safety, motion graphic'},
                'more_tag': 'More ways to care together', 'more_h': 'Split the walks,<br>share the log with <em>everyone</em>',
                'b1': ('Shared family log', 'One tap,<br>every phone buzzes', '“Did Poochie poop?” becomes one alert. See who walked and cleaned up on one timeline.'),
@@ -533,7 +533,7 @@ def how(lang):
     fam = ''.join(f'<i>{x}</i>' for x in (('엄', '아') if lang == 'ko' else ('M', 'D')))
     scene = (f'<figure class="hh-scene"><div class="hh-app" aria-hidden="true">'
              f'<div class="hh-push"><img src="/assets/icons/apple-touch-icon.png" alt="" width="36" height="36"><div><p><b>{app}</b><time>{now}</time></p><strong>{title}</strong><span>{sub}</span></div></div>'
-             f'<div class="hh-head"><img src="/assets/img/mascot/face.webp" alt="" width="480" height="384"><b>{c["dog"]}</b></div>'
+             f'<div class="hh-head"><span class="pic"><img src="/assets/img/mascot/sit.webp" alt="" width="480" height="522"></span><b>{c["dog"]}</b></div>'
              f'<div class="hh-gauges">{gauge_card("poop", m)}{gauge_card("pee", m)}</div>'
              f'<div class="hh-rows">{rows}</div></div>'
              f'<figcaption class="hh-cap"><span class="fam">{fam}</span>{c["cap"]}</figcaption></figure>')
@@ -561,7 +561,7 @@ def how(lang):
 <section class="sec-more snap-sec"><div class="wrap"><div class="center-head rise"><span class="pill-tag">{c['more_tag']}</span><h2 class="h2">{c['more_h']}</h2></div>{bento}</div></section>
 {cta_soft(lang)}
 '''
-    write(url('how', lang), page(lang, 'how', c['title'], c['desc'], body, f'/assets/og/poopiemate-{lang}.jpg', active='how', snap=True))
+    write(url('how', lang), page(lang, 'how', c['title'], c['desc'], body, f'/assets/og/poopiemate-{lang}.jpg', active='how'))
 
 
 # ═════════════════════════════════════════════════════════ 이야기 (캔버스 「v2 이야기」)

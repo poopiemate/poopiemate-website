@@ -274,7 +274,9 @@ body.menu-open { overflow: hidden; }
 .hh-scene { margin: 0; width: min(100%, 460px); justify-self: center; container-type: inline-size; }
 .hh-app { position: relative; padding: 4.5cqw 4.5cqw 5cqw; border-radius: 36px; background: var(--base); box-shadow: 0 30px 60px -28px rgba(25, 31, 40, .18), 0 0 0 1px rgba(25, 31, 40, .05); overflow: hidden; }
 .hh-head { display: flex; align-items: center; gap: 2.2cqw; height: 11cqw; margin-bottom: 3cqw; padding-left: 1cqw; }
-.hh-head img { width: 8.6cqw; height: auto; }
+/* 강아지 사진 자리 — 앱 AvatarPlaceholder처럼 연한 민트 둥근 네모에 앉은 응댕이(86%) */
+.hh-head .pic { display: flex; align-items: center; justify-content: center; width: 10.4cqw; height: 10.4cqw; border-radius: 3.2cqw; background: #E3F8EF; }
+.hh-head .pic img { width: 86%; height: 86%; object-fit: contain; }
 .hh-head b { font-family: var(--font-title); font-size: clamp(15px, 5cqw, 22px); font-weight: 800; }
 .hh-gauges { display: grid; grid-template-columns: 1fr 1fr; gap: 3cqw; }
 .hh-g { position: relative; aspect-ratio: 169 / 196; border-radius: 6.2cqw; container-type: inline-size; overflow: hidden; transform-origin: 50% 90%; }
@@ -379,13 +381,14 @@ body.menu-open { overflow: hidden; }
 }
 
 /* 단계 — 흰 바탕에 화면 한 장씩. 글과 릴스는 단계마다 좌우가 바뀐다 */
-.how-step { display: flex; flex-direction: column; justify-content: center; min-height: 100vh; min-height: 100svh; padding: calc(var(--header-h) + 24px) 0 40px; background: var(--base); }
+.how-step { padding: clamp(80px, 9vw, 128px) 0; background: var(--base); }
+.how-step:nth-of-type(odd) { background: #F7F8FA; }
 .how-step > div { width: 100%; }
-.t-purple { --deep: #6B3FC4; }
-.t-pink { --deep: #B0389F; }
-.t-green { --deep: #127F4A; }
-.t-peach { --deep: #B4531A; }
-.t-sky { --deep: #1F6FB2; }
+.t-purple { --deep: #6B3FC4; --hl: #DDCDFF; }
+.t-pink { --deep: #B0389F; --hl: #FBCBEF; }
+.t-green { --deep: #127F4A; --hl: #BDEBD1; }
+.t-peach { --deep: #B4531A; --hl: #FFD6B5; }
+.t-sky { --deep: #1F6FB2; --hl: #C7E2F8; }
 .step-grid { display: grid; gap: 28px; align-items: center; }
 @media (min-width: 760px) {
   .step-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(40px, 7vw, 112px); }
@@ -395,16 +398,23 @@ body.menu-open { overflow: hidden; }
 .step-num i { font-style: normal; font-size: 14px; color: var(--fg-4); }
 .step-text .h2 { margin-top: 16px; font-size: clamp(28px, 3.4vw, 44px); line-height: 1.28; letter-spacing: -0.03em; }
 .step-text p { margin: 20px 0 0; max-width: 26em; text-wrap: pretty; font-size: 18px; line-height: 1.65; color: var(--fg-2); }
+/* 형광펜 밑줄 — 제목의 핵심 말 아래로, 제목이 올라온 뒤 왼쪽에서 오른쪽으로 그어진다 */
+.hh-text .h1 em, .step-text .h2 em { --hl: #F7C4EF; color: inherit; background: linear-gradient(var(--hl), var(--hl)) 0 88% / 100% .3em no-repeat; -webkit-box-decoration-break: clone; box-decoration-break: clone; padding: 0 .06em; margin: 0 -.06em; }
+.step-text .h2 em { --hl: inherit; }
+.js .hh-text .h1 em, .js .step-text .h2 em { background-size: 0% .3em; transition: background-size .8s cubic-bezier(.6, 0, .2, 1) .55s; }
+.js .hh-text .h1.on em, .js .step-text .h2.on em { background-size: 100% .3em; }
+@media (prefers-reduced-motion: reduce) { .js .hh-text .h1 em, .js .step-text .h2 em { background-size: 100% .3em; transition: none; } }
+
 /* 릴스 — 720×1280 영상에서 색 판(x 36–683, y 129–940)만 보이게 자른다. 아래 글귀는 왼쪽 글로 옮겼다.
    판 테두리 4px 안쪽(x 40–680, y 134–918 = 640×784)을 창으로 쓰고, 모서리는 영상 속 판(반지름 38–62px)보다 크게 둥글려 바깥 바탕이 비치지 않게 */
 /* 높이 상한(--mh)과 칸 너비 중 작은 쪽에 맞춰 너비를 정하고, 높이는 비율로 — 어느 화면에서도 영상이 늘어나지 않게 */
-.step-media { --mh: min(76vh, 680px); position: relative; display: flex; align-items: center; justify-content: center; width: 100%; }
+.step-media { --mh: min(72vh, 620px); position: relative; display: flex; align-items: center; justify-content: center; width: 100%; }
 .step-phone { position: relative; width: min(100%, var(--mh) * 640 / 784); aspect-ratio: 640 / 784; border-radius: 10% / 8.16%; overflow: hidden; opacity: 0; transform: translateY(40px); transition: opacity .55s ease .1s, transform .75s cubic-bezier(.2, .9, .3, 1.05) .1s; }
 .step-phone { -webkit-mask-image: -webkit-radial-gradient(white, black); isolation: isolate; }
 .step-phone video { position: absolute; left: -6.25%; top: -17.09%; width: 112.5%; height: 163.27%; max-width: none; object-fit: fill; }
 .how-step.live .step-phone { opacity: 1; transform: none; }
 @media (max-width: 759px) {
-  .how-step { min-height: 0; padding: 72px 0; }
+  .how-step { padding: 72px 0; }
   .step-media { --mh: 515px; }
   .step-num { font-size: 15px; }
   .step-text .h2 { margin-top: 10px; }
