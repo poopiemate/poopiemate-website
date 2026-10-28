@@ -1,9 +1,9 @@
 {
  "slug": "dual-income-dog-walk-schedule",
- "title": "Dog Walk Times and Turns for Two Working Parents: How to Never Miss One — POOPIEMATE",
- "description": "How dual-income households can stay on top of dog walk times and avoid mix-ups over whose turn it is, by seeing who walked the dog and when, together as a family.",
+ "title": "Dog Walk Times and Turns for Working Parents — POOPIEMATE",
+ "description": "For dual-income homes: keep dog walk times on track and stop mixing up whose turn it is by seeing who walked the dog and when.",
  "keywords": "",
- "og_title": "Dog Walk Times and Turns for Two Working Parents: How to Never Miss One",
+ "og_title": "Dog Walk Times and Turns for Working Parents",
  "ld": [
   "\n  {\n    \"@context\": \"https://schema.org\",\n    \"@type\": \"BreadcrumbList\",\n    \"itemListElement\": [\n      {\n        \"@type\": \"ListItem\",\n        \"position\": 1,\n        \"name\": \"POOPIEMATE\",\n        \"item\": \"https://poopiemate.com/en/\"\n      },\n      {\n        \"@type\": \"ListItem\",\n        \"position\": 2,\n        \"name\": \"Dog Walk Schedules for Two Working Parents\",\n        \"item\": \"https://poopiemate.com/en/dual-income-dog-walk-schedule/\"\n      }\n    ]\n  }\n  ",
   "\n  {\n    \"@context\": \"https://schema.org\",\n    \"@type\": \"FAQPage\",\n    \"mainEntity\": [\n      {\n        \"@type\": \"Question\",\n        \"name\": \"We both work and often miss walk times. How can we manage it?\",\n        \"acceptedAnswer\": {\n          \"@type\": \"Answer\",\n          \"text\": \"Set walk times and get reminders, and you'll forget less often. If you share records with your family, you can also see who already went.\"\n        }\n      },\n      {\n        \"@type\": \"Question\",\n        \"name\": \"If family members walk the dog separately, can we avoid doubling up?\",\n        \"acceptedAnswer\": {\n          \"@type\": \"Answer\",\n          \"text\": \"Yes. When one person logs a walk, the rest of the family gets notified right away, so nobody heads out for a walk that already happened.\"\n        }\n      }\n    ]\n  }\n  "

@@ -604,7 +604,7 @@ SOLO = {
         ]},
     'en': {
         'title': 'From developer to solo builder: the POOPIEMATE story', 'cat': 'Making the app', 'date': 'Oct 28, 2026', 'by': 'Jin, developer of POOPIEMATE',
-        'excerpt': 'Leaving ComfyUI and doing it all alone: planning, design, development, video, store reviews and marketing. From a first version with 120 users to the family care app in 2.0.0.',
+        'excerpt': 'Leaving ComfyUI and building POOPIEMATE alone, from design and code to store reviews and marketing: 120 first users, then the 2.0.0 family care app.',
         'blocks': [
             ('h2', 'When AI started doing a developer’s job'),
             ('p', 'Working remotely as a developer at ComfyUI, a Silicon Valley AI startup, I learned a lot from brilliant teammates and grew. But as AI took over more and more of a frontend developer’s work, I started rethinking my job.'),
@@ -656,7 +656,7 @@ def story_list(lang):
                 ['전체', '우리 강아지 이야기', '만드는 이야기', '보호자 이야기'],
                 [('우리 강아지 이야기', '[다음 글] 비가 오나 눈이 오나, 똥책 사계절', '밖에서만 싸는 강아지와 보내는 사계절. 날씨 따라 달라지는 산책 루틴 이야기.', 'photo:park-run'),
                  ('만드는 이야기', '[다음 글] 가족이 같이 기록하면 무엇이 달라질까', '초기 사용자 기록을 보고 가족 초대를 먼저 고친 과정.', 'emoji')], '준비 중'),
-         'en': ('Stories', 'Notes from the family behind POOPIEMATE', 'Stories — The family behind POOPIEMATE', 'Stories from the family and the dog behind POOPIEMATE.',
+         'en': ('Stories', 'Notes from the family behind POOPIEMATE', 'Stories — The family behind POOPIEMATE', 'Stories from the family and the rescued Jindo mix behind POOPIEMATE, and how “Did she poop?” calls turned into one tap.',
                 ['All', 'Our dog', 'Making the app', 'Owner stories'],
                 [('Our dog', '[Coming up] Rain or snow: a year of potty walks', 'Four seasons with a dog who only goes outside, and how the walk routine changes with the weather.', 'photo:park-run'),
                  ('Making the app', '[Coming up] What changes when a family logs together', 'What early users’ logs taught us, and why we fixed family invites first.', 'emoji')], 'Coming soon')}[lang]
@@ -906,7 +906,7 @@ def guide_list(lang):
     c = {'ko': ('강아지 가이드', '배변 상태부터 산책 당번까지, 강아지를 같이 돌볼 때 알아 두면 좋은 것들을 모아요', ['전체', '배변', '산책·가족'], '강아지 가이드 | 응가메이트',
                 '강아지 응가 상태, 배변 텀, 실외배변, 산책 안전, 맞벌이 산책 당번, 다견가정 기록까지. 가족이 같이 강아지를 돌볼 때 알아 두면 좋은 가이드를 모았어요.'),
          'en': ('Dog guides', 'From poop checks to walk duty: what helps when a family looks after one dog together', ['All', 'Potty', 'Walks & family'], 'Dog guides | POOPIEMATE',
-                'Poop color and texture, potty intervals, outdoor-only dogs, walk safety, walk duty for working parents and multi-dog homes. Guides for families who care for a dog together.')}[lang]
+                'Poop color and texture, potty intervals, outdoor-only dogs, walk safety, walk duty for working parents and multi-dog homes, for families who share one dog.')}[lang]
     cats = c[2]
     chips = ''.join(f'<button type="button" data-cat="{"all" if i == 0 else i}" aria-pressed="{"true" if i == 0 else "false"}">{x}</button>' for i, x in enumerate(cats))
     cards = ''
@@ -980,6 +980,7 @@ def download():
 <title>응가메이트 다운로드 — iOS·Android 앱 받기</title>
 <meta name="description" content="응가메이트를 App Store 또는 Google Play에서 무료로 받으세요. 가족이 함께 강아지 응가·산책을 기록하는 앱이에요.">
 <link rel="canonical" href="{SITE}/download/">
+<meta name="robots" content="noindex, follow">
 <meta name="theme-color" content="#18955A">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
@@ -1049,7 +1050,6 @@ def sitemap():
         for loc in (ko, en):
             rows.append(f'''  <url><loc>{SITE}{loc}</loc><lastmod>{UPDATED}</lastmod><priority>{pr}</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="{SITE}{ko}"/><xhtml:link rel="alternate" hreflang="en" href="{SITE}{en}"/><xhtml:link rel="alternate" hreflang="x-default" href="{SITE}{ko}"/></url>''')
-    rows.append(f'  <url><loc>{SITE}/download/</loc><lastmod>{UPDATED}</lastmod><priority>0.6</priority></url>')
     for f in sorted((SRC / 'legacy/guides').glob('*.json')):
         ko, en = f'/{f.stem}/', f'/en/{f.stem}/'
         if guide_json(f.stem, 'en') is None:
