@@ -302,7 +302,7 @@ def faq_ld(items):
 
 def video_ld(vid, name, desc, lang):
     return {'@context': 'https://schema.org', '@type': 'VideoObject', 'name': name, 'description': desc, 'inLanguage': lang,
-            'thumbnailUrl': f'https://i.ytimg.com/vi/{vid}/hqdefault.jpg', 'uploadDate': '2026-10-09',
+            'thumbnailUrl': f'https://i.ytimg.com/vi/{vid}/hqdefault.jpg', 'uploadDate': '2026-10-09T12:00:00+09:00',  # 시간대까지 — 날짜만 있으면 구글이 잘못됨으로 본다
             'embedUrl': f'https://www.youtube.com/embed/{vid}', 'contentUrl': f'{SITE}/assets/video/intro-{lang}.mp4', 'duration': 'PT1M7S'}
 
 
