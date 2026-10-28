@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-28'
-ASSET_V = '35'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '36'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -740,7 +740,7 @@ def story_post(lang, key):
             cells = []
             for n in b[1]:
                 if n.startswith('clip:'):
-                    cells.append(f'<span style="flex:{clip_size(n[5:])[0] / clip_size(n[5:])[1]:.3f}">{story_clip(n[5:], b[2], lang, cap=False)}</span>')
+                    cells.append(f'<div style="flex:{clip_size(n[5:])[0] / clip_size(n[5:])[1]:.3f}">{story_clip(n[5:], b[2], lang, cap=False)}</div>')  # 영상 칸은 div — span 안에 div를 넣을 수 없다
                 else:
                     cells.append(f'<span style="flex:{photo_size(n)[0] / photo_size(n)[1]:.3f}">{photo_img(n, "(min-width: 1100px) 600px, 54vw")}</span>')
             out.append(f'<figure class="fig l row mix"><div class="row-in">{"".join(cells)}</div><figcaption>{b[2]}</figcaption></figure>')
