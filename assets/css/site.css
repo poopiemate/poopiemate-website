@@ -417,8 +417,10 @@ body.menu-open { overflow: hidden; }
 @media (max-width: 699px) { .clip-row { gap: 8px; } .clip-box { border-radius: 14px; } .clip-cap { font-size: 13px; } .clip-sound { width: 36px; height: 36px; } }
 .post-end { margin-top: 40px; display: flex; flex-direction: column; gap: 12px; }
 /* 글 끝 — 다음 글(홈 이야기 카드와 같은 크림 카드), 그 아래 공유하기·목록으로 */
-.story-card.next-card { margin-top: 56px; gap: 24px; padding: clamp(24px, 4vw, 36px); }
+.story-card.next-card { margin-top: 56px; gap: 24px; padding: clamp(24px, 4vw, 36px); color: var(--fg); text-decoration: none; }
+.next-card:hover .more-link svg { transform: translateX(3px); }
 @media (min-width: 700px) { .story-card.next-card { grid-template-columns: 240px 1fr; gap: 32px; } }
+.next-art { display: block; }
 .next-art img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 18px; box-shadow: 0 12px 26px rgba(25, 31, 40, 0.14); }
 .next-card .story-text .h2 { margin: 0; font-size: clamp(20px, 2.2vw, 24px); line-height: 1.4; }
 .next-card .story-text p { margin-top: 12px; font-size: 15px; line-height: 1.65; }

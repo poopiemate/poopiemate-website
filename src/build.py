@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-28'
-ASSET_V = '37'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '38'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -724,9 +724,10 @@ def next_post(lang, key):
     nxt = keys[(keys.index(key) + 1) % len(keys)]
     src, _, _, _, thumb, _ = POSTS[nxt]
     s = src[lang]
-    return (f'<div class="story-card next-card"><a class="next-art" href="{url(nxt, lang)}" tabindex="-1" aria-hidden="true"><img src="{thumb.format(lang=lang)}" alt="" width="1600" height="1000" loading="lazy"></a>'
+    # 카드 전체가 링크 — 그림·제목·요약 어디를 눌러도 다음 글로
+    return (f'<a class="story-card next-card" href="{url(nxt, lang)}"><span class="next-art"><img src="{thumb.format(lang=lang)}" alt="" width="1600" height="1000" loading="lazy"></span>'
             f'<div class="story-text">{label(T[lang]["next"], "gold")}<h2 class="h2">{s["title"]}</h2><p>{s["excerpt"]}</p>'
-            f'<a class="more-link" href="{url(nxt, lang)}">{T[lang]["read"]}{ARROW_R}</a></div></div>')
+            f'<span class="more-link">{T[lang]["read"]}{ARROW_R}</span></div></a>')
 
 
 def story_post(lang, key):
