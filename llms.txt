@@ -34,6 +34,7 @@
 - 이렇게 써요 (초대 → 기록 → 알림): https://poopiemate.com/how-it-works/
 - 이야기: https://poopiemate.com/story/
 - 응가메이트를 만든 이유: https://poopiemate.com/story/why-i-built-poopiemate/
+- 개발자에서 1인 빌더로, 응가메이트 이야기: https://poopiemate.com/story/developer-to-solo-builder/
 - 공지사항: https://poopiemate.com/notice/
 
 ## 영상 · SNS
@@ -68,6 +69,7 @@ Full English site: https://poopiemate.com/en/
 - Terms of Service: https://poopiemate.com/en/terms/
 - How it works: https://poopiemate.com/en/how-it-works/
 - Why I built POOPIEMATE: https://poopiemate.com/en/story/why-i-built-poopiemate/
+- From developer to solo builder: https://poopiemate.com/en/story/developer-to-solo-builder/
 - Contact: poopiemate@pixelberry.io
 - Intro video: https://www.youtube.com/watch?v=xiX6nDBh7yE
 - Family invite video: https://www.youtube.com/watch?v=zX687PzYXzY

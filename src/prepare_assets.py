@@ -362,7 +362,32 @@ def favicon():
             shutil.copy(f, ROOT / f.name if f.name == 'favicon.ico' else out(f'icons/{f.name}'))
 
 
-STEPS = {'fonts': fonts, 'invite': invite, 'notice_hero': notice_hero, 'intro': intro, 'brand': brand, 'mascot': mascot, 'emoji': emoji, 'story': story, 'photos': photos, 'reels': reels, 'thumbs': thumbs, 'favicon': favicon}
+# ── 「개발자에서 1인 빌더로」 글 사진 — 아이클라우드 사진(편집본)과 카카오톡으로 받은 여행 사진을 모아 둔 폴더
+SOLO_SRC = DESK / '홈페이지_1인빌더_사진'
+SOLO_PHOTOS = ['jelly-letter', 'jelly-app', 'trip-cliffs', 'trip-italy', 'trip-dog-sofa']
+SOLO_CROP = {'jelly-app': (0, 0.126, 1, 0.897), 'jelly-letter': (0, 0.126, 1, 0.897)}  # 휴대폰 캡처 — 위 상태바·주소창, 아래 사파리 툴바를 잘라 낸다
+
+
+def solo():
+    for name in SOLO_PHOTOS:
+        for size in (900, 1600):
+            webp(SOLO_SRC / f'{name}.jpeg', f'img/photo/solo-{name}-{size}.webp', width=size, height=size, q=82, crop=SOLO_CROP.get(name))
+    for lang in ('ko', 'en'):  # 「응가메이트는 이런 앱이에요」 — 한국어는 스레드용 세 폰 이미지, 영어는 App Store 이미지
+        for size in (900, 1600):
+            webp(SOLO_SRC / f'app-{lang}.png', f'img/photo/solo-app-{lang}-{size}.webp', width=size, q=86)
+    # 목록 썸네일·글 머리(16:10)와 공유 이미지(1200×630) — AWS 녹색 벽과 ComfyUI on AWS 배너를 나란히 (글 머리에만, 본문에는 다시 넣지 않는다)
+    wall, banner = (ImageOps.exif_transpose(Image.open(SOLO_SRC / f'{n}.jpeg')).convert('RGB') for n in ('aws-wall', 'aws-seminar'))
+    for (w, h), dst in (((1600, 1000), 'img/story-solo-thumb.webp'), ((1200, 630), 'og/story-solo.jpg')):
+        gap = w // 100
+        lw = round(h * wall.width / wall.height)
+        c = Image.new('RGB', (w, h), 'white')
+        c.paste(ImageOps.fit(wall, (lw, h), Image.LANCZOS), (0, 0))
+        c.paste(ImageOps.fit(banner, (w - lw - gap, h), Image.LANCZOS), (lw + gap, 0))
+        c.save(out(dst), 'WEBP' if dst.endswith('webp') else 'JPEG', quality=84)
+    print('solo', len(SOLO_PHOTOS))
+
+
+STEPS = {'fonts': fonts, 'invite': invite, 'notice_hero': notice_hero, 'intro': intro, 'brand': brand, 'mascot': mascot, 'emoji': emoji, 'story': story, 'photos': photos, 'reels': reels, 'thumbs': thumbs, 'favicon': favicon, 'solo': solo}
 if __name__ == '__main__':
     for k in (sys.argv[1:] or STEPS):
         print('==', k)

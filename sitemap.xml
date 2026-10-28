@@ -1,53 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <url><loc>https://poopiemate.com/</loc><lastmod>2026-10-10</lastmod><priority>1.0</priority>
+  <url><loc>https://poopiemate.com/</loc><lastmod>2026-10-28</lastmod><priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/"/></url>
-  <url><loc>https://poopiemate.com/en/</loc><lastmod>2026-10-10</lastmod><priority>1.0</priority>
+  <url><loc>https://poopiemate.com/en/</loc><lastmod>2026-10-28</lastmod><priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/"/></url>
-  <url><loc>https://poopiemate.com/how-it-works/</loc><lastmod>2026-10-10</lastmod><priority>0.8</priority>
+  <url><loc>https://poopiemate.com/how-it-works/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/how-it-works/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/how-it-works/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/how-it-works/"/></url>
-  <url><loc>https://poopiemate.com/en/how-it-works/</loc><lastmod>2026-10-10</lastmod><priority>0.8</priority>
+  <url><loc>https://poopiemate.com/en/how-it-works/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/how-it-works/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/how-it-works/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/how-it-works/"/></url>
-  <url><loc>https://poopiemate.com/story/</loc><lastmod>2026-10-10</lastmod><priority>0.8</priority>
+  <url><loc>https://poopiemate.com/story/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/story/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/story/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/story/"/></url>
-  <url><loc>https://poopiemate.com/en/story/</loc><lastmod>2026-10-10</lastmod><priority>0.8</priority>
+  <url><loc>https://poopiemate.com/en/story/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/story/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/story/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/story/"/></url>
-  <url><loc>https://poopiemate.com/story/why-i-built-poopiemate/</loc><lastmod>2026-10-10</lastmod><priority>0.8</priority>
+  <url><loc>https://poopiemate.com/story/why-i-built-poopiemate/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/story/why-i-built-poopiemate/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/story/why-i-built-poopiemate/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/story/why-i-built-poopiemate/"/></url>
-  <url><loc>https://poopiemate.com/en/story/why-i-built-poopiemate/</loc><lastmod>2026-10-10</lastmod><priority>0.8</priority>
+  <url><loc>https://poopiemate.com/en/story/why-i-built-poopiemate/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/story/why-i-built-poopiemate/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/story/why-i-built-poopiemate/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/story/why-i-built-poopiemate/"/></url>
-  <url><loc>https://poopiemate.com/notice/</loc><lastmod>2026-10-10</lastmod><priority>0.8</priority>
+  <url><loc>https://poopiemate.com/story/developer-to-solo-builder/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/story/developer-to-solo-builder/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/story/developer-to-solo-builder/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/story/developer-to-solo-builder/"/></url>
+  <url><loc>https://poopiemate.com/en/story/developer-to-solo-builder/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/story/developer-to-solo-builder/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/story/developer-to-solo-builder/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/story/developer-to-solo-builder/"/></url>
+  <url><loc>https://poopiemate.com/notice/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/notice/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/notice/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/notice/"/></url>
-  <url><loc>https://poopiemate.com/en/notice/</loc><lastmod>2026-10-10</lastmod><priority>0.8</priority>
+  <url><loc>https://poopiemate.com/en/notice/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/notice/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/notice/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/notice/"/></url>
-  <url><loc>https://poopiemate.com/notice/interview/</loc><lastmod>2026-10-10</lastmod><priority>0.8</priority>
+  <url><loc>https://poopiemate.com/notice/interview/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/notice/interview/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/notice/interview/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/notice/interview/"/></url>
-  <url><loc>https://poopiemate.com/en/notice/interview/</loc><lastmod>2026-10-10</lastmod><priority>0.8</priority>
+  <url><loc>https://poopiemate.com/en/notice/interview/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/notice/interview/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/notice/interview/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/notice/interview/"/></url>
-  <url><loc>https://poopiemate.com/privacy/</loc><lastmod>2026-10-10</lastmod><priority>0.8</priority>
+  <url><loc>https://poopiemate.com/privacy/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/privacy/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/privacy/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/privacy/"/></url>
-  <url><loc>https://poopiemate.com/en/privacy/</loc><lastmod>2026-10-10</lastmod><priority>0.8</priority>
+  <url><loc>https://poopiemate.com/en/privacy/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/privacy/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/privacy/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/privacy/"/></url>
-  <url><loc>https://poopiemate.com/terms/</loc><lastmod>2026-10-10</lastmod><priority>0.8</priority>
+  <url><loc>https://poopiemate.com/terms/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/terms/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/terms/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/terms/"/></url>
-  <url><loc>https://poopiemate.com/en/terms/</loc><lastmod>2026-10-10</lastmod><priority>0.8</priority>
+  <url><loc>https://poopiemate.com/en/terms/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/terms/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/terms/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/terms/"/></url>
-  <url><loc>https://poopiemate.com/support/</loc><lastmod>2026-10-10</lastmod><priority>0.8</priority>
+  <url><loc>https://poopiemate.com/support/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/support/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/support/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/support/"/></url>
-  <url><loc>https://poopiemate.com/en/support/</loc><lastmod>2026-10-10</lastmod><priority>0.8</priority>
+  <url><loc>https://poopiemate.com/en/support/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/support/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/support/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/support/"/></url>
-  <url><loc>https://poopiemate.com/licenses/</loc><lastmod>2026-10-10</lastmod><priority>0.8</priority>
+  <url><loc>https://poopiemate.com/licenses/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/licenses/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/licenses/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/licenses/"/></url>
-  <url><loc>https://poopiemate.com/en/licenses/</loc><lastmod>2026-10-10</lastmod><priority>0.8</priority>
+  <url><loc>https://poopiemate.com/en/licenses/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://poopiemate.com/licenses/"/><xhtml:link rel="alternate" hreflang="en" href="https://poopiemate.com/en/licenses/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://poopiemate.com/licenses/"/></url>
-  <url><loc>https://poopiemate.com/download/</loc><lastmod>2026-10-10</lastmod><priority>0.6</priority></url>
-  <url><loc>https://poopiemate.com/dog-walk-schedule-sharing/</loc><lastmod>2026-10-10</lastmod><priority>0.6</priority></url>
-  <url><loc>https://poopiemate.com/dual-income-dog-walk-schedule/</loc><lastmod>2026-10-10</lastmod><priority>0.6</priority></url>
-  <url><loc>https://poopiemate.com/jindo-mix-potty-training/</loc><lastmod>2026-10-10</lastmod><priority>0.6</priority></url>
-  <url><loc>https://poopiemate.com/multi-dog-household-tracking/</loc><lastmod>2026-10-10</lastmod><priority>0.6</priority></url>
-  <url><loc>https://poopiemate.com/outdoor-potty-dog-tracking/</loc><lastmod>2026-10-10</lastmod><priority>0.6</priority></url>
-  <url><loc>https://poopiemate.com/poop-condition-guide/</loc><lastmod>2026-10-10</lastmod><priority>0.6</priority></url>
-  <url><loc>https://poopiemate.com/potty-interval/</loc><lastmod>2026-10-10</lastmod><priority>0.6</priority></url>
-  <url><loc>https://poopiemate.com/share-dog-potty-log-with-family/</loc><lastmod>2026-10-10</lastmod><priority>0.6</priority></url>
-  <url><loc>https://poopiemate.com/walk-safety-index/</loc><lastmod>2026-10-10</lastmod><priority>0.6</priority></url>
+  <url><loc>https://poopiemate.com/download/</loc><lastmod>2026-10-28</lastmod><priority>0.6</priority></url>
+  <url><loc>https://poopiemate.com/dog-walk-schedule-sharing/</loc><lastmod>2026-10-28</lastmod><priority>0.6</priority></url>
+  <url><loc>https://poopiemate.com/dual-income-dog-walk-schedule/</loc><lastmod>2026-10-28</lastmod><priority>0.6</priority></url>
+  <url><loc>https://poopiemate.com/jindo-mix-potty-training/</loc><lastmod>2026-10-28</lastmod><priority>0.6</priority></url>
+  <url><loc>https://poopiemate.com/multi-dog-household-tracking/</loc><lastmod>2026-10-28</lastmod><priority>0.6</priority></url>
+  <url><loc>https://poopiemate.com/outdoor-potty-dog-tracking/</loc><lastmod>2026-10-28</lastmod><priority>0.6</priority></url>
+  <url><loc>https://poopiemate.com/poop-condition-guide/</loc><lastmod>2026-10-28</lastmod><priority>0.6</priority></url>
+  <url><loc>https://poopiemate.com/potty-interval/</loc><lastmod>2026-10-28</lastmod><priority>0.6</priority></url>
+  <url><loc>https://poopiemate.com/share-dog-potty-log-with-family/</loc><lastmod>2026-10-28</lastmod><priority>0.6</priority></url>
+  <url><loc>https://poopiemate.com/walk-safety-index/</loc><lastmod>2026-10-28</lastmod><priority>0.6</priority></url>
 </urlset>

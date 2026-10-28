@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
-UPDATED = '2026-10-10'
+UPDATED = '2026-10-28'
 ASSET_V = '35'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
@@ -71,7 +71,8 @@ T = {
 # 페이지 키 → (한국어 경로, 영어 경로)
 PATHS = {
     'home': ('/', '/en/'), 'how': ('/how-it-works/', '/en/how-it-works/'), 'story': ('/story/', '/en/story/'),
-    'why': ('/story/why-i-built-poopiemate/', '/en/story/why-i-built-poopiemate/'), 'notice': ('/notice/', '/en/notice/'),
+    'why': ('/story/why-i-built-poopiemate/', '/en/story/why-i-built-poopiemate/'),
+    'solo': ('/story/developer-to-solo-builder/', '/en/story/developer-to-solo-builder/'), 'notice': ('/notice/', '/en/notice/'),
     'interview_notice': ('/notice/interview/', '/en/notice/interview/'),
     'privacy': ('/privacy/', '/en/privacy/'), 'terms': ('/terms/', '/en/terms/'), 'support': ('/support/', '/en/support/'), 'licenses': ('/licenses/', '/en/licenses/'),
 }
@@ -564,8 +565,84 @@ STORY = {
 }
 
 
+# 링크드인에 올린 글(2026.10.24)을 옮긴 것 — 사진은 src/prepare_assets.py solo
+SOLO = {
+    'ko': {
+        'title': '개발자에서 1인 빌더로, 응가메이트 이야기', 'cat': '만드는 이야기', 'date': '2026.10.28', 'by': '응가메이트를 만든 개발자, 진',
+        'excerpt': 'ComfyUI를 나와 기획, 디자인, 개발, 영상, 스토어 심사, 마케팅까지 혼자 해 온 이야기. 첫 버전 120명에서 가족 돌봄 앱 2.0.0까지.',
+        'blocks': [
+            ('h2', 'AI가 개발자의 일을 대신하기 시작했을 때'),
+            ('p', '실리콘밸리 AI 스타트업 ComfyUI에서 원격 개발자로 일하면서 뛰어난 동료들에게 많이 배우고 성장했어요. 그런데 프론트엔드 개발자의 많은 일이 AI로 대체되는 걸 보면서 제 직업에 대해 다시 생각해 보게 됐어요.'),
+            ('p', '항상 ‘AI가 개발자를 대체할 테니 그 전까지 한탕 벌고 은퇴하겠다’는 말을 농담처럼 했는데, 정말 그 시기가 눈앞에 다가오니 고민이 많아졌어요. 그래서 ComfyUI를 나와 제 서비스를 만들어 보기로 했어요.'),
+            ('p', '3월에 수원창업지원센터 입주기업으로 선정됐고, 4월에 퇴사했어요. 그렇게 1인 빌더로 응가메이트를 만들었어요. 기획, 디자인, 개발, 영상 제작, 스토어 심사, 마케팅까지 전부 다요!'),
+            ('h2', '응가메이트는 이런 앱이에요'),
+            ('p', '응가메이트는 실외배변 강아지의 배변을 기록하고 실시간 알림을 주는 앱이에요. 가족 중 한 사람이 기록하면 모두에게 바로 알림이 가고, 누가 언제 산책하고 기록했는지 하루 타임라인으로 모아 봐요. 바쁜 날엔 다른 가족에게 산책을 부탁할 수 있어요.'),
+            ('p', '강아지 체형 같은 자세한 정보를 바탕으로 산책 안전도를 알려 주고, 산책 루틴 시간에 비 소식이 있으면 미리 알림을 보내서 비 오기 전에 산책을 다녀올 수 있게 해 줘요.'),
+            ('img', 'solo-app-ko', '가족과 함께 챙기는 댕댕이 응가·산책'),
+            ('h2', '시작은 우리 집 강아지 메로나'),
+            ('p', '시작은 우리 집 강아지 메로나였어요. 학대받던 곳에서 WAA가 구조한 진도믹스인데, 진돗개가 대부분 그렇듯 응가도 쉬도 밖에서만 해요. 그래서 비가 오나 눈이 오나 하루 세 번은 나가야 해요.'),
+            ('p', f'맞벌이라 산책을 나눠 하다 보니 “로나 똥 쌌어?” 하는 전화를 하루에도 몇 번씩 했어요. 그 전화를 버튼 하나로 바꾸고 싶었어요. 메로나 이야기는 <a href="{PATHS["why"][0]}">응가메이트를 만든 이유</a>에 더 자세히 적어 두었어요.'),
+            ('h2', '첫 버전, 그리고 데이터가 알려 준 것'),
+            ('p', '전에 네이버 클로바X 해커톤에서 젤리레터로 우수 프로젝트에 선정된 적이 있어요. 응가메이트는 처음에 젤리레터의 디자인과 개발 소스를 이용해 빠르게 만들었고, 첫 버전으로 유저 120명을 모았어요.'),
+            ('row', ['solo-jelly-letter', 'solo-jelly-app'], '세상을 떠난 반려동물이 보호자에게 편지를 보내 주는 젤리레터'),
+            ('p', '그런데 데이터를 보니 혼자 강아지를 돌보는 유저는 거의 다 떠났어요. 남은 건 강아지를 여러 마리 키우는 집과, 한 마리를 가족이 같이 돌보는 집이었어요. 그래서 다견 기능을 먼저 냈어요.'),
+            ('h2', '노트북 없이 떠난 3주'),
+            ('p', '그동안 쉴 새 없이 달리며 일했어요. 번아웃에서 좀 회복하고 싶어서 혼자 3주 동안 유럽 여행을 다녀왔어요. 노트북도 두고 가서 강제로 디지털 디톡스를 했는데, 그동안 ‘돌아가면 응가메이트 디자인을 다시 하고 꼭 잘 만들어야지’ 하는 생각을 했어요.'),
+            ('mix', ['solo-trip-cliffs', 'solo-trip-italy', 'solo-trip-dog-sofa'], '노트북 없이 떠난 3주, 그리고 머물던 에어비앤비의 강아지'),
+            ('p', '마침 그 3주 사이에 좋은 AI 모델들이 나와서 개발도, 디자인도, 모션그래픽도 훨씬 쉬워져 있었어요. 돌아와서 응가메이트를 가족 돌봄 앱으로 바꿨고, 일주일 만에 2.0.0을 직접 다시 디자인하고 개발하고, Claude로 모션그래픽까지 만들어 SNS 계정도 열었어요.'),
+            ('h2', '물어볼 필요 없어요, 응가메이트가 알려줘요'),
+            ('p', '처음 문구는 “비가 오나 눈이 오나, 실외배변 루틴을 지켜요”였어요. 지금은 응댕이라는 캐릭터를 만들고 이렇게 바꿨어요.'),
+            ('quote', ['“응댕이 아침에 똥 쌌어?”', '물어볼 필요 없어요.', '응가메이트가 알려줘요.'], '지금의 응가메이트 문구'),
+            ('p', '기록하는 과정에는 게이미피케이션을 넣었어요. 온보딩에서 입력한 산책 루틴을 기준으로 응가 게이지와 쉬야 게이지의 표정이 바뀌어서 ‘오늘 좀 오래 참고 있네’를 가족이 같이 알아채고, 산책을 다녀온 가족에게는 고맙다고 하트를 보내요. 곧 나올 2.1.0에서는 산책 부탁이 종이비행기로 날아가고, 받은 하트가 분홍 편지에서 쏟아져요.'),
+            ('p', '지금 유저는 150명 정도예요. 매일 기록하는 사람이 10명, 일주일에 4일 이상 기록하는 사람이 30명쯤 돼요. 작은 숫자지만 저한테는 아주 큰 힘이 돼요.'),
+            ('h2', '응가메이트로 하고 싶은 일'),
+            ('p', '응가메이트는 실외배변을 하는 중대형견의 돌봄 난이도를 낮추려고 만든 서비스예요. 돌보는 일이 쉬워지면 진돗개와 진도믹스를 가족으로 맞는 집도 늘어날 거라고 믿어요. 저를 아는 분들은 다 아시겠지만, 저는 WAA 구조단체 스태프로도 일했고 강아지에 진심이에요.'),
+            ('img', 'park-run', '운동장에서 뛰노는 우리 집 진도믹스, 메로나'),
+            ('p', 'AI 시대에는 목표와 가치를 스스로 만드는 사람이 되는 게 중요하다고 생각해요. 제 목표는 우리나라 토종견들이 보호소에서 안락사당하지 않게 하는 것이고, 제 가치는 중대형견이 가정 안에서 사랑받으며 행복한 산책을 하도록 돕는 거예요.'),
+        ]},
+    'en': {
+        'title': 'From developer to solo builder: the POOPIEMATE story', 'cat': 'Making the app', 'date': 'Oct 28, 2026', 'by': 'Jin, developer of POOPIEMATE',
+        'excerpt': 'Leaving ComfyUI and doing it all alone: planning, design, development, video, store reviews and marketing. From a first version with 120 users to the family care app in 2.0.0.',
+        'blocks': [
+            ('h2', 'When AI started doing a developer’s job'),
+            ('p', 'Working remotely as a developer at ComfyUI, a Silicon Valley AI startup, I learned a lot from brilliant teammates and grew. But as AI took over more and more of a frontend developer’s work, I started rethinking my job.'),
+            ('p', 'I used to joke that AI would replace developers someday and that I’d cash in and retire before then. Now that the moment is actually here, I’ve had a lot to think about. So I decided to leave ComfyUI and build my own product.'),
+            ('p', 'In March, the Suwon Startup Support Center selected me as a resident company, and in April I left. I built POOPIEMATE as a solo builder. Planning, design, development, video, store reviews, marketing: all of it!'),
+            ('h2', 'What POOPIEMATE does'),
+            ('p', 'POOPIEMATE is an app that logs an outdoor-only dog’s poops and pees and sends real-time alerts. When one family member logs one, everyone gets a notification right away, and a daily timeline shows who walked and logged, and when. On a busy day you can ask someone else to walk.'),
+            ('p', 'It scores walk safety from details like your dog’s build, and if rain is forecast for your walk time, it alerts you early so you can walk before it.'),
+            ('img', 'solo-app-en', 'POOPIEMATE today'),
+            ('h2', 'It started with our dog Melona'),
+            ('p', 'It started with our dog Melona, a Jindo mix WAA rescued from abuse. Like most Jindos, she only goes outside, so rain or snow, she needs three walks a day.'),
+            ('p', f'We both work and split the walks, so we kept calling each other to ask, “Did Lona poop?” I wanted to turn that call into one tap. I wrote more about Melona in <a href="{PATHS["why"][1]}">Why I built POOPIEMATE</a>.'),
+            ('h2', 'The first version, and what the data said'),
+            ('p', 'My JellyLetter was picked as an outstanding project at a Naver CLOVA X hackathon. I built POOPIEMATE’s first version quickly on top of JellyLetter’s design and code, and it reached 120 users.'),
+            ('row', ['solo-jelly-letter', 'solo-jelly-app'], 'JellyLetter, where a pet who has passed away sends letters to their family'),
+            ('p', 'Then the data showed that people caring for a dog alone almost all left. Multi-dog homes and families sharing one dog stayed. So I shipped multi-dog support first.'),
+            ('h2', 'Three weeks without a laptop'),
+            ('p', 'After running nonstop, I went to Europe alone for three weeks to recover from burnout. I left my laptop at home, a forced digital detox, and kept thinking: when I get back, I’ll redesign POOPIEMATE and build it properly.'),
+            ('mix', ['solo-trip-cliffs', 'solo-trip-italy', 'solo-trip-dog-sofa'], 'Three weeks without a laptop, and the dog at the Airbnb where I stayed'),
+            ('p', 'Better AI models came out in those three weeks, and development, design and even motion graphics got much easier. When I got back, I turned POOPIEMATE into a family care app. In one week I redesigned and built 2.0.0 myself, made motion graphics with Claude and set up our social accounts.'),
+            ('h2', 'No need to ask. POOPIEMATE tells you'),
+            ('p', 'The first tagline was “Keep the outdoor potty routine, rain or snow.” Now we have a character, Poochie, and a new line.'),
+            ('quote', ['“Did Poochie poop this morning?”', 'No need to ask.', 'POOPIEMATE tells you.'], 'Our tagline today'),
+            ('p', 'Logging is gamified. The poop and pee gauges change their faces based on the walk routine you set during onboarding, so the family can see when she’s been holding it, and you send a thank-you heart to whoever walked her. In 2.1.0, coming soon, walk requests fly off as paper planes and hearts pour out of a pink letter.'),
+            ('p', 'About 150 people use it now. Around 10 log every day, and about 30 log four or more days a week. Small numbers, but they keep me going.'),
+            ('h2', 'What I want POOPIEMATE to do'),
+            ('p', 'POOPIEMATE exists to make caring for medium and large outdoor-only dogs easier. I believe that when care gets easier, more families will welcome Jindos and Jindo mixes. As most people who know me probably know, I’ve also worked as staff at the rescue group WAA, and I’m all in when it comes to dogs.'),
+            ('img', 'park-run', 'Our Jindo mix Melona, running at the dog park'),
+            ('p', 'In the age of AI, I think it matters to be someone who creates their own goals and values. My goal is that Korea’s native dogs are no longer euthanized in shelters. The value I want to create is helping medium and large dogs be loved at home and go on happy walks.'),
+        ]},
+}
+# 글 키 → (본문, 올린 날, 고친 날, 분류 번호, 목록 썸네일·글 머리, 공유 이미지) — 목록에는 새 글이 먼저
+POSTS = {
+    'solo': (SOLO, '2026-10-28', '2026-10-28', 2, '/assets/img/story-solo-thumb.webp', '/assets/og/story-solo.jpg'),
+    'why': (STORY, '2026-10-07', '2026-10-10', 1, '/assets/img/story-thumb-{lang}.webp', '/assets/og/story-{lang}.jpg'),
+}
+
+
 THUMB_POS = {'park-run': '50% 60%'}  # 썸네일에서 강아지가 가운데 오게 — 사진마다 잘라 보일 위치
-LANDSCAPE = {'pair-rescue', 'pair-wedding', 'pair-family'}  # 나머지 사진은 세로 — 원본 비율 그대로, 폭만 좁게
+LANDSCAPE = {'pair-rescue', 'pair-wedding', 'pair-family', 'solo-app-ko', 'solo-app-en'}  # 나머지 사진은 세로 — 원본 비율 그대로, 폭만 좁게
 
 
 def post_head(meta, title, art):
@@ -573,7 +650,6 @@ def post_head(meta, title, art):
 
 
 def story_list(lang):
-    s = STORY[lang]
     c = {'ko': ('이야기', '응가메이트를 만든 가족이 겪은 이야기를 모아요', '이야기 — 응가메이트를 만든 가족 이야기', '응가메이트를 만든 가족과 우리 집 강아지 이야기. “우리 강아지 똥 쌌어?” 전화가 버튼 하나가 되기까지를 기록해요.',
                 ['전체', '우리 강아지 이야기', '만드는 이야기', '보호자 이야기'],
                 [('우리 강아지 이야기', '[다음 글] 비가 오나 눈이 오나, 똥책 사계절', '밖에서만 싸는 강아지와 보내는 사계절. 날씨 따라 달라지는 산책 루틴 이야기.', 'photo:park-run'),
@@ -584,8 +660,11 @@ def story_list(lang):
                  ('Making the app', '[Coming up] What changes when a family logs together', 'What early users’ logs taught us, and why we fixed family invites first.', 'emoji')], 'Coming soon')}[lang]
     cats = c[4]
     chips = ''.join(f'<button type="button" data-cat="{"all" if i == 0 else i}" aria-pressed="{"true" if i == 0 else "false"}">{x}</button>' for i, x in enumerate(cats))
-    first = (f'<a class="post-card" data-cat="1" href="{url("why", lang)}"><span class="thumb"><img src="/assets/img/story-thumb-{lang}.webp" alt="" loading="lazy" width="1600" height="1000">{new_badge("2026-10-07")}</span>'
-             f'<span class="cat">{cats[1]}</span><b>{s["title"]}</b><span class="ex">{sb(s["excerpt"])}</span><time datetime="2026-10-07">{s["date"]}</time></a>')
+    first = ''
+    for key, (src, date, _, cat, thumb, _) in POSTS.items():
+        s = src[lang]
+        first += (f'<a class="post-card" data-cat="{cat}" href="{url(key, lang)}"><span class="thumb"><img src="{thumb.format(lang=lang)}" alt="" loading="lazy" width="1600" height="1000">{new_badge(date)}</span>'
+                  f'<span class="cat">{cats[cat]}</span><b>{s["title"]}</b><span class="ex">{sb(s["excerpt"])}</span><time datetime="{date}">{s["date"]}</time></a>')
     soon = ''
     for cat, t, ex, art in c[5]:
         pos = THUMB_POS.get(art[6:])
@@ -637,8 +716,9 @@ def story_clip(name, label, lang, cap=True):
             f'{f"<span class=\"clip-cap\">{label}</span>" if cap else ""}</div>')
 
 
-def story_why(lang):
-    s = STORY[lang]
+def story_post(lang, key):
+    src, date, modified, _, thumb, og = POSTS[key]
+    s = src[lang]
     out = []
     for b in s['blocks']:
         if b[0] == 'p':
@@ -667,20 +747,20 @@ def story_why(lang):
         elif b[0] == 'h2':
             out.append(f'<h2>{b[1]}</h2>')
     # 목록 썸네일과 같은 그림(홈의 폴라로이드 두 장, src/og.py)을 글 머리에 — 목록에서 누른 그 그림으로 글이 열리게
-    art = f'<div class="post-hero"><img src="/assets/img/story-thumb-{lang}.webp" alt="{escape(s["title"])}" width="1600" height="1000"></div>'
+    art = f'<div class="post-hero"><img src="{thumb.format(lang=lang)}" alt="{escape(s["title"])}" width="1600" height="1000"></div>'
     body = f'''
 <article class="post"><div class="wrap-post">
-{post_head(f'<time datetime="2026-10-07">{s["date"]}</time> · {s["by"]}', s['title'], art)}
+{post_head(f'<time datetime="{date}">{s["date"]}</time> · {s["by"]}', s['title'], art)}
 <div class="prose">{''.join(out)}</div>
 <div class="post-end"><a class="btn-block btn-grey" href="{url('story', lang)}">{T[lang]['back']}</a></div>
 </div></article>
 {cta_band(lang)}
 '''
-    ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': s['title'], 'description': s['excerpt'], 'datePublished': '2026-10-07', 'dateModified': '2026-10-10', 'inLanguage': lang,
-          'image': f'{SITE}/assets/og/story-{lang}.jpg', 'author': {'@type': 'Organization', 'name': '응가메이트' if lang == 'ko' else 'POOPIEMATE'},
+    ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': s['title'], 'description': s['excerpt'], 'datePublished': date, 'dateModified': modified, 'inLanguage': lang,
+          'image': SITE + og.format(lang=lang), 'author': {'@type': 'Organization', 'name': '응가메이트' if lang == 'ko' else 'POOPIEMATE'},
           'publisher': org_ld(lang)}
     title = s['title'] + (' | 응가메이트 이야기' if lang == 'ko' else ' | POOPIEMATE')
-    write(url('why', lang), page(lang, 'why', title, s['excerpt'], body, f'/assets/og/story-{lang}.jpg', active='story', og_type='article', ld=[ld]))
+    write(url(key, lang), page(lang, key, title, s['excerpt'], body, og.format(lang=lang), active='story', og_type='article', ld=[ld]))
 
 
 # ═════════════════════════════════════════════════════════ 공지사항 (캔버스 「v2 공지사항」)
@@ -911,7 +991,7 @@ def sitemap():
 
 if __name__ == '__main__':
     for lang in ('ko', 'en'):
-        home(lang); how(lang); story_list(lang); story_why(lang); notice_list(lang); notice_interview(lang)
+        home(lang); how(lang); story_list(lang); story_post(lang, 'why'); story_post(lang, 'solo'); notice_list(lang); notice_interview(lang)
         for n in ('privacy', 'terms', 'support', 'licenses'):
             legal(n, lang)
     guides(); interview('ko'); interview('en'); download(); moved(); not_found(); sitemap()
