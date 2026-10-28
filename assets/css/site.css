@@ -239,19 +239,145 @@ body.menu-open { overflow: hidden; }
 @keyframes wag { from { transform: rotate(-3deg); } to { transform: rotate(9deg); } }
 @keyframes wave { 0% { transform: rotate(0); } 8% { transform: rotate(6deg); } 18% { transform: rotate(-3deg); } 28% { transform: rotate(6deg); } 38% { transform: rotate(-3deg); } 48% { transform: rotate(3deg); } 58%, 100% { transform: rotate(0); } }
 
-/* ── 이렇게 써요 — 첫 화면은 가운데 제목 + 아래 초록 무대(손 흔드는 응댕이), 단계는 화면 가득 파스텔 바탕 */
-.how-hero { display: flex; flex-direction: column; min-height: 100vh; min-height: 100svh; padding: calc(var(--header-h) + clamp(52px, 10vh, 120px)) 0 0; text-align: center; overflow: hidden; }
-.how-hero .lead { margin-top: 18px; text-wrap: balance; }
+/* ── 이렇게 써요 — 첫 화면은 왼쪽 제목·세 단계 + 오른쪽 앱 홈 게이지 장면 (한 바퀴 10초)
+   꽉 찬 응가 게이지를 톡 → 쏴아 비워지고 개운한 얼굴 → 알림이 내려오고 기록이 한 줄 생긴다 → 다시 차오른다 */
+.how-hero { display: flex; align-items: center; min-height: 100vh; min-height: 100svh; padding: calc(var(--header-h) + clamp(28px, 5vh, 64px)) 0 clamp(48px, 7vh, 80px); overflow: hidden;
+  background: radial-gradient(circle, #E3E7E9 1.8px, transparent 2.2px) 0 0 / 36px 36px, #FBFDFD; }  /* 랜딩 영상 바탕과 같은 점 무늬 */
+.how-hero > .wrap { width: 100%; }
+@media (max-width: 899px) { .how-hero { min-height: 0; } }
 @media (min-width: 760px) { .m-br { display: none; } }
-/* 초록 무대 — 제목 아래 남은 화면을 다 채워서, 그라데이션이 화면 가운데보다 위에서 시작한다 */
-.stage { position: relative; flex: 1; display: flex; align-items: center; justify-content: center; margin-top: clamp(12px, 2vh, 28px); padding: clamp(16px, 3vh, 40px) 0 clamp(36px, 7vh, 88px); background: linear-gradient(0deg, var(--brand) 0%, #3FAE78 34%, #9EDDBF 66%, #E5F8F0 86%, var(--base) 100%); }
-.stage-art { position: relative; width: min(94vw, 600px, calc((100svh - var(--header-h) - 400px) * 1.6)); aspect-ratio: 16 / 10; margin: 0 auto; }
-/* 응댕이 원본이 408px라 크게 늘리면 가장자리가 깨진다 — 화면에서 270px를 넘지 않게 */
-.stage-art .waver { position: absolute; left: 50%; bottom: 0; width: min(45%, 270px); transform: translateX(-50%); }
-.stage-art .ic { position: absolute; width: min(12%, 72px); animation: float 3.2s ease-in-out infinite; }
-@media (max-width: 759px) { .stage-art { width: min(100vw, calc((100svh - var(--header-h) - 300px) * 1.2)); aspect-ratio: 6 / 5; } .stage-art .waver { width: 50%; } .stage-art .ic { width: 14%; } }
-.stage-art .ic:nth-child(2n) { animation-duration: 2.7s; animation-delay: -.8s; }
-@keyframes float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+.hh-grid { display: grid; gap: clamp(48px, 6vw, 72px); align-items: center; }
+.hh-text { grid-area: text; } .hh-scene { grid-area: scene; } .hh-steps { grid-area: steps; }
+.hh-grid { grid-template-areas: "text" "scene" "steps"; }
+@media (min-width: 900px) { .hh-grid .hh-steps { margin-top: clamp(36px, 5vh, 52px); } .hh-grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); grid-template-areas: "text scene" "steps scene"; align-content: center; row-gap: 0; } .hh-text { align-self: end; } .hh-steps { align-self: start; } }
+.hh-text .label { margin-bottom: 16px; font-size: 16px; }
+.hh-text .h1 { font-size: clamp(34px, 4.6vw, 60px); line-height: 1.24; }
+.hh-text .lead { max-width: 30em; margin-top: 20px; text-wrap: pretty; }
+/* 세 단계 — 가는 선 위에 번호·이름·한 줄 설명, 누르면 그 단계로 */
+.hh-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 28px; max-width: 600px; margin: 0; padding: 0; list-style: none; }
+.hh-steps a { display: flex; flex-direction: column; gap: 4px; height: 100%; padding-top: 18px; border-top: 2px solid var(--line); text-decoration: none; color: var(--fg); transition: border-color .2s ease; }
+.hh-steps a:hover { border-color: var(--brand); }
+.hh-steps b { margin-bottom: 6px; font-family: var(--font-title); font-size: 14px; font-weight: 800; color: var(--brand-text); }
+.hh-steps strong { font-family: var(--font-title); font-size: 18px; font-weight: 800; letter-spacing: -0.02em; }
+.hh-steps span { font-size: 14px; line-height: 1.5; color: var(--fg-3); }
+@media (max-width: 559px) {
+  .hh-steps { grid-template-columns: 1fr; }
+  .hh-steps a { display: grid; grid-template-columns: 34px auto 1fr; align-items: baseline; gap: 10px; padding: 14px 0; border-top-width: 1px; }
+  .hh-steps li:last-child a { border-bottom: 1px solid var(--line); }
+  .hh-steps b { margin: 0; }
+  .hh-steps strong { font-size: 16px; }
+  .hh-steps span { justify-self: end; text-align: right; font-size: 13px; }
+}
+
+/* 장면 — 앱 홈 한 장. 패널 너비(cqw)에 맞춰 커지고, 게이지 카드 안은 카드 너비(169pt = 100cqw)에 맞춘다 */
+@property --n { syntax: "<integer>"; initial-value: 0; inherits: false; }
+.hh-scene { margin: 0; width: min(100%, 460px); justify-self: center; container-type: inline-size; }
+.hh-app { position: relative; padding: 4.5cqw 4.5cqw 5cqw; border-radius: 36px; background: var(--base); box-shadow: 0 30px 60px -28px rgba(25, 31, 40, .18), 0 0 0 1px rgba(25, 31, 40, .05); overflow: hidden; }
+.hh-head { display: flex; align-items: center; gap: 2.2cqw; height: 11cqw; margin-bottom: 3cqw; padding-left: 1cqw; }
+.hh-head img { width: 8.6cqw; height: auto; }
+.hh-head b { font-family: var(--font-title); font-size: clamp(15px, 5cqw, 22px); font-weight: 800; }
+.hh-gauges { display: grid; grid-template-columns: 1fr 1fr; gap: 3cqw; }
+.hh-g { position: relative; aspect-ratio: 169 / 196; border-radius: 6.2cqw; container-type: inline-size; overflow: hidden; transform-origin: 50% 90%; }
+.g-poop { background: #E88ADD; --ink: #A2479A; }
+.g-pee { background: #4ED6A5; --ink: #1F6F5B; }
+.hh-g > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hh-g .dots { fill: rgba(255, 255, 255, .26); }
+.hh-g .num { position: absolute; left: 0; right: 0; top: 52%; display: flex; justify-content: center; align-items: baseline; font-family: var(--font-title); font-size: 12cqw; font-weight: 800; line-height: 1; color: var(--ink); }
+.g-pee .num { top: 50.6%; }
+.hh-g .num b { font-size: 22cqw; letter-spacing: -.04em; counter-reset: n var(--n); }
+.hh-g .num b::after { content: counter(n); }
+.g-poop .num b { --n: 100; }
+.g-pee .num b { --n: 36; }
+.hh-g .mood { position: absolute; left: 50%; top: 79.6%; display: flex; align-items: center; height: 15.4cqw; padding: 0 7.1cqw; border-radius: 99px; background: #fff; color: var(--ink); font-family: var(--font-title); font-size: 8cqw; font-weight: 800; white-space: nowrap; transform: translateX(-50%); }
+.hh-g .mood::before { content: ""; position: absolute; left: 50%; top: -1.8cqw; width: 5.9cqw; height: 5.9cqw; margin-left: -2.95cqw; border-radius: 1.2cqw; background: inherit; transform: rotate(45deg); }
+.hh-g .m-now { background: var(--ink); color: #fff; }
+.g-poop .m-relief, .g-poop .m-calm { opacity: 0; }
+.hh-g .plus { position: absolute; right: 5.9cqw; top: 5.9cqw; display: flex; align-items: center; justify-content: center; width: 16.6cqw; height: 16.6cqw; border-radius: 50%; background: #fff; }
+.hh-g .plus svg { width: 8.3cqw; height: 8.3cqw; fill: none; stroke: var(--ink); stroke-width: 3.2; stroke-linecap: round; }
+.hh-g .tap { position: absolute; left: 50%; top: 46%; width: 30cqw; height: 30cqw; margin: -15cqw 0 0 -15cqw; border-radius: 50%; background: rgba(25, 31, 40, .22); box-shadow: 0 0 0 3cqw rgba(25, 31, 40, .08); opacity: 0; }
+.hh-g .puff { position: absolute; left: 43%; top: 42%; padding: 1.8cqw 5.9cqw; border-radius: 99px; background: #fff; color: var(--ink); font-family: var(--font-title); font-size: 8cqw; font-weight: 800; opacity: 0; }
+.hh-g .f-relief, .hh-g .f-calm, .g-poop .f-calm { opacity: 0; }
+.g-pee .f-calm { opacity: 1; }
+.hh-g .sp { opacity: 0; transform-box: fill-box; transform-origin: center; }
+/* 알림 — 휴대폰 알림처럼 위에서 내려온다 (앱이 보내는 문구 그대로) */
+.hh-push { position: absolute; z-index: 3; left: 3cqw; right: 3cqw; top: 3cqw; display: flex; align-items: center; gap: 3cqw; padding: 3.2cqw 4cqw; border-radius: 6cqw; background: rgba(255, 255, 255, .9); -webkit-backdrop-filter: blur(16px) saturate(1.6); backdrop-filter: blur(16px) saturate(1.6); box-shadow: 0 3cqw 8cqw rgba(25, 31, 40, .14), 0 0 0 1px rgba(25, 31, 40, .04); opacity: 0; transform: translateY(-130%); }
+.hh-push img { flex: none; width: 10cqw; height: 10cqw; border-radius: 2.6cqw; }
+.hh-push div { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.35; }
+.hh-push p { display: flex; justify-content: space-between; margin: 0; font-size: clamp(10px, 2.8cqw, 12px); color: var(--fg-3); }
+.hh-push p b { font-weight: 700; }
+.hh-push strong { font-family: var(--font-title); font-size: clamp(13px, 3.8cqw, 17px); font-weight: 800; color: var(--fg); }
+.hh-push span { font-size: clamp(11px, 3.2cqw, 14px); color: var(--fg-2); }
+/* 오늘 기록 — 새 줄이 위에 생긴다 */
+.hh-rows { min-height: 30.8cqw; margin-top: 4cqw; display: flex; flex-direction: column; }
+.hh-row { display: grid; grid-template-rows: 1fr; }
+.hh-row-in { display: flex; align-items: center; gap: 2.4cqw; min-height: 0; overflow: hidden; padding-bottom: 2.4cqw; }
+.hh-row .tm { flex: none; display: flex; flex-direction: column; align-items: flex-end; width: 10cqw; line-height: 1.25; }
+.hh-row .tm b { font-size: clamp(11px, 3.2cqw, 14px); font-weight: 700; }
+.hh-row .tm i { font-style: normal; font-size: clamp(9px, 2.5cqw, 11px); color: var(--fg-4); }
+.hh-row .av { flex: none; display: flex; align-items: center; justify-content: center; width: 7.6cqw; height: 7.6cqw; border-radius: 50%; background: var(--brand); color: #fff; font-family: var(--font-title); font-size: clamp(10px, 3cqw, 13px); font-weight: 800; }
+.hh-row .pill { flex: 1; display: flex; align-items: center; gap: 2.6cqw; height: 13cqw; padding: 0 3cqw; border-radius: 4cqw; }
+.r-poop .pill { background: #FBE3F7; }
+.r-walk .pill { background: #ECE6FB; }
+.hh-row .ic { display: flex; align-items: center; justify-content: center; width: 8.4cqw; height: 8.4cqw; border-radius: 2.4cqw; background: #fff; }
+.hh-row .ic img { width: 5.6cqw; height: 5.6cqw; }
+.hh-row .tx { display: flex; flex-direction: column; line-height: 1.3; }
+.hh-row .tx b { font-family: var(--font-title); font-size: clamp(12px, 3.6cqw, 16px); font-weight: 800; }
+.hh-row .tx i { font-style: normal; font-size: clamp(10px, 2.9cqw, 13px); color: var(--fg-3); }
+.hh-row.new { grid-template-rows: 0fr; opacity: 0; }
+.hh-cap { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 18px; font-size: 15px; font-weight: 600; color: var(--fg-2); }
+.hh-cap .fam { display: flex; }
+.hh-cap .fam i { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; font-style: normal; font-family: var(--font-title); font-size: 12px; font-weight: 800; box-shadow: 0 0 0 2px var(--base); }
+.hh-cap .fam i:first-child { background: #FBE3F7; color: #A2479A; }
+.hh-cap .fam i + i { margin-left: -6px; background: #DDF6EC; color: #1F6F5B; }
+
+/* 늘 움직이는 것 — 물결 두 겹이 엇갈려 흐르고, 쉬 게이지는 가끔 깜빡 */
+@media (prefers-reduced-motion: no-preference) {
+  .hh-g .wf { animation: hh-wf 3.2s linear infinite; }
+  .hh-g .wb { animation: hh-wb 4.6s linear infinite; }
+  .g-pee .f-calm { transform-box: fill-box; transform-origin: center; animation: hh-blink 4.8s infinite; }
+  .hh-g .st { animation: hh-st 1.8s calc(var(--o) * -1.8s) infinite; }
+  /* 한 바퀴 10초 */
+  .g-poop { animation: hh-jelly 10s infinite; }
+  .g-poop .tap { animation: hh-tap 10s infinite; }
+  .g-poop .plus { animation: hh-plus 10s infinite; }
+  .g-poop .lvl { animation: hh-lvl 10s infinite; }
+  .g-poop .slosh { animation: hh-slosh 10s infinite; }
+  .g-poop .num b { animation: hh-n 10s infinite; }
+  .g-poop .f-now, .g-poop .stink, .g-poop .m-now { animation: hh-now 10s infinite; }
+  .g-poop .f-relief, .g-poop .m-relief { animation: hh-relief 10s infinite; }
+  .g-poop .f-calm, .g-poop .m-calm { animation: hh-calm 10s infinite; }
+  .g-poop .sp { animation: hh-sp 10s calc(var(--o) * 1s) infinite; }
+  .g-poop .puff { animation: hh-puff 10s infinite; }
+  .hh-push { animation: hh-push 10s infinite; }
+  .hh-row.new { animation: hh-row 10s infinite; }
+}
+@keyframes hh-wf { to { transform: translateX(-48px); } }
+@keyframes hh-wb { to { transform: translateX(60px); } }
+@keyframes hh-blink { 0%, 96%, 100% { transform: none; } 97.5% { transform: scaleY(.1); } }
+@keyframes hh-st { 0% { opacity: 0; transform: translateY(6px); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(-10px); } }
+@keyframes hh-tap { 0%, 13% { opacity: 0; transform: scale(.6); } 16% { opacity: 1; transform: scale(1); } 18.5% { opacity: 1; transform: scale(.82); } 21% { opacity: 1; transform: scale(1); } 24%, 100% { opacity: 0; transform: scale(1.1); } }
+@keyframes hh-plus { 0%, 17%, 22%, 100% { transform: none; } 19% { transform: scale(.85); } }
+@keyframes hh-jelly { 0%, 18%, 27%, 100% { transform: none; } 20% { transform: scale(1.04, .95); } 22.5% { transform: scale(.97, 1.03); } 25% { transform: scale(1.01, .99); } }
+@keyframes hh-lvl { 0%, 19% { transform: translateY(0); animation-timing-function: cubic-bezier(.5, 0, .3, 1); } 28%, 82% { transform: translateY(101px); animation-timing-function: ease-in-out; } 97%, 100% { transform: translateY(0); } }
+@keyframes hh-slosh { 0%, 19% { transform: none; } 21% { transform: scaleY(3); } 34%, 100% { transform: none; } }
+@keyframes hh-n { 0%, 19% { --n: 100; animation-timing-function: cubic-bezier(.5, 0, .3, 1); } 28%, 82% { --n: 0; animation-timing-function: ease-in-out; } 97%, 100% { --n: 100; } }
+@keyframes hh-now { 0%, 26% { opacity: 1; } 27%, 96% { opacity: 0; } 97%, 100% { opacity: 1; } }
+@keyframes hh-relief { 0%, 26% { opacity: 0; } 27%, 80% { opacity: 1; } 81%, 100% { opacity: 0; } }
+@keyframes hh-calm { 0%, 80% { opacity: 0; } 81%, 96% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@keyframes hh-sp { 0%, 27% { opacity: 0; transform: scale(0) rotate(0); } 29.5% { opacity: 1; transform: scale(1) rotate(45deg); } 34% { opacity: 1; transform: scale(1) rotate(45deg); } 37%, 100% { opacity: 0; transform: scale(0) rotate(45deg); } }
+@keyframes hh-puff { 0%, 30% { opacity: 0; transform: translate(0, 0) scale(.4); } 34% { opacity: 1; transform: translate(4cqw, -10cqw) scale(1); } 44% { opacity: 1; transform: translate(6cqw, -14cqw) scale(1); } 49%, 100% { opacity: 0; transform: translate(7cqw, -18cqw) scale(1); } }
+@keyframes hh-push { 0%, 30% { opacity: 0; transform: translateY(-130%); } 34% { opacity: 1; transform: translateY(1cqw); } 36%, 72% { opacity: 1; transform: none; } 76%, 100% { opacity: 0; transform: translateY(-130%); } }
+@keyframes hh-row { 0%, 31% { grid-template-rows: 0fr; opacity: 0; } 35% { grid-template-rows: 1fr; opacity: 0; } 38%, 90% { grid-template-rows: 1fr; opacity: 1; } 93% { grid-template-rows: 1fr; opacity: 0; } 96%, 100% { grid-template-rows: 0fr; opacity: 0; } }
+/* 움직임을 줄인 경우엔 비운 뒤 장면 한 장 */
+@media (prefers-reduced-motion: reduce) {
+  .g-poop .lvl { transform: translateY(101px) !important; }
+  .g-poop .num b { --n: 0; }
+  .g-poop .f-now, .g-poop .stink, .g-poop .m-now { opacity: 0; }
+  .g-poop .f-relief, .g-poop .m-relief { opacity: 1; }
+  .hh-push { opacity: 1; transform: none; }
+  .hh-row.new { grid-template-rows: 1fr; opacity: 1; }
+}
+
 /* 단계 — 모바일까지 화면 한 장(svh) 가득 */
 .how-step { display: flex; flex-direction: column; justify-content: center; min-height: 100vh; min-height: 100svh; padding: calc(var(--header-h) + 16px) 0 32px; }
 .how-step > div { width: 100%; }
@@ -459,7 +585,7 @@ button.btn-block { border: 0; font: inherit; font-size: 15.5px; font-weight: 800
 .f-links { display: flex; flex-wrap: wrap; gap: 0 24px; }
 .f-links a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; color: var(--fg-2); font-weight: 600; }
 .f-links a:hover { color: var(--fg); }
-.f-links a.strong { color: var(--fg); font-weight: 800; }
+.f-links a.strong { color: var(--fg); }
 .f-bottom { margin-top: 24px; padding-top: 22px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; align-items: center; font-size: 13px; }
 .sns { display: flex; flex-wrap: wrap; gap: 8px; }
 .sns a { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--base); color: var(--fg-2); transition: background .15s ease, color .15s ease; }
@@ -544,7 +670,7 @@ main.iv .thanks h2 { font-size: 22px; }
   .waver .tail, .waver .arm, .waver .sh, .intro .dots i { animation: none; }
   .store, .intro, .bcard, .step-icon, .step-phone, .step-num::after { transition: none; }
   .js [data-mo] .w > span, .js .mo-fade { transform: none; opacity: 1; transition: none; }
-  .film-down, .stage-art .ic { animation: none; }
+  .film-down { animation: none; }
 }
 
 /* 스크립트가 없으면 단계 영상을 바로 보여 준다 */

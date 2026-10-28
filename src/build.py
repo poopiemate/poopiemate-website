@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-28'
-ASSET_V = '39'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '40'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -239,10 +239,6 @@ def waver():
             '<img src="/assets/img/mascot/wave-body.webp" alt=""></div>')
 
 
-def icons(items):
-    return ''.join(f'<img class="ic" src="/assets/img/emoji/{n}.webp" alt="" style="left:{x}%;top:{y}%;rotate:{r}deg">' for n, x, y, r in items)
-
-
 def sb(text):
     """문장이 끝나면 줄을 바꾼다 (한국어·영어 모두) — 설명 글이 문장 중간에서 어색하게 꺾이지 않게."""
     # 「네.」「Yes.」처럼 한 낱말짜리 대답 뒤에서는 끊지 않는다
@@ -409,10 +405,83 @@ def home(lang):
 
 
 # ═════════════════════════════════════════════════════════ 이렇게 써요 (캔버스 「v2 이렇게 써요」 + 풀페이지)
+
+
+# ── 앱 홈 게이지(FillGauge·GaugeJelly·GaugeFace)를 웹 SVG로 — 모양·물결·얼굴 좌표는 앱 값 그대로
+SHAPE_VB_W, SHAPE_VB_H = 94.46, 97.05
+POOP_OUTER = ('M85.45,63.64c4.04-7.85,1.59-20.37-8.66-22.29,1.53-6.86-2.08-15.66-10.68-16.58,4.09-11.71-9.8-22.06-17.32-23.58-5.4-.57.17,11.38-4.24,16.58-3.75,6.32-9.39,7.7,'
+              '-15.66,7-8.04-.41-12.3,9.04-10.68,16.58-9.45,1.18-13.17,14.06-9.03,22.29-13.8,5.61,-11.28,32.01,5.34,32.24h65.76c7.74,0,13.82-6.26,13.82-13.45.54-7.14-.72-15.01,-8.66-18.79h0Z')
+DROP_OUTER = ('M47.58,97.05c-22.57,0-38.49-16.75-38.49-37.8,0-13.29,10.38-27.83,19.66-39.04L45.78.83c.42-.42,1.11-.83,1.8-.83s1.38.28,1.8.83l16.47,19.38c9.28,11.35,19.52,'
+              '25.75,19.52,38.9-.14,20.49-15.23,37.93-37.8,37.93Z')
+GAUGE_SHINE = {'poop': 'M14.5 70 Q15.5 64.5 20 62.5', 'pee': 'M22 58 Q22.5 47 30 37.5'}
+SHAPE_K = min(115 / SHAPE_VB_W, 118 / SHAPE_VB_H)
+
+
+def wave_path(length, amp, start, width, bottom=112):
+    """수면(y=0)이 물결치는 채움 — 앱 staticWavePath와 같은 모양, x=start부터."""
+    d, x = f'M{start} 0', start
+    while x < start + width:
+        d += f' Q{x + length / 4:g} {-amp} {x + length / 2:g} 0 T{x + length:g} 0'
+        x += length
+    return d + f' L{x:g} {bottom} L{start} {bottom} Z'
+
+
+def gauge_card(kind, mood):
+    """카드 169×196pt(앱 크기). 모양 무대 115×118은 가운데 위 34pt. 얼굴·숫자·말풍선은 앱 좌표."""
+    outer = POOP_OUTER if kind == 'poop' else DROP_OUTER
+    ink = '#A2479A' if kind == 'poop' else '#1F6F5B'
+    blush = 'rgba(200,101,188,.45)' if kind == 'poop' else 'rgba(31,111,91,.28)'
+    ey, by = (46, 58) if kind == 'poop' else (44, 56)
+
+    def eyes(d_l, d_r=None):
+        return ''.join(f'<path d="{d}" transform="translate({x} {ey})"/>' for x, d in ((34.5, d_l), (68.5, d_r or d_l)))
+    cheeks = f'<rect x="26.5" y="{by}" width="11" height="6" rx="3"/><rect x="77.5" y="{by}" width="11" height="6" rx="3"/>'
+    faces = {'now': eyes('M2.5 1.5L9.5 5L2.5 8.5', 'M9.5 1.5L2.5 5L9.5 8.5'), 'relief': eyes('M1.5 2.5Q6 9 10.5 2.5'), 'calm': eyes('M1.5 7.5Q6 1 10.5 7.5')}
+    shown = ('now', 'relief', 'calm') if kind == 'poop' else ('calm',)
+    face = ''.join(f'<g class="f f-{f}">{faces[f]}</g>' for f in shown)
+    # 움직이는 건 안쪽 path(CSS transform), 자리는 바깥 g(transform 속성) — CSS transform이 속성 transform을 덮어쓰지 않게
+    stink = ''.join(f'<g transform="translate({27 + x} 48)"><path class="st" style="--o:{o}" d="M6 26c-3-4 3-6 0-10s3-6 0-10"/></g>' for x, o in ((76, 0), (88, .33), (100, .66))) if kind == 'poop' else ''
+    sparks = ''.join(f'<g transform="translate({27 + x} {34 + y}) scale({sz / 10})"><path class="sp" style="--o:{o}" d="M5 0L6.2 3.8L10 5L6.2 6.2L5 10L3.8 6.2L0 5L3.8 3.8Z"/></g>'
+                     for x, y, sz, o in ((8, 26, 14, 0), (94, 40, 11, .14), (100, 16, 8, .26))) if kind == 'poop' else ''
+    dots = ''.join(f'<circle cx="{x}" cy="{y}" r="{r}"/>' for x, y, r in ((20.5, 24.5, 4.5), (34, 46, 2), (15, 121, 3), (151, 169, 5), (142, 122, 2)))
+    level = 100 if kind == 'poop' else 36
+    fill_y = SHAPE_VB_H * (1 - level / 100)
+    svg = (f'<svg viewBox="0 0 169 196" aria-hidden="true"><defs><clipPath id="hh-clip-{kind}"><path d="{outer}"/></clipPath></defs>'
+           f'<g class="dots">{dots}</g>'
+           f'<g transform="translate(27 34) scale({SHAPE_K:.4f})"><path d="{outer}" fill="rgba(255,255,255,.32)"/>'
+           f'<g clip-path="url(#hh-clip-{kind})"><g class="lvl" style="transform:translateY({fill_y:.2f}px)"><g class="slosh">'
+           f'<g class="wb"><path d="{wave_path(60, 2.2, -120, SHAPE_VB_W + 180)}" transform="translate(0 1.5)" fill="rgba(255,255,255,.6)"/></g>'
+           f'<g class="wf"><path d="{wave_path(48, 2.8, -48, SHAPE_VB_W + 144)}" fill="#fff"/></g></g></g></g>'
+           f'<path d="{GAUGE_SHINE[kind]}" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="3.4" stroke-linecap="round"/></g>'
+           f'<g transform="translate(27 34)"><g class="face" fill="none" stroke="{ink}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">{face}</g>'
+           f'<g class="cheek" fill="{blush}">{cheeks}</g></g>'
+           f'<g class="stink" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round">{stink}</g><g class="sparks" fill="#fff">{sparks}</g></svg>')
+    if kind == 'poop':
+        bubble = (f'<span class="mood m-now">{mood["now"]}</span><span class="mood m-relief">{mood["relief"]}</span>'
+                  f'<span class="mood m-calm">{mood["calm"]}</span><span class="puff">{mood["puff"]}</span>')
+    else:
+        bubble = f'<span class="mood m-calm">{mood["calm"]}</span>'
+    return (f'<div class="hh-g g-{kind}">{svg}<span class="num"><b></b>%</span>{bubble}'
+            f'<span class="plus"><svg viewBox="0 0 14 14"><path d="M7 2v10M2 7h10"/></svg></span>'
+            f'{"<span class=tap></span>" if kind == "poop" else ""}</div>')
+
+
+ROW_ICON = {
+    'poop': '<img src="/assets/img/emoji/pile_of_poo.webp" alt="">',
+    'walk': '<img src="/assets/img/emoji/paw_prints.webp" alt="">',
+}
+
+
 def how(lang):
     c = {
         'ko': {'title': '이렇게 써요 — 가족이 같이 쓰는 법 | 응가메이트', 'desc': '초대 → 기록 → 알림, 세 단계면 끝. 돌봄 부탁·하트·산책 안전도까지 영상으로 보세요.',
-               'h': '이제 “응댕이 똥 쌌어?”<br>안 물어봐도 돼요', 'lede': '산책 다녀온 사람이 버튼 하나만 누르면 <br class="m-br">가족 모두의 폰에 바로 알림이 가요.',
+               'h': '산책하다 응가하면<br>응가 게이지를 톡.', 'lede': '게이지가 비워지고, 가족 모두의 폰에 바로 알림이 가요.',
+               'dog': '응댕이',
+               'route': [('가족 초대', '카톡으로 코드만 보내요'), ('게이지 톡', '응가·쉬 게이지를 눌러요'), ('모두에게 알림', '가족 폰이 바로 울려요')],
+               'mood': {'now': '지금 나가야 해요!', 'relief': '개운해요!', 'calm': '여유 있어요', 'puff': '휴~'},
+               'push': ('응가메이트', '지금', '응가 게이지가 비워졌어요', '방금 응가 기록을 남겼어요'),
+               'rows': [('08:40', '나', 'poop', '응가', '개운해요'), ('08:12', '나', 'walk', '산책', '충분해요 · 32분')],
+               'cap': '엄마·아빠 폰에도 같은 알림이 가요',
                'steps': [('가족을 초대해요', '카톡으로 초대 코드를 보내면 같은 강아지를 함께 돌보는 가족이 돼요. 엄마·아빠·형제·돌봄 도우미 누구든요.', 'invite', 'house', 'purple'),
                          ('한 명이 기록하면<br>모두에게 알림이 가요', '산책에서 응가·쉬를 버튼 하나로 기록해요. 다른 가족 폰에 바로 알림이 가서 따로 물어볼 필요가 없어요.', 'record', 'pile_of_poo', 'pink'),
                          ('지금 상태를 한눈에 봐요', '마지막 응가·쉬와 신호 게이지를 홈에서 바로 봐요. 오늘 누가 산책했는지도 한눈에 보여요.', 'alerts', 'mobile_phone', 'green'),
@@ -426,7 +495,13 @@ def how(lang):
                'b3': ('가족 초대', '가족 초대는<br>코드 하나면 끝', '카톡으로 코드만 보내면 같은 강아지를 함께 기록해요.'),
                'b4': ('산책 루틴 · 안전도', '오늘 언제 나가면<br>좋을까요?', '산책 시간이 되면 가족 모두에게 알려줘요. 날씨와 우리 강아지 몸에 맞춘 산책 안전도도 보여줘요.')},
         'en': {'title': 'How it works — Sharing dog care with family | POOPIEMATE', 'desc': 'Invite, log, get alerts — three steps. Watch how help requests, hearts and walk safety work.',
-               'h': 'No more asking<br>“Did Poochie poop?”', 'lede': 'Whoever comes back from the walk taps one button,<br>and everyone’s phone gets the alert right away.',
+               'h': 'Pooped on the walk?<br>Tap the poop gauge.', 'lede': 'It empties, and everyone’s phone gets the alert right away.',
+               'dog': 'Poochie',
+               'route': [('Invite family', 'Send one code by message'), ('Tap the gauge', 'Tap it when they go'), ('Everyone knows', 'Every phone buzzes')],
+               'mood': {'now': 'Time to go!', 'relief': 'All clear!', 'calm': 'All good', 'puff': 'Phew~'},
+               'push': ('POOPIEMATE', 'now', 'Poopie Gauge is empty', 'A poop was just logged'),
+               'rows': [('8:40', 'Me', 'poop', 'Poop', 'All clear'), ('8:12', 'Me', 'walk', 'Walk', 'Plenty · 32 min')],
+               'cap': 'Mom and Dad get the same alert',
                'steps': [('Invite your family', 'Send an invite code by message and you’re caring for the same dog. Parents, siblings, the dog sitter — anyone.', 'invite', 'house', 'purple'),
                          ('One person logs it,<br>everyone gets an alert', 'Log poops and pees on the walk with one button. Everyone else gets an alert right away, so nobody has to ask.', 'record', 'pile_of_poo', 'pink'),
                          ('See where things stand', 'See the last poop and pee and how full the gauges are. Who walked today is right there on the home screen too.', 'alerts', 'mobile_phone', 'green'),
@@ -448,6 +523,20 @@ def how(lang):
                   f'<div class="step-phone">{reel(key, lang, c["labels"][key])}</div></div></div></section>')
     toasts = ''.join(f'<div class="toast"><img src="/assets/icons/apple-touch-icon.png" alt="" width="36" height="36"><span><b>{b}</b><i>{sub}</i></span><time>{t}</time></div>'
                      for b, sub, t in c['toasts'])
+    # 첫 화면 — 앱 홈의 응가·쉬 게이지 그대로. 꽉 찬 응가 게이지를 톡 → 쏴아 비워지고 → 알림이 내려오고 기록이 한 줄 생긴다 (한 바퀴 10초)
+    route = ''.join(f'<li><a href="#step-{i}"><b>{i:02d}</b><strong>{h}</strong><span>{d}</span></a></li>' for i, (h, d) in enumerate(c['route'], 1))
+    app, now, title, sub = c['push']
+    m = c['mood']
+    rows = ''.join(f'<div class="hh-row r-{kind}{" new" if i == 0 else ""}"><div class="hh-row-in"><span class="tm"><b>{tm}</b><i>{who}</i></span><span class="av">{who[0]}</span>'
+                   f'<span class="pill"><span class="ic">{ROW_ICON[kind]}</span><span class="tx"><b>{name}</b><i>{note}</i></span></span></div></div>'
+                   for i, (tm, who, kind, name, note) in enumerate(c['rows']))
+    fam = ''.join(f'<i>{x}</i>' for x in (('엄', '아') if lang == 'ko' else ('M', 'D')))
+    scene = (f'<figure class="hh-scene"><div class="hh-app" aria-hidden="true">'
+             f'<div class="hh-push"><img src="/assets/icons/apple-touch-icon.png" alt="" width="36" height="36"><div><p><b>{app}</b><time>{now}</time></p><strong>{title}</strong><span>{sub}</span></div></div>'
+             f'<div class="hh-head"><img src="/assets/img/mascot/face.webp" alt="" width="480" height="384"><b>{c["dog"]}</b></div>'
+             f'<div class="hh-gauges">{gauge_card("poop", m)}{gauge_card("pee", m)}</div>'
+             f'<div class="hh-rows">{rows}</div></div>'
+             f'<figcaption class="hh-cap"><span class="fam">{fam}</span>{c["cap"]}</figcaption></figure>')
     bento = f'''
 <div class="bento">
 <div class="bento-col">
@@ -462,8 +551,12 @@ def how(lang):
 </div>
 </div>'''
     body = f'''
-<section class="how-hero snap-sec"><div class="wrap"><h1 class="h1" data-mo>{c['h']}</h1><p class="lead mo-fade">{sb(c['lede'])}</p></div>
-<div class="stage" aria-hidden="true"><div class="stage-art">{icons([('house', 8, 16, -10), ('pile_of_poo', 2, 54, -8), ('paw_prints', 15, 82, 10), ('sparkles', 84, 10, 8), ('green_heart', 90, 46, 12), ('bone', 80, 78, -16)])}{waver()}</div></div></section>
+<section class="how-hero snap-sec"><div class="wrap hh-grid">
+<div class="hh-text"><h1 class="h1" data-mo>{c['h']}</h1><p class="lead mo-fade">{c['lede']}</p>
+</div>
+{scene}
+<ol class="hh-steps">{route}</ol>
+</div></section>
 {steps}
 <section class="sec-more snap-sec"><div class="wrap"><div class="center-head rise"><span class="pill-tag">{c['more_tag']}</span><h2 class="h2">{c['more_h']}</h2></div>{bento}</div></section>
 {cta_soft(lang)}
