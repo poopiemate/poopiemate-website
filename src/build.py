@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-28'
-ASSET_V = '41'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '42'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -482,11 +482,11 @@ def how(lang):
                'push': ('응가메이트', '지금', '응가 게이지가 비워졌어요', '방금 응가 기록을 남겼어요'),
                'rows': [('08:40', '나', 'poop', '응가', '개운해요'), ('08:12', '나', 'walk', '산책', '충분해요 · 32분')],
                'cap': '엄마·아빠 폰에도 같은 알림이 가요',
-               'steps': [('가족을 초대해요', '카톡으로 초대 코드를 보내면 같은 강아지를 함께 돌보는 가족이 돼요. 엄마·아빠·형제·돌봄 도우미 누구든요.', 'invite', 'house', 'purple'),
-                         ('한 명이 기록하면<br>모두에게 알림이 가요', '산책에서 응가·쉬를 버튼 하나로 기록해요. 다른 가족 폰에 바로 알림이 가서 따로 물어볼 필요가 없어요.', 'record', 'pile_of_poo', 'pink'),
-                         ('지금 상태를 한눈에 봐요', '마지막 응가·쉬와 신호 게이지를 홈에서 바로 봐요. 오늘 누가 산책했는지도 한눈에 보여요.', 'alerts', 'mobile_phone', 'green'),
-                         ('바쁜 날엔 부탁,<br>다녀오면 하트', '“저녁 산책 부탁해!” 전화 대신 버튼 하나로 부탁해요. 다녀온 가족에게는 고맙다고 하트를 보내요.', 'family', 'love_letter', 'peach'),
-                         ('오늘 언제 나가면<br>좋을까요?', '정해 둔 산책 시간이 되면 가족 모두에게 알려줘요. 체형·털·나이와 날씨로 시간별 산책 안전도도 보여줘요.', 'walk', 'sun_behind_small_cloud', 'sky')],
+               'steps': [('코드 하나면<br>가족 모두 함께', '마이 탭에서 초대 코드를 보내면 같은 강아지를 함께 기록해요.', 'invite', 'house', 'purple'),
+                         ('가족 모두의 기록을<br>한눈에', '누가 언제 산책하고 치웠는지 하루 타임라인으로 모아 보여줘요.', 'record', 'pile_of_poo', 'pink'),
+                         ('배변 신호·산책 루틴을<br>미리 챙겨요', '게이지가 차거나 산책 시간이 되면 알려주고, 산책 시간에 비가 오면 먼저 알려줘요.', 'alerts', 'mobile_phone', 'green'),
+                         ('가족과 함께 돌봐요', '고마운 기록엔 하트가 날아오고, 바쁠 땐 가족에게 돌봄을 부탁해요.', 'family', 'love_letter', 'peach'),
+                         ('댕댕이 맞춤<br>산책 안전도', '체형·털에 날씨를 더해 계산하고, 시간별 안전도와 다음 산책까지 알려줘요.', 'walk', 'sun_behind_small_cloud', 'sky')],
                'labels': {'invite': '가족 초대하는 법 모션그래픽', 'record': '기록과 가족 알림 모션그래픽', 'alerts': '배변 신호 모션그래픽', 'family': '돌봄 부탁과 하트 모션그래픽', 'walk': '산책 루틴과 안전도 모션그래픽'},
                'more_tag': '더 함께 돌보는 기능', 'more_h': '산책은 나눠서 해도,<br>기록은 <em>가족 모두가</em> 함께 봐요',
                'b1': ('가족 기록 공유', '한 명이 누르면<br>가족 폰이 울려요', '“응댕이 똥 쌌어?” 대신 알림 하나. 누가 언제 산책하고 치웠는지 하루 타임라인으로 모아 봐요.'),
@@ -502,11 +502,11 @@ def how(lang):
                'push': ('POOPIEMATE', 'now', 'Poopie Gauge is empty', 'A poop was just logged'),
                'rows': [('8:40', 'Me', 'poop', 'Poop', 'All clear'), ('8:12', 'Me', 'walk', 'Walk', 'Plenty · 32 min')],
                'cap': 'Mom and Dad get the same alert',
-               'steps': [('Invite your family', 'Send an invite code by message and you’re caring for the same dog. Parents, siblings, the dog sitter — anyone.', 'invite', 'house', 'purple'),
-                         ('One person logs it,<br>everyone gets an alert', 'Log poops and pees on the walk with one button. Everyone else gets an alert right away, so nobody has to ask.', 'record', 'pile_of_poo', 'pink'),
-                         ('See where things stand', 'See the last poop and pee and how full the gauges are. Who walked today is right there on the home screen too.', 'alerts', 'mobile_phone', 'green'),
-                         ('Ask on busy days,<br>thank with a heart', 'Skip the “Can you take the evening walk?” call. Ask with one button, and send a heart when they’re back.', 'family', 'love_letter', 'peach'),
-                         ('When should<br>we head out?', 'Everyone gets the same reminder when it’s walk time. You also see an hourly safety score for your dog and the weather.', 'walk', 'sun_behind_small_cloud', 'sky')],
+               'steps': [('One code brings<br>everyone in', 'Send an invite code from the My tab and log the same dog together.', 'invite', 'house', 'purple'),
+                         ('Every family log<br>at a glance', 'See who walked and cleaned up, and when — all in one daily timeline.', 'record', 'pile_of_poo', 'pink'),
+                         ('Stay ahead of<br>potty & walks', 'Alerts when a gauge fills or it’s walk time, plus a heads-up when rain is coming.', 'alerts', 'mobile_phone', 'green'),
+                         ('Care together<br>as a family', 'Hearts fly in for your care logs, and family can lend a hand when you’re busy.', 'family', 'love_letter', 'peach'),
+                         ('Walk safety made<br>for your dog', 'Scored from body type, coat and weather, with hourly safety and your next walks.', 'walk', 'sun_behind_small_cloud', 'sky')],
                'labels': {'invite': 'How to invite your family, motion graphic', 'record': 'Logging and family alerts, motion graphic', 'alerts': 'Potty signals, motion graphic', 'family': 'Help requests and hearts, motion graphic', 'walk': 'Walk routine and safety, motion graphic'},
                'more_tag': 'More ways to care together', 'more_h': 'Split the walks,<br>share the log with <em>everyone</em>',
                'b1': ('Shared family log', 'One tap,<br>every phone buzzes', '“Did Poochie poop?” becomes one alert. See who walked and cleaned up on one timeline.'),
