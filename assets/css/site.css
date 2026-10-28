@@ -203,6 +203,17 @@ body.menu-open { overflow: hidden; }
 .story-text .h2 { font-size: clamp(25px, 2.6vw, 32px); }
 .story-text p { margin: 16px 0 0; font-size: 16.5px; line-height: 1.7; color: var(--fg-2); }
 .story-text .more-link { margin-top: 20px; }
+/* 카드 전체가 「이야기 더 보기」 링크 — 링크의 누르는 자리를 카드 전체로 늘린다. 올려 두면 사진이 살짝 벌어지고 화살표가 나간다 */
+.sec-story .story-card { position: relative; cursor: pointer; }
+.sec-story .story-card .more-link::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
+.sec-story .story-card .more-link:focus-visible { outline: none; }
+.sec-story .story-card:has(.more-link:focus-visible) { outline: 3px solid var(--brand); outline-offset: 3px; }
+.sec-story .polaroids figure, .sec-story .more-link svg { transition: transform .35s cubic-bezier(.2, .9, .3, 1.2); }
+@media (hover: hover) {
+  .sec-story .story-card:hover .polaroids figure:first-child { transform: rotate(-9deg) translate(-6px, 4px); }
+  .sec-story .story-card:hover .polaroids figure:last-child { transform: rotate(8deg) translate(6px, -4px); }
+  .sec-story .story-card:hover .more-link svg { transform: translateX(4px); }
+}
 
 /* ── 자주 묻는 질문 */
 .sec-faq { padding: clamp(96px, 10vw, 130px) 0 0; }
