@@ -119,17 +119,20 @@
 /* ── 배변 횟수 */
 .cnt-grid { margin-top: 36px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .cnt { overflow: hidden; border-radius: 24px; background: var(--base); box-shadow: 0 0 0 1px var(--line); }
-.cnt-top { display: grid; place-items: end center; height: 150px; padding-top: 16px; box-sizing: border-box; background: #FFF6E0; }
-.cnt-top img { width: auto; height: 132px; margin-bottom: -4px; }
-.cnt-in { padding: 20px 24px 24px; }
-.cnt b { font-family: var(--font-title); font-size: 20px; }
-.cnt small { margin-left: 6px; font-size: 14px; color: var(--fg-3); }
-.cnt-dots { display: flex; gap: 6px; margin: 16px 0 12px; }
-.cnt-dots i { width: 38px; height: 30px; background: url(/assets/img/poop/firm-2.webp?v=3) center / contain no-repeat; opacity: .14; filter: grayscale(1); }
+.cnt-top { position: relative; display: grid; place-items: center; height: 200px; background: linear-gradient(180deg, #FFF8E6, #FFF1D0); }
+.cnt-top::after { content: ""; position: absolute; left: 50%; bottom: 26px; width: 150px; height: 18px; margin-left: -75px; border-radius: 50%; background: rgba(140, 100, 30, .14); filter: blur(4px); }
+.cnt-top img { position: relative; z-index: 1; width: auto; height: 142px; margin-top: -8px; }
+.cnt:first-child .cnt-top img { height: 122px; }  /* 아기는 조금 작게 */
+.cnt-in { padding: 22px 24px 26px; }
+.cnt-h { display: flex; align-items: center; gap: 8px; margin: 0; }
+.cnt-h b { font-family: var(--font-title); font-size: 19px; font-weight: 800; }
+.cnt-h small { padding: 3px 9px; border-radius: 999px; background: var(--surface); font-size: 13px; font-weight: 700; color: var(--fg-2); }
+.cnt-dots { display: flex; gap: 4px; margin: 18px 0 8px; }
+.cnt-dots i { width: 34px; height: 28px; background: url(/assets/img/poop/firm-2.webp?v=3) center / contain no-repeat; opacity: .14; filter: grayscale(1); }
 .cnt-dots i.mid { opacity: .45; filter: none; }
 .cnt-dots i.on { opacity: 1; filter: none; }
-.cnt strong { display: block; font-family: var(--font-title); font-size: 26px; color: var(--fg); }
-.cnt p { margin: 6px 0 0; font-size: 15.5px; line-height: 1.6; color: var(--fg-2); }
+.cnt strong { display: block; font-family: var(--font-title); font-size: 30px; font-weight: 800; letter-spacing: -.02em; color: var(--fg); }
+.cnt-in > p:last-child { margin: 8px 0 0; font-size: 15.5px; line-height: 1.6; color: var(--fg-2); }
 .more-in { display: inline-block; margin-top: 24px; font-family: var(--font-title); font-weight: 800; color: var(--brand-text); text-decoration: none; }
 .more-in:hover { text-decoration: underline; }
 

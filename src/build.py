@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-30'
-ASSET_V = '51'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '52'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -338,16 +338,19 @@ def label(text, cls=''):
 
 def cta_band(lang, cls=''):
     """다운로드 — 초록 카드, 왼쪽 글·스토어 버튼, 오른쪽 손 흔드는 응댕이 (v3 지도 아래)."""
-    c = {'ko': ('둘이 같이 키운다면,<br>둘이 같이 써보세요', '가족 초대도 기록도 알림도 무료예요',
-                [('응댕이가 응가를 했어요', '엄마가 방금 기록했어요'), ('아빠가 산책 다녀왔어요', '32분 산책 기록'), ('언니가 가족이 되었어요', '초대를 받았어요')]),
-         'en': ('Raising your dog together?<br>Log it together.', 'Family invites, logs and alerts are all free.',
-                [('Poochie just pooped', 'Mom logged it just now'), ('Dad finished a walk', '32-minute walk logged'), ('Sis joined the family', 'Invite accepted')])}[lang]
-    # 응댕이 둘레에 떠 있는 앱 알림 세 장 (넓은 화면에서만)
-    floats = ''.join(f'<div class="cf cf{i}"><img src="/assets/icons/apple-touch-icon.png" alt="" width="34" height="34"><span><b>{b}</b><i>{t}</i></span></div>'
-                     for i, (b, t) in enumerate(c[2], 1))
+    c = {'ko': ('둘이 같이 키운다면,<br>둘이 같이 써보세요', '가족 초대도 기록도 알림도 무료예요', '오늘',
+                [('poo', '응가했어요', '오전 9:24 · 엄마'), ('pee', '쉬했어요', '오후 1:10 · 나'), ('walk', '산책했어요', '오후 5:20 · 아빠')]),
+         'en': ('Raising your dog together?<br>Log it together.', 'Family invites, logs and alerts are all free.', 'Today',
+                [('poo', 'Pooped', '9:24 AM · Mom'), ('pee', 'Peed', '1:10 PM · Me'), ('walk', 'Walked', '5:20 PM · Dad')])}[lang]
+    # 응댕이 옆에 앱 기록 화면 폰 + 앱 아이콘 (넓은 화면에서만)
+    ico = {'poo': '<img src="/assets/img/poop/firm-2.webp?v=3" alt="">',
+           'pee': '<svg viewBox="0 0 24 24"><path d="M12 3c3 4 6 7.6 6 11a6 6 0 0 1-12 0c0-3.4 3-7 6-11z" fill="#F5B82E"/></svg>',
+           'walk': '<img src="/assets/img/emoji/paw_prints.webp" alt="">'}
+    rows = ''.join(f'<li><i class="{k}">{ico[k]}</i><span><b>{t}</b><small>{m}</small></span></li>' for k, t, m in c[3])
+    phone = (f'<div class="cta-phone" aria-hidden="true"><div class="ph-screen"><p class="ph-day">{c[2]}</p><ul>{rows}</ul></div></div>'
+             f'<img class="cta-icon" src="/assets/icons/apple-touch-icon.png" alt="" width="180" height="180" aria-hidden="true">')
     return (f'<section class="sec-cta {cls}"><div class="wrap"><div class="cta-card rise">'
-            f'<div class="cta-text"><h2 class="h2" data-mo>{c[0]}</h2><p>{sb(c[1])}</p></div>{stores(lang)}{waver()}'
-            f'<div class="cta-float" aria-hidden="true">{floats}</div></div></div></section>')
+            f'<div class="cta-text"><h2 class="h2" data-mo>{c[0]}</h2><p>{sb(c[1])}</p></div>{stores(lang)}{waver()}{phone}</div></div></section>')
 
 
 def cta_soft(lang):

@@ -59,9 +59,9 @@ FIRMNESS = [
 VERDICT_LABEL = {1: '괜찮아요', 2: '지켜봐요', 3: '병원 상담', 4: '바로 병원'}
 # 하루 배변 횟수 카드 — 포즈, 이름, 나이, 최소~최대 횟수, 설명. 응가 그림 5칸 중 최소까지 진하게, 최대까지 옅게
 POOP_COUNTS = [
-    ('baby', '아기 강아지', '6개월 미만', 3, 5, '밥을 자주 먹고 소화가 빨라서 먹고 나서 곧 싸요.'),
-    ('ears', '성견', '1~7살', 1, 3, '아침·저녁 산책 때 한 번씩이 가장 흔해요.'),
-    ('sit', '노령견', '7살 이상', 1, 2, '활동량이 줄면 횟수도 줄어요. 이틀 넘게 안 싸면 상담하세요.'),
+    ('age-puppy', '아기 강아지', '6개월 미만', 3, 5, '밥을 자주 먹고 소화가 빨라서 먹고 나서 곧 싸요.'),
+    ('age-adult', '성견', '1~7살', 1, 3, '아침·저녁 산책 때 한 번씩이 가장 흔해요.'),
+    ('age-senior', '노령견', '7살 이상', 1, 2, '활동량이 줄면 횟수도 줄어요. 이틀 넘게 안 싸면 상담하세요.'),
 ]
 POOP_FAQ = [
     ('강아지 황금똥은 어떤 똥인가요?', '초콜릿 같은 갈색에, 마디가 살짝 있는 통나무 모양이고, 집어 올려도 모양이 유지될 만큼 적당히 단단한 똥이에요. 대변 점수표로는 2점(1~7점 중)이에요.'),
@@ -92,7 +92,7 @@ def poop_tool(page, faq_block, faq_ld, cta_band, ASSET_V):
         f'<h3>{n}</h3><p>{escape(d)}</p></article>' for k, n, lv, d in POOP_COLORS + POOP_EXTRAS_CHART)
     cnt_cards = ''.join(
         f'<div class="cnt"><div class="cnt-top"><img src="/assets/img/mascot/{pose}.webp" alt="" loading="lazy"></div>'
-        f'<div class="cnt-in"><b>{name}</b><small>{age}</small>'
+        f'<div class="cnt-in"><p class="cnt-h"><b>{name}</b><small>{age}</small></p>'
         f'<div class="cnt-dots" aria-hidden="true">' + ''.join(f'<i class="{"on" if k <= lo else "mid" if k <= hi else ""}"></i>' for k in range(1, 6)) + '</div>'
         f'<strong>하루 {lo}~{hi}번</strong><p>{d}</p></div></div>'
         for pose, name, age, lo, hi, d in POOP_COUNTS)
