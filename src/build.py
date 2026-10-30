@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-30'
-ASSET_V = '52'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '53'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -338,19 +338,15 @@ def label(text, cls=''):
 
 def cta_band(lang, cls=''):
     """다운로드 — 초록 카드, 왼쪽 글·스토어 버튼, 오른쪽 손 흔드는 응댕이 (v3 지도 아래)."""
-    c = {'ko': ('둘이 같이 키운다면,<br>둘이 같이 써보세요', '가족 초대도 기록도 알림도 무료예요', '오늘',
-                [('poo', '응가했어요', '오전 9:24 · 엄마'), ('pee', '쉬했어요', '오후 1:10 · 나'), ('walk', '산책했어요', '오후 5:20 · 아빠')]),
-         'en': ('Raising your dog together?<br>Log it together.', 'Family invites, logs and alerts are all free.', 'Today',
-                [('poo', 'Pooped', '9:24 AM · Mom'), ('pee', 'Peed', '1:10 PM · Me'), ('walk', 'Walked', '5:20 PM · Dad')])}[lang]
-    # 응댕이 옆에 앱 기록 화면 폰 + 앱 아이콘 (넓은 화면에서만)
-    ico = {'poo': '<img src="/assets/img/poop/firm-2.webp?v=3" alt="">',
-           'pee': '<svg viewBox="0 0 24 24"><path d="M12 3c3 4 6 7.6 6 11a6 6 0 0 1-12 0c0-3.4 3-7 6-11z" fill="#F5B82E"/></svg>',
-           'walk': '<img src="/assets/img/emoji/paw_prints.webp" alt="">'}
-    rows = ''.join(f'<li><i class="{k}">{ico[k]}</i><span><b>{t}</b><small>{m}</small></span></li>' for k, t, m in c[3])
-    phone = (f'<div class="cta-phone" aria-hidden="true"><div class="ph-screen"><p class="ph-day">{c[2]}</p><ul>{rows}</ul></div></div>'
-             f'<img class="cta-icon" src="/assets/icons/apple-touch-icon.png" alt="" width="180" height="180" aria-hidden="true">')
-    return (f'<section class="sec-cta {cls}"><div class="wrap"><div class="cta-card rise">'
-            f'<div class="cta-text"><h2 class="h2" data-mo>{c[0]}</h2><p>{sb(c[1])}</p></div>{stores(lang)}{waver()}{phone}</div></div></section>')
+    c = {'ko': ('둘이 같이 키운다면,<br><em>둘이 같이 써보세요</em>', '가족 초대도 기록도 알림도 무료예요'),
+         'en': ('Raising your dog together?<br><em>Log it together.</em>', 'Family invites, logs and alerts are all free.')}[lang]
+    # 하늘 무대 — 동네 언덕 위 집·나무 사이에서 손 흔드는 응댕이 (홈 지도 손그림 레이어)
+    scene = ('<span class="cta-hill" aria-hidden="true"></span><img class="cta-house" src="/assets/img/cta-house.webp" alt="" aria-hidden="true">'
+             '<img class="cta-tree" src="/assets/img/cta-tree.webp" alt="" aria-hidden="true">'
+             '<img class="cta-sun" src="/assets/img/emoji/sun_behind_small_cloud.webp" alt="" aria-hidden="true">'
+             '<img class="cta-heart" src="/assets/img/emoji/green_heart.webp" alt="" aria-hidden="true">')
+    return (f'<section class="sec-cta {cls}"><div class="wrap"><div class="cta-card rise">{scene}'
+            f'<div class="cta-text"><h2 class="h2" data-mo>{c[0]}</h2><p>{sb(c[1])}</p></div>{stores(lang)}{waver()}</div></div></section>')
 
 
 def cta_soft(lang):
