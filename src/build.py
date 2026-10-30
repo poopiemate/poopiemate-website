@@ -7,11 +7,13 @@ import html as html_mod, json, re, subprocess
 from html import escape
 from pathlib import Path
 
+import tools
+
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
-UPDATED = '2026-10-28'
-ASSET_V = '44'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+UPDATED = '2026-10-30'
+ASSET_V = '45'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -147,10 +149,71 @@ def footer(lang, ko_path, en_path):
             f'</div></footer>')
 
 
+# ═════════════════════════════════════════════════════════ 페이지별 공유 이미지(OG)
+# 페이지마다 다른 OG 이미지 — 응댕이 포즈 + 페이지 제목을 src/og.py가 1200×630으로 그린다 (assets/og/p/<slug>.jpg).
+# 홈만 브랜드 이미지(poopiemate-{ko,en}.jpg). 빌드가 그릴 목록을 .cache/og/pages.json에 남긴다.
+OG_PAGES = {}
+OG_CHIP = {'ko': {'poop': '강아지 가이드', 'walk': '강아지 가이드', 'tool': '무료 도구', 'story': '이야기', 'notice': '공지사항', 'brand': '응가메이트', 'plain': '응가메이트'},
+           'en': {'poop': 'Dog guide', 'walk': 'Dog guide', 'tool': 'Free tool', 'story': 'Stories', 'notice': 'Notices', 'brand': 'POOPIEMATE', 'plain': 'POOPIEMATE'}}
+# 「응가메이트」 칩은 바로 위 로고와 겹쳐서 — 페이지 성격으로
+OG_CHIP_SLUG = {s: {'ko': '이용 안내', 'en': 'Policies'} for s in ('privacy', 'terms', 'licenses')}
+OG_CHIP_SLUG.update({'support': {'ko': '고객 지원', 'en': 'Support'}, 'how-it-works': {'ko': '이렇게 써요', 'en': 'How it works'},
+                     'interview': {'ko': '유저 인터뷰', 'en': 'User interview'}, 'download': {'ko': '무료 앱', 'en': 'Free app'}, '404': {'ko': '길을 잃었어요', 'en': 'Lost'}})
+# 응댕이 포즈 — 승인된 9개 중에서 (~/Desktop/응가메이트/홈페이지_v3_레이어/응댕이/포즈/)
+OG_POSE = {'poop': '응가중', 'walk': '안녕', 'tool': '응가중', 'story': '배보여주기', 'notice': '귀쫑긋', 'brand': '안녕', 'plain': '앉아있기'}
+OG_POSE_SLUG = {
+    'walk-safety-index': '안녕', 'dog-diarrhea-causes': '긁기', 'dog-constipation-causes': '응가전', 'yellow-gray-dog-poop': '귀쫑긋',
+    'kibble-vs-cooked-vs-raw-poop': '애교', 'puppy-potty-count-by-size': '애교', 'dog-outdoor-potty-why': '귀쫑긋', 'outdoor-potty-holding-risks': '응가전',
+    'why-dogs-kick-after-pooping': '응가전', 'potty-interval': '귀쫑긋', 'jindo-mix-potty-training': '앉아있기', 'outdoor-potty-dog-tracking': '안녕',
+    'dual-income-dog-walk-schedule': '안녕', 'share-dog-potty-log-with-family': '애교', 'multi-dog-household-tracking': '배보여주기',
+    'guide': '귀쫑긋', 'notice': '귀쫑긋', 'interview': '애교', 'support': '애교', 'how-it-works': '안녕', 'download': '안녕', '404': '긁기',
+}
+
+
+# 포즈 → 사이트에 올린 웹용 이미지 (assets/img/mascot/)
+POSE_WEB = {'응가중': 'pooping', '응가전': 'squat', '귀쫑긋': 'ears', '긁기': 'scratch', '배보여주기': 'belly', '안녕': 'hello', '앉아있기': 'sit', '애교': 'beg'}
+
+
+def og_image_for(path, lang, title, body, kind, desc=''):
+    """이 페이지만의 OG 이미지 주소를 정하고, 그릴 내용(제목·부제·포즈·바탕)을 OG_PAGES에 남긴다."""
+    slug = path.strip('/').replace('/', '-') or 'home'
+    m = re.search(r'<h1[^>]*>(.*?)</h1>', body, re.S)
+    head = m.group(1) if m else re.split(r' [|—] ', title)[0]
+    sub = ''
+    sm = re.search(r'<span>(.*?)</span>', head, re.S)  # 가이드 글 제목은 <span>에 부제가 들어 있다
+    if sm:
+        sub, head = html_mod.unescape(sm.group(1)).strip(), head.replace(sm.group(0), '')
+    head = html_mod.unescape(re.sub(r'<(?!br)[^>]+>', '', re.sub(r'<br\s*/?>', '<br>', head))).strip()
+    # 「제목, 부제」「제목? 부제」는 두 줄로 — 큰 제목은 짧게
+    if '<br>' not in head:
+        parts = re.split(r'(?<=[?？])\s+|,\s+', head, maxsplit=1)
+        if len(parts) == 2 and len(parts[0]) >= 6:
+            head, sub = parts[0], parts[1]
+    # 「이야기」「공지사항」처럼 짧은 제목은 설명 첫 문장을 부제로
+    if not sub and '<br>' not in head and len(head) < 12 and desc:
+        sub = re.split(r'(?<=[.!?])\s', desc)[0].rstrip('.')
+    base = slug[3:] if slug.startswith('en-') else slug
+    chip = OG_CHIP_SLUG.get(base, {}).get(lang) or OG_CHIP[lang][kind]
+    OG_PAGES[slug] = {'lang': lang, 'head': head, 'sub': sub, 'chip': chip, 'kind': kind,
+                      'pose': OG_POSE_SLUG.get(base, OG_POSE[kind])}
+    return f'/assets/og/p/{slug}.jpg'
+
+
+def og_kind(path, active):
+    slug = path.strip('/').split('/')[-1]
+    if slug in tools.TOOL_SLUGS and not path.startswith('/en/'):
+        return 'tool'
+    if slug in GUIDE_CARDS:
+        return 'poop' if GUIDE_CARDS[slug] == 1 else 'walk'
+    return {'guide': 'poop', 'story': 'story', 'notice': 'notice', 'how': 'brand'}.get(active, 'plain')
+
+
 def page(lang, key, title, desc, body, og_image, active=None, ko_path=None, en_path=None, og_type='website', ld=(), extra_head='', noindex=False, keywords='', intro=False, snap=False):
     ko_path = ko_path or url(key, 'ko')
     en_path = en_path or (url(key, 'en') if key in PATHS else None)
     path = ko_path if lang == 'ko' else en_path
+    if key != 'home' or noindex:
+        og_image = og_image_for('/404/' if noindex and key == 'home' else path, lang, title, body, og_kind(path, active), desc)
     alt = ''
     if en_path:
         alt = (f'<link rel="alternate" hreflang="ko" href="{SITE}{ko_path}">\n<link rel="alternate" hreflang="en" href="{SITE}{en_path}">\n'
@@ -794,7 +857,7 @@ def photo_img(name, sizes, alt=''):
 def clip_size(name):
     out = subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height', '-of', 'csv=p=0',
                           str(ROOT / f'assets/video/story-{name}.mp4')], capture_output=True, text=True).stdout
-    return tuple(int(x) for x in out.strip().split(',')[:2])
+    return tuple(int(x) for x in re.findall(r'\d+', out)[:2])  # 새 ffprobe는 값 사이에 빈 줄을 넣기도 한다
 
 
 def story_clip(name, label, lang, cap=True):
@@ -960,39 +1023,131 @@ def guide_json(slug, lang):
     return json.loads(f.read_text(encoding='utf-8')) if f.exists() else None
 
 
+GUIDE_COPY = {
+    'ko': {'list': '강아지 가이드', 'toc': '이 글의 순서', 'read': '{n}분 읽기', 'updated': '업데이트', 'related': '같이 보면 좋은 글',
+           'app_h': '응가메이트로 매일 기록해 보세요', 'app_btn': '무료로 시작하기', 'faq': '자주 묻는 질문', 'warn': '알아 두세요'},
+    'en': {'list': 'Dog guides', 'toc': 'In this guide', 'read': '{n} min read', 'updated': 'Updated', 'related': 'Keep reading',
+           'app_h': 'Log it every day with POOPIEMATE', 'app_btn': 'Start free', 'faq': 'Frequently asked questions', 'warn': 'Good to know'},
+}
+WARN_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>'
+
+
+def _text(h):
+    return html_mod.unescape(re.sub(r'<[^>]+>', '', h)).strip()
+
+
+def guide_article(slug, lang, g):
+    """가이드 글 — 옛 글 HTML(src/legacy/guides)을 받아 히어로·목차·카드형 표·앱 카드·FAQ·관련 글 카드로 다시 짠다."""
+    c = GUIDE_COPY[lang]
+    main = re.sub(r'\s(style|class)="(margin[^"]*)"', '', g['main'])
+    main = re.sub(r'href="https://poopiemate\.com/', 'href="/', main)
+    h1 = _text(re.search(r'<h1[^>]*>(.*?)</h1>', main, re.S).group(1))
+    main = re.sub(r'<h1[^>]*>.*?</h1>', '', main, count=1, flags=re.S)
+    lede_m = re.search(r'<p class="lede">(.*?)</p>', main, re.S) or re.search(r'<p>(.*?)</p>', main, re.S)
+    lede = lede_m.group(1).strip()
+    main = main.replace(lede_m.group(0), '', 1)
+    # FAQ — 아래 사이트 공통 아코디언으로 따로 그린다
+    faqs = [(_text(q), _text(a)) for q, a in re.findall(r'<details class="faq-item">\s*<summary>(.*?)</summary>\s*<p[^>]*>(.*?)</p>\s*</details>', main, re.S)]
+    main = re.sub(r'<h2>[^<]*(자주 묻는 질문|Frequently Asked Questions|FAQ)[^<]*</h2>', '', main, flags=re.I)
+    main = re.sub(r'\s*<details class="faq-item">.*?</details>', '', main, flags=re.S)
+    # 관련 글 — 썸네일 카드로
+    rel = []
+    rm = re.search(r'<p class="related">(.*?)</p>', main, re.S)
+    if rm:
+        for href, label in re.findall(r'<a href="([^"]+)">(.*?)</a>', rm.group(1)):
+            rs = href.strip('/').split('/')[-1]
+            if rs and rs != slug:
+                rel.append((href, _text(label), (f'en-{rs}' if lang == 'en' else rs)))
+        main = main.replace(rm.group(0), '')
+    # 앱 카드 — 「응가메이트로…」 소제목 + 카드 + 버튼을 한 장으로
+    app_text, app_href = '', '/download/'
+    am = re.search(r'(?:<h2>[^<]*</h2>\s*)?<div class="card">\s*(?:<p>)?(.*?)(?:</p>)?\s*</div>\s*(?:<a class="cta" href="([^"]+)">[^<]*</a>)?', main, re.S)
+    if am:
+        app_text = am.group(1).strip()
+        main = main.replace(am.group(0), '')
+    main = re.sub(r'\s*<a class="cta" href="[^"]*">[^<]*</a>', '', main)
+    # 안내 상자 · 표 · 소제목
+    main = re.sub(r'<div class="warn">(.*?)</div>', lambda m: f'<aside class="g-warn">{WARN_ICON}<div><b>{c["warn"]}</b><p>{m.group(1).strip()}</p></div></aside>', main, flags=re.S)
+    main = re.sub(r'<table>(.*?)</table>', r'<div class="g-table"><table>\1</table></div>', main, flags=re.S)
+    toc = []
+
+    def h2(m):
+        i = len(toc) + 1
+        inner = re.sub(r'^\s*\d+\.\s*', '', m.group(1))  # 옛 글의 「1. 」 번호는 빼고 순서 번호만
+        toc.append(_text(inner))
+        return f'<h2 id="s{i}"><span class="g-num">{i:02d}</span>{inner}</h2>'
+    main = re.sub(r'<h2>(.*?)</h2>', h2, main, flags=re.S)
+
+    kind = 'poop' if GUIDE_CARDS.get(slug, 1) == 1 else 'walk'
+    pose = OG_POSE_SLUG.get(slug, OG_POSE[kind])
+    head, sub = h1, ''
+    parts = re.split(r'(?<=[?？])\s+|,\s+', h1, maxsplit=1)
+    if len(parts) == 2 and len(parts[0]) >= 6:
+        head, sub = parts
+    minutes = max(2, round(len(_text(g['main'])) / (500 if lang == 'ko' else 1100)))
+    base = '' if lang == 'ko' else '/en'
+    toc_html = ''.join(f'<li><a href="#s{i + 1}">{escape(t)}</a></li>' for i, t in enumerate(toc))
+    app = (f'<section class="g-app"><div><p class="g-app-k">{T[lang]["name"]}</p><h2>{c["app_h"]}</h2><p>{app_text}</p>'
+           f'<a class="g-app-btn" href="{app_href}">{c["app_btn"]} {ARROW_R}</a></div>'
+           f'<img src="/assets/img/mascot/pooping.webp" alt="" width="240" height="240" loading="lazy"></section>') if app_text else ''
+    rel_html = ''
+    if rel:
+        rel_html = ('<section class="g-rel"><div class="wrap-list"><h2 class="h3">' + c['related'] + '</h2><div class="post-grid">' + ''.join(
+            f'<a class="post-card" href="{h}"><span class="thumb og"><img src="/assets/og/p/{o}.jpg" alt="" width="1200" height="630" loading="lazy"></span><b>{escape(t)}</b></a>'
+            for h, t, o in rel[:3]) + '</div></div></section>')
+    return f'''
+<section class="g-hero k-{kind}"><div class="wrap-g">
+<p class="post-meta"><a href="{url("home", lang)}">{T[lang]["name"]}</a> › <a href="{url("guide", lang)}">{c["list"]}</a></p>
+<div class="g-hero-grid"><div>
+<h1 class="g-h1">{escape(head)}{f'<span>{escape(sub)}</span>' if sub else ''}</h1>
+<p class="g-lede">{lede}</p>
+<p class="g-meta"><span>{c["read"].format(n=minutes)}</span><span>{c["updated"]} {UPDATED.replace("-", ".")}</span></p>
+</div><img class="g-pose" src="/assets/img/mascot/{POSE_WEB[pose]}.webp" alt="" width="300" height="300"></div>
+</div></section>
+<div class="wrap-g g-body">
+<aside class="g-toc" aria-label="{c["toc"]}"><b>{c["toc"]}</b><ol>{toc_html}</ol></aside>
+<article class="g-article prose">{main.strip()}{app}</article>
+</div>
+<div class="g-faq">{faq_block(lang, faqs) if faqs else ''}</div>
+{rel_html}
+<div class="g-end"></div>
+<script src="/assets/js/guide.js?v={ASSET_V}" defer></script>
+'''
+
+
 def guides():
     for f in sorted((SRC / 'legacy/guides').glob('*.json')):
         slug = f.stem
         has_en = guide_json(slug, 'en') is not None
         for lang in ('ko', 'en') if has_en else ('ko',):
+            if lang == 'ko' and slug in tools.TOOL_SLUGS:  # 한국어는 도구 페이지가 같은 주소를 쓴다 (src/tools.py)
+                continue
             g = guide_json(slug, lang)
-            main = g['main']
-            main = re.sub(r'<h1>(.*?)</h1>', r'<h1 class="h1">\1</h1>', main, count=1, flags=re.S)
-            main = main.replace(' style="margin-top:8px;"', '').replace(' style="margin:0;"', '')
-            h1 = re.search(r'<h1 class="h1">(.*?)</h1>', main, re.S)
-            rest = main[h1.end():] if h1 else main
-            crumb = (f'<a href="{url("home", lang)}">{T[lang]["name"]}</a> › <a href="{url("guide", lang)}">{"강아지 가이드" if lang == "ko" else "Dog guides"}</a>')
-            body = f'''
-<article class="post"><div class="wrap-post">
-<p class="post-meta">{crumb}</p>{h1.group(0).replace('class="h1"', 'class="post-h1"') if h1 else ''}
-<div class="prose">{rest}</div></div></article>
-{cta_band(lang)}
-'''
             path = f'/{slug}/' if lang == 'ko' else f'/en/{slug}/'
-            write(path, page(lang, None, g['title'], g['description'], body, f'/assets/og/poopiemate-{lang}.jpg', ko_path=f'/{slug}/', en_path=f'/en/{slug}/' if has_en else None,
-                             active='guide', og_type='article', ld=g['ld'], keywords=g['keywords']))
+            write(path, page(lang, None, g['title'], g['description'], guide_article(slug, lang, g), None, ko_path=f'/{slug}/', en_path=f'/en/{slug}/' if has_en else None,
+                             active='guide', og_type='article', ld=g['ld'], keywords=g['keywords'],
+                             extra_head=f'<link rel="stylesheet" href="/assets/css/tools.css?v={ASSET_V}">\n'))
 
 
-# 가이드 목록 — 분류 번호(1 배변, 2 산책·가족)와 카드의 3D 아이콘 두 개, 바탕색
+# 가이드 목록 — 분류 번호(1 배변, 2 산책·가족). 카드 썸네일은 그 글의 OG 이미지(응댕이 + 제목)
 GUIDE_CARDS = {
-    'poop-condition-guide': (1, ('pile_of_poo', 'sparkles'), 'cream'),
-    'potty-interval': (1, ('alarm_clock', 'pile_of_poo'), ''),
-    'outdoor-potty-dog-tracking': (1, ('paw_prints', 'sun_behind_small_cloud'), 'mint'),
-    'jindo-mix-potty-training': (1, ('bone', 'paw_prints'), 'cream'),
-    'walk-safety-index': (2, ('sun_behind_small_cloud', 'paw_prints'), ''),
-    'dual-income-dog-walk-schedule': (2, ('house', 'alarm_clock'), 'mint'),
-    'share-dog-potty-log-with-family': (2, ('mobile_phone', 'green_heart'), 'cream'),
-    'multi-dog-household-tracking': (2, ('paw_prints', 'growing_heart'), ''),
+    'poop-condition-guide': 1,
+    'potty-interval': 1,
+    'outdoor-potty-dog-tracking': 1,
+    'jindo-mix-potty-training': 1,
+    'dog-diarrhea-causes': 1,
+    'dog-constipation-causes': 1,
+    'how-to-get-golden-poop': 1,
+    'yellow-gray-dog-poop': 1,
+    'kibble-vs-cooked-vs-raw-poop': 1,
+    'puppy-potty-count-by-size': 1,
+    'dog-outdoor-potty-why': 1,
+    'outdoor-potty-holding-risks': 1,
+    'why-dogs-kick-after-pooping': 1,
+    'walk-safety-index': 2,
+    'dual-income-dog-walk-schedule': 2,
+    'share-dog-potty-log-with-family': 2,
+    'multi-dog-household-tracking': 2,
 }
 
 
@@ -1004,13 +1159,17 @@ def guide_list(lang):
     cats = c[2]
     chips = ''.join(f'<button type="button" data-cat="{"all" if i == 0 else i}" aria-pressed="{"true" if i == 0 else "false"}">{x}</button>' for i, x in enumerate(cats))
     cards = ''
-    for slug, (cat, (a, b), tone) in GUIDE_CARDS.items():
+    for slug, cat in GUIDE_CARDS.items():
         g = guide_json(slug, lang)
         if not g:
             continue
-        h1 = html_mod.unescape(re.sub(r'<[^>]+>', '', re.search(r'<h1[^>]*>(.*?)</h1>', g['main'], re.S).group(1))).strip()
-        cards += (f'<a class="post-card" data-cat="{cat}" href="{"" if lang == "ko" else "/en"}/{slug}/"><span class="thumb{" " + tone if tone else ""}"><span class="emoji-tile">'
-                  f'<img src="/assets/img/emoji/{a}.webp" alt=""><img src="/assets/img/emoji/{b}.webp" alt=""></span></span>'
+        og_slug = slug if lang == 'ko' else f'en-{slug}'
+        if og_slug in OG_PAGES and lang == 'ko' and slug in tools.TOOL_SLUGS:  # 한국어 도구 페이지는 도구 제목으로
+            h1 = OG_PAGES[og_slug]['head'].replace('<br>', ' ')
+        else:
+            h1 = html_mod.unescape(re.sub(r'<[^>]+>', '', re.search(r'<h1[^>]*>(.*?)</h1>', g['main'], re.S).group(1))).strip()
+        cards += (f'<a class="post-card" data-cat="{cat}" href="{"" if lang == "ko" else "/en"}/{slug}/"><span class="thumb og">'
+                  f'<img src="/assets/og/p/{og_slug}.jpg" alt="" width="1200" height="630" loading="lazy"></span>'
                   f'<span class="cat">{cats[cat]}</span><b>{escape(h1)}</b><span class="ex">{sb(escape(g["description"]))}</span></a>')
     body = f'''
 <section class="list-page"><div class="wrap-list">
@@ -1047,7 +1206,7 @@ def interview(lang):
                 '<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">\n'
                 f'<meta property="og:type" content="website">\n<meta property="og:site_name" content="{og[0]}">\n<meta property="og:title" content="{og[1]}">\n'
                 f'<meta property="og:description" content="{og[2]}">\n<meta property="og:url" content="{SITE}{path}">\n'
-                f'<meta property="og:image" content="{SITE}/assets/og/poopiemate-{lang}.jpg">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="robots" content="noindex, follow">\n'
+                f'<meta property="og:image" content="{SITE}{og_image_for(path, lang, og[1], f"<h1>{og[1]}</h1>", "plain")}">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="robots" content="noindex, follow">\n'
                 f'<link rel="alternate" hreflang="ko" href="{SITE}/interview/">\n<link rel="alternate" hreflang="en" href="{SITE}/en/interview/">\n'
                 '<style>:root{--pink-dark:#A2479A}</style>\n')
     s = s.replace('</head>', head_add + '</head>', 1)
@@ -1066,6 +1225,7 @@ def interview(lang):
 
 # ═════════════════════════════════════════════════════════ 다운로드 (스토어로 바로 보내기)
 def download():
+    og = og_image_for('/download/', 'ko', '', '<h1>응가메이트<br>무료 다운로드</h1>', 'brand')
     html = f'''<!doctype html>
 <html lang="ko">
 <head>
@@ -1083,11 +1243,11 @@ def download():
 <meta property="og:title" content="응가메이트 무료 다운로드">
 <meta property="og:description" content="기록하면 가족 모두에게 바로 알림! 댕댕이 응가·산책을 함께 챙겨요.">
 <meta property="og:url" content="{SITE}/download/">
-<meta property="og:image" content="{SITE}/assets/og/poopiemate-ko.jpg">
+<meta property="og:image" content="{SITE}{og}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="{SITE}/assets/og/poopiemate-ko.jpg">
+<meta name="twitter:image" content="{SITE}{og}">
 {PRETENDARD}
 <link rel="stylesheet" href="/assets/css/site.css?v={ASSET_V}">
 <script src="/assets/js/store-region.js?v={ASSET_V}"></script>
@@ -1209,5 +1369,10 @@ if __name__ == '__main__':
         home(lang); how(lang); story_list(lang); story_post(lang, 'why'); story_post(lang, 'solo'); notice_list(lang); notice_interview(lang)
         for n in ('privacy', 'terms', 'support', 'licenses'):
             legal(n, lang)
-    guides(); guide_list('ko'); guide_list('en'); interview('ko'); interview('en'); download(); moved(); not_found(); sitemap(); rss('ko'); rss('en')
-    print('built')
+    guides()
+    write('/poop-condition-guide/', tools.poop_tool(page, faq_block, faq_ld, cta_band, ASSET_V))
+    write('/walk-safety-index/', tools.walk_tool(page, faq_block, faq_ld, cta_band, ASSET_V))
+    guide_list('ko'); guide_list('en'); interview('ko'); interview('en'); download(); moved(); not_found(); sitemap(); rss('ko'); rss('en')
+    (ROOT / '.cache/og').mkdir(parents=True, exist_ok=True)
+    (ROOT / '.cache/og/pages.json').write_text(json.dumps(OG_PAGES, ensure_ascii=False, indent=1), encoding='utf-8')
+    print('built', len(OG_PAGES), 'og pages')

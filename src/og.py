@@ -5,6 +5,7 @@
 python3 src/og.py
 """
 import subprocess
+import tempfile
 from pathlib import Path
 from PIL import Image
 
@@ -61,8 +62,13 @@ def notice_html():
 def shot(src, png, w, h):
     h_ = TMP / (png.stem + '.html')
     h_.write_text(src, encoding='utf-8')
-    subprocess.run([CHROME, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--allow-file-access-from-files', f'--window-size={w},{h}',
-                    '--virtual-time-budget=2000', f'--screenshot={png}', f'file://{h_}'], check=True, capture_output=True)
+    for i in range(3):  # 헤드리스 크롬이 가끔 그냥 실패한다 — 두 번 더. 프로필은 매번 새로(같이 쓰면 잠금 때문에 느려진다)
+        with tempfile.TemporaryDirectory(prefix='og-chrome-') as prof:
+            r = subprocess.run([CHROME, '--headless=new', f'--user-data-dir={prof}', '--disable-gpu', '--hide-scrollbars', '--allow-file-access-from-files', f'--window-size={w},{h}',
+                                '--virtual-time-budget=2000', f'--screenshot={png}', f'file://{h_}'], capture_output=True)
+        if r.returncode == 0:
+            break
+    r.check_returncode()
     return Image.open(png).convert('RGB')
 
 
@@ -74,6 +80,73 @@ def pages():
         print('og story', lang)
     shot(notice_html(), TMP / 'notice.png', 1200, 630).save(out / 'notice.jpg', quality=88, optimize=True, progressive=True)
     print('og notice')
+
+
+# ═════════════════════════════════════════════════════════ 페이지별 OG — 응댕이 포즈 + 페이지 제목 (build.py가 남긴 .cache/og/pages.json)
+POSES = Path.home() / 'Desktop/응가메이트/홈페이지_v3_레이어/응댕이/포즈'
+# 종류별 바탕 · 강조색 · 글자색 — 앱 토큰 색(브랜드 초록, 파스텔 틴트)에서
+THEME = {
+    'poop': ('#FFF3CC', '#8A5E0A', '#191F28'), 'walk': ('#DDEFFB', '#1E6FA8', '#191F28'), 'tool': ('#18955A', '#FFE27A', '#FFFFFF'),
+    'story': ('#FFE9D6', '#B5531F', '#191F28'), 'notice': ('#EDE3FF', '#6B4BC2', '#191F28'), 'brand': ('#18955A', '#FFE27A', '#FFFFFF'),
+    'plain': ('#E8F5EE', '#127F4A', '#191F28'),
+}
+
+
+def head_size(head):
+    longest = max(len(x) for x in head.split('<br>'))
+    if '<br>' in head:
+        return 64 if longest <= 14 else 56
+    n = len(head)
+    return 84 if n <= 9 else 74 if n <= 14 else 64 if n <= 22 else 54 if n <= 40 else 46
+
+
+def page_html(p):
+    a = ROOT / 'assets'
+    bg, accent, fg = THEME[p['kind']]
+    dark = fg == '#FFFFFF'
+    mark = f'{a}/brand/wordmark-{p["lang"]}-{"white" if dark else "green"}.svg'
+    sub = f'<p class="sub">{p["sub"]}</p>' if p['sub'] else ''
+    return f'''<!doctype html><html lang="{p['lang']}"><head><meta charset="utf-8"><style>
+@font-face{{font-family:N;src:url("file://{a}/fonts/NanumSquareNeo-dEb.woff2");font-weight:800}}
+@font-face{{font-family:N;src:url("file://{a}/fonts/NanumSquareNeo-cBd.woff2");font-weight:700}}
+html,body{{margin:0}}
+.c{{position:relative;width:1200px;height:630px;overflow:hidden;background:{bg};font-family:N,sans-serif;color:{fg};word-break:keep-all}}
+.glow{{position:absolute;right:-120px;bottom:-260px;width:820px;height:820px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,{.16 if dark else .7}),rgba(255,255,255,0) 64%)}}
+.t{{position:absolute;left:76px;top:70px;bottom:70px;width:{640 if p['sub'] or len(p['head']) > 9 else 600}px;display:flex;flex-direction:column}}
+.mark{{height:{46 if p['lang'] == 'ko' else 34}px;width:auto;align-self:flex-start}}
+.copy{{margin-top:auto;margin-bottom:auto;padding-top:8px}}
+.chip{{display:inline-block;padding:9px 18px;border-radius:999px;background:{'rgba(255,255,255,.16)' if dark else 'rgba(255,255,255,.85)'};color:{accent if not dark else '#FFFFFF'};font-size:24px;font-weight:800}}
+h1{{text-wrap:balance;margin:22px 0 0;font-size:{head_size(p['head'])}px;line-height:1.24;font-weight:800;letter-spacing:-.035em}}
+.sub{{text-wrap:pretty;margin:20px 0 0;font-size:30px;line-height:1.4;font-weight:700;color:{'rgba(255,255,255,.86)' if dark else '#4E5968'};letter-spacing:-.02em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
+.dog{{position:absolute;right:56px;bottom:34px;height:{430 if p['pose'] != '배보여주기' else 360}px;width:auto;filter:drop-shadow(0 18px 30px rgba(6,60,34,{.32 if dark else .16}))}}
+</style></head><body><div class="c"><span class="glow"></span>
+<div class="t"><img class="mark" src="file://{mark}"><div class="copy"><span class="chip">{p['chip']}</span><h1>{p['head']}</h1>{sub}</div></div>
+<img class="dog" src="file://{POSES}/{p['pose']}.png"></div></body></html>'''
+
+
+def page_ogs(only=None):
+    """바뀐 페이지만 다시 그린다 — 그린 내용은 .cache/og/done.json에 기억."""
+    import hashlib, json
+    specs = json.loads((TMP / 'pages.json').read_text(encoding='utf-8'))
+    done_f = TMP / 'done.json'
+    done = json.loads(done_f.read_text()) if done_f.exists() else {}
+    out = ROOT / 'assets/og/p'
+    out.mkdir(parents=True, exist_ok=True)
+    for slug, p in specs.items():
+        if only and slug not in only:
+            continue
+        src = page_html(p)
+        h = hashlib.sha1(src.encode()).hexdigest()
+        if done.get(slug) == h and (out / f'{slug}.jpg').exists():
+            continue
+        shot(src, TMP / f'p-{slug}.png', 1200, 630).save(out / f'{slug}.jpg', quality=86, optimize=True, progressive=True)
+        done[slug] = h
+        done_f.write_text(json.dumps(done, indent=1))  # 중간에 멈춰도 그린 것과 기록이 어긋나지 않게 한 장마다
+        print('og', slug)
+    # 더는 없는 페이지의 이미지는 지운다
+    for f in out.glob('*.jpg'):
+        if f.stem not in specs:
+            f.unlink()
 
 
 def main():
@@ -92,7 +165,13 @@ def main():
         img.save(ROOT / f'assets/og-image-{lang}.jpg', quality=88, optimize=True, progressive=True)
         print('og', lang)
     pages()
+    page_ogs()
 
 
 if __name__ == '__main__':
-    main()
+    import sys
+    if sys.argv[1:] == ['pages']:  # 페이지별 OG만: python3 src/og.py pages
+        TMP.mkdir(parents=True, exist_ok=True)
+        page_ogs()
+    else:
+        main()
