@@ -250,12 +250,12 @@ body.menu-open { overflow: hidden; }
   .cta-card .stores { grid-column: 1; grid-row: 2; justify-content: flex-start; }
   }
 /* 다운로드 카드 — 주인과 산책하며 올려다보는 응댕이 (ChatGPT 그림, 바탕은 그림과 같은 하늘색) */
-.cta-card { min-height: 560px; padding-bottom: 260px; background: linear-gradient(180deg, #D8EFFE calc(100% - 270px), rgba(216, 239, 254, 0) calc(100% - 200px)), url(/assets/img/cta-walk-1200.webp) 72% 100% / auto 270px no-repeat, #D8EFFE; color: var(--fg); }
+.cta-card { min-height: 560px; padding-bottom: 260px; background: linear-gradient(180deg, #D6EEFE calc(100% - 270px), rgba(214, 238, 254, 0) calc(100% - 200px)), url(/assets/img/cta-walk-1200.webp) 72% 100% / auto 270px no-repeat, #D6EEFE; color: var(--fg); }
 .cta-card .h2 em { font-style: normal; color: var(--brand); }
 .cta-card p { color: var(--fg-2); }
 .cta-card .stores a { box-shadow: 0 8px 20px rgba(30, 80, 120, .12); }
 @media (min-width: 900px) {
-  .cta-card { min-height: 0; padding-bottom: 72px; background: #D8EFFE url(/assets/img/cta-walk.webp) 100% 50% / cover no-repeat; grid-template-columns: 1fr; }
+  .cta-card { min-height: 0; padding-bottom: 72px; background: #D6EEFE url(/assets/img/cta-walk.webp) 100% 50% / cover no-repeat; grid-template-columns: 1fr; }
 }
 
 
