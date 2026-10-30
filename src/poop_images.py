@@ -25,8 +25,22 @@ def cut(sheet, boxes):
         lab, k = nd.label(m)
         sizes = nd.sum(m, lab, range(1, k + 1))
         keep = nd.binary_fill_holes(np.isin(lab, [i + 1 for i, s in enumerate(sizes) if s > max(60, sizes.max() * 0.004)]))
-        rgba = Image.fromarray(a).convert('RGBA')
-        rgba.putalpha(Image.fromarray((keep * 255).astype('uint8')).filter(ImageFilter.GaussianBlur(0.8)))
+        keep = nd.binary_erosion(keep, iterations=2)  # 가장자리에 섞인 흰 바탕을 덜어 낸다
+        alpha = np.array(Image.fromarray((keep * 255).astype('uint8')).filter(ImageFilter.GaussianBlur(0.8))).astype(float)
+        rgb = a.astype(float)
+        # 바닥의 흰 바탕 그림자(밝은 띠)는 아래 20% 안에서 지운다 — 그림자는 place()가 새로 그린다
+        ys = np.where(keep.any(1))[0]
+        band = np.zeros_like(keep)
+        band[int(ys.max() - (ys.max() - ys.min()) * .2):] = True
+        lum = rgb.mean(2)
+        pale = band & keep & (lum > 135) & (((hi - lo) < 60) | (lum > 165))
+        lab_p, k_p = nd.label(pale)  # 바깥 테두리에 닿은 덩어리만 — 안쪽의 흰 알갱이·밝은 물은 그대로
+        edge = nd.binary_dilation(~keep, iterations=2)
+        pale = np.isin(lab_p, [i for i in range(1, k_p + 1) if (edge & (lab_p == i)).any()])
+        alpha[nd.binary_dilation(pale, iterations=1) & band] = 0
+        alpha = np.array(Image.fromarray(alpha.astype('uint8')).filter(ImageFilter.GaussianBlur(0.6))).astype(float)
+        out = np.dstack([rgb, alpha]).clip(0, 255).astype('uint8')
+        rgba = Image.fromarray(out)
         yield rgba.crop(rgba.getbbox())
 
 

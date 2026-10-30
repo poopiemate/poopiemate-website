@@ -26,7 +26,7 @@ def _app_ld(slug, name, desc):
 
 
 # ═════════════════════════════════════════════════════════ 똥 그림 — ChatGPT 응가 시트를 잘라 쓴다 (src/poop_images.py)
-POOP_V = '2'  # 응가 그림을 다시 만들면 올린다 (브라우저 캐시)
+POOP_V = '3'  # 응가 그림을 다시 만들면 올린다 (브라우저 캐시)
 
 
 def poop_img(name, alt=''):
@@ -57,6 +57,12 @@ FIRMNESS = [
     (7, '물설사', '물처럼 퍼지고 모양이 전혀 없어요', 2, '설사'),
 ]
 VERDICT_LABEL = {1: '괜찮아요', 2: '지켜봐요', 3: '병원 상담', 4: '바로 병원'}
+# 하루 배변 횟수 카드 — 포즈, 이름, 나이, 최소~최대 횟수, 설명. 응가 그림 5칸 중 최소까지 진하게, 최대까지 옅게
+POOP_COUNTS = [
+    ('baby', '아기 강아지', '6개월 미만', 3, 5, '밥을 자주 먹고 소화가 빨라서 먹고 나서 곧 싸요.'),
+    ('ears', '성견', '1~7살', 1, 3, '아침·저녁 산책 때 한 번씩이 가장 흔해요.'),
+    ('sit', '노령견', '7살 이상', 1, 2, '활동량이 줄면 횟수도 줄어요. 이틀 넘게 안 싸면 상담하세요.'),
+]
 POOP_FAQ = [
     ('강아지 황금똥은 어떤 똥인가요?', '초콜릿 같은 갈색에, 마디가 살짝 있는 통나무 모양이고, 집어 올려도 모양이 유지될 만큼 적당히 단단한 똥이에요. 대변 점수표로는 2점(1~7점 중)이에요.'),
     ('강아지 하루 배변 횟수는 몇 번이 정상인가요?', '성견은 하루 1~3번이 흔해요. 6개월 미만 강아지는 먹는 횟수만큼 하루 3~5번, 노령견은 1~2번으로 줄기도 해요. 횟수보다 평소와 달라졌는지가 더 중요해요.'),
@@ -84,6 +90,12 @@ def poop_tool(page, faq_block, faq_ld, cta_band, ASSET_V):
     color_cards = ''.join(
         f'<article class="pc-card"><div class="pc-ill">{poop_img("color-" + k, n)}</div><span class="vtag v{lv}">{VERDICT_LABEL[lv]}</span>'
         f'<h3>{n}</h3><p>{escape(d)}</p></article>' for k, n, lv, d in POOP_COLORS + POOP_EXTRAS_CHART)
+    cnt_cards = ''.join(
+        f'<div class="cnt"><div class="cnt-top"><img src="/assets/img/mascot/{pose}.webp" alt="" loading="lazy"></div>'
+        f'<div class="cnt-in"><b>{name}</b><small>{age}</small>'
+        f'<div class="cnt-dots" aria-hidden="true">' + ''.join(f'<i class="{"on" if k <= lo else "mid" if k <= hi else ""}"></i>' for k in range(1, 6)) + '</div>'
+        f'<strong>하루 {lo}~{hi}번</strong><p>{d}</p></div></div>'
+        for pose, name, age, lo, hi, d in POOP_COUNTS)
     firm_rows = ''.join(
         f'<li class="{"ideal" if s == 2 else ""}"><div class="fs-ill">{poop_img(f'firm-{s}', n)}</div><b class="fs-n">{s}</b>'
         f'<div class="fs-t"><strong>{n}</strong><span>{d}</span></div><span class="vtag v{lv}">{tag}</span></li>'
@@ -141,9 +153,7 @@ def poop_tool(page, faq_block, faq_ld, cta_band, ASSET_V):
 <p class="label">하루 배변 횟수</p><h2 class="h2">하루에 <em>몇 번</em> 싸면 정상일까?</h2>
 <p class="sec-lead">보통 밥 먹는 횟수와 비슷해요. 숫자보다 평소 우리 강아지 리듬에서 벗어났는지가 더 중요해요.</p>
 <div class="cnt-grid">
-<div class="cnt"><img src="/assets/img/emoji/bone.webp" alt="" width="44" height="44"><b>아기 강아지</b><small>6개월 미만</small><div class="cnt-bar"><span style="--a:3;--b:5"></span></div><strong>하루 3~5번</strong><p>밥을 자주 먹고 소화가 빨라서 먹고 나서 곧 싸요.</p></div>
-<div class="cnt"><img src="/assets/img/emoji/paw_prints.webp" alt="" width="44" height="44"><b>성견</b><small>1~7살</small><div class="cnt-bar"><span style="--a:1;--b:3"></span></div><strong>하루 1~3번</strong><p>아침·저녁 산책 때 한 번씩이 가장 흔해요.</p></div>
-<div class="cnt"><img src="/assets/img/emoji/growing_heart.webp" alt="" width="44" height="44"><b>노령견</b><small>7살 이상</small><div class="cnt-bar"><span style="--a:1;--b:2"></span></div><strong>하루 1~2번</strong><p>활동량이 줄면 횟수도 줄어요. 이틀 넘게 안 싸면 상담하세요.</p></div>
+{cnt_cards}
 </div>
 <a class="more-in" href="/potty-interval/">배변 텀과 하루 배변 횟수 더 알아보기 →</a>
 </div></section>

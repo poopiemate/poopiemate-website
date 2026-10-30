@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-30'
-ASSET_V = '49'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '51'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -338,10 +338,16 @@ def label(text, cls=''):
 
 def cta_band(lang, cls=''):
     """다운로드 — 초록 카드, 왼쪽 글·스토어 버튼, 오른쪽 손 흔드는 응댕이 (v3 지도 아래)."""
-    c = {'ko': ('둘이 같이 키운다면,<br>둘이 같이 써보세요', '가족 초대도 기록도 알림도 무료예요'),
-         'en': ('Raising your dog together?<br>Log it together.', 'Family invites, logs and alerts are all free.')}[lang]
+    c = {'ko': ('둘이 같이 키운다면,<br>둘이 같이 써보세요', '가족 초대도 기록도 알림도 무료예요',
+                [('응댕이가 응가를 했어요', '엄마가 방금 기록했어요'), ('아빠가 산책 다녀왔어요', '32분 산책 기록'), ('언니가 가족이 되었어요', '초대를 받았어요')]),
+         'en': ('Raising your dog together?<br>Log it together.', 'Family invites, logs and alerts are all free.',
+                [('Poochie just pooped', 'Mom logged it just now'), ('Dad finished a walk', '32-minute walk logged'), ('Sis joined the family', 'Invite accepted')])}[lang]
+    # 응댕이 둘레에 떠 있는 앱 알림 세 장 (넓은 화면에서만)
+    floats = ''.join(f'<div class="cf cf{i}"><img src="/assets/icons/apple-touch-icon.png" alt="" width="34" height="34"><span><b>{b}</b><i>{t}</i></span></div>'
+                     for i, (b, t) in enumerate(c[2], 1))
     return (f'<section class="sec-cta {cls}"><div class="wrap"><div class="cta-card rise">'
-            f'<div class="cta-text"><h2 class="h2" data-mo>{c[0]}</h2><p>{sb(c[1])}</p></div>{stores(lang)}{waver()}</div></div></section>')
+            f'<div class="cta-text"><h2 class="h2" data-mo>{c[0]}</h2><p>{sb(c[1])}</p></div>{stores(lang)}{waver()}'
+            f'<div class="cta-float" aria-hidden="true">{floats}</div></div></div></section>')
 
 
 def cta_soft(lang):
@@ -404,6 +410,28 @@ HOME_FAQ = {
 
 
 
+# 홈 「강아지 가이드」 — 이렇게 같이 돌봐요 위에 가이드 여섯 개 (도구 둘 먼저)
+HOME_GUIDES = {
+    'ko': [('poop-condition-guide', '오늘 응가, 괜찮을까? 강아지 똥 상태 체크'), ('walk-safety-index', '오늘 산책해도 될까? 강아지 산책 안전도 계산기'),
+           ('dog-diarrhea-causes', None), ('how-to-get-golden-poop', None), ('outdoor-potty-holding-risks', None), ('potty-interval', None)],
+    'en': [('poop-condition-guide', None), ('walk-safety-index', None), ('potty-interval', None),
+           ('jindo-mix-potty-training', None), ('dual-income-dog-walk-schedule', None), ('multi-dog-household-tracking', None)],
+}
+
+
+def home_guides(lang):
+    cards = ''
+    for slug, title in HOME_GUIDES[lang]:
+        g = guide_json(slug, lang)
+        cards += (f'<a class="post-card" href="{"" if lang == "ko" else "/en"}/{slug}/"><span class="thumb og">'
+                  f'<img src="/assets/og/p/{slug if lang == "ko" else "en-" + slug}.jpg" alt="" width="1200" height="630" loading="lazy"></span>'
+                  f'<b>{escape(title or g["og_title"])}</b></a>')
+    tag, h, more = (('강아지 가이드', '같이 돌볼 때 알아 두면 좋은 것들', '가이드 전체 보기') if lang == 'ko' else
+                    ('Dog guides', 'Good to know when you share one dog', 'See all guides'))
+    return (f'<section class="sec-guides"><div class="wrap"><div class="guides-head"><div>{label(tag)}<h2 class="h2" data-mo>{h}</h2></div>'
+            f'<a class="more-link" href="{url("guide", lang)}">{more}{ARROW_R}</a></div><div class="post-grid">{cards}</div></div></section>')
+
+
 def home(lang):
     c = {
         'ko': {'title': '응가메이트 — 가족이 함께 보는 강아지 응가·산책 기록',
@@ -437,6 +465,8 @@ def home(lang):
 <h1 class="hero-h1" data-mo>{c['h1']}</h1>
 <p class="hero-lead mo-fade">{c['lead']}</p>
 </div></section>
+
+{home_guides(lang)}
 
 <section class="sec-feat" data-carousel>
 <div class="wrap feat-head"><div>{label(c['b_tag'])}<h2 class="h2" data-mo>{c['b_h']}</h2></div>{nav}</div>
@@ -1027,9 +1057,9 @@ def guide_json(slug, lang):
 
 GUIDE_COPY = {
     'ko': {'list': '강아지 가이드', 'toc': '이 글의 순서', 'read': '{n}분 읽기', 'updated': '업데이트', 'related': '같이 보면 좋은 글',
-           'app_h': '응가메이트로 매일 기록해 보세요', 'app_btn': '무료로 시작하기', 'faq': '자주 묻는 질문', 'warn': '알아 두세요'},
+           'app_h': '응가메이트로 같이 기록해요', 'app_p': '응가·산책을 가족과 한 화면에서 봐요.<br>평소와 달라진 날을 바로 알 수 있어요.', 'app_btn': '무료로 시작하기', 'faq': '자주 묻는 질문', 'warn': '알아 두세요'},
     'en': {'list': 'Dog guides', 'toc': 'In this guide', 'read': '{n} min read', 'updated': 'Updated', 'related': 'Keep reading',
-           'app_h': 'Log it every day with POOPIEMATE', 'app_btn': 'Start free', 'faq': 'Frequently asked questions', 'warn': 'Good to know'},
+           'app_h': 'Log it together with POOPIEMATE', 'app_p': 'See potty and walks with your family on one screen.<br>Spot an off day right away.', 'app_btn': 'Start free', 'faq': 'Frequently asked questions', 'warn': 'Good to know'},
 }
 WARN_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>'
 
@@ -1090,7 +1120,8 @@ def guide_article(slug, lang, g):
     minutes = max(2, round(len(_text(g['main'])) / (500 if lang == 'ko' else 1100)))
     base = '' if lang == 'ko' else '/en'
     toc_html = ''.join(f'<li><a href="#s{i + 1}">{escape(t)}</a></li>' for i, t in enumerate(toc))
-    app = (f'<section class="g-app"><div><p class="g-app-k">{T[lang]["name"]}</p><h2>{c["app_h"]}</h2><p>{app_text}</p>'
+    # 글마다 있던 긴 앱 소개 대신 짧은 두 줄 — 글 안에 앱 카드가 있을 때만 단다
+    app = (f'<section class="g-app"><div><h2>{c["app_h"]}</h2><p>{c["app_p"]}</p>'
            f'<a class="g-app-btn" href="{app_href}">{c["app_btn"]} {ARROW_R}</a></div>'
            f'<img src="/assets/img/mascot/pooping.webp" alt="" width="240" height="240" loading="lazy"></section>') if app_text else ''
     rel_html = ''
