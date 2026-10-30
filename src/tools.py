@@ -25,9 +25,12 @@ def _app_ld(slug, name, desc):
             'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'KRW'}, 'publisher': {'@type': 'Organization', 'name': '응가메이트'}}
 
 
-# ═════════════════════════════════════════════════════════ 똥 그림 — 앱 응가 이미지를 색깔·굳기별로 (src/poop_images.py)
+# ═════════════════════════════════════════════════════════ 똥 그림 — ChatGPT 응가 시트를 잘라 쓴다 (src/poop_images.py)
+POOP_V = '2'  # 응가 그림을 다시 만들면 올린다 (브라우저 캐시)
+
+
 def poop_img(name, alt=''):
-    return f'<img class="poop-ill" src="/assets/img/poop/{name}.webp" alt="{alt}" width="120" height="90" loading="lazy">'
+    return f'<img class="poop-ill" src="/assets/img/poop/{name}.webp?v={POOP_V}" alt="{alt}" width="120" height="90" loading="lazy">'
 
 
 # 응가 색깔 — key(그림 color-<key>.webp), 이름, 판단 단계(1 괜찮아요 · 2 지켜봐요 · 3 병원 상담 · 4 바로 병원), 설명
@@ -83,7 +86,7 @@ def poop_tool(page, faq_block, faq_ld, cta_band, ASSET_V):
         f'<h3>{n}</h3><p>{escape(d)}</p></article>' for k, n, lv, d in POOP_COLORS + POOP_EXTRAS_CHART)
     firm_rows = ''.join(
         f'<li class="{"ideal" if s == 2 else ""}"><div class="fs-ill">{poop_img(f'firm-{s}', n)}</div><b class="fs-n">{s}</b>'
-        f'<div class="fs-t"><strong>{n}{" <em>황금똥</em>" if s == 2 else ""}</strong><span>{d}</span></div><span class="vtag v{lv}">{tag}</span></li>'
+        f'<div class="fs-t"><strong>{n}</strong><span>{d}</span></div><span class="vtag v{lv}">{tag}</span></li>'
         for s, n, d, lv, tag in FIRMNESS)
 
     body = f'''
@@ -93,7 +96,7 @@ def poop_tool(page, faq_block, faq_ld, cta_band, ASSET_V):
 <div class="th-text"><h1 class="post-h1 th-h1">오늘 응가, 괜찮을까?<br><em>강아지 똥 상태 체크</em></h1>
 <p class="th-lead">색깔과 굳기만 고르면 황금똥인지, 지켜봐도 되는지, 병원에 가야 하는지 바로 알려줘요.</p>
 <nav class="th-jump" aria-label="이 페이지에서"><a href="#check">상태 체크</a><a href="#colors">응가 색깔 차트</a><a href="#firmness">굳기 차트</a><a href="#count">하루 배변 횟수</a></nav></div>
-<img class="th-mascot" src="/assets/img/mascot/pooping.webp" alt="응가하는 응댕이" width="320" height="320">
+<div class="th-art"><img class="th-mascot" src="/assets/img/mascot/magnify.webp" alt="돋보기로 살펴보는 응댕이" width="390" height="387"></div>
 </div></div></section>
 
 <section class="tool-sec" id="check"><div class="wrap-tool">
@@ -106,14 +109,16 @@ def poop_tool(page, faq_block, faq_ld, cta_band, ASSET_V):
 <aside class="ck-result" id="check-result" aria-live="polite">
 <div class="cr-empty" data-empty><img src="/assets/img/mascot/sit.webp" alt="" width="120" height="120"><b>색깔과 굳기를 골라 주세요</b><p>고르는 대로 바로 결과가 바뀌어요.</p></div>
 <div class="cr-card" data-card hidden>
+<div class="cr-head"><img class="cr-ill" data-ill src="/assets/img/poop/color-brown.webp?v={POOP_V}" alt="" width="240" height="180">
 <span class="cr-level" data-level></span>
 <h3 class="cr-title" data-title></h3>
-<p class="cr-msg" data-msg></p>
+<p class="cr-msg" data-msg></p></div>
+<div class="cr-body"><p class="cr-sub">이렇게 봤어요</p>
 <ul class="cr-why" data-why></ul>
 <div class="cr-app"><b>매일 기록하면 변화를 바로 알아채요</b><p>응가메이트는 응가 상태와 시간을 가족과 같이 남겨요. 병원에서 “언제부터 어땠는지” 바로 보여줄 수 있어요.</p>
 <a class="btn-app" href="/download/">응가메이트 무료로 받기</a></div>
 <button type="button" class="cr-reset" data-reset>처음부터 다시</button>
-</div>
+</div></div>
 </aside>
 </div>
 <a class="mini" href="#check-result" data-mini><i data-mini-l></i><b data-mini-t></b><span>결과 보기</span></a>
@@ -218,7 +223,7 @@ def walk_tool(page, faq_block, faq_ld, cta_band, ASSET_V):
 <div class="th-text"><h1 class="post-h1 th-h1">오늘 산책해도 될까?<br><em>강아지 산책 안전도 계산기</em></h1>
 <p class="th-lead">우리 강아지 몸·털·컨디션에 지금 체감온도와 비 소식을 더해 1~5단계로 알려줘요. 응가메이트 앱과 똑같은 계산식이에요.</p>
 <nav class="th-jump" aria-label="이 페이지에서"><a href="#calc">계산하기</a><a href="#table">기준표</a><a href="#factors">가산 요인</a><a href="#levels">단계별 행동</a></nav></div>
-<img class="th-mascot" src="/assets/img/mascot/hello.webp" alt="손 흔드는 응댕이" width="320" height="320">
+<div class="th-art"><img class="th-mascot" src="/assets/img/mascot/leash.webp" alt="산책줄을 맨 응댕이" width="452" height="395"></div>
 </div></div></section>
 
 <section class="tool-sec" id="calc"><div class="wrap-tool">
@@ -247,15 +252,18 @@ def walk_tool(page, faq_block, faq_ld, cta_band, ASSET_V):
 </div>
 <aside class="ck-result" id="calc-result" aria-live="polite">
 <div class="cr-card ws" data-card>
-<p class="cr-ctx" data-ctx>지금</p>
-<div class="ws-dial" data-dial><b data-level>–</b><small>/ 5</small></div>
-<h3 class="cr-title" data-title>날씨를 불러오는 중이에요</h3>
+<div class="cr-head">
+<div class="ws-top"><span class="ws-badge" data-level aria-hidden="true">–</span><div><p class="ws-lvname" data-lvname>산책 안전도</p><h3 class="cr-title" data-title>날씨를 불러오는 중이에요</h3></div></div>
+<div class="ws-scale" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
 <p class="cr-msg" data-msg></p>
-<div class="ws-formula" data-formula></div>
-<ul class="cr-acts" data-acts></ul>
-<div class="ws-hours"><b>오늘 시간별 안전도</b><div class="ws-strip" data-strip></div><p class="ws-best" data-best></p></div>
-<div class="cr-app"><b>매일 계산하기 번거롭다면</b><p>앱에선 산책 시간마다 안전도를 알려주고, 비 소식은 먼저 알려줘요. 가족 모두에게요.</p><a class="btn-app" href="/download/">응가메이트 무료로 받기</a></div>
+<p class="ws-chips" data-ctx></p>
 </div>
+<div class="cr-body">
+<p class="cr-sub">오늘 할 일</p><ul class="cr-acts" data-acts></ul>
+<p class="cr-sub">어떻게 계산했나요</p><div class="ws-formula" data-formula></div>
+<div class="ws-hours"><p class="cr-sub">앞으로 24시간</p><div class="ws-strip" data-strip></div><p class="ws-best" data-best></p></div>
+<div class="cr-app"><b>매일 계산하기 번거롭다면</b><p>앱에선 산책 시간마다 안전도를 알려주고, 비 소식은 먼저 알려줘요. 가족 모두에게요.</p><a class="btn-app" href="/download/">응가메이트 무료로 받기</a></div>
+</div></div>
 </aside>
 </div>
 <a class="mini" href="#calc-result" data-mini><i data-mini-l></i><b data-mini-t></b><span>자세히</span></a>

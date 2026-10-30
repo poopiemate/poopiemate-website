@@ -125,6 +125,7 @@
   });
 
   // ── 그리기 ─────────────────────────────────────────────────────
+  var LVNAME = ['', '위험 없음', '위험 낮음', '주의 필요', '위험', '매우 위험'];
   var SIZE = { small: '소형견', medium: '중형견', large: '대형견' };
   var SEASON = { hot: '더운 날', cold: '추운 날', mild: '선선한 날' };
   function fmt(n) { return (n > 0 ? '+' : '−') + String(Math.abs(n)); }
@@ -137,17 +138,19 @@
     }
     var now = wx[0], r = breakdown(now.t, now.rain, profile), c = copy(r.level, r.hot);
     $('[data-wx]').innerHTML = '<b>' + place + '</b> 지금 체감 <b>' + r.t + '°</b> · 강수 확률 <b>' + now.rain + '%</b>';
-    $('[data-ctx]').textContent = '지금 ' + place + ' · 체감 ' + r.t + '° · ' + SIZE[profile.size] + ' · ' + SEASON[r.season] + ' 기준';
+    $('[data-ctx]').innerHTML = ['<b>' + place + '</b>', '체감 ' + r.t + '°', '강수 ' + now.rain + '%', SIZE[profile.size], SEASON[r.season]]
+      .map(function (x) { return '<span>' + x + '</span>'; }).join('');
     var card = $('[data-card]');
     card.className = 'cr-card ws lv' + r.level;
     $('[data-level]').textContent = r.level;
+    $('[data-lvname]').textContent = r.level + '단계 · ' + LVNAME[r.level];
     $('[data-title]').textContent = c[0];
     $('[data-msg]').textContent = c[1];
-    miniSet('레벨 ' + r.level, c[0], 'var(--s' + r.level + ')');
+    miniSet(r.level + '단계', c[0], 'var(--s' + r.level + ')');
     $('[data-acts]').innerHTML = c[2].map(function (a) { return '<li>' + a + '</li>'; }).join('');
-    $('[data-formula]').innerHTML = '<span class="f-base">표 ' + r.base + '</span>' +
-      r.mods.map(function (m) { return '<span class="f-mod' + (m[1] < 0 ? ' dn' : '') + '">' + MOD[m[0]] + ' ' + fmt(m[1]) + '</span>'; }).join('') +
-      '<span class="f-eq">= 레벨 ' + r.level + '</span>';
+    $('[data-formula]').innerHTML = '<span>기준표 <b>' + r.base + '단계</b></span>' +
+      (r.mods.length ? r.mods.map(function (m) { return '<span class="' + (m[1] < 0 ? 'dn' : 'up') + '">' + MOD[m[0]] + ' <b>' + fmt(m[1]) + '</b></span>'; }).join('') : '<span class="none">더하고 뺄 것 없음</span>') +
+      '<span class="eq">= ' + r.level + '단계</span>';
 
     // 오늘 남은 시간 + 내일 아침까지 24시간
     var best = null;
@@ -155,11 +158,11 @@
       var b = breakdown(w.t, w.rain, profile);
       var day = w.hour >= 6 && w.hour <= 21;  // 사람이 산책 나가는 시간만 추천
       if (day && (!best || b.level < best.level)) best = { level: b.level, hour: w.hour, tomorrow: w.day !== wx[0].day };
-      return '<div class="h lv' + b.level + '" title="' + w.hour + '시 체감 ' + Math.round(w.t) + '° · 강수 ' + w.rain + '%"><i style="--lv:' + b.level + '"></i><small>' +
+      return '<div class="h lv' + b.level + (i === 0 ? ' now' : '') + '" title="' + w.hour + '시 체감 ' + Math.round(w.t) + '° · 강수 ' + w.rain + '% · ' + b.level + '단계"><i style="--lv:' + b.level + '"></i><small>' +
         (i === 0 ? '지금' : i % 3 === 0 ? w.hour + '시' : '') + '</small></div>';
     }).join('');
     $('[data-best]').innerHTML = best
-      ? '가장 좋은 시간: <b>' + (best.tomorrow ? '내일 ' : '') + best.hour + '시</b> (레벨 ' + best.level + ')'
+      ? '산책하기 가장 좋은 시간은 <b>' + (best.tomorrow ? '내일 ' : '') + best.hour + '시</b>예요 · ' + best.level + '단계'
       : '';
 
     // 기준표에 지금 칸 표시

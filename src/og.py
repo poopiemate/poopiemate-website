@@ -13,6 +13,9 @@ ROOT = Path(__file__).resolve().parent.parent
 TMP = ROOT / '.cache/og'
 FACE = Path.home() / 'Desktop/응가메이트/홈페이지_v3_레이어/응댕이/포즈/얼굴.png'
 CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+# 헤드리스 전용 셸이 있으면 그걸로 — 일반 크롬보다 훨씬 빨리 뜬다 (Playwright가 받아 둔 것)
+_SHELL = sorted(Path.home().glob('Library/Caches/ms-playwright/chromium_headless_shell-*/chrome-headless-shell-*/chrome-headless-shell'))
+SHOT = str(_SHELL[-1]) if _SHELL else CHROME
 # 워드마크 폭·위치 — 한국어 500px(위 398), 영어 560px(위 404)
 LOGO = {'ko': (500, 398), 'en': (560, 404)}
 
@@ -64,7 +67,7 @@ def shot(src, png, w, h):
     h_.write_text(src, encoding='utf-8')
     for i in range(3):  # 헤드리스 크롬이 가끔 그냥 실패한다 — 두 번 더. 프로필은 매번 새로(같이 쓰면 잠금 때문에 느려진다)
         with tempfile.TemporaryDirectory(prefix='og-chrome-') as prof:
-            r = subprocess.run([CHROME, '--headless=new', f'--user-data-dir={prof}', '--disable-gpu', '--hide-scrollbars', '--allow-file-access-from-files', f'--window-size={w},{h}',
+            r = subprocess.run([SHOT] + ([] if SHOT != CHROME else ['--headless=new']) + [ f'--user-data-dir={prof}', '--disable-gpu', '--hide-scrollbars', '--allow-file-access-from-files', '--use-mock-keychain', '--password-store=basic', '--no-first-run', '--disable-extensions', '--disable-sync', '--disable-background-networking', f'--window-size={w},{h}',
                                 '--virtual-time-budget=2000', f'--screenshot={png}', f'file://{h_}'], capture_output=True)
         if r.returncode == 0:
             break
@@ -100,10 +103,18 @@ def head_size(head):
     return 84 if n <= 9 else 74 if n <= 14 else 64 if n <= 22 else 54 if n <= 40 else 46
 
 
-def page_html(p):
+def page_html(p, slug=''):
+    from og_scenes import stage_html
     a = ROOT / 'assets'
-    bg, accent, fg = THEME[p['kind']]
-    dark = fg == '#FFFFFF'
+    sc = stage_html(slug)
+    if sc:
+        (bg, accent, ground), scene = sc
+    else:  # 장면이 없는 페이지는 예전처럼 포즈 하나
+        bg, accent, _ = THEME[p['kind']]
+        ground = 'rgba(25,31,40,.08)'
+        scene = f'<img class="it sh" src="file://{POSES}/{p["pose"]}.png" style="left:930px;bottom:34px;height:420px;transform:translateX(-50%);z-index:5">'
+    dark = bg in ('#18955A',)
+    fg = '#FFFFFF' if dark else '#191F28'
     mark = f'{a}/brand/wordmark-{p["lang"]}-{"white" if dark else "green"}.svg'
     sub = f'<p class="sub">{p["sub"]}</p>' if p['sub'] else ''
     return f'''<!doctype html><html lang="{p['lang']}"><head><meta charset="utf-8"><style>
@@ -111,38 +122,56 @@ def page_html(p):
 @font-face{{font-family:N;src:url("file://{a}/fonts/NanumSquareNeo-cBd.woff2");font-weight:700}}
 html,body{{margin:0}}
 .c{{position:relative;width:1200px;height:630px;overflow:hidden;background:{bg};font-family:N,sans-serif;color:{fg};word-break:keep-all}}
-.glow{{position:absolute;right:-120px;bottom:-260px;width:820px;height:820px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,{.16 if dark else .7}),rgba(255,255,255,0) 64%)}}
-.t{{position:absolute;left:76px;top:70px;bottom:70px;width:{640 if p['sub'] or len(p['head']) > 9 else 600}px;display:flex;flex-direction:column}}
-.mark{{height:{46 if p['lang'] == 'ko' else 34}px;width:auto;align-self:flex-start}}
+.glow{{position:absolute;left:560px;top:-200px;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,{.14 if dark else .6}),rgba(255,255,255,0) 62%)}}
+.ground{{position:absolute;left:560px;right:-60px;bottom:-150px;height:260px;border-radius:50%;background:{ground};opacity:{.55 if dark else .5}}}
+.t{{position:absolute;left:76px;top:70px;bottom:70px;width:{580 if p['sub'] or len(p['head']) > 9 else 560}px;display:flex;flex-direction:column;z-index:10}}
+.mark{{height:{44 if p['lang'] == 'ko' else 32}px;width:auto;align-self:flex-start}}
 .copy{{margin-top:auto;margin-bottom:auto;padding-top:8px}}
-.chip{{display:inline-block;padding:9px 18px;border-radius:999px;background:{'rgba(255,255,255,.16)' if dark else 'rgba(255,255,255,.85)'};color:{accent if not dark else '#FFFFFF'};font-size:24px;font-weight:800}}
+.chip{{display:inline-block;padding:9px 18px;border-radius:999px;background:{'rgba(255,255,255,.16)' if dark else 'rgba(255,255,255,.88)'};color:{accent if not dark else '#FFFFFF'};font-size:24px;font-weight:800}}
 h1{{text-wrap:balance;margin:22px 0 0;font-size:{head_size(p['head'])}px;line-height:1.24;font-weight:800;letter-spacing:-.035em}}
 .sub{{text-wrap:pretty;margin:20px 0 0;font-size:30px;line-height:1.4;font-weight:700;color:{'rgba(255,255,255,.86)' if dark else '#4E5968'};letter-spacing:-.02em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
-.dog{{position:absolute;right:56px;bottom:34px;height:{430 if p['pose'] != '배보여주기' else 360}px;width:auto;filter:drop-shadow(0 18px 30px rgba(6,60,34,{.32 if dark else .16}))}}
-</style></head><body><div class="c"><span class="glow"></span>
+.it{{position:absolute;width:auto}}
+.sh{{filter:drop-shadow(0 18px 26px rgba(6,40,24,{.3 if dark else .14}))}}
+.fl{{filter:drop-shadow(0 10px 14px rgba(25,31,40,.16))}}
+.ic{{border-radius:34px;box-shadow:0 18px 36px rgba(6,40,24,.35)}}
+.ph{{position:absolute;margin:0;padding:12px 12px 0;box-sizing:border-box;background:#FFFFFF;border-radius:10px;box-shadow:0 18px 36px rgba(25,31,40,.2)}}
+.ph img{{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 35%;border-radius:5px}}
+.ph figcaption{{padding:12px 0 14px;text-align:center;font-size:20px;font-weight:800;color:#4E5968}}
+.ph:not(:has(figcaption)){{padding-bottom:12px}}
+</style></head><body><div class="c"><span class="glow"></span><span class="ground"></span>
 <div class="t"><img class="mark" src="file://{mark}"><div class="copy"><span class="chip">{p['chip']}</span><h1>{p['head']}</h1>{sub}</div></div>
-<img class="dog" src="file://{POSES}/{p['pose']}.png"></div></body></html>'''
+{scene}</div></body></html>'''
 
 
 def page_ogs(only=None):
-    """바뀐 페이지만 다시 그린다 — 그린 내용은 .cache/og/done.json에 기억."""
-    import hashlib, json
+    """바뀐 페이지만 다시 그린다 — 그린 내용은 .cache/og/done.json에 기억. 네 장씩 같이 그린다."""
+    import hashlib, json, threading
+    from concurrent.futures import ThreadPoolExecutor
     specs = json.loads((TMP / 'pages.json').read_text(encoding='utf-8'))
     done_f = TMP / 'done.json'
     done = json.loads(done_f.read_text()) if done_f.exists() else {}
     out = ROOT / 'assets/og/p'
     out.mkdir(parents=True, exist_ok=True)
+    lock = threading.Lock()
+
+    def one(slug, src, h):
+        shot(src, TMP / f'p-{slug}.png', 1200, 630).save(out / f'{slug}.jpg', quality=86, optimize=True, progressive=True)
+        with lock:  # 중간에 멈춰도 그린 것과 기록이 어긋나지 않게 한 장마다
+            done[slug] = h
+            done_f.write_text(json.dumps(done, indent=1))
+            print('og', slug, flush=True)
+
+    jobs = []
     for slug, p in specs.items():
         if only and slug not in only:
             continue
-        src = page_html(p)
+        src = page_html(p, slug)
         h = hashlib.sha1(src.encode()).hexdigest()
-        if done.get(slug) == h and (out / f'{slug}.jpg').exists():
-            continue
-        shot(src, TMP / f'p-{slug}.png', 1200, 630).save(out / f'{slug}.jpg', quality=86, optimize=True, progressive=True)
-        done[slug] = h
-        done_f.write_text(json.dumps(done, indent=1))  # 중간에 멈춰도 그린 것과 기록이 어긋나지 않게 한 장마다
-        print('og', slug)
+        if done.get(slug) != h or not (out / f'{slug}.jpg').exists():
+            jobs.append((slug, src, h))
+    with ThreadPoolExecutor(4) as ex:
+        for f in [ex.submit(one, *j) for j in jobs]:
+            f.result()
     # 더는 없는 페이지의 이미지는 지운다
     for f in out.glob('*.jpg'):
         if f.stem not in specs:

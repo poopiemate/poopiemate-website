@@ -75,6 +75,7 @@
     if (!ready) { miniReady = false; miniShow(); return; }
     var r = judge();
     card.className = 'cr-card v' + r.lv;
+    $('[data-ill]').src = '/assets/img/poop/' + (state.color === 'brown' ? 'firm-' + state.firm : 'color-' + state.color) + '.webp?v=2';
     $('[data-level]').textContent = COPY[r.lv][0];
     $('[data-title]').textContent = r.lv === 1 && state.firm === 2 && state.color === 'brown' ? '황금똥이에요!' : COPY[r.lv][1];
     $('[data-msg]').textContent = COPY[r.lv][2];

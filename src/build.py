@@ -6,6 +6,7 @@ python3 src/build.py          # 페이지 HTML + sitemap.xml
 import html as html_mod, json, re, subprocess
 from html import escape
 from pathlib import Path
+from PIL import Image
 
 import tools
 
@@ -13,7 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-30'
-ASSET_V = '45'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '49'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -161,17 +162,18 @@ OG_CHIP_SLUG.update({'support': {'ko': '고객 지원', 'en': 'Support'}, 'how-i
                      'interview': {'ko': '유저 인터뷰', 'en': 'User interview'}, 'download': {'ko': '무료 앱', 'en': 'Free app'}, '404': {'ko': '길을 잃었어요', 'en': 'Lost'}})
 # 응댕이 포즈 — 승인된 9개 중에서 (~/Desktop/응가메이트/홈페이지_v3_레이어/응댕이/포즈/)
 OG_POSE = {'poop': '응가중', 'walk': '안녕', 'tool': '응가중', 'story': '배보여주기', 'notice': '귀쫑긋', 'brand': '안녕', 'plain': '앉아있기'}
-OG_POSE_SLUG = {
-    'walk-safety-index': '안녕', 'dog-diarrhea-causes': '긁기', 'dog-constipation-causes': '응가전', 'yellow-gray-dog-poop': '귀쫑긋',
-    'kibble-vs-cooked-vs-raw-poop': '애교', 'puppy-potty-count-by-size': '애교', 'dog-outdoor-potty-why': '귀쫑긋', 'outdoor-potty-holding-risks': '응가전',
-    'why-dogs-kick-after-pooping': '응가전', 'potty-interval': '귀쫑긋', 'jindo-mix-potty-training': '앉아있기', 'outdoor-potty-dog-tracking': '안녕',
-    'dual-income-dog-walk-schedule': '안녕', 'share-dog-potty-log-with-family': '애교', 'multi-dog-household-tracking': '배보여주기',
-    'guide': '귀쫑긋', 'notice': '귀쫑긋', 'interview': '애교', 'support': '애교', 'how-it-works': '안녕', 'download': '안녕', '404': '긁기',
+OG_POSE_SLUG = {  # 가이드 글 머리 포즈 — OG 장면(src/og_scenes.py)과 같은 포즈. 2026-10-30에 만든 주제별 포즈(src/art/poses-new) 포함
+    'walk-safety-index': 'leash', 'dog-diarrhea-causes': 'tummy', 'dog-constipation-causes': '응가전', 'yellow-gray-dog-poop': '귀쫑긋', 'how-to-get-golden-poop': 'trophy',
+    'kibble-vs-cooked-vs-raw-poop': 'bowl', 'puppy-potty-count-by-size': 'family', 'dog-outdoor-potty-why': '응가중', 'outdoor-potty-holding-risks': 'door',
+    'why-dogs-kick-after-pooping': 'kick', 'potty-interval': 'clock', 'jindo-mix-potty-training': '귀쫑긋', 'outdoor-potty-dog-tracking': 'phone',
+    'dual-income-dog-walk-schedule': 'laptop', 'share-dog-potty-log-with-family': 'letter', 'multi-dog-household-tracking': 'baby-walk', 'poop-condition-guide': 'magnify',
+    'guide': '안녕', 'notice': '귀쫑긋', 'interview': 'mic', 'support': 'letter', 'how-it-works': 'phone', 'download': '애교', '404': '긁기',
 }
 
 
 # 포즈 → 사이트에 올린 웹용 이미지 (assets/img/mascot/)
-POSE_WEB = {'응가중': 'pooping', '응가전': 'squat', '귀쫑긋': 'ears', '긁기': 'scratch', '배보여주기': 'belly', '안녕': 'hello', '앉아있기': 'sit', '애교': 'beg'}
+POSE_WEB = {'응가중': 'pooping', '응가전': 'squat', '귀쫑긋': 'ears', '긁기': 'scratch', '배보여주기': 'belly', '안녕': 'hello', '앉아있기': 'sit', '애교': 'beg',
+            **{k: k for k in ('magnify', 'tummy', 'bowl', 'clock', 'kick', 'leash', 'phone', 'laptop', 'mic', 'letter', 'trophy', 'door', 'baby', 'baby-ball', 'family', 'baby-walk')}}
 
 
 def og_image_for(path, lang, title, body, kind, desc=''):
@@ -1080,6 +1082,7 @@ def guide_article(slug, lang, g):
 
     kind = 'poop' if GUIDE_CARDS.get(slug, 1) == 1 else 'walk'
     pose = OG_POSE_SLUG.get(slug, OG_POSE[kind])
+    pw, ph = Image.open(ROOT / f'assets/img/mascot/{POSE_WEB[pose]}.webp').size
     head, sub = h1, ''
     parts = re.split(r'(?<=[?？])\s+|,\s+', h1, maxsplit=1)
     if len(parts) == 2 and len(parts[0]) >= 6:
@@ -1102,7 +1105,7 @@ def guide_article(slug, lang, g):
 <h1 class="g-h1">{escape(head)}{f'<span>{escape(sub)}</span>' if sub else ''}</h1>
 <p class="g-lede">{lede}</p>
 <p class="g-meta"><span>{c["read"].format(n=minutes)}</span><span>{c["updated"]} {UPDATED.replace("-", ".")}</span></p>
-</div><img class="g-pose" src="/assets/img/mascot/{POSE_WEB[pose]}.webp" alt="" width="300" height="300"></div>
+</div><div class="g-art"><img class="g-pose" src="/assets/img/mascot/{POSE_WEB[pose]}.webp" alt="" width="{pw}" height="{ph}"></div></div>
 </div></section>
 <div class="wrap-g g-body">
 <aside class="g-toc" aria-label="{c["toc"]}"><b>{c["toc"]}</b><ol>{toc_html}</ol></aside>
