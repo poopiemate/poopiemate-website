@@ -5,7 +5,7 @@
 
   // 이미지·영상 우클릭 저장·끌어서 저장 막기
   document.addEventListener('contextmenu', function (e) {
-    if (e.target.closest && e.target.closest('img, video, .waver, .film, .step-media')) e.preventDefault();
+    if (e.target.closest && e.target.closest('img, video, .film, .step-media')) e.preventDefault();
   });
   document.addEventListener('dragstart', function (e) {
     if (e.target.closest && e.target.closest('img, video')) e.preventDefault();

@@ -87,44 +87,8 @@ def brand():
         out(f'brand/wordmark-{lang}-green.svg').write_text(s.replace('#ffffff', '#18955A'))
 
 
-def clean_edge(im):
-    """반투명 가장자리 픽셀에 남은 옛 배경색(어두운 회색)을 바로 안쪽 몸 색으로 바꿔 — 어떤 바탕에 올려도 회색 테두리가 안 보이게."""
-    import numpy as np
-    from scipy import ndimage
-    a = np.array(im.convert('RGBA')).astype(np.float64)
-    opaque = a[..., 3] >= 245
-    idx = ndimage.distance_transform_edt(~opaque, return_distances=False, return_indices=True)
-    for ch in range(3):
-        a[..., ch] = np.where(opaque, a[..., ch], a[..., ch][idx[0], idx[1]])
-    a[..., 3] = np.where(a[..., 3] < 24, 0, a[..., 3])
-    return Image.fromarray(a.astype(np.uint8))
-
-
-def arm_root(arm, body, reach=0.05):
-    """팔 뿌리를 몸 안쪽으로 늘려 그린다 — 팔은 몸 뒤에 깔리므로(site.css) 늘린 부분은 가만히 있을 땐 몸에 가려지고,
-    팔을 흔들어도 어깨에 잘린 단면이나 틈이 보이지 않는다."""
-    import numpy as np
-    from scipy import ndimage
-    a = np.array(arm.convert('RGBA')).astype(np.float64)
-    b = np.array(body.convert('RGBA').resize(arm.size))[..., 3] > 200
-    solid = a[..., 3] >= 245
-    dist, idx = ndimage.distance_transform_edt(~solid, return_indices=True)
-    below_face = np.arange(arm.size[1])[:, None] >= 0.52 * arm.size[1]  # 얼굴 쪽으로는 늘리지 않는다 (흔들 때 얼굴 옆으로 삐져나오지 않게)
-    grow = (~solid) & b & below_face & (dist <= reach * arm.size[0])
-    for ch in range(3):
-        a[..., ch] = np.where(grow, a[..., ch][idx[0], idx[1]], a[..., ch])
-    a[..., 3] = np.where(grow, 255, a[..., 3])
-    return Image.fromarray(a.astype(np.uint8))
-
-
-# ── 응댕이 — 앱 원본 (손 흔드는 3장, 응가하는 3장, 정지 포즈)
+# ── 응댕이 — 앱 원본 (정지 포즈)
 def mascot():
-    # 손 흔드는 응댕이 — 소개 영상(v10)에서 가장자리를 다듬은 판: 팔·꼬리 테두리 정리 + 팔 들 때 틈을 메우는 어깨
-    rig = DESK / '서비스 소개 영상/v10_최종/_source/assets'
-    for n in ('wave-body', 'wave-tail', 'wave-shoulder'):
-        webp(rig / f'{n}.png', f'img/mascot/{n}.webp', q=92, fn=clean_edge)
-    body = clean_edge(ImageOps.exif_transpose(Image.open(rig / 'wave-body.png')))
-    webp(rig / 'wave-arm.png', 'img/mascot/wave-arm.webp', q=92, fn=lambda im: arm_root(clean_edge(im), body))
     lay = DESK / '홈페이지_v3_레이어/응댕이/포즈'
     for n, en in (('귀쫑긋', 'ears'), ('긁기', 'scratch'), ('앉아있기', 'sit'), ('애교', 'beg'), ('안녕', 'hello'), ('응가중', 'pooping'), ('얼굴', 'face')):
         webp(lay / f'{n}.png', f'img/mascot/{en}.webp', width=480, q=88)
