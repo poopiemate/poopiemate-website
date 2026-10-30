@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-30'
-ASSET_V = '54'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '55'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -334,7 +334,7 @@ def cta_band(lang, cls=''):
     """다운로드 — 초록 카드, 왼쪽 글·스토어 버튼, 오른쪽 손 흔드는 응댕이 (v3 지도 아래)."""
     c = {'ko': ('둘이 같이 키운다면,<br><em>둘이 같이 써보세요</em>', '가족 초대도 기록도 알림도 무료예요'),
          'en': ('Raising your dog together?<br><em>Log it together.</em>', 'Family invites, logs and alerts are all free.')}[lang]
-    # ChatGPT로 그린 응댕이 공원 그림을 바탕에 깔고 글·버튼만 HTML로 (src/art/banner/cta-scene.png)
+    # ChatGPT로 그린 산책하는 응댕이 그림을 바탕에 깔고 글·버튼만 HTML로 (src/art/banner/cta-walk.png)
     return (f'<section class="sec-cta {cls}"><div class="wrap"><div class="cta-card rise">'
             f'<div class="cta-text"><h2 class="h2" data-mo>{c[0]}</h2><p>{sb(c[1])}</p></div>{stores(lang)}</div></div></section>')
 
