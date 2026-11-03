@@ -169,7 +169,7 @@ OG_CHIP = {'ko': {'poop': '강아지 가이드', 'walk': '강아지 가이드', 
 # 「응가메이트」 칩은 바로 위 로고와 겹쳐서 — 페이지 성격으로
 OG_CHIP_SLUG = {s: {'ko': '이용 안내', 'en': 'Policies'} for s in ('privacy', 'terms', 'licenses')}
 OG_CHIP_SLUG.update({'support': {'ko': '고객 지원', 'en': 'Support'}, 'how-it-works': {'ko': '이렇게 써요', 'en': 'How it works'},
-                     'interview': {'ko': '유저 인터뷰', 'en': 'User interview'}, 'download': {'ko': '무료 앱', 'en': 'Free app'}, '404': {'ko': '길을 잃었어요', 'en': 'Lost'}})
+                     'interview': {'ko': '3분 설문', 'en': '3-minute survey'}, 'download': {'ko': '무료 앱', 'en': 'Free app'}, '404': {'ko': '길을 잃었어요', 'en': 'Lost'}})
 # 응댕이 포즈 — 승인된 9개 중에서 (~/Desktop/응가메이트/홈페이지_v3_레이어/응댕이/포즈/)
 OG_POSE = {'poop': '응가중', 'walk': '안녕', 'tool': '응가중', 'story': '배보여주기', 'notice': '귀쫑긋', 'brand': '안녕', 'plain': '앉아있기'}
 OG_POSE_SLUG = {  # 가이드 글 머리 포즈 — OG 장면(src/og_scenes.py)과 같은 포즈. 2026-10-30에 만든 주제별 포즈(src/art/poses-new) 포함
@@ -969,21 +969,19 @@ def story_post(lang, key):
 
 # ═════════════════════════════════════════════════════════ 공지사항 (캔버스 「v2 공지사항」)
 NOTICE = {
-    'ko': {'title': '응가메이트 유저 인터뷰에 초대해요', 'date': '2026.10.05', 'by': '응가메이트 팀', 'sub': '보호자님 이야기를 들려주세요. 참여하면 폴 바셋 아이스크림 라떼를 드려요.',
+    'ko': {'title': '3분 설문에 답하고 라떼 받아가세요', 'date': '2026.10.05', 'by': '응가메이트 팀', 'sub': '어떻게 쓰고 계신지 객관식 3분이면 돼요. 답하면 폴 바셋 아이스크림 라떼를 드려요.',
            'body': ['안녕하세요, 응가메이트 팀이에요.<br>매일 강아지의 응가·쉬·산책을 기록해 주셔서 정말 고마워요.',
-                    '더 쓰기 편한 응가메이트를 만들고 싶어서, 보호자님의 이야기를 직접 듣고 싶어요.',
-                    '<ul><li>앱을 어떻게 쓰고 계신지</li><li>어떤 점이 좋았고, 어떤 점이 아쉬웠는지</li><li>가족과 함께 기록할 때는 어땠는지</li></ul>',
-                    '정답은 없어요. 편하게 이야기 나눠 주시면 돼요.', '참여해 주신 분께는 폴 바셋 아이스크림 라떼 기프티콘을 보내드려요.',
-                    '원하는 날짜와 시간을 골라 신청해 주세요. 일정이 확정되면 남겨 주신 번호로 연락드릴게요.'],
-           'apply': '인터뷰 신청하기'},
-    'en': {'title': 'Join a POOPIEMATE user interview', 'date': 'Oct 5, 2026', 'by': 'POOPIEMATE team', 'sub': 'Tell us how you use POOPIEMATE. Interviews are in English and take about 30 minutes.',
+                    '더 쓰기 편한 응가메이트를 만들고 싶어서, 어떻게 쓰고 계신지 여쭤보려고 해요.',
+                    '<ul><li>자주 쓰는 기능은 무엇인지</li><li>왜 쓰시는지</li><li>있으면 좋겠는 기능은 무엇인지</li></ul>',
+                    '객관식이라 3분이면 끝나요.', '답해 주신 분께는 폴 바셋 아이스크림 라떼 기프티콘을 1~2일 안에 보내드려요.'],
+           'apply': '3분 설문 답하기'},
+    'en': {'title': 'A coffee for 3 minutes of your time', 'date': 'Oct 5, 2026', 'by': 'POOPIEMATE team', 'sub': 'Tell us how you use POOPIEMATE in a 3-minute multiple-choice survey and the coffee is on us.',
            'body': ['Hi from the POOPIEMATE team.<br>Thank you for logging your dog’s poops, pees and walks every day.',
-                    'We want to make POOPIEMATE easier to use, so we’d love to hear from you directly.',
-                    '<ul><li>How you use the app</li><li>What you like and what could be better</li><li>What logging with your family is like</li></ul>',
-                    'There are no right answers — just chat with us.',
-                    'Interviews are in English and take about 30 minutes online.',
-                    'Pick a date and a time in your own time zone. We’ll contact you once the schedule is confirmed.'],
-           'apply': 'Apply for an interview'},
+                    'We want to make POOPIEMATE easier to use, so we’d love to know how you use it.',
+                    '<ul><li>Which features you use</li><li>Why you use it</li><li>What you’d like us to add</li></ul>',
+                    'It’s multiple choice and takes about 3 minutes.',
+                    'Everyone who answers gets a coffee e-gift card within a day or two.'],
+           'apply': 'Take the 3-minute survey'},
 }
 
 
@@ -1011,7 +1009,7 @@ def notice_interview(lang):
 <article class="post"><div class="wrap-post">
 {post_head(f'<time datetime="2026-10-05">{n["date"]}</time> · {n["by"]}', n['title'], art)}
 <div class="prose">{''.join(b if b.startswith('<ul') else f'<p>{sb(b)}</p>' for b in n['body'])}</div>
-<div class="post-end two"><a class="btn-block btn-grey" href="{url('notice', lang)}">{T[lang]['back']}</a><a class="btn-block btn-dark" href="{'/interview/' if lang == 'ko' else '/en/interview/'}">{n['apply']}{EXT_ICON}</a></div>
+<div class="post-end two"><a class="btn-block btn-grey" href="{url('notice', lang)}">{T[lang]['back']}</a><a class="btn-block btn-dark" href="{'/interview/?src=notice' if lang == 'ko' else '/en/interview/?src=notice'}">{n['apply']}{EXT_ICON}</a></div>
 </div></article>
 '''
     write(url('interview_notice', lang), page(lang, 'interview_notice', n['title'] + (' | 응가메이트' if lang == 'ko' else ' | POOPIEMATE'), n['sub'], body,
@@ -1233,8 +1231,8 @@ def interview(lang):
     s = s.replace('  <link rel="icon" type="image/png" href="https://poopiemate.com/assets/favicon.png">\n', '')
     s = s.replace('  <link rel="apple-touch-icon" href="https://poopiemate.com/assets/favicon.png">\n', '')
     path = '/interview/' if ko else '/en/interview/'
-    og = ('응가메이트', '응가메이트 유저 인터뷰 신청', '보호자님 이야기를 들려주세요. 참여하면 폴 바셋 아이스크림 라떼를 드려요.') if ko else \
-         ('POOPIEMATE', 'POOPIEMATE user interview', 'Tell us how you use POOPIEMATE. Interviews are in English and take about 30 minutes.')
+    og = ('응가메이트', '응가메이트 3분 설문', '어떻게 쓰고 계신지 객관식 3분이면 돼요. 답하면 폴 바셋 아이스크림 라떼를 드려요.') if ko else \
+         ('POOPIEMATE', 'POOPIEMATE 3-minute survey', 'Tell us how you use POOPIEMATE in a 3-minute multiple-choice survey and the coffee is on us.')
     head_add = (PRETENDARD + '\n<link rel="stylesheet" href="/assets/css/site.css?v=' + ASSET_V + '">\n'
                 '<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">\n'
                 f'<meta property="og:type" content="website">\n<meta property="og:site_name" content="{og[0]}">\n<meta property="og:title" content="{og[1]}">\n'
@@ -1246,7 +1244,6 @@ def interview(lang):
     s = re.sub(r'<header>.*?</header>', header(lang, 'notice', '/interview/', '/en/interview/'), s, count=1, flags=re.S)
     s = s.replace('<main>', '<main class="iv" id="main">', 1)
     s = s.replace('<body>', '<body class="iv-page">', 1)
-    s = s.replace('꾸준히 응가메이트를 사용해주신 분들께 보내는 인터뷰 신청 페이지입니다.', '응가메이트를 쓰는 보호자님의 이야기를 듣고 싶어요. 원하는 날짜와 시간을 골라 인터뷰를 신청해 주세요.')
     # <p> 안에 목록(ul)은 들어갈 수 없다 — 안내 문단을 div로 (웹표준)
     s = re.sub(r'<p class="hint">(\s*[^<]*<ul>.*?</ul>\s*)</p>', r'<div class="hint">\1</div>', s, flags=re.S)
     s = re.sub(r'<footer>.*?</footer>', footer(lang, '/interview/', '/en/interview/'), s, count=1, flags=re.S)

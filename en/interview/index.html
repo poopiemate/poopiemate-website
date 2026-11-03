@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>POOPIEMATE user interview — Apply</title>
+  <title>POOPIEMATE 3-minute survey</title>
   <meta name="description" content="We’d love to hear how you use POOPIEMATE. Pick a date and time that suits you and apply for a short interview in English.">
   <meta name="robots" content="noindex, nofollow">
   <link rel="canonical" href="https://poopiemate.com/interview/">
@@ -275,8 +275,8 @@
 <link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="POOPIEMATE">
-<meta property="og:title" content="POOPIEMATE user interview">
-<meta property="og:description" content="Tell us how you use POOPIEMATE. Interviews are in English and take about 30 minutes.">
+<meta property="og:title" content="POOPIEMATE 3-minute survey">
+<meta property="og:description" content="Tell us how you use POOPIEMATE in a 3-minute multiple-choice survey and the coffee is on us.">
 <meta property="og:url" content="https://poopiemate.com/en/interview/">
 <meta property="og:image" content="https://poopiemate.com/assets/og/p/en-interview.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -294,156 +294,176 @@ posthog.init('phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7',{api_host:'https
 </a></div></div>
 
   <main class="iv" id="main">
-    <h1>Hi, I’m Jin, the maker of POOPIEMATE</h1>
+    <h1>Hi, I’m Jin. I make POOPIEMATE</h1>
     <p class="lede">
-      I raise a white Jindo mix with my husband. We both work, so keeping our dog’s potty log in sync was hard, and I built this app for us.
-      I’d love to hear how you use it, so I can make it better. Interviews are in English and take about 30 minutes online.
+      I live with a white Jindo mix. My husband and I both work, and we could never keep track of who took her out, so I built this app as a hobby. Seeing you use it every day means a lot. Tell us how you use it in this <strong>3-minute survey</strong> and we’ll send you a <strong>coffee</strong> as a thank-you!
     </p>
+
     <form id="interview-form">
       <section class="card">
-        <h2>About you</h2>
-        <p class="section-sub">We’ll use this to get in touch about the interview.</p>
+        <h2>Which features do you use often? <span class="required-tag">Required</span></h2>
+        <p class="section-sub">Pick as many as you like</p>
+        <div class="field" style="margin-top:12px;">
+            <div class="radio-grid">
+            <label class="radio-chip"><input type="checkbox" name="features" value="gauge" /><span>Logging with the poop/pee gauges on Home</span></label>
+            <label class="radio-chip"><input type="checkbox" name="features" value="walk" /><span>Logging by starting and ending a walk</span></label>
+            <label class="radio-chip"><input type="checkbox" name="features" value="plus" /><span>Logging with the + button</span></label>
+            <label class="radio-chip"><input type="checkbox" name="features" value="widget" /><span>Home screen widget</span></label>
+            <label class="radio-chip"><input type="checkbox" name="features" value="records" /><span>Browsing past logs in the Records tab</span></label>
+            <label class="radio-chip"><input type="checkbox" name="features" value="family_alert" /><span>Alerts when family logs something</span></label>
+            <label class="radio-chip"><input type="checkbox" name="features" value="care_request" /><span>Care requests (ask family to walk, poop, pee)</span></label>
+            <label class="radio-chip"><input type="checkbox" name="features" value="walk_safety" /><span>Walk safety and weather</span></label>
+            <label class="radio-chip"><input type="checkbox" name="features" value="gauge_alert" /><span>Poop/pee gauge alerts</span></label>
+            <label class="radio-chip"><input type="checkbox" name="features" value="walk_routine" /><span>Walk routine reminders</span></label>
+            </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Why do you use POOPIEMATE? <span class="required-tag">Required</span></h2>
+        <p class="section-sub">Pick as many as you like</p>
+        <div class="field" style="margin-top:12px;">
+            <div class="radio-grid">
+            <label class="radio-chip"><input type="checkbox" name="reasons" value="family_logged" /><span>To see whether someone in the family already logged it</span></label>
+            <label class="radio-chip"><input type="checkbox" name="reasons" value="last_time" /><span>To see when the dog last went (gauges)</span></label>
+            <label class="radio-chip"><input type="checkbox" name="reasons" value="ask_family" /><span>To ask family to walk or take the dog out</span></label>
+            <label class="radio-chip"><input type="checkbox" name="reasons" value="safety" /><span>To check walk safety and weather before going out</span></label>
+            <label class="radio-chip"><input type="checkbox" name="reasons" value="health" /><span>To keep a record of health changes (diarrhea, hard stool)</span></label>
+            <label class="radio-chip"><input type="checkbox" name="reasons" value="goals" /><span>To hit the daily goals (poops, pees, walks)</span></label>
+            <label class="radio-chip"><input type="checkbox" name="reasons" value="vet" /><span>To show the vet</span></label>
+            <label class="radio-chip"><input type="checkbox" name="reasons" value="fun" /><span>Because logging is fun (sounds, Poochie)</span></label>
+            </div>
+            <input type="text" name="reasons_other" placeholder="Other: Tell us" style="margin-top:10px;" />
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Where does your dog usually go? <span class="required-tag">Required</span></h2>
+        <div class="field" style="margin-top:12px;">
+            <div class="radio-grid">
+            <label class="radio-chip"><input type="radio" name="potty" value="outdoor" required /><span>Outdoors only</span></label>
+            <label class="radio-chip"><input type="radio" name="potty" value="indoor" /><span>Indoors only</span></label>
+            <label class="radio-chip"><input type="radio" name="potty" value="both" /><span>Both</span></label>
+            </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Who usually logs? <span class="required-tag">Required</span></h2>
+        <div class="field" style="margin-top:12px;">
+            <div class="radio-grid">
+            <label class="radio-chip"><input type="radio" name="who" value="me" required /><span>Just me</span></label>
+            <label class="radio-chip"><input type="radio" name="who" value="turns" /><span>We take turns</span></label>
+            <label class="radio-chip"><input type="radio" name="who" value="family" /><span>Mostly my family</span></label>
+            </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Any features you didn’t know existed? <span class="optional-tag">Optional</span></h2>
+        <p class="section-sub">Pick as many as you like</p>
+        <div class="field" style="margin-top:12px;">
+            <div class="radio-grid">
+            <label class="radio-chip"><input type="checkbox" name="unknown" value="widget" /><span>Home screen widget</span></label>
+            <label class="radio-chip"><input type="checkbox" name="unknown" value="care_request" /><span>Care requests</span></label>
+            <label class="radio-chip"><input type="checkbox" name="unknown" value="walk_safety" /><span>Walk safety</span></label>
+            <label class="radio-chip"><input type="checkbox" name="unknown" value="shake" /><span>Shake to start a walk</span></label>
+            <label class="radio-chip"><input type="checkbox" name="unknown" value="like" /><span>Liking a log</span></label>
+            <label class="radio-chip"><input type="checkbox" name="unknown" value="invite" /><span>Family invite code</span></label>
+            <label class="radio-chip"><input type="checkbox" name="unknown" value="all_known" /><span>I knew all of them</span></label>
+            </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Which one feature would you miss most? <span class="required-tag">Required</span></h2>
+        <div class="field" style="margin-top:12px;">
+            <div class="radio-grid">
+            <label class="radio-chip"><input type="radio" name="most_valued" value="gauge" required /><span>Logging with the poop/pee gauges on Home</span></label>
+            <label class="radio-chip"><input type="radio" name="most_valued" value="walk" /><span>Logging by starting and ending a walk</span></label>
+            <label class="radio-chip"><input type="radio" name="most_valued" value="plus" /><span>Logging with the + button</span></label>
+            <label class="radio-chip"><input type="radio" name="most_valued" value="widget" /><span>Home screen widget</span></label>
+            <label class="radio-chip"><input type="radio" name="most_valued" value="records" /><span>Browsing past logs in the Records tab</span></label>
+            <label class="radio-chip"><input type="radio" name="most_valued" value="family_alert" /><span>Alerts when family logs something</span></label>
+            <label class="radio-chip"><input type="radio" name="most_valued" value="care_request" /><span>Care requests (ask family to walk, poop, pee)</span></label>
+            <label class="radio-chip"><input type="radio" name="most_valued" value="walk_safety" /><span>Walk safety and weather</span></label>
+            <label class="radio-chip"><input type="radio" name="most_valued" value="gauge_alert" /><span>Poop/pee gauge alerts</span></label>
+            <label class="radio-chip"><input type="radio" name="most_valued" value="walk_routine" /><span>Walk routine reminders</span></label>
+            </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>What would you like us to add? <span class="optional-tag">Optional</span></h2>
+        <p class="section-sub">Pick as many as you like</p>
+        <div class="field" style="margin-top:12px;">
+            <div class="radio-grid">
+            <label class="radio-chip"><input type="checkbox" name="wanted" value="meal" /><span>Logging meals and treats</span></label>
+            <label class="radio-chip"><input type="checkbox" name="wanted" value="home_edit" /><span>Customizing the Home screen</span></label>
+            <label class="radio-chip"><input type="checkbox" name="wanted" value="poop_map" /><span>Poop-spot map (where the dog goes most)</span></label>
+            <label class="radio-chip"><input type="checkbox" name="wanted" value="family_score" /><span>Seeing who in the family cares for the dog most</span></label>
+            <label class="radio-chip"><input type="checkbox" name="wanted" value="rhythm" /><span>The dog’s poop/pee rhythm by time of day</span></label>
+            <label class="radio-chip"><input type="checkbox" name="wanted" value="predict" /><span>A heads-up before the next likely poop</span></label>
+            <label class="radio-chip"><input type="checkbox" name="wanted" value="health_alert" /><span>Alerts on health changes (diarrhea, hard stool)</span></label>
+            </div>
+            <input type="text" name="wanted_other" placeholder="Other: Tell us" style="margin-top:10px;" />
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Anything that bugs you, or anything else <span class="optional-tag">Optional</span></h2>
+        <p class="section-sub">Optional. One line is fine</p>
+        <div class="field" style="margin-top:12px;">
+            <textarea id="feedback" name="feedback" placeholder="Tell us"></textarea>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Where to send the coffee</h2>
+        <p class="section-sub">We need this to send your thank-you</p>
         <div class="field">
-          <label class="field-label" for="name">Name <span class="required-tag">Required</span></label>
-          <input type="text" id="name" name="name" autocomplete="name" required />
+          <label class="field-label" for="name">Name <span class="optional-tag">Optional</span></label>
+          <input type="text" id="name" name="name" autocomplete="name" />
         </div>
         <div class="field">
           <label class="field-label" for="phone">Email or phone <span class="required-tag">Required</span></label>
-          <input type="text" id="phone" name="phone" placeholder="you@example.com or +1 555 000 0000" autocomplete="email" required />
-          <p class="hint" style="margin-top:6px;margin-bottom:0;">If you leave a phone number, please include your country code.</p>
+          <input type="text" id="phone" name="phone" placeholder="you@example.com" autocomplete="tel" pattern=".{3,}" title="Email or phone" required />
+          <p class="hint" style="margin-top:6px;margin-bottom:0;color:var(--pink-dark);font-weight:700;">
+            We’ll send a coffee e-gift card (Starbucks or similar) to this email or number.
+          </p>
         </div>
       </section>
-      <section class="card">
-        <h2>When can you talk?</h2>
-        <p class="section-sub">Pick any day that works for you.</p>
-        <div class="field">
-          <label class="field-label" for="date1">Preferred date <span class="required-tag">Required</span></label>
-          <select id="date1" name="date1" required><option value="">Choose a date</option></select>
-        </div>
-        <div class="field">
-          <label class="field-label">Preferred time (your local time) <span class="required-tag">Required</span></label>
-          <p class="hint">We’ll match your time zone automatically.</p>
-          <div class="radio-grid">
-            <label class="radio-chip">
-              <input type="radio" name="timeslot" value="Morning (9–12)" required />
-              <span>Morning<br />9–12</span>
-            </label>
-            <label class="radio-chip">
-              <input type="radio" name="timeslot" value="Afternoon (12–18)" />
-              <span>Afternoon<br />12–18</span>
-            </label>
-            <label class="radio-chip">
-              <input type="radio" name="timeslot" value="Evening (18–24)" />
-              <span>Evening<br />18–24</span>
-            </label>
-            <label class="radio-chip">
-              <input type="radio" name="timeslot" value="Any time" />
-              <span>Any time</span>
-            </label>
-          </div>
-        </div>
-        <div class="field">
-          <label class="field-label" for="altTime">Other times that work <span class="optional-tag">Optional</span></label>
-          <input type="text" id="altTime" name="altTime" placeholder="If that date doesn’t work out, when else could you talk?" />
-        </div>
-      </section>
-      <section class="card">
-        <h2>Your logging habits <span class="optional-tag">Optional</span></h2>
-        <div class="field" style="margin-top:12px;">
-          <div class="hint">
-            A few things we’re curious about. Write as much or as little as you like.
-            <ul>
-              <li>When do you usually log, and what prompts you? (right after a walk, a set time, etc.)</li>
-              <li>Do you log when a notification reminds you, or out of habit?</li>
-              <li>If you missed logging recently, what got in the way?</li>
-            </ul>
-          </div>
-          <textarea id="habit" name="habit" placeholder="Anything goes"></textarea>
-        </div>
-      </section>
-      <section class="card">
-        <h2>Before POOPIEMATE <span class="optional-tag">Optional</span></h2>
-        <div class="field" style="margin-top:12px;">
-          <div class="hint">
-            <ul>
-              <li>Before this app, how did you keep track of your dog’s potty and health, and share it?</li>
-              <li>Have you ever asked someone, or been asked, “Did the dog poop today?”</li>
-              <li>Without this app, what would be the most annoying part right now?</li>
-            </ul>
-          </div>
-          <textarea id="problem" name="problem" placeholder="Anything goes"></textarea>
-        </div>
-      </section>
-      <section class="card">
-        <h2>Who you care for your dog with <span class="optional-tag">Optional</span></h2>
-        <div class="field" style="margin-top:12px;">
-          <div class="hint">
-            <ul>
-              <li>Do you share dog care with family or roommates?</li>
-              <li>If so, do they use the app too? Why or why not?</li>
-            </ul>
-          </div>
-          <textarea id="family" name="family" placeholder="Anything goes"></textarea>
-        </div>
-      </section>
-      <section class="card">
-        <h2>Why you started <span class="optional-tag">Optional</span></h2>
-        <div class="field" style="margin-top:12px;">
-          <div class="hint">
-            <ul>
-              <li>What made you install the app and start logging?</li>
-              <li>Was there a moment the log actually helped? (a vet visit, a change in health, etc.)</li>
-            </ul>
-          </div>
-          <textarea id="value" name="value" placeholder="Anything goes"></textarea>
-        </div>
-        <div class="field">
-          <label class="field-label" for="acquisition">How did you hear about the app? <span class="optional-tag">Optional</span></label>
-          <input type="text" id="acquisition" name="acquisition" placeholder="App Store search, a friend, social media, etc." />
-        </div>
-      </section>
-      <section class="card">
-        <h2>Last one <span class="optional-tag">Optional</span></h2>
-        <div class="field" style="margin-top:12px;">
-          <div class="hint">
-            <ul>
-              <li>If you recommended this app to another dog owner, how would you describe it in one sentence?</li>
-              <li>What’s the one thing you’d most like us to fix or add?</li>
-            </ul>
-          </div>
-          <textarea id="wrap" name="wrap" placeholder="Anything goes"></textarea>
-        </div>
-      </section>
+
       <section class="card">
         <h2>Consent to collect personal data</h2>
         <div class="consent-box">
           <dl>
-            <dt>What</dt><dd>Name, email or phone number, and your answers above</dd>
-            <dt>Why</dt><dd>To confirm and schedule your interview</dd>
-            <dt>How long</dt><dd>Deleted right after the interview is done</dd>
+            <dt>What we collect</dt><dd>Name, email or phone number, survey answers</dd>
+            <dt>Why</dt><dd>Identifying participants and sending the thank-you gift</dd>
+            <dt>How long</dt><dd>Deleted as soon as the gift has been sent</dd>
           </dl>
-          <p style="margin:12px 0 0;color:var(--muted);">
-            You can say no, but then we won’t be able to schedule an interview with you.
-          </p>
+          <p style="margin:12px 0 0;color:var(--muted);">You may decline, but then we can’t send the gift.</p>
           <label class="consent-check">
             <input type="checkbox" id="consent" name="consent" required />
-            I agree to the above. <span class="required-tag" style="margin-left:2px;">Required</span>
+            I agree. <span class="required-tag" style="margin-left:2px;">Required</span>
           </label>
         </div>
       </section>
+
       <div class="form-actions">
         <button type="submit" class="cta" id="submit-btn">Submit</button>
         <p class="status-msg" id="status-msg"></p>
         <div class="fallback" id="fallback-box">
-          If submitting doesn’t work, copy your answers and email them to <a href="mailto:poopiemate@pixelberry.io">poopiemate@pixelberry.io</a>.
+          If it won’t submit, copy your answers and email them to <a href="mailto:jin@pixelberry.io">jin@pixelberry.io</a>.
           <br />
-          <button type="button" id="copy-btn">Copy my answers</button>
+          <button type="button" id="copy-btn">Copy answers</button>
         </div>
       </div>
     </form>
+
     <div class="thanks" id="thanks-view" style="display:none;">
       <h2>Thank you!</h2>
-      <p>We got your answers and will be in touch soon.</p>
+      <p>Got it. Your coffee is on its way within a day or two.</p>
     </div>
   </main>
 
@@ -453,51 +473,38 @@ posthog.init('phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7',{api_host:'https
 </a></div></div><div class="f-mid"><nav class="f-links" aria-label="Site links"><a href="/en/how-it-works/">How it works</a><a href="/en/story/">Stories</a><a href="/en/guide/">Guides</a><a href="/en/notice/">Notices</a><a href="/en/support/">Support</a><a href="/en/privacy/" class="strong">Privacy Policy</a><a href="/en/terms/">Terms of Service</a><a href="/en/licenses/">Open-source licenses</a></nav><span class="lang-switch"><a href="/interview/" hreflang="ko" lang="ko">한국어</a><a href="/en/interview/" hreflang="en" lang="en" aria-current="true">English</a></span></div><div class="f-bottom"><span>Operated by Pixelberry · <a href="mailto:poopiemate@pixelberry.io">poopiemate@pixelberry.io</a></span><span>© 2026 Pixelberry · POOPIEMATE</span></div></div></footer>
 
   <script>
-    (function () {
-      var sel = document.getElementById("date1");
-      var d = new Date(); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() + 2);
-      for (var i = 0; i < 42; i++) {
-        var iso = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
-        var o = document.createElement("option");
-        o.value = iso;
-        o.textContent = d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
-        sel.appendChild(o);
-        d.setDate(d.getDate() + 1);
-      }
-    })();
     const SUPABASE_URL = "https://mjdgzdurhzickxombuuh.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_hZrUCKMRpkABGiZD6LiZrA_rWXZpcRR";
-
-    function buildSummary(data) {
-      const lines = [
-        `Name: ${data.name}`,
-        `Email or phone: ${data.phone}`,
-        `Preferred date: ${data.date1}`,
-        `Preferred time: ${data.timeslot}`,
-        data.altTime ? `Other times: ${data.altTime}` : null,
-        "",
-        "[Logging habits]", data.habit || "(no answer)",
-        "",
-        "[Before POOPIEMATE]", data.problem || "(no answer)",
-        "",
-        "[Shared care]", data.family || "(no answer)",
-        "",
-        "[Why you started]", data.value || "(no answer)",
-        data.acquisition ? `Heard about the app: ${data.acquisition}` : null,
-        "",
-        "[Last one]", data.wrap || "(no answer)",
-      ].filter((line) => line !== null);
-      return lines.join("\n");
-    }
+    const LABELS = {};
+    document.querySelectorAll('.radio-chip input').forEach((i) => { (LABELS[i.name] ??= {})[i.value] = i.nextElementSibling.textContent; });
+    const SRC = new URLSearchParams(location.search).get('src') || null;
 
     function collectData(form) {
       const fd = new FormData(form);
       const get = (k) => (fd.get(k) || "").toString().trim();
+      const all = (k) => fd.getAll(k).map(String);
+      const withOther = (k) => { const o = get(k + "_other"); const v = all(k); return o ? [...v, "other: " + o] : v; };
       return {
-        name: get("name"), phone: get("phone"), date1: get("date1"), timeslot: get("timeslot") + " [EN, " + (Intl.DateTimeFormat().resolvedOptions().timeZone || "unknown time zone") + "]",
-        altTime: get("altTime"), habit: get("habit"), problem: get("problem"), family: get("family"),
-        value: get("value"), acquisition: get("acquisition"), wrap: get("wrap"),
+        features: all("features"), reasons: withOther("reasons"), potty: get("potty"), who: get("who"),
+        unknown: all("unknown"), most_valued: get("most_valued"), wanted: withOther("wanted"), feedback: get("feedback"),
+        name: get("name"), phone: get("phone"),
       };
+    }
+
+    function words(k, vals) { return vals.map((v) => (LABELS[k] && LABELS[k][v]) || v).join(", ") || "-"; }
+    function buildSummary(d) {
+      return [
+        `Which features do you use often?: ${words("features", d.features)}`,
+        `Why do you use POOPIEMATE?: ${words("reasons", d.reasons)}`,
+        `Where does your dog usually go?: ${words("potty", [d.potty])}`,
+        `Who usually logs?: ${words("who", [d.who])}`,
+        `Any features you didn’t know existed?: ${words("unknown", d.unknown)}`,
+        `Which one feature would you miss most?: ${words("most_valued", [d.most_valued])}`,
+        `What would you like us to add?: ${words("wanted", d.wanted)}`,
+        `Anything that bugs you, or anything else: ${d.feedback || "-"}`,
+        `Name: ${d.name || "-"}`,
+        `Email or phone: ${d.phone}`,
+      ].join("\n");
     }
 
     const form = document.getElementById("interview-form");
@@ -508,46 +515,31 @@ posthog.init('phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7',{api_host:'https
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!form.reportValidity()) return;
-
-      const data = collectData(form);
+      const d = collectData(form);
+      if (d.features.length === 0 || d.reasons.length === 0) { statusMsg.textContent = "Please pick at least one answer for questions 1 and 2."; statusMsg.classList.add("error"); return; }
       submitBtn.disabled = true;
-      submitBtn.textContent = "Sending…";
+      submitBtn.textContent = "Sending...";
       statusMsg.textContent = "";
       statusMsg.classList.remove("error");
       fallbackBox.classList.remove("show");
-
       try {
         const res = await fetch(`${SUPABASE_URL}/rest/v1/interview_responses`, {
           method: "POST",
-          headers: {
-            apikey: SUPABASE_ANON_KEY,
-            Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-            "Content-Type": "application/json",
-            Prefer: "return=minimal",
-          },
+          headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}`, "Content-Type": "application/json", Prefer: "return=minimal" },
           body: JSON.stringify({
-            name: data.name,
-            phone: data.phone,
-            preferred_date: data.date1,
-            preferred_timeslot: data.timeslot,
-            alt_time: data.altTime || null,
-            habit: data.habit || null,
-            problem: data.problem || null,
-            family: data.family || null,
-            value_moment: data.value || null,
-            acquisition: data.acquisition || null,
-            wrap_up: data.wrap || null,
-            consent: true,
+            name: d.name || null, phone: d.phone, consent: true,
+            features_used: d.features, reasons: d.reasons, potty_place: d.potty, who_logs: d.who,
+            unknown_features: d.unknown, most_valued: d.most_valued, wanted_features: d.wanted,
+            feedback: d.feedback || null, lang: "en", source: SRC,
           }),
         });
-
         if (!res.ok) throw new Error(`submit failed: ${res.status}`);
-
+        if (window.posthog && window.posthog.capture) window.posthog.capture("survey_submitted", { lang: "en", src: SRC });
         form.style.display = "none";
         document.getElementById("thanks-view").style.display = "block";
         window.scrollTo({ top: 0, behavior: "smooth" });
       } catch (err) {
-        statusMsg.textContent = "Something went wrong. Please try the option below.";
+        statusMsg.textContent = "Could not send. Please try the options below.";
         statusMsg.classList.add("error");
         fallbackBox.classList.add("show");
         submitBtn.disabled = false;
@@ -556,20 +548,15 @@ posthog.init('phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7',{api_host:'https
     });
 
     document.getElementById("copy-btn").addEventListener("click", async () => {
-      const data = collectData(form);
-      const text = `[POOPIEMATE interview application]\n${buildSummary(data)}`;
+      const text = `[POOPIEMATE 3-minute survey]\n${buildSummary(collectData(form))}`;
       try {
         await navigator.clipboard.writeText(text);
-        statusMsg.textContent = "Copied! Please email it to us.";
+        statusMsg.textContent = "Copied! Please send it by email.";
         statusMsg.classList.remove("error");
       } catch (err) {
         const src = document.getElementById("clipboard-source");
-        src.style.position = "static";
-        src.style.left = "0";
-        src.style.top = "0";
-        src.value = text;
-        src.select();
-        statusMsg.textContent = "Automatic copy didn’t work, so your answers are in the box below. Please copy them by hand.";
+        src.style.position = "static"; src.style.left = "0"; src.style.top = "0"; src.value = text; src.select();
+        statusMsg.textContent = "Auto-copy failed, so your answers are shown below. Please copy them by hand.";
       }
     });
   </script>

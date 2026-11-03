@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>응가메이트 인터뷰 신청</title>
+  <title>응가메이트 3분 설문</title>
   <meta name="description" content="꾸준히 응가메이트를 사용해주신 분들께 보내는 인터뷰 신청 페이지입니다.">
   <meta name="robots" content="noindex, nofollow">
   <link rel="canonical" href="https://poopiemate.com/interview/">
@@ -287,28 +287,138 @@
   <main>
     <h1>안녕하세요, 응가메이트 만든 이진이에요</h1>
     <p class="lede">
-      진도믹스 메로나 보호자예요. 맞벌이라 남편이랑 배변 기록 맞추기 어려워서 취미로 만든 앱인데, 오래 꾸준히 써주셔서 정말 뿌듯해요. 더 나은 앱을 만들고 싶어서 잘 사용해주시는 분들 이야기를 들어보려고 해요 — 참여해주시면 <strong>폴바셋 아이스크림라떼</strong> 기프티콘을 보내드릴게요!
+      하얀 진도믹스를 키우는 보호자예요. 맞벌이라 남편이랑 배변 기록 맞추기 어려워서 취미로 만든 앱인데, 오래 꾸준히 써주셔서 정말 뿌듯해요. 어떻게 쓰고 계신지 <strong>3분 설문</strong>으로 들려주시면 <strong>폴바셋 아이스크림라떼</strong> 기프티콘을 보내드릴게요!
     </p>
 
     <form id="interview-form">
       <section class="card">
-        <h2>기본 정보</h2>
-        <p class="section-sub">기프티콘 발송을 위해 연락처가 필요해요.</p>
-
-        <div class="field">
-          <label class="field-label" for="name">이름 <span class="required-tag">필수</span></label>
-          <input type="text" id="name" name="name" autocomplete="name" required />
+        <h2>자주 쓰는 기능은요? <span class="required-tag">필수</span></h2>
+        <p class="section-sub">여러 개 골라도 돼요</p>
+        <div class="field" style="margin-top:12px;">
+            <div class="radio-grid">
+            <label class="radio-chip"><input type="checkbox" name="features" value="gauge" /><span>홈의 응가·쉬 게이지로 기록</span></label>
+            <label class="radio-chip"><input type="checkbox" name="features" value="walk" /><span>산책 시작·끝내기로 기록</span></label>
+            <label class="radio-chip"><input type="checkbox" name="features" value="plus" /><span>하단 + 버튼으로 기록</span></label>
+            <label class="radio-chip"><input type="checkbox" name="features" value="widget" /><span>홈 화면 위젯</span></label>
+            <label class="radio-chip"><input type="checkbox" name="features" value="records" /><span>기록 탭에서 지난 기록 보기</span></label>
+            <label class="radio-chip"><input type="checkbox" name="features" value="family_alert" /><span>가족 기록 알림 받기</span></label>
+            <label class="radio-chip"><input type="checkbox" name="features" value="care_request" /><span>돌봄 부탁 보내기 (산책·응가·쉬)</span></label>
+            <label class="radio-chip"><input type="checkbox" name="features" value="walk_safety" /><span>산책 안전도·날씨 보기</span></label>
+            <label class="radio-chip"><input type="checkbox" name="features" value="gauge_alert" /><span>응가·쉬 게이지 알림</span></label>
+            <label class="radio-chip"><input type="checkbox" name="features" value="walk_routine" /><span>산책 루틴 알림</span></label>
+            </div>
         </div>
+      </section>
 
+      <section class="card">
+        <h2>응가메이트를 쓰는 이유는요? <span class="required-tag">필수</span></h2>
+        <p class="section-sub">여러 개 골라도 돼요</p>
+        <div class="field" style="margin-top:12px;">
+            <div class="radio-grid">
+            <label class="radio-chip"><input type="checkbox" name="reasons" value="family_logged" /><span>가족 중 누가 이미 기록했는지 보려고</span></label>
+            <label class="radio-chip"><input type="checkbox" name="reasons" value="last_time" /><span>마지막으로 언제 쌌는지(게이지) 보려고</span></label>
+            <label class="radio-chip"><input type="checkbox" name="reasons" value="ask_family" /><span>가족에게 산책·응가를 부탁하려고</span></label>
+            <label class="radio-chip"><input type="checkbox" name="reasons" value="safety" /><span>산책 전에 안전도·날씨를 보려고</span></label>
+            <label class="radio-chip"><input type="checkbox" name="reasons" value="health" /><span>건강 변화(설사·딱딱함)를 남겨두려고</span></label>
+            <label class="radio-chip"><input type="checkbox" name="reasons" value="goals" /><span>하루 목표(응가·쉬·산책 횟수)를 채우려고</span></label>
+            <label class="radio-chip"><input type="checkbox" name="reasons" value="vet" /><span>병원에 보여주려고</span></label>
+            <label class="radio-chip"><input type="checkbox" name="reasons" value="fun" /><span>기록하는 재미(소리·응댕이)</span></label>
+            </div>
+            <input type="text" name="reasons_other" placeholder="기타: 직접 적어주세요" style="margin-top:10px;" />
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>강아지는 주로 어디서 배변하나요? <span class="required-tag">필수</span></h2>
+        <div class="field" style="margin-top:12px;">
+            <div class="radio-grid">
+            <label class="radio-chip"><input type="radio" name="potty" value="outdoor" required /><span>실외만</span></label>
+            <label class="radio-chip"><input type="radio" name="potty" value="indoor" /><span>실내만</span></label>
+            <label class="radio-chip"><input type="radio" name="potty" value="both" /><span>둘 다</span></label>
+            </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>기록은 보통 누가 하나요? <span class="required-tag">필수</span></h2>
+        <div class="field" style="margin-top:12px;">
+            <div class="radio-grid">
+            <label class="radio-chip"><input type="radio" name="who" value="me" required /><span>나 혼자</span></label>
+            <label class="radio-chip"><input type="radio" name="who" value="turns" /><span>가족과 번갈아</span></label>
+            <label class="radio-chip"><input type="radio" name="who" value="family" /><span>가족이 주로</span></label>
+            </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>있는 줄 몰랐던 기능이 있다면요? <span class="optional-tag">선택</span></h2>
+        <p class="section-sub">여러 개 골라도 돼요</p>
+        <div class="field" style="margin-top:12px;">
+            <div class="radio-grid">
+            <label class="radio-chip"><input type="checkbox" name="unknown" value="widget" /><span>홈 화면 위젯</span></label>
+            <label class="radio-chip"><input type="checkbox" name="unknown" value="care_request" /><span>돌봄 부탁</span></label>
+            <label class="radio-chip"><input type="checkbox" name="unknown" value="walk_safety" /><span>산책 안전도</span></label>
+            <label class="radio-chip"><input type="checkbox" name="unknown" value="shake" /><span>흔들어서 산책 시작</span></label>
+            <label class="radio-chip"><input type="checkbox" name="unknown" value="like" /><span>기록 좋아요</span></label>
+            <label class="radio-chip"><input type="checkbox" name="unknown" value="invite" /><span>가족 초대 코드</span></label>
+            <label class="radio-chip"><input type="checkbox" name="unknown" value="all_known" /><span>다 알고 있어요</span></label>
+            </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>없으면 가장 아쉬울 기능 하나만요 <span class="required-tag">필수</span></h2>
+        <div class="field" style="margin-top:12px;">
+            <div class="radio-grid">
+            <label class="radio-chip"><input type="radio" name="most_valued" value="gauge" required /><span>홈의 응가·쉬 게이지로 기록</span></label>
+            <label class="radio-chip"><input type="radio" name="most_valued" value="walk" /><span>산책 시작·끝내기로 기록</span></label>
+            <label class="radio-chip"><input type="radio" name="most_valued" value="plus" /><span>하단 + 버튼으로 기록</span></label>
+            <label class="radio-chip"><input type="radio" name="most_valued" value="widget" /><span>홈 화면 위젯</span></label>
+            <label class="radio-chip"><input type="radio" name="most_valued" value="records" /><span>기록 탭에서 지난 기록 보기</span></label>
+            <label class="radio-chip"><input type="radio" name="most_valued" value="family_alert" /><span>가족 기록 알림 받기</span></label>
+            <label class="radio-chip"><input type="radio" name="most_valued" value="care_request" /><span>돌봄 부탁 보내기 (산책·응가·쉬)</span></label>
+            <label class="radio-chip"><input type="radio" name="most_valued" value="walk_safety" /><span>산책 안전도·날씨 보기</span></label>
+            <label class="radio-chip"><input type="radio" name="most_valued" value="gauge_alert" /><span>응가·쉬 게이지 알림</span></label>
+            <label class="radio-chip"><input type="radio" name="most_valued" value="walk_routine" /><span>산책 루틴 알림</span></label>
+            </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>있으면 좋겠는 기능은요? <span class="optional-tag">선택</span></h2>
+        <p class="section-sub">여러 개 골라도 돼요</p>
+        <div class="field" style="margin-top:12px;">
+            <div class="radio-grid">
+            <label class="radio-chip"><input type="checkbox" name="wanted" value="meal" /><span>밥·간식 먹은 것 체크</span></label>
+            <label class="radio-chip"><input type="checkbox" name="wanted" value="home_edit" /><span>홈 화면 편집 (보고 싶은 것만 배치)</span></label>
+            <label class="radio-chip"><input type="checkbox" name="wanted" value="poop_map" /><span>똥 스팟 지도 (어디서 많이 쌌는지)</span></label>
+            <label class="radio-chip"><input type="checkbox" name="wanted" value="family_score" /><span>가족 중 누가 강아지를 많이 챙겼는지 보기</span></label>
+            <label class="radio-chip"><input type="checkbox" name="wanted" value="rhythm" /><span>응가·쉬 시간대 패턴(리듬) 보기</span></label>
+            <label class="radio-chip"><input type="checkbox" name="wanted" value="predict" /><span>다음 응가 예상 시간 알림</span></label>
+            <label class="radio-chip"><input type="checkbox" name="wanted" value="health_alert" /><span>건강 변화(설사·딱딱함) 알림</span></label>
+            </div>
+            <input type="text" name="wanted_other" placeholder="기타: 직접 적어주세요" style="margin-top:10px;" />
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>불편했던 점이나 하고 싶은 말 <span class="optional-tag">선택</span></h2>
+        <p class="section-sub">선택이에요. 한 줄이어도 좋아요</p>
+        <div class="field" style="margin-top:12px;">
+            <textarea id="feedback" name="feedback" placeholder="직접 적어주세요"></textarea>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>기프티콘 받을 연락처</h2>
+        <p class="section-sub">기프티콘 발송을 위해 필요해요</p>
+        <div class="field">
+          <label class="field-label" for="name">이름 <span class="optional-tag">선택</span></label>
+          <input type="text" id="name" name="name" autocomplete="name" />
+        </div>
         <div class="field">
           <label class="field-label" for="phone">휴대폰번호 <span class="required-tag">필수</span></label>
-          <input
-            type="tel" id="phone" name="phone" placeholder="010-0000-0000"
-            autocomplete="tel" inputmode="tel"
-            pattern="01[0-9]-?[0-9]{3,4}-?[0-9]{4}"
-            title="010-0000-0000 형식으로 입력해주세요"
-            required
-          />
+          <input type="text" id="phone" name="phone" placeholder="010-0000-0000" autocomplete="tel" pattern="01[0-9]-?[0-9]{3,4}-?[0-9]{4}" title="010-0000-0000 형식으로 입력해주세요" required />
           <p class="hint" style="margin-top:6px;margin-bottom:0;color:var(--pink-dark);font-weight:700;">
             폴바셋 아이스크림라떼를 카카오톡 선물하기로 보내드리려면 정확한 번호가 꼭 필요해요!
           </p>
@@ -316,127 +426,14 @@
       </section>
 
       <section class="card">
-        <h2>인터뷰 가능 시간</h2>
-        <p class="section-sub">2026년 9월 20일 ~ 10월 10일 사이로 부탁드려요.</p>
-
-        <div class="field">
-          <label class="field-label" for="date1">희망 날짜 <span class="required-tag">필수</span></label>
-          <input type="date" id="date1" name="date1" min="2026-09-20" max="2026-10-10" required />
-        </div>
-
-        <div class="field">
-          <label class="field-label">희망 시간대 <span class="required-tag">필수</span></label>
-          <p class="hint">저녁 시간대가 진행하기 편해요.</p>
-          <div class="radio-grid">
-            <label class="radio-chip">
-              <input type="radio" name="timeslot" value="오전 (9시~12시)" required />
-              <span>오전<br />9시~12시</span>
-            </label>
-            <label class="radio-chip">
-              <input type="radio" name="timeslot" value="오후 (12시~18시)" />
-              <span>오후<br />12시~18시</span>
-            </label>
-            <label class="radio-chip">
-              <input type="radio" name="timeslot" value="저녁 (18시~24시)" />
-              <span>저녁<br />18시~24시</span>
-              <span class="badge">추천</span>
-            </label>
-            <label class="radio-chip">
-              <input type="radio" name="timeslot" value="시간 무관" />
-              <span>시간 무관</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="field-label" for="altTime">대체 가능 날짜/시간 <span class="optional-tag">선택</span></label>
-          <input type="text" id="altTime" name="altTime" placeholder="희망 날짜가 어려워지면 대신 가능한 시간이 있다면 적어주세요" />
-        </div>
-      </section>
-
-      <section class="card">
-        <h2>기록 습관 <span class="optional-tag">선택</span></h2>
-        <div class="field" style="margin-top:12px;">
-          <p class="hint">
-            궁금한 것들이에요, 편하게 적어주세요
-            <ul>
-              <li>보통 언제, 어떤 계기로 기록하시나요? (산책 직후, 특정 시간대 등)</li>
-              <li>알림을 보고 기록하시나요, 아니면 알림 없이도 습관적으로 하시나요?</li>
-              <li>최근에 기록을 못 한 날이 있었다면 이유가 뭐였나요?</li>
-            </ul>
-          </p>
-          <textarea id="habit" name="habit" placeholder="자유롭게 적어주세요"></textarea>
-        </div>
-      </section>
-
-      <section class="card">
-        <h2>불편했던 점 <span class="optional-tag">선택</span></h2>
-        <div class="field" style="margin-top:12px;">
-          <p class="hint">
-            <ul>
-              <li>이 앱을 쓰기 전엔 배변/컨디션을 어떻게 확인·공유하셨나요?</li>
-              <li>"오늘 우리 강아지 똥 쌌어?"를 누군가에게 물어보거나 받아본 적 있나요?</li>
-              <li>이 앱이 없었다면 지금 가장 불편했을 부분은요?</li>
-            </ul>
-          </p>
-          <textarea id="problem" name="problem" placeholder="자유롭게 적어주세요"></textarea>
-        </div>
-      </section>
-
-      <section class="card">
-        <h2>함께 돌보는 가족 <span class="optional-tag">선택</span></h2>
-        <div class="field" style="margin-top:12px;">
-          <p class="hint">
-            <ul>
-              <li>강아지를 함께 돌보는 가족이나 룸메이트가 있으신가요?</li>
-              <li>있다면 그분도 같이 쓰고 계신가요? 왜 함께 쓰게(또는 안 쓰게) 되셨나요?</li>
-            </ul>
-          </p>
-          <textarea id="family" name="family" placeholder="자유롭게 적어주세요"></textarea>
-        </div>
-      </section>
-
-      <section class="card">
-        <h2>설치 계기와 도움 <span class="optional-tag">선택</span></h2>
-        <div class="field" style="margin-top:12px;">
-          <p class="hint">
-            <ul>
-              <li>처음 앱을 설치하고 기록을 시작한 계기가 뭐였나요?</li>
-              <li>기록이 실제로 도움이 됐던 순간이 있다면요? (병원, 컨디션 변화 등)</li>
-            </ul>
-          </p>
-          <textarea id="value" name="value" placeholder="자유롭게 적어주세요"></textarea>
-        </div>
-        <div class="field">
-          <label class="field-label" for="acquisition">앱은 어떻게 알게 되셨나요? <span class="optional-tag">선택</span></label>
-          <input type="text" id="acquisition" name="acquisition" placeholder="스토어 검색, 지인 추천, SNS/릴스 등" />
-        </div>
-      </section>
-
-      <section class="card">
-        <h2>마지막으로 <span class="optional-tag">선택</span></h2>
-        <div class="field" style="margin-top:12px;">
-          <p class="hint">
-            <ul>
-              <li>다른 반려인에게 이 앱을 추천한다면 한 문장으로 뭐라고 소개하시겠어요?</li>
-              <li>지금 제일 아쉽거나 불편한 점 하나만 꼽는다면요?</li>
-            </ul>
-          </p>
-          <textarea id="wrap" name="wrap" placeholder="자유롭게 적어주세요"></textarea>
-        </div>
-      </section>
-
-      <section class="card">
         <h2>개인정보 수집·이용 동의</h2>
         <div class="consent-box">
           <dl>
-            <dt>수집 항목</dt><dd>이름, 휴대폰번호, 인터뷰 사전 답변 내용</dd>
-            <dt>수집 목적</dt><dd>인터뷰 참여자 확인 및 참여 사은품(기프티콘) 발송</dd>
-            <dt>보유 기간</dt><dd>인터뷰 진행 및 사은품 발송 완료 후 즉시 파기</dd>
+            <dt>수집 항목</dt><dd>이름, 휴대폰번호, 설문 답변</dd>
+            <dt>수집 목적</dt><dd>설문 참여자 확인 및 사은품(기프티콘) 발송</dd>
+            <dt>보유 기간</dt><dd>사은품 발송 완료 후 즉시 파기</dd>
           </dl>
-          <p style="margin:12px 0 0;color:var(--muted);">
-            동의를 거부하실 수 있으며, 거부 시 인터뷰 참여와 사은품 발송이 어려울 수 있어요.
-          </p>
+          <p style="margin:12px 0 0;color:var(--muted);">동의를 거부하실 수 있으며, 거부 시 사은품 발송이 어려울 수 있어요.</p>
           <label class="consent-check">
             <input type="checkbox" id="consent" name="consent" required />
             위 내용에 동의합니다. <span class="required-tag" style="margin-left:2px;">필수</span>
@@ -448,7 +445,7 @@
         <button type="submit" class="cta" id="submit-btn">제출하기</button>
         <p class="status-msg" id="status-msg"></p>
         <div class="fallback" id="fallback-box">
-          제출이 잘 안 되면, 이 내용을 복사해서 <a href="mailto:jin12cc@gmail.com">jin12cc@gmail.com</a>으로 보내주세요.
+          제출이 잘 안 되면, 이 내용을 복사해서 <a href="mailto:jin@pixelberry.io">jin@pixelberry.io</a>으로 보내주세요.
           <br />
           <button type="button" id="copy-btn">답변 복사하기</button>
         </div>
@@ -457,51 +454,50 @@
 
     <div class="thanks" id="thanks-view" style="display:none;">
       <h2>감사해요!</h2>
-      <p>답변 잘 받았어요. 곧 연락드릴게요.</p>
+      <p>답변 잘 받았어요. 1~2일 안에 남겨 주신 번호로 라떼를 보내드릴게요.</p>
     </div>
   </main>
 
   <textarea id="clipboard-source" style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true" tabindex="-1"></textarea>
 
   <footer>
-    <p>응답 내용은 인터뷰 진행과 사은품 발송 목적으로만 사용돼요.</p>
+    <p>응답 내용은 설문 분석과 사은품 발송 목적으로만 사용돼요.</p>
     <p><a href="https://poopiemate.com/">응가메이트 홈</a> · 운영: 픽셀베리 · jin@pixelberry.io</p>
   </footer>
 
   <script>
     const SUPABASE_URL = "https://mjdgzdurhzickxombuuh.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_hZrUCKMRpkABGiZD6LiZrA_rWXZpcRR";
-
-    function buildSummary(data) {
-      const lines = [
-        `이름: ${data.name}`,
-        `휴대폰번호: ${data.phone}`,
-        `희망 날짜: ${data.date1}`,
-        `희망 시간대: ${data.timeslot}`,
-        data.altTime ? `대체 가능 시간: ${data.altTime}` : null,
-        "",
-        "[기록 습관]", data.habit || "(답변 없음)",
-        "",
-        "[불편했던 점]", data.problem || "(답변 없음)",
-        "",
-        "[함께 돌보는 가족]", data.family || "(답변 없음)",
-        "",
-        "[설치 계기와 도움]", data.value || "(답변 없음)",
-        data.acquisition ? `앱을 알게 된 경로: ${data.acquisition}` : null,
-        "",
-        "[마지막으로]", data.wrap || "(답변 없음)",
-      ].filter((line) => line !== null);
-      return lines.join("\n");
-    }
+    const LABELS = {};
+    document.querySelectorAll('.radio-chip input').forEach((i) => { (LABELS[i.name] ??= {})[i.value] = i.nextElementSibling.textContent; });
+    const SRC = new URLSearchParams(location.search).get('src') || null;
 
     function collectData(form) {
       const fd = new FormData(form);
       const get = (k) => (fd.get(k) || "").toString().trim();
+      const all = (k) => fd.getAll(k).map(String);
+      const withOther = (k) => { const o = get(k + "_other"); const v = all(k); return o ? [...v, "other: " + o] : v; };
       return {
-        name: get("name"), phone: get("phone"), date1: get("date1"), timeslot: get("timeslot"),
-        altTime: get("altTime"), habit: get("habit"), problem: get("problem"), family: get("family"),
-        value: get("value"), acquisition: get("acquisition"), wrap: get("wrap"),
+        features: all("features"), reasons: withOther("reasons"), potty: get("potty"), who: get("who"),
+        unknown: all("unknown"), most_valued: get("most_valued"), wanted: withOther("wanted"), feedback: get("feedback"),
+        name: get("name"), phone: get("phone"),
       };
+    }
+
+    function words(k, vals) { return vals.map((v) => (LABELS[k] && LABELS[k][v]) || v).join(", ") || "-"; }
+    function buildSummary(d) {
+      return [
+        `자주 쓰는 기능은요?: ${words("features", d.features)}`,
+        `응가메이트를 쓰는 이유는요?: ${words("reasons", d.reasons)}`,
+        `강아지는 주로 어디서 배변하나요?: ${words("potty", [d.potty])}`,
+        `기록은 보통 누가 하나요?: ${words("who", [d.who])}`,
+        `있는 줄 몰랐던 기능이 있다면요?: ${words("unknown", d.unknown)}`,
+        `없으면 가장 아쉬울 기능 하나만요: ${words("most_valued", [d.most_valued])}`,
+        `있으면 좋겠는 기능은요?: ${words("wanted", d.wanted)}`,
+        `불편했던 점이나 하고 싶은 말: ${d.feedback || "-"}`,
+        `이름: ${d.name || "-"}`,
+        `휴대폰번호: ${d.phone}`,
+      ].join("\n");
     }
 
     const form = document.getElementById("interview-form");
@@ -512,41 +508,26 @@
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!form.reportValidity()) return;
-
-      const data = collectData(form);
+      const d = collectData(form);
+      if (d.features.length === 0 || d.reasons.length === 0) { statusMsg.textContent = "1번과 2번은 하나 이상 골라주세요."; statusMsg.classList.add("error"); return; }
       submitBtn.disabled = true;
       submitBtn.textContent = "보내는 중...";
       statusMsg.textContent = "";
       statusMsg.classList.remove("error");
       fallbackBox.classList.remove("show");
-
       try {
         const res = await fetch(`${SUPABASE_URL}/rest/v1/interview_responses`, {
           method: "POST",
-          headers: {
-            apikey: SUPABASE_ANON_KEY,
-            Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-            "Content-Type": "application/json",
-            Prefer: "return=minimal",
-          },
+          headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}`, "Content-Type": "application/json", Prefer: "return=minimal" },
           body: JSON.stringify({
-            name: data.name,
-            phone: data.phone,
-            preferred_date: data.date1,
-            preferred_timeslot: data.timeslot,
-            alt_time: data.altTime || null,
-            habit: data.habit || null,
-            problem: data.problem || null,
-            family: data.family || null,
-            value_moment: data.value || null,
-            acquisition: data.acquisition || null,
-            wrap_up: data.wrap || null,
-            consent: true,
+            name: d.name || null, phone: d.phone, consent: true,
+            features_used: d.features, reasons: d.reasons, potty_place: d.potty, who_logs: d.who,
+            unknown_features: d.unknown, most_valued: d.most_valued, wanted_features: d.wanted,
+            feedback: d.feedback || null, lang: "ko", source: SRC,
           }),
         });
-
         if (!res.ok) throw new Error(`submit failed: ${res.status}`);
-
+        if (window.posthog && window.posthog.capture) window.posthog.capture("survey_submitted", { lang: "ko", src: SRC });
         form.style.display = "none";
         document.getElementById("thanks-view").style.display = "block";
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -560,19 +541,14 @@
     });
 
     document.getElementById("copy-btn").addEventListener("click", async () => {
-      const data = collectData(form);
-      const text = `[응가메이트 인터뷰 신청]\n${buildSummary(data)}`;
+      const text = `[응가메이트 3분 설문]\n${buildSummary(collectData(form))}`;
       try {
         await navigator.clipboard.writeText(text);
         statusMsg.textContent = "복사했어요! 메일로 보내주세요.";
         statusMsg.classList.remove("error");
       } catch (err) {
         const src = document.getElementById("clipboard-source");
-        src.style.position = "static";
-        src.style.left = "0";
-        src.style.top = "0";
-        src.value = text;
-        src.select();
+        src.style.position = "static"; src.style.left = "0"; src.style.top = "0"; src.value = text; src.select();
         statusMsg.textContent = "자동 복사가 안 돼서 아래 칸에 내용을 띄웠어요. 직접 복사해주세요.";
       }
     });
