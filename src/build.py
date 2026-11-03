@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-30'
-ASSET_V = '56'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '57'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -28,6 +28,13 @@ SNS = {
     'email': ('Email', 'mailto:poopiemate@pixelberry.io'),
 }
 EMAIL = 'poopiemate@pixelberry.io'
+
+# 홈페이지 방문 통계 — 앱과 같은 PostHog 프로젝트. 쿠키·로컬스토리지 없이(cookieless) 페이지뷰만 세고, 자동 클릭 수집·세션 녹화는 끈다
+POSTHOG_KEY = 'phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7'
+POSTHOG = ('<script>\n'
+           + '!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties alias get_distinct_id get_property getSessionId getSessionReplayUrl".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);' + '\n'
+           + "posthog.init('" + POSTHOG_KEY + "',{api_host:'https://us.i.posthog.com',cookieless_mode:'always',autocapture:false,capture_pageleave:true,disable_session_recording:true,disable_surveys:true,person_profiles:'never'});\n"
+           + '</script>\n')
 # 유튜브 채널 @poopiemate에 올라간 영상
 YT = {
     'service_long': {'ko': 'cnmU1xI7sSg', 'en': 'xiX6nDBh7yE'},
@@ -259,7 +266,7 @@ def page(lang, key, title, desc, body, og_image, active=None, ko_path=None, en_p
 <link rel="preload" href="/assets/fonts/NanumSquareNeo-cBd.woff2" as="font" type="font/woff2" crossorigin>
 {PRETENDARD}
 <link rel="stylesheet" href="/assets/css/site.css?v={ASSET_V}">
-{extra_head}{ld_html}</head>
+{POSTHOG}{extra_head}{ld_html}</head>
 <body>
 {intro_screen(lang) if intro else ''}{header(lang, active, ko_path, en_path or '/en/')}
 <main id="main">
@@ -1234,7 +1241,7 @@ def interview(lang):
                 f'<meta property="og:description" content="{og[2]}">\n<meta property="og:url" content="{SITE}{path}">\n'
                 f'<meta property="og:image" content="{SITE}{og_image_for(path, lang, og[1], f"<h1>{og[1]}</h1>", "plain")}">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="robots" content="noindex, follow">\n'
                 f'<link rel="alternate" hreflang="ko" href="{SITE}/interview/">\n<link rel="alternate" hreflang="en" href="{SITE}/en/interview/">\n'
-                '<style>:root{--pink-dark:#A2479A}</style>\n')
+                '<style>:root{--pink-dark:#A2479A}</style>\n' + POSTHOG)
     s = s.replace('</head>', head_add + '</head>', 1)
     s = re.sub(r'<header>.*?</header>', header(lang, 'notice', '/interview/', '/en/interview/'), s, count=1, flags=re.S)
     s = s.replace('<main>', '<main class="iv" id="main">', 1)
@@ -1283,6 +1290,11 @@ def download():
     var ios = /iPhone|iPad|iPod|Macintosh|Mac OS X/.test(ua);
     var en = /[?&]lang=en/.test(location.search) || (!/[?&]lang=ko/.test(location.search) && !/^ko/i.test(navigator.language || 'ko'));
     var apple = en ? (window.pmAppStoreUrl ? window.pmAppStoreUrl('{APPSTORE['en']}') : '{APPSTORE['en']}') : '{APPSTORE['ko']}';
+    // 넘어가기 전에 한 건 남긴다 — 스토어로 몇 명이 갔는지(페이지가 바로 바뀌어 보통 스크립트는 못 보낸다)
+    try {{
+      var id = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random());
+      navigator.sendBeacon('https://us.i.posthog.com/i/v0/e/', new Blob([JSON.stringify({{api_key: '{POSTHOG_KEY}', event: 'store_redirect', distinct_id: id, properties: {{ store: ios ? 'appstore' : 'play', lang: en ? 'en' : 'ko', $current_url: location.href, $referrer: document.referrer || '$direct', $process_person_profile: false }} }})], {{ type: 'text/plain' }}));
+    }} catch (e) {{}}
     location.replace(ios ? apple : (en ? '{PLAY['en']}' : '{PLAY['ko']}'));
   }})();
 </script>

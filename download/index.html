@@ -22,14 +22,19 @@
 <meta name="twitter:image" content="https://poopiemate.com/assets/og/p/download.jpg">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="/assets/css/site.css?v=56">
-<script src="/assets/js/store-region.js?v=56"></script>
+<link rel="stylesheet" href="/assets/css/site.css?v=57">
+<script src="/assets/js/store-region.js?v=57"></script>
 <script>
   (function () {
     var ua = navigator.userAgent || navigator.vendor || '';
     var ios = /iPhone|iPad|iPod|Macintosh|Mac OS X/.test(ua);
     var en = /[?&]lang=en/.test(location.search) || (!/[?&]lang=ko/.test(location.search) && !/^ko/i.test(navigator.language || 'ko'));
     var apple = en ? (window.pmAppStoreUrl ? window.pmAppStoreUrl('https://apps.apple.com/app/id6781981502') : 'https://apps.apple.com/app/id6781981502') : 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502';
+    // 넘어가기 전에 한 건 남긴다 — 스토어로 몇 명이 갔는지(페이지가 바로 바뀌어 보통 스크립트는 못 보낸다)
+    try {
+      var id = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random());
+      navigator.sendBeacon('https://us.i.posthog.com/i/v0/e/', new Blob([JSON.stringify({api_key: 'phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7', event: 'store_redirect', distinct_id: id, properties: { store: ios ? 'appstore' : 'play', lang: en ? 'en' : 'ko', $current_url: location.href, $referrer: document.referrer || '$direct', $process_person_profile: false } })], { type: 'text/plain' }));
+    } catch (e) {}
     location.replace(ios ? apple : (en ? 'https://play.google.com/store/apps/details?id=com.pixelberry.poopiemate&hl=en' : 'https://play.google.com/store/apps/details?id=com.pixelberry.poopiemate&hl=ko'));
   })();
 </script>

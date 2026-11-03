@@ -12,6 +12,15 @@
   });
 
   // 나라 코드 없는 App Store 링크 → 방문자 나라 스토어로 (store-region.js)
+  // 스토어로 나가는 클릭 — 어느 페이지의 어느 버튼이 설치로 이어지는지 (PostHog)
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || !window.posthog || !window.posthog.capture) return;
+    var h = a.getAttribute('href') || '';
+    var store = /apps\.apple\.com/.test(h) ? 'appstore' : /play\.google\.com/.test(h) ? 'play' : /^\/download\//.test(h) ? 'download' : null;
+    if (!store) return;
+    window.posthog.capture('store_click', { store: store, lang: document.documentElement.lang, text: (a.textContent || '').trim().slice(0, 40), section: (a.closest('section, header, footer, nav') || {}).className || '' });
+  }, true);
   if (window.pmAppStoreUrl) {
     document.querySelectorAll('a[href^="https://apps.apple.com/app/"]').forEach(function (a) { a.href = window.pmAppStoreUrl(a.href); });
   }
