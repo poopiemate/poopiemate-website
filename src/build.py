@@ -24,6 +24,7 @@ SNS = {
     'tiktok': ('TikTok', 'https://www.tiktok.com/@poopiemate'),
     'instagram': ('Instagram', {'ko': 'https://www.instagram.com/poopiemate_kr', 'en': 'https://www.instagram.com/poopiemate'}),
     'linkedin': ('LinkedIn', 'https://www.linkedin.com/company/poopiemate'),
+    'kakao': ('카카오톡 채널', {'ko': 'https://pf.kakao.com/_cypWX', 'en': None}),  # 한국어 페이지만 — Daum 검색등록 채널 소유 확인용으로 메인 화면에 노출
     'email': ('Email', 'mailto:poopiemate@pixelberry.io'),
 }
 EMAIL = 'poopiemate@pixelberry.io'
@@ -98,6 +99,8 @@ def sns_links(lang):
     out = []
     for key, (label, href) in SNS.items():
         h = href[lang] if isinstance(href, dict) else href
+        if h is None:
+            continue
         if key == 'email':
             label = f'{"이메일" if lang == "ko" else "Email"} {EMAIL}'
         out.append(f'<a href="{h}"{"" if key == "email" else " target=" + chr(34) + "_blank" + chr(34) + " rel=" + chr(34) + "noopener" + chr(34)} aria-label="{label}">{icon(key)}</a>')
@@ -109,7 +112,7 @@ def org_ld(lang):
     return {'@type': 'Organization', 'name': '응가메이트' if lang == 'ko' else 'POOPIEMATE', 'alternateName': ['POOPIEMATE', '응가메이트', '픽셀베리', 'Pixelberry'],
             'url': SITE, 'logo': f'{SITE}/assets/icons/apple-touch-icon.png', 'email': EMAIL,
             'contactPoint': {'@type': 'ContactPoint', 'contactType': 'customer support', 'email': EMAIL, 'availableLanguage': ['ko', 'en']},
-            'sameAs': [SNS['youtube'][1], SNS['tiktok'][1], SNS['instagram'][1]['ko'], SNS['instagram'][1]['en'], SNS['linkedin'][1]]}
+            'sameAs': [SNS['youtube'][1], SNS['tiktok'][1], SNS['instagram'][1]['ko'], SNS['instagram'][1]['en'], SNS['linkedin'][1], SNS['kakao'][1]['ko']]}
 
 
 def lang_links(lang, ko_path, en_path, cls):
