@@ -177,6 +177,7 @@ OG_POSE_SLUG = {  # 가이드 글 머리 포즈 — OG 장면(src/og_scenes.py)�
     'kibble-vs-cooked-vs-raw-poop': 'bowl', 'puppy-potty-count-by-size': 'family', 'dog-outdoor-potty-why': '응가중', 'outdoor-potty-holding-risks': 'door',
     'why-dogs-kick-after-pooping': 'kick', 'potty-interval': 'clock', 'jindo-mix-potty-training': '귀쫑긋', 'outdoor-potty-dog-tracking': 'phone',
     'dual-income-dog-walk-schedule': 'laptop', 'share-dog-potty-log-with-family': 'letter', 'multi-dog-household-tracking': 'baby-walk', 'poop-condition-guide': 'magnify',
+    'leave-heating-on-for-dog': '앉아있기', 'why-dogs-poop-on-dry-leaves': '응가중',
     'guide': '안녕', 'notice': '귀쫑긋', 'interview': 'mic', 'support': 'letter', 'how-it-works': 'phone', 'download': '애교', '404': '긁기',
 }
 
@@ -1175,10 +1176,12 @@ GUIDE_CARDS = {
     'dog-outdoor-potty-why': 1,
     'outdoor-potty-holding-risks': 1,
     'why-dogs-kick-after-pooping': 1,
+    'why-dogs-poop-on-dry-leaves': 1,
     'walk-safety-index': 2,
     'dual-income-dog-walk-schedule': 2,
     'share-dog-potty-log-with-family': 2,
     'multi-dog-household-tracking': 2,
+    'leave-heating-on-for-dog': 2,
 }
 
 
