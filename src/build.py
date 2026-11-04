@@ -177,14 +177,14 @@ OG_POSE_SLUG = {  # 가이드 글 머리 포즈 — OG 장면(src/og_scenes.py)�
     'kibble-vs-cooked-vs-raw-poop': 'bowl', 'puppy-potty-count-by-size': 'family', 'dog-outdoor-potty-why': '응가중', 'outdoor-potty-holding-risks': 'door',
     'why-dogs-kick-after-pooping': 'kick', 'potty-interval': 'clock', 'jindo-mix-potty-training': '귀쫑긋', 'outdoor-potty-dog-tracking': 'phone',
     'dual-income-dog-walk-schedule': 'laptop', 'share-dog-potty-log-with-family': 'letter', 'multi-dog-household-tracking': 'baby-walk', 'poop-condition-guide': 'magnify',
-    'leave-heating-on-for-dog': '앉아있기', 'why-dogs-poop-on-dry-leaves': '응가중',
+    'leave-heating-on-for-dog': 'blanket', 'why-dogs-poop-on-dry-leaves': 'leaves',
     'guide': '안녕', 'notice': '귀쫑긋', 'interview': 'mic', 'support': 'letter', 'how-it-works': 'phone', 'download': '애교', '404': '긁기',
 }
 
 
 # 포즈 → 사이트에 올린 웹용 이미지 (assets/img/mascot/)
 POSE_WEB = {'응가중': 'pooping', '응가전': 'squat', '귀쫑긋': 'ears', '긁기': 'scratch', '배보여주기': 'belly', '안녕': 'hello', '앉아있기': 'sit', '애교': 'beg',
-            **{k: k for k in ('magnify', 'tummy', 'bowl', 'clock', 'kick', 'leash', 'phone', 'laptop', 'mic', 'letter', 'trophy', 'door', 'baby', 'baby-ball', 'family', 'baby-walk')}}
+            **{k: k for k in ('magnify', 'tummy', 'bowl', 'clock', 'kick', 'leash', 'phone', 'laptop', 'mic', 'letter', 'trophy', 'door', 'baby', 'baby-ball', 'family', 'baby-walk', 'blanket', 'leaves')}}
 
 
 def og_image_for(path, lang, title, body, kind, desc=''):

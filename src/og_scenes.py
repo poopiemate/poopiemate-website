@@ -68,14 +68,14 @@ SCENES = {
     'potty-interval': ('cream', [lay('광장/시계탑.png', 1130, 420, b=40, z=1), dog('clock', 880, 320, b=40), poop('color-brown', 700, 80, b=40)]),
     'outdoor-potty-dog-tracking': ('sky', [lay('나무/나무_11.png', 800, 230, b=110, z=1), lay('나무/나무_06.png', 1140, 250, b=100, z=1), dog('phone', 960, 320, b=40)]),
     'jindo-mix-potty-training': ('peach', [dog('baby', 760, 180, b=40), dog('귀쫑긋', 1020, 330, b=40)]),
-    'why-dogs-poop-on-dry-leaves': ('gold', [lay('나무/나무_08.png', 1120, 240, b=100, z=1), lay('장소/똥스팟.png', 900, 120, b=24, z=1), dog('응가중', 910, 280, b=60),
+    'why-dogs-poop-on-dry-leaves': ('gold', [lay('나무/나무_08.png', 1120, 240, b=100, z=1), dog('leaves', 930, 330, b=40),
                                              lay('소품/단풍잎.png', 700, 60, b=360, r=-25, z=7), lay('소품/나뭇잎.png', 780, 48, b=450, r=30, z=7), lay('소품/단풍잎.png', 1160, 54, b=420, r=15, z=7),
                                              lay('소품/나뭇잎.png', 1060, 40, b=40, r=-50, z=7), lay('소품/단풍잎.png', 760, 44, b=36, r=70, z=7)]),
     # ── 산책·가족 가이드
     'multi-dog-household-tracking': ('pink', [dog('배보여주기', 1040, 250, b=40), dog('baby-walk', 790, 200, b=40)]),
     'share-dog-potty-log-with-family': ('cream', [lay('건물/우리집.png', 1080, 300, b=56, z=1), dog('letter', 820, 320, b=34)]),
     'dual-income-dog-walk-schedule': ('sky', [lay('건물/카페.png', 1090, 300, b=56, z=1), dog('laptop', 830, 300, b=38)]),
-    'leave-heating-on-for-dog': ('sky', [lay('건물/우리집.png', 1090, 300, b=56, z=1), dog('앉아있기', 850, 290, b=34), emo('snowflake', 1150, 90, 460, r=10), emo('thermometer', 690, 96, 380, r=-12)]),
+    'leave-heating-on-for-dog': ('sky', [lay('건물/우리집.png', 1100, 290, b=56, z=1), dog('blanket', 860, 330, b=34), emo('snowflake', 1150, 90, 460, r=10)]),
     # ── 목록 · 브랜드
     'guide': ('mint', [lay('광장/게시판.png', 1110, 260, b=56, z=1), lay('나무/나무_09.png', 790, 210, b=100, z=1), dog('안녕', 930, 320, b=34)]),
     'how-it-works': ('green', [dog('phone', 950, 340, b=44)]),
