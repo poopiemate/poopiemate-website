@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-30'
-ASSET_V = '57'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '58'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -1133,7 +1133,7 @@ def guide_article(slug, lang, g):
 <div class="g-hero-grid"><div>
 <h1 class="g-h1">{escape(head)}{f'<span>{escape(sub)}</span>' if sub else ''}</h1>
 <p class="g-lede">{lede}</p>
-<p class="g-meta"><span>{c["read"].format(n=minutes)}</span><span>{c["updated"]} {UPDATED.replace("-", ".")}</span></p>
+<p class="g-meta"><span>{c["read"].format(n=minutes)}</span><span><time datetime="{guide_date(slug)}">{guide_date(slug).replace("-", ".")}</time></span></p>
 </div><div class="g-art"><img class="g-pose" src="/assets/img/mascot/{POSE_WEB[pose]}.webp" alt="" width="{pw}" height="{ph}"></div></div>
 </div></section>
 <div class="wrap-g g-body">
@@ -1185,6 +1185,21 @@ GUIDE_CARDS = {
 }
 
 
+# 블로그 글을 처음 올린 날 (git 첫 커밋 기준) — 목록은 최신순, 카드·글머리에 날짜, 최근 글은 NEW
+GUIDE_DATES = {
+    'why-dogs-poop-on-dry-leaves': '2026-11-04', 'leave-heating-on-for-dog': '2026-11-04',
+    'yellow-gray-dog-poop': '2026-10-30', 'why-dogs-kick-after-pooping': '2026-10-30', 'puppy-potty-count-by-size': '2026-10-30',
+    'outdoor-potty-holding-risks': '2026-10-30', 'kibble-vs-cooked-vs-raw-poop': '2026-10-30', 'how-to-get-golden-poop': '2026-10-30',
+    'dog-outdoor-potty-why': '2026-10-30', 'dog-diarrhea-causes': '2026-10-30', 'dog-constipation-causes': '2026-10-30',
+}
+GUIDE_DATE_DEFAULT = '2026-08-27'
+NEW_DAYS_GUIDE = 2  # 오늘·어제 올린 글만 NEW
+
+
+def guide_date(slug):
+    return GUIDE_DATES.get(slug, GUIDE_DATE_DEFAULT)
+
+
 def guide_list(lang):
     c = {'ko': ('강아지 가이드', '배변 상태부터 산책 당번까지, 강아지를 같이 돌볼 때 알아 두면 좋은 것들을 모아요', ['전체', '배변', '산책·가족'], '강아지 가이드 | 응가메이트',
                 '강아지 응가 상태, 배변 텀, 실외배변, 산책 안전, 맞벌이 산책 당번, 다견가정 기록까지. 가족이 같이 강아지를 돌볼 때 알아 두면 좋은 가이드를 모았어요.'),
@@ -1193,7 +1208,8 @@ def guide_list(lang):
     cats = c[2]
     chips = ''.join(f'<button type="button" data-cat="{"all" if i == 0 else i}" aria-pressed="{"true" if i == 0 else "false"}">{x}</button>' for i, x in enumerate(cats))
     cards = ''
-    for slug, cat in GUIDE_CARDS.items():
+    order = sorted(GUIDE_CARDS.items(), key=lambda kv: guide_date(kv[0]), reverse=True)  # 최신순 (같은 날은 원래 순서)
+    for slug, cat in order:
         g = guide_json(slug, lang)
         if not g:
             continue
@@ -1202,9 +1218,12 @@ def guide_list(lang):
             h1 = OG_PAGES[og_slug]['head'].replace('<br>', ' ')
         else:
             h1 = html_mod.unescape(re.sub(r'<[^>]+>', '', re.search(r'<h1[^>]*>(.*?)</h1>', g['main'], re.S).group(1))).strip()
+        d = guide_date(slug)
         cards += (f'<a class="post-card" data-cat="{cat}" href="{"" if lang == "ko" else "/en"}/{slug}/"><span class="thumb og">'
-                  f'<img src="/assets/og/p/{og_slug}.jpg" alt="" width="1200" height="630" loading="lazy"></span>'
-                  f'<span class="cat">{cats[cat]}</span><b>{escape(h1)}</b><span class="ex">{sb(escape(g["description"]))}</span></a>')
+                  f'<img src="/assets/og/p/{og_slug}.jpg" alt="" width="1200" height="630" loading="lazy">'
+                  f'<span class="new-badge" data-new="{d}" data-new-days="{NEW_DAYS_GUIDE}" hidden>NEW</span></span>'
+                  f'<span class="cat">{cats[cat]}</span><b>{escape(h1)}</b><span class="ex">{sb(escape(g["description"]))}</span>'
+                  f'<time datetime="{d}">{d.replace("-", ".")}</time></a>')
     body = f'''
 <section class="list-page"><div class="wrap-list">
 {list_head('paw_prints', c[0], c[1])}

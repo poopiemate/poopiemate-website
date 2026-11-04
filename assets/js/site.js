@@ -329,7 +329,8 @@
   var today = new Date();
   document.querySelectorAll('[data-new]').forEach(function (el) {
     var d = new Date(el.getAttribute('data-new') + 'T00:00:00+09:00');
-    if (today - d >= 0 && today - d < 14 * 864e5) el.hidden = false;
+    var days = +(el.getAttribute('data-new-days') || 14);
+    if (today - d >= 0 && today - d < days * 864e5) el.hidden = false;
   });
 
   // 들어올 때 살짝 떠오름
