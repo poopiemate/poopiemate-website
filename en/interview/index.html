@@ -137,6 +137,8 @@
     }
 
     textarea { min-height: 74px; resize: vertical; }
+    .char-count { font-size: 13px; color: var(--muted); margin: 6px 0 0; text-align: right; font-variant-numeric: tabular-nums; }
+    .char-count.ok { color: var(--ink); }
 
     input:focus-visible, textarea:focus-visible {
       outline: none;
@@ -411,10 +413,19 @@ posthog.init('phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7',{api_host:'https
       </section>
 
       <section class="card">
-        <h2>Anything that bugs you, or anything else <span class="optional-tag">Optional</span></h2>
-        <p class="section-sub">Optional. One line is fine</p>
+        <h2>Anything that bugs you, or anything else <span class="required-tag">Required</span></h2>
+        <p class="section-sub">Please write at least 50 characters. What bugs you, what you wish for, or how you use it with your dog</p>
         <div class="field" style="margin-top:12px;">
-            <textarea id="feedback" name="feedback" placeholder="Tell us"></textarea>
+            <textarea id="feedback" name="feedback" placeholder="e.g. I walk him in the morning and my partner at night, and we sometimes lose track of who logged it" required></textarea>
+            <p class="char-count" id="feedback-count" aria-live="polite">0 / 50</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Your dog's name <span class="required-tag">Required</span></h2>
+        <p class="section-sub">The name you registered in the app. If you have more than one, separate them with commas</p>
+        <div class="field" style="margin-top:12px;">
+            <input type="text" id="dog_name" name="dog_name" placeholder="e.g. Poochie" maxlength="60" required />
         </div>
       </section>
 
@@ -438,7 +449,7 @@ posthog.init('phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7',{api_host:'https
         <h2>Consent to collect personal data</h2>
         <div class="consent-box">
           <dl>
-            <dt>What we collect</dt><dd>Name, email or phone number, survey answers</dd>
+            <dt>What we collect</dt><dd>Name, email or phone number, your dog's name, survey answers</dd>
             <dt>Why</dt><dd>Identifying participants and sending the thank-you gift</dd>
             <dt>How long</dt><dd>Deleted as soon as the gift has been sent</dd>
           </dl>
@@ -486,7 +497,7 @@ posthog.init('phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7',{api_host:'https
       const withOther = (k) => { const o = get(k + "_other"); const v = all(k); return o ? [...v, "other: " + o] : v; };
       return {
         features: all("features"), reasons: withOther("reasons"), potty: get("potty"), who: get("who"),
-        unknown: all("unknown"), most_valued: get("most_valued"), wanted: withOther("wanted"), feedback: get("feedback"),
+        unknown: all("unknown"), most_valued: get("most_valued"), wanted: withOther("wanted"), feedback: get("feedback"), dog_name: get("dog_name"),
         name: get("name"), phone: get("phone"),
       };
     }
@@ -502,18 +513,33 @@ posthog.init('phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7',{api_host:'https
         `Which one feature would you miss most?: ${words("most_valued", [d.most_valued])}`,
         `What would you like us to add?: ${words("wanted", d.wanted)}`,
         `Anything that bugs you, or anything else: ${d.feedback || "-"}`,
+        `Your dog's name: ${d.dog_name}`,
         `Name: ${d.name || "-"}`,
         `Email or phone: ${d.phone}`,
       ].join("\n");
     }
 
     const form = document.getElementById("interview-form");
+    // 자유 의견은 50자 이상 (공백은 한 칸으로 줄여서 센다) — "감사합니다" 한 줄로 넘어가지 않게
+    const MIN_FEEDBACK = 50;
+    const feedbackEl = document.getElementById("feedback");
+    const feedbackCount = document.getElementById("feedback-count");
+    const feedbackLength = () => feedbackEl.value.replace(/\s+/g, " ").trim().length;
+    function checkFeedback() {
+      const n = feedbackLength();
+      feedbackCount.textContent = `${n} / ${MIN_FEEDBACK}`;
+      feedbackCount.classList.toggle("ok", n >= MIN_FEEDBACK);
+      feedbackEl.setCustomValidity(n >= MIN_FEEDBACK ? "" : `Please write at least 50 characters (now ${n}).`);
+    }
+    feedbackEl.addEventListener("input", checkFeedback);
+    checkFeedback();
     const statusMsg = document.getElementById("status-msg");
     const submitBtn = document.getElementById("submit-btn");
     const fallbackBox = document.getElementById("fallback-box");
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+      checkFeedback();
       if (!form.reportValidity()) return;
       const d = collectData(form);
       if (d.features.length === 0 || d.reasons.length === 0) { statusMsg.textContent = "Please pick at least one answer for questions 1 and 2."; statusMsg.classList.add("error"); return; }
@@ -530,7 +556,7 @@ posthog.init('phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7',{api_host:'https
             name: d.name || null, phone: d.phone, consent: true,
             features_used: d.features, reasons: d.reasons, potty_place: d.potty, who_logs: d.who,
             unknown_features: d.unknown, most_valued: d.most_valued, wanted_features: d.wanted,
-            feedback: d.feedback || null, lang: "en", source: SRC,
+            feedback: d.feedback || null, dog_name: d.dog_name, lang: "en", source: SRC,
           }),
         });
         if (!res.ok) throw new Error(`submit failed: ${res.status}`);
