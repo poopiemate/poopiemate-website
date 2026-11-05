@@ -342,6 +342,23 @@
       </section>
 
       <section class="card">
+        <h2>응가메이트를 어떻게 알게 됐나요? <span class="required-tag">필수</span></h2>
+        <div class="field" style="margin-top:12px;">
+            <div class="radio-grid">
+            <label class="radio-chip"><input type="radio" name="acquisition" value="store" required /><span>앱스토어·플레이스토어 검색</span></label>
+            <label class="radio-chip"><input type="radio" name="acquisition" value="search" /><span>네이버·구글 검색, 블로그</span></label>
+            <label class="radio-chip"><input type="radio" name="acquisition" value="instagram" /><span>인스타그램</span></label>
+            <label class="radio-chip"><input type="radio" name="acquisition" value="threads" /><span>스레드</span></label>
+            <label class="radio-chip"><input type="radio" name="acquisition" value="community" /><span>강아지 카페·커뮤니티</span></label>
+            <label class="radio-chip"><input type="radio" name="acquisition" value="friend" /><span>지인·가족 추천</span></label>
+            <label class="radio-chip"><input type="radio" name="acquisition" value="invite" /><span>가족이 보낸 초대 코드</span></label>
+            <label class="radio-chip"><input type="radio" name="acquisition" value="other" /><span>기타</span></label>
+            </div>
+            <input type="text" name="acquisition_other" placeholder="기타: 직접 적어주세요" style="margin-top:10px;" />
+        </div>
+      </section>
+
+      <section class="card">
         <h2>기록은 보통 누가 하나요? <span class="required-tag">필수</span></h2>
         <div class="field" style="margin-top:12px;">
             <div class="radio-grid">
@@ -491,6 +508,7 @@
       return {
         features: all("features"), reasons: withOther("reasons"), potty: get("potty"), who: get("who"),
         unknown: all("unknown"), most_valued: get("most_valued"), wanted: withOther("wanted"), feedback: get("feedback"), dog_name: get("dog_name"),
+        acquisition: get("acquisition") === "other" ? (get("acquisition_other") ? "other: " + get("acquisition_other") : "other") : get("acquisition"),
         name: get("name"), phone: get("phone"),
       };
     }
@@ -502,6 +520,7 @@
         `응가메이트를 쓰는 이유는요?: ${words("reasons", d.reasons)}`,
         `강아지는 주로 어디서 배변하나요?: ${words("potty", [d.potty])}`,
         `기록은 보통 누가 하나요?: ${words("who", [d.who])}`,
+        `응가메이트를 어떻게 알게 됐나요?: ${words("acquisition", [d.acquisition])}`,
         `있는 줄 몰랐던 기능이 있다면요?: ${words("unknown", d.unknown)}`,
         `없으면 가장 아쉬울 기능 하나만요: ${words("most_valued", [d.most_valued])}`,
         `있으면 좋겠는 기능은요?: ${words("wanted", d.wanted)}`,
@@ -549,7 +568,7 @@
             name: d.name || null, phone: d.phone, consent: true,
             features_used: d.features, reasons: d.reasons, potty_place: d.potty, who_logs: d.who,
             unknown_features: d.unknown, most_valued: d.most_valued, wanted_features: d.wanted,
-            feedback: d.feedback || null, dog_name: d.dog_name, lang: "ko", source: SRC,
+            feedback: d.feedback || null, dog_name: d.dog_name, acquisition: d.acquisition || null, lang: "ko", source: SRC,
           }),
         });
         if (!res.ok) throw new Error(`submit failed: ${res.status}`);
