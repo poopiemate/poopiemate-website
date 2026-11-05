@@ -970,11 +970,11 @@ def story_post(lang, key):
 
 # ═════════════════════════════════════════════════════════ 공지사항 (캔버스 「v2 공지사항」)
 NOTICE = {
-    'ko': {'title': '3분 설문에 답하고 라떼 받아가세요', 'date': '2026.10.05', 'by': '응가메이트 팀', 'sub': '어떻게 쓰고 계신지 객관식 3분이면 돼요. 답하면 폴 바셋 아이스크림 라떼를 드려요.',
+    'ko': {'title': '3분 설문에 답하고 커피 받아가세요', 'date': '2026.10.05', 'by': '응가메이트 팀', 'sub': '어떻게 쓰고 계신지 객관식 3분이면 돼요. 답하면 투썸플레이스 아메리카노를 드려요.',
            'body': ['안녕하세요, 응가메이트 팀이에요.<br>매일 강아지의 응가·쉬·산책을 기록해 주셔서 정말 고마워요.',
                     '더 쓰기 편한 응가메이트를 만들고 싶어서, 어떻게 쓰고 계신지 여쭤보려고 해요.',
                     '<ul><li>자주 쓰는 기능은 무엇인지</li><li>왜 쓰시는지</li><li>있으면 좋겠는 기능은 무엇인지</li></ul>',
-                    '객관식이라 3분이면 끝나요.', '답해 주신 분께는 폴 바셋 아이스크림 라떼 기프티콘을 1~2일 안에 보내드려요.'],
+                    '객관식이라 3분이면 끝나요.', '답해 주신 분께는 투썸플레이스 아메리카노 기프티콘을 1~2일 안에 보내드려요.'],
            'apply': '3분 설문 답하기'},
     'en': {'title': 'A coffee for 3 minutes of your time', 'date': 'Oct 5, 2026', 'by': 'POOPIEMATE team', 'sub': 'Tell us how you use POOPIEMATE in a 3-minute multiple-choice survey and the coffee is on us.',
            'body': ['Hi from the POOPIEMATE team.<br>Thank you for logging your dog’s poops, pees and walks every day.',
@@ -1273,7 +1273,7 @@ def interview(lang):
     s = s.replace('  <link rel="icon" type="image/png" href="https://poopiemate.com/assets/favicon.png">\n', '')
     s = s.replace('  <link rel="apple-touch-icon" href="https://poopiemate.com/assets/favicon.png">\n', '')
     path = '/interview/' if ko else '/en/interview/'
-    og = ('응가메이트', '응가메이트 3분 설문', '어떻게 쓰고 계신지 객관식 3분이면 돼요. 답하면 폴 바셋 아이스크림 라떼를 드려요.') if ko else \
+    og = ('응가메이트', '응가메이트 3분 설문', '어떻게 쓰고 계신지 객관식 3분이면 돼요. 답하면 투썸플레이스 아메리카노를 드려요.') if ko else \
          ('POOPIEMATE', 'POOPIEMATE 3-minute survey', 'Tell us how you use POOPIEMATE in a 3-minute multiple-choice survey and the coffee is on us.')
     head_add = (PRETENDARD + '\n<link rel="stylesheet" href="/assets/css/site.css?v=' + ASSET_V + '">\n'
                 '<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">\n'
