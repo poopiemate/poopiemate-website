@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
 UPDATED = '2026-10-30'
-ASSET_V = '58'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '59'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -1233,6 +1233,26 @@ def guide_list(lang):
 </div></section>
 '''
     write(url('guide', lang), page(lang, 'guide', c[3], c[4], body, f'/assets/og/poopiemate-{lang}.jpg', active='guide'))
+    guide_feed(lang, order)
+
+
+def guide_feed(lang, order):
+    """앱의 「강아지 가이드」 목록이 받는 JSON — /guide/guides.json, /en/guide/guides.json (최신순, 목록 카드와 같은 제목)"""
+    items = []
+    for slug, cat in order:
+        g = guide_json(slug, lang)
+        if not g:
+            continue
+        og_slug = slug if lang == 'ko' else f'en-{slug}'
+        if og_slug in OG_PAGES and lang == 'ko' and slug in tools.TOOL_SLUGS:
+            title = OG_PAGES[og_slug]['head'].replace('<br>', ' ')
+        else:
+            title = html_mod.unescape(re.sub(r'<[^>]+>', '', re.search(r'<h1[^>]*>(.*?)</h1>', g['main'], re.S).group(1))).strip()
+        items.append({'slug': slug, 'cat': 'poop' if cat == 1 else 'walk', 'title': title, 'description': g['description'],
+                      'date': guide_date(slug), 'url': f'{SITE}{"" if lang == "ko" else "/en"}/{slug}/',
+                      'image': f'{SITE}/assets/img/mascot/{POSE_WEB[OG_POSE_SLUG.get(slug, OG_POSE["poop" if cat == 1 else "walk"])]}.webp'})
+    p = ROOT / url('guide', lang).lstrip('/') / 'guides.json'
+    p.write_text(json.dumps({'newDays': NEW_DAYS_GUIDE, 'guides': items}, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
 
 
 # ═════════════════════════════════════════════════════════ 인터뷰 신청 (폼·스크립트는 그대로, 겉모양만)
