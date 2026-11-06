@@ -316,7 +316,7 @@
 .prose .g-app p { margin: 0; font-size: 17px; line-height: 1.6; font-weight: 600; color: rgba(255, 255, 255, .92); }
 .prose.g-article .g-app-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 18px; height: 46px; padding: 0 18px; border-radius: 14px; background: var(--base); color: var(--brand-deep); font-family: var(--font-title); font-size: 16px; font-weight: 800; text-decoration: none; }
 .g-app-btn svg { width: 18px; height: 18px; }
-.g-app img { width: 150px; height: auto; margin-bottom: -6px; }
+.g-app img { width: 150px; height: auto; margin-bottom: 32px; }
 .g-rel { padding: clamp(72px, 8vw, 110px) 0 0; }
 .g-rel .wrap-list, .g-faq .wrap-faq { max-width: calc(1004px + var(--gutter) * 2); }
 .g-faq .sec-faq { padding-top: clamp(72px, 8vw, 100px); }
