@@ -9,6 +9,7 @@ from pathlib import Path
 from PIL import Image
 
 import tools
+import guide_doc
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
@@ -1272,6 +1273,9 @@ def guide_list(lang):
     guide_feed(lang, order)
 
 
+APP_GUIDE_ROWS = {}
+
+
 def guide_feed(lang, order):
     """앱의 「강아지 가이드」 목록이 받는 JSON — /guide/guides.json, /en/guide/guides.json (최신순, 목록 카드와 같은 제목)"""
     items = []
@@ -1289,6 +1293,18 @@ def guide_feed(lang, order):
                       'image': f'{SITE}/assets/img/mascot/{POSE_WEB[OG_POSE_SLUG.get(slug, OG_POSE["poop" if cat == 1 else "walk"])]}.webp'})
     p = ROOT / url('guide', lang).lstrip('/') / 'guides.json'
     p.write_text(json.dumps({'newDays': NEW_DAYS_GUIDE, 'guides': items}, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
+    # 앱 가이드(목록·상세)는 우리 DB public.guides에서 읽는다 — 그 표를 이 글들과 똑같이 맞추는 SQL을 만든다.
+    # 올리기: (앱 저장소에서) npx supabase db query --linked -f ../poopiemate-website/output/guides_upsert.sql
+    for item in items:
+        g = guide_json(item['slug'], lang)
+        doc = guide_doc.guide_blocks(g['main'], item['slug'])
+        APP_GUIDE_ROWS[(item['slug'], lang)] = {
+            'slug': item['slug'], 'lang': lang, 'cat': item['cat'], 'title': item['title'], 'summary': item['description'], 'image': item['image'],
+            'published_on': item['date'], 'minutes': max(2, round(len(_text(g['main'])) / (500 if lang == 'ko' else 1100))),
+            'lede': doc['lede'], 'blocks': doc['blocks'], 'faqs': doc['faqs'], 'related': doc['related']}
+    out = ROOT / 'output'
+    out.mkdir(exist_ok=True)
+    (out / 'guides_upsert.sql').write_text(guide_doc.guides_upsert_sql(list(APP_GUIDE_ROWS.values())), encoding='utf-8')
 
 
 # ═════════════════════════════════════════════════════════ 인터뷰 신청 (폼·스크립트는 그대로, 겉모양만)
