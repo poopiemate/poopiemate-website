@@ -502,8 +502,8 @@ def home(lang):
 </section>
 
 <section class="sec-story"><div class="wrap"><div class="story-card rise">
-<div class="polaroids"><figure><img src="/assets/img/photo/kennel-900.webp" alt="" loading="lazy"><figcaption>{c['s_cap'][0]}</figcaption></figure>
-<figure><img src="/assets/img/photo/home-first-900.webp" alt="" loading="lazy"><figcaption>{c['s_cap'][1]}</figcaption></figure></div>
+<div class="polaroids"><figure><img src="/assets/img/photo/kennel-900.webp" alt="{escape(c['s_cap'][0])}" loading="lazy"><figcaption>{c['s_cap'][0]}</figcaption></figure>
+<figure><img src="/assets/img/photo/home-first-900.webp" alt="{escape(c['s_cap'][1])}" loading="lazy"><figcaption>{c['s_cap'][1]}</figcaption></figure></div>
 <div class="story-text">{label(c['s_tag'], 'gold')}<h2 class="h2" data-mo>{c['s_h']}</h2><p>{sb(c['s_p'])}</p><a class="more-link" href="{url('why', lang)}">{c['s_btn']}{ARROW_R}</a></div>
 </div></div></section>
 
@@ -669,7 +669,7 @@ def how(lang):
 </div>
 <div class="bento-col">
 <a class="bcard b-green" href="#step-1"><span class="chip">{c['b3'][0]}</span><h3 class="h3">{c['b3'][1]}</h3><p>{sb(c['b3'][2])}</p><span class="go">{ARROW_R}</span></a>
-<a class="bcard b-photo tall" href="#step-5"><img class="bg" src="/assets/img/photo/lawn-walk-900.webp" alt="" loading="lazy"><span class="chip">{c['b4'][0]}</span><h3 class="h3">{c['b4'][1]}</h3><p>{sb(c['b4'][2])}</p><span class="go">{ARROW_R}</span></a>
+<a class="bcard b-photo tall" href="#step-5"><img class="bg" src="/assets/img/photo/lawn-walk-900.webp" alt="{'잔디밭을 산책하는 강아지' if lang == 'ko' else 'A dog walking on the lawn'}" loading="lazy"><span class="chip">{c['b4'][0]}</span><h3 class="h3">{c['b4'][1]}</h3><p>{sb(c['b4'][2])}</p><span class="go">{ARROW_R}</span></a>
 </div>
 </div>'''
     body = f'''
@@ -881,12 +881,12 @@ def story_list(lang):
     first = ''
     for key, (src, date, _, cat, thumb, _) in POSTS.items():
         s = src[lang]
-        first += (f'<a class="post-card" data-cat="{cat}" href="{url(key, lang)}"><span class="thumb"><img src="{thumb.format(lang=lang)}" alt="" loading="lazy" width="1600" height="1000">{new_badge(date)}</span>'
+        first += (f'<a class="post-card" data-cat="{cat}" href="{url(key, lang)}"><span class="thumb"><img src="{thumb.format(lang=lang)}" alt="{escape(_text(s['title']))}" loading="lazy" width="1600" height="1000">{new_badge(date)}</span>'
                   f'<span class="cat">{cats[cat]}</span><b>{s["title"]}</b><span class="ex">{sb(s["excerpt"])}</span><time datetime="{date}">{s["date"]}</time></a>')
     soon = ''
     for cat, t, ex, art in c[5]:
         pos = THUMB_POS.get(art[6:])
-        thumb = (f'<img src="/assets/img/photo/{art[6:]}-900.webp" alt="" loading="lazy"{f" style={chr(34)}object-position:{pos}{chr(34)}" if pos else ""}>' if art.startswith('photo:')
+        thumb = (f'<img src="/assets/img/photo/{art[6:]}-900.webp" alt="{escape(_text(t))}" loading="lazy"{f" style={chr(34)}object-position:{pos}{chr(34)}" if pos else ""}>' if art.startswith('photo:')
                  else '<span class="emoji-tile"><img src="/assets/img/emoji/house.webp" alt=""><img src="/assets/img/emoji/growing_heart.webp" alt=""></span>')
         soon += (f'<div class="post-card soon" data-cat="{cats.index(cat)}" aria-disabled="true"><span class="thumb">{thumb}</span>'
                  f'<span class="cat">{cat}</span><b>{t}</b><span class="ex">{sb(ex)}</span><span class="date">{c[6]}</span></div>')
@@ -942,7 +942,7 @@ def next_post(lang, key):
     src, _, _, _, thumb, _ = POSTS[nxt]
     s = src[lang]
     # 카드 전체가 링크 — 그림·제목·요약 어디를 눌러도 다음 글로
-    return (f'<a class="story-card next-card" href="{url(nxt, lang)}"><span class="next-art"><img src="{thumb.format(lang=lang)}" alt="" width="1600" height="1000" loading="lazy"></span>'
+    return (f'<a class="story-card next-card" href="{url(nxt, lang)}"><span class="next-art"><img src="{thumb.format(lang=lang)}" alt="{escape(_text(s['title']))}" width="1600" height="1000" loading="lazy"></span>'
             f'<div class="story-text">{label(T[lang]["next"], "gold")}<h2 class="h2">{s["title"]}</h2><p>{s["excerpt"]}</p>'
             f'<span class="more-link">{T[lang]["read"]}{ARROW_R}</span></div></a>')
 
@@ -964,7 +964,8 @@ def story_post(lang, key):
             out.append(f'<figure class="fig clips"><div class="clip-row">{"".join(story_clip(n, lab, lang) for n, lab in b[1])}</div><figcaption>{b[2]}</figcaption></figure>')
         elif b[0] == 'row':
             # 같은 높이로 나란히 — 사진 비율만큼 폭을 나눠 가진다
-            imgs = ''.join(f'<span style="flex:{photo_size(n)[0] / photo_size(n)[1]:.3f}">{photo_img(n, "(min-width: 800px) 360px, 46vw")}</span>' for n in b[1])
+            # 사진마다 그림 설명(캡션)을 alt로 — 비워 두면 네이버 사이트 진단이 「Alt 속성 누락」으로 잡는다(11-06)
+            imgs = ''.join(f'<span style="flex:{photo_size(n)[0] / photo_size(n)[1]:.3f}">{photo_img(n, "(min-width: 800px) 360px, 46vw", _text(b[2]))}</span>' for n in b[1])
             out.append(f'<figure class="fig row"><div class="row-in">{imgs}</div><figcaption>{b[2]}</figcaption></figure>')
         elif b[0] == 'mix':
             # 사진과 세로 영상을 같은 높이로 나란히 — 'clip:이름'은 영상
@@ -973,7 +974,7 @@ def story_post(lang, key):
                 if n.startswith('clip:'):
                     cells.append(f'<div style="flex:{clip_size(n[5:])[0] / clip_size(n[5:])[1]:.3f}">{story_clip(n[5:], b[2], lang, cap=False)}</div>')  # 영상 칸은 div — span 안에 div를 넣을 수 없다
                 else:
-                    cells.append(f'<span style="flex:{photo_size(n)[0] / photo_size(n)[1]:.3f}">{photo_img(n, "(min-width: 1100px) 600px, 54vw")}</span>')
+                    cells.append(f'<span style="flex:{photo_size(n)[0] / photo_size(n)[1]:.3f}">{photo_img(n, "(min-width: 1100px) 600px, 54vw", _text(b[2]))}</span>')
             out.append(f'<figure class="fig l row mix"><div class="row-in">{"".join(cells)}</div><figcaption>{b[2]}</figcaption></figure>')
         elif b[0] == 'h2':
             out.append(f'<h2>{b[1]}</h2>')
@@ -1021,7 +1022,7 @@ def notice_list(lang):
 <section class="list-page"><div class="wrap-list">
 {list_head('megaphone', c[0], c[1])}
 <div class="post-grid">
-<a class="post-card" href="{url('interview_notice', lang)}"><span class="thumb green"><img src="/assets/img/notice-hero.webp" alt="" loading="lazy" width="1038" height="510">{new_badge("2026-10-05")}</span>
+<a class="post-card" href="{url('interview_notice', lang)}"><span class="thumb green"><img src="/assets/img/notice-hero.webp" alt="{escape(NOTICE[lang]['title'])}" loading="lazy" width="1038" height="510">{new_badge("2026-10-05")}</span>
 <b>{n['title']}</b><span class="ex">{sb(n['sub'])}</span><time datetime="2026-10-05">{n['date']}</time></a>
 </div>
 {empty_state(lang, 'notice')}
@@ -1032,7 +1033,7 @@ def notice_list(lang):
 
 def notice_interview(lang):
     n = NOTICE[lang]
-    art = '<img class="notice-hero" src="/assets/img/notice-hero.webp" alt="" width="1038" height="510">'
+    art = f'<img class="notice-hero" src="/assets/img/notice-hero.webp" alt="{escape(n["title"])}" width="1038" height="510">'
     body = f'''
 <article class="post"><div class="wrap-post">
 {post_head(f'<time datetime="2026-10-05">{n["date"]}</time> · {n["by"]}', n['title'], art)}
