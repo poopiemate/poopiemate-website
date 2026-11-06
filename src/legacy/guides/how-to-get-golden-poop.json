@@ -1,9 +1,9 @@
 {
  "slug": "how-to-get-golden-poop",
- "title": "강아지 황금똥 싸게 하는 법, 사료 바꾸는 법부터 간식 10% 규칙까지 — 응가메이트",
- "description": "강아지 황금똥 싸게 하는 법을 정리했어요. 일정한 급여 시간, 사료를 바꿀 땐 7~10일 동안 조금씩 섞어 가며 바꾸기, 충분한 물과 산책, 간식 10% 규칙, 유산균·섬유질 일반론과 똥 상태를 기록하는 습관까지 하나씩 담았어요.",
+ "title": "강아지 황금똥 기준과 싸게 하는 법 — 응가메이트",
+ "description": "황금똥은 초콜릿색에 촉촉하지만 모양이 유지되는 똥이에요. 급여 시간, 사료 바꾸는 법, 간식 10% 규칙으로 만드는 법을 정리했어요.",
  "keywords": "강아지 황금똥, 강아지 황금똥 만들기, 강아지 똥 좋게, 강아지 사료 바꾸는 법, 강아지 사료 교체 기간, 강아지 간식 양, 강아지 유산균, 강아지 변 상태",
- "og_title": "강아지 황금똥 싸게 하는 법, 사료 바꾸는 법부터 간식 10% 규칙까지",
+ "og_title": "강아지 황금똥 기준과 싸게 하는 법",
  "ld": [
   "{\n \"@context\": \"https://schema.org\",\n \"@type\": \"BreadcrumbList\",\n \"itemListElement\": [\n  {\n   \"@type\": \"ListItem\",\n   \"position\": 1,\n   \"name\": \"응가메이트\",\n   \"item\": \"https://poopiemate.com/\"\n  },\n  {\n   \"@type\": \"ListItem\",\n   \"position\": 2,\n   \"name\": \"강아지 가이드\",\n   \"item\": \"https://poopiemate.com/guide/\"\n  },\n  {\n   \"@type\": \"ListItem\",\n   \"position\": 3,\n   \"name\": \"강아지 황금똥 싸게 하는 법, 사료 바꾸는 법부터 간식 10% 규칙까지\",\n   \"item\": \"https://poopiemate.com/how-to-get-golden-poop/\"\n  }\n ]\n}",
   "{\n \"@context\": \"https://schema.org\",\n \"@type\": \"FAQPage\",\n \"inLanguage\": \"ko\",\n \"mainEntity\": [\n  {\n   \"@type\": \"Question\",\n   \"name\": \"강아지 사료는 며칠에 걸쳐 바꿔야 하나요?\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"흔히 7~10일에 걸쳐 새 사료 비율을 25%, 50%, 75%, 100%로 조금씩 늘리라고 알려져 있어요. 장이 예민하면 더 천천히 해도 괜찮아요.\"\n   }\n  },\n  {\n   \"@type\": \"Question\",\n   \"name\": \"간식은 얼마나 줘도 되나요?\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"하루 필요한 열량의 10% 안으로 주라는 기준이 흔히 알려져 있어요. 간식을 준 만큼 사료를 조금 줄여요.\"\n   }\n  },\n  {\n   \"@type\": \"Question\",\n   \"name\": \"강아지 유산균을 먹이면 황금똥이 되나요?\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"도움이 될 수 있다고 알려져 있지만 모든 아이에게 필요한 건 아니에요. 사료·물·산책이 먼저이고, 지병이 있으면 수의사와 상의하세요.\"\n   }\n  },\n  {\n   \"@type\": \"Question\",\n   \"name\": \"갑자기 똥이 물러졌어요. 뭐부터 봐야 하나요?\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"최근 바꾼 사료나 새 간식, 사람 음식, 스트레스가 있었는지 먼저 확인해요. 하루 넘게 이어지거나 피·구토가 있으면 병원에 가세요.\"\n   }\n  }\n ]\n}"

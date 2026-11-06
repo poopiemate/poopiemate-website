@@ -1,9 +1,9 @@
 {
  "slug": "dog-constipation-causes",
- "title": "강아지가 변비인 이유와 도와주는 법, 병원 갈 때 — 응가메이트",
- "description": "강아지 변비 원인은 수분 부족, 운동 부족, 섬유질 부족, 뼈·이물, 참는 습관, 노령, 항문낭 문제 등이에요. 집에서 도와주는 법과 바로 병원에 가야 하는 신호, 소변 막힘과 구분하는 법을 정리했어요.",
+ "title": "강아지 변비, 원인과 집에서 도와주는 법 — 응가메이트",
+ "description": "물·운동 부족과 오래 참는 습관이 흔한 원인이에요. 집에서 도와주는 법, 소변 막힘과 구분하는 법, 바로 병원 갈 신호까지 정리했어요.",
  "keywords": "강아지 변비, 강아지 변비 원인, 강아지 똥이 딱딱해요, 강아지 응가 못 싸요, 강아지 변비 해결, 강아지 변비 병원, 노령견 변비, 강아지 항문낭",
- "og_title": "강아지가 변비인 이유와 도와주는 법, 병원 갈 때",
+ "og_title": "강아지 변비, 원인과 집에서 도와주는 법",
  "ld": [
   "{\n \"@context\": \"https://schema.org\",\n \"@type\": \"BreadcrumbList\",\n \"itemListElement\": [\n  {\n   \"@type\": \"ListItem\",\n   \"position\": 1,\n   \"name\": \"응가메이트\",\n   \"item\": \"https://poopiemate.com/\"\n  },\n  {\n   \"@type\": \"ListItem\",\n   \"position\": 2,\n   \"name\": \"강아지 가이드\",\n   \"item\": \"https://poopiemate.com/guide/\"\n  },\n  {\n   \"@type\": \"ListItem\",\n   \"position\": 3,\n   \"name\": \"강아지가 변비인 이유와 도와주는 법, 병원 갈 때\",\n   \"item\": \"https://poopiemate.com/dog-constipation-causes/\"\n  }\n ]\n}",
   "{\n \"@context\": \"https://schema.org\",\n \"@type\": \"FAQPage\",\n \"inLanguage\": \"ko\",\n \"mainEntity\": [\n  {\n   \"@type\": \"Question\",\n   \"name\": \"강아지가 며칠 동안 똥을 안 싸면 위험한가요?\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"하루 정도는 그럴 수 있지만 이틀 넘게 못 싸거나, 힘을 주며 아파하거나, 구토·식욕 저하가 있으면 수의사와 상담하세요.\"\n   }\n  },\n  {\n   \"@type\": \"Question\",\n   \"name\": \"강아지 변비에 좋은 음식이 있나요?\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"물을 충분히 마시게 하는 게 기본이에요. 호박 같은 섬유질이 흔히 언급되지만 양은 아이마다 달라서 수의사와 상의해서 주세요.\"\n   }\n  },\n  {\n   \"@type\": \"Question\",\n   \"name\": \"강아지 똥이 하얗고 딱딱해요.\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"뼈나 칼슘이 많은 식단에서 흔히 보여요. 계속되면 뼈 간식을 줄이고, 변비 증상이 있으면 수의사와 상담하세요.\"\n   }\n  },\n  {\n   \"@type\": \"Question\",\n   \"name\": \"변비인 줄 알았는데 오줌이 안 나와요.\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"힘을 주는 게 소변이 막힌 것일 수 있어요. 오줌이 안 나오면 바로 병원에 가세요.\"\n   }\n  }\n ]\n}"

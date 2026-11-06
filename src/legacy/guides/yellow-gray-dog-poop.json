@@ -1,9 +1,9 @@
 {
  "slug": "yellow-gray-dog-poop",
- "title": "강아지 똥이 노란 이유 · 회색인 이유, 언제 병원에 가야 할까 — 응가메이트",
- "description": "강아지 똥이 노란색이거나 회색·흰색이라면? 노란 똥은 사료나 빠른 장 통과, 간·담도, 지아르디아 때문일 수 있고, 회색 똥은 담즙·췌장 문제나 뼈가 많은 식단 때문일 수 있어요. 병원 갈 때를 정리했어요.",
+ "title": "강아지 노란 똥·회색 똥, 원인과 병원 갈 때 — 응가메이트",
+ "description": "노란 똥은 사료나 빠른 장 통과가 흔하고, 회색·흰색 똥은 담즙·췌장 문제일 수 있어요. 지켜봐도 될 때와 병원 갈 신호를 정리했어요.",
  "keywords": "강아지 노란똥, 강아지 똥 노란색, 강아지 노란 설사, 강아지 회색 똥, 강아지 흰색 똥, 강아지 똥 색깔, 강아지 지방변, 강아지 기름진 똥",
- "og_title": "강아지 똥이 노란 이유 · 회색인 이유, 언제 병원에 가야 할까",
+ "og_title": "강아지 노란 똥·회색 똥, 원인과 병원 갈 때",
  "ld": [
   "{\n \"@context\": \"https://schema.org\",\n \"@type\": \"BreadcrumbList\",\n \"itemListElement\": [\n  {\n   \"@type\": \"ListItem\",\n   \"position\": 1,\n   \"name\": \"응가메이트\",\n   \"item\": \"https://poopiemate.com/\"\n  },\n  {\n   \"@type\": \"ListItem\",\n   \"position\": 2,\n   \"name\": \"강아지 가이드\",\n   \"item\": \"https://poopiemate.com/guide/\"\n  },\n  {\n   \"@type\": \"ListItem\",\n   \"position\": 3,\n   \"name\": \"강아지 똥이 노란 이유 · 회색인 이유, 언제 병원에 가야 할까\",\n   \"item\": \"https://poopiemate.com/yellow-gray-dog-poop/\"\n  }\n ]\n}",
   "{\n \"@context\": \"https://schema.org\",\n \"@type\": \"FAQPage\",\n \"inLanguage\": \"ko\",\n \"mainEntity\": [\n  {\n   \"@type\": \"Question\",\n   \"name\": \"강아지 똥이 노란색인데 괜찮나요?\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"한 번이고 잘 먹고 잘 논다면 사료나 간식 영향일 수 있어요. 며칠 이어지거나 설사·구토가 있거나 눈·잇몸이 노래지면 수의사와 상담하세요.\"\n   }\n  },\n  {\n   \"@type\": \"Question\",\n   \"name\": \"강아지 똥이 회색이면 무슨 뜻인가요?\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"담즙이 잘 섞이지 않거나 췌장에서 소화 효소가 부족한 경우일 수 있어요. 기름지거나 계속되면 수의사와 상담하세요.\"\n   }\n  },\n  {\n   \"@type\": \"Question\",\n   \"name\": \"강아지 똥이 하얗고 부서져요.\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"뼈나 칼슘이 많은 식단에서 흔히 보여요. 변비가 같이 오기 쉬우니 뼈 양을 줄이고 수의사와 상의하세요.\"\n   }\n  },\n  {\n   \"@type\": \"Question\",\n   \"name\": \"노랗고 점액이 섞인 설사를 해요.\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"장이 자극을 받았거나 지아르디아 같은 기생충일 수 있어요. 반복되면 똥 검사를 받아 보세요.\"\n   }\n  }\n ]\n}"

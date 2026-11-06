@@ -38,6 +38,35 @@
 - 강아지 가이드 (배변 상태, 배변 텀, 실외배변, 산책 안전, 맞벌이 산책, 다견가정): https://poopiemate.com/guide/
 - 공지사항: https://poopiemate.com/notice/
 
+## 강아지 가이드
+
+<!-- guides:ko -->
+글쓴이: Jin (응가메이트를 만든 개발자, 진도믹스 보호자). 모든 가이드는 일반 정보이며 수의사 진단을 대신하지 않아요.
+
+- [전쟁·재난 때 강아지 대피하는 법, 한국·일본·미국·우크라이나는 어떻게 할까](https://poopiemate.com/dog-evacuation-war-disaster/): 한국은 민방위·재난 대피소에 봉사견이 아닌 반려견이 들어갈 수 없어요. 일본이 동일본대지진 뒤 동행피난을 원칙으로 정한 이유, 미국 카트리나와 PETS Act, 우크라이나 전쟁 속 대피소와 EU 입국 특례까지 비교하고 지금 준비할 비상 가방 체크리스트를 정리했어요. (2026-11-05)
+- [강아지가 마른 낙엽 위에서 응가하는 걸 좋아하는 이유](https://poopiemate.com/why-dogs-poop-on-dry-leaves/): 강아지가 마른 낙엽 위에서 응가하는 건 냄새 정보가 많고, 푹신해 자세 잡기 편하며 발에 덜 묻고, 어릴 때 익숙한 바닥을 찾기 때문이라고 알려져 있어요. 빙글빙글 도는 이유와 낙엽 더미에서 조심할 것, 치우는 법까지 정리했어요. (2026-11-04)
+- [외출할 때 보일러, 강아지 위해 켜고 가야 할까?](https://poopiemate.com/leave-heating-on-for-dog/): 외출할 때 보일러를 완전히 끄기보다 외출 모드나 낮은 온도로 켜 두는 게 무난해요. 강아지 적정 실내 온도(18~22도), 추위에 약한 강아지, 바닥 난방 저온 화상, 전기장판·히터 주의까지 정리했어요. (2026-11-04)
+- [강아지가 설사를 하는 이유, 집에서 지켜볼 때와 바로 병원 갈 때](https://poopiemate.com/dog-diarrhea-causes/): 강아지 설사 원인은 사료 급변, 간식·사람 음식, 스트레스부터 기생충, 파보 같은 바이러스, 췌장염, 이물까지 다양해요. 집에서 해볼 것과 바로 병원에 가야 하는 신호, 사람 약을 주면 안 되는 이유까지 정리했어요. (2026-10-30)
+- [강아지가 변비인 이유와 도와주는 법, 병원 갈 때](https://poopiemate.com/dog-constipation-causes/): 물·운동 부족과 오래 참는 습관이 흔한 원인이에요. 집에서 도와주는 법, 소변 막힘과 구분하는 법, 바로 병원 갈 신호까지 정리했어요. (2026-11-06)
+- [강아지 황금똥 싸게 하는 법, 사료 바꾸는 법부터 간식 10% 규칙까지](https://poopiemate.com/how-to-get-golden-poop/): 황금똥은 초콜릿색에 촉촉하지만 모양이 유지되는 똥이에요. 급여 시간, 사료 바꾸는 법, 간식 10% 규칙으로 만드는 법을 정리했어요. (2026-11-06)
+- [강아지 똥이 노란 이유 · 회색인 이유, 언제 병원에 가야 할까](https://poopiemate.com/yellow-gray-dog-poop/): 노란 똥은 사료나 빠른 장 통과가 흔하고, 회색·흰색 똥은 담즙·췌장 문제일 수 있어요. 지켜봐도 될 때와 병원 갈 신호를 정리했어요. (2026-11-06)
+- [화식·생식·사료, 강아지 똥이 가장 좋은 건? 식단별 똥 차이 비교](https://poopiemate.com/kibble-vs-cooked-vs-raw-poop/): 화식·생식·건사료 중 강아지 똥이 가장 좋은 식단은 뭘까요? 식단별 똥 양·냄새·굳기 차이와 장단점, 생식의 위생 위험, 식단을 바꿀 때 주의할 점을 정리했어요. 결론은 강아지마다 정답이 달라요. (2026-10-30)
+- [아기 강아지 하루 배변 횟수, 소형견·중형견·대형견 크기별 배변 횟수](https://poopiemate.com/puppy-potty-count-by-size/): 아기 강아지는 보통 하루 3~5번 응가해요. 개월 수별 배변 횟수, 소변 참는 시간, 소형·중형·대형견 차이와 걱정할 때를 정리했어요. (2026-11-06)
+- [강아지는 왜 실외배변을 할까? 집에서 안 싸는 이유](https://poopiemate.com/dog-outdoor-potty-why/): 자는 곳을 깨끗이 지키는 본능과 냄새 표시, 굳어진 산책 습관 때문이에요. 실내배변을 보조로 가르치는 법과 날씨 나쁜 날 대처까지. (2026-11-06)
+- [실외배변 강아지, 오줌·똥 참으면 안 되는 이유와 걸릴 수 있는 병](https://poopiemate.com/outdoor-potty-holding-risks/): 실외배변 강아지가 오줌과 똥을 오래 참으면 방광염·요로결석·변비 같은 문제로 이어질 수 있어요. 몇 시간까지 괜찮은지 흔히 알려진 기준과 비·태풍·한파 날 대처법, 실내 패드 보조까지 정리했어요. (2026-10-30)
+- [강아지가 응가하고 뒷발 차는 이유, 말려야 할까?](https://poopiemate.com/why-dogs-kick-after-pooping/): 강아지가 응가하고 뒷발로 땅을 차는 이유는 발바닥 땀샘 냄새를 남기는 표시, 긁힌 자국으로 하는 시각적 표시, 시원하게 싼 뒤의 개운함 때문이라고 알려져 있어요. 말려야 하는지, 병원 상담이 필요한 때도 정리했어요. (2026-10-30)
+- [강아지 황금똥 기준과 응가 색깔·상태 보는 법](https://poopiemate.com/poop-condition-guide/): 강아지 황금똥은 어떤 똥일까요? 굳기와 응가 색깔(회색·검은색·혈변·초록색)로 보는 건강 신호와 설사 색, 병원에 가야 할 때를 정리했어요. (2026-10-28)
+- [강아지 하루 배변 횟수와 배변 텀, 정상 기준은?](https://poopiemate.com/potty-interval/): 성견은 하루 1~2번, 퍼피는 3~5번이 흔해요. 나이별 하루 배변 횟수와 배변 텀, 병원에 가야 할 신호를 정리했어요. (2026-11-06)
+- [실외배변(야외배변) 강아지, 배변 기록 관리하는 법](https://poopiemate.com/outdoor-potty-dog-tracking/): 밖에서만 싸는 실외배변(야외배변) 강아지는 산책 나간 사람만 배변 여부를 알아요. 산책 직후 기록해 가족과 공유하는 방법을 정리했어요. (2026-10-28)
+- [진도믹스 배변 훈련, 왜 유독 어렵게 느껴질까](https://poopiemate.com/jindo-mix-potty-training/): 진도믹스는 영리하고 독립적인 성향 때문에 배변훈련 자체보다 실외배변 패턴 파악이 더 중요합니다. 견종 특징과 훈련 팁, 기록 관리법을 정리했습니다. (2026-10-28)
+- [강아지 산책 안전 지수란? 오늘 산책해도 될까](https://poopiemate.com/walk-safety-index/): 체감온도와 비 소식에 우리 강아지의 체구·나이·털을 더해 오늘 산책이 안전한지 1~5단계로 확인하는 법과, 여름·겨울 산책 시 주의할 점을 정리했습니다. (2026-10-28)
+- [맞벌이 가정, 강아지 산책 시간·당번 놓치지 않고 관리하는 법](https://poopiemate.com/dual-income-dog-walk-schedule/): 맞벌이 가정에서 산책 시간을 놓치지 않고, 산책 당번이 헷갈리지 않게 누가 언제 다녀왔는지 가족과 함께 확인하는 방법을 정리했습니다. (2026-10-28)
+- [강아지 배변 기록, 가족과 실시간으로 공유하는 법](https://poopiemate.com/share-dog-potty-log-with-family/): 카톡 캡처나 수기 메모 대신, 강아지 배변·쉬야·산책 기록을 가족 전원이 실시간으로 공유하는 방법을 정리했습니다. 무료 앱 응가메이트로 탭 한 번이면 끝나요. (2026-10-28)
+- [강아지 여러 마리 키울 때, 배변 기록 헷갈리지 않는 법](https://poopiemate.com/multi-dog-household-tracking/): 다견가정에서 누구 응가인지 헷갈리는 문제를, 강아지별 프로필을 나눠 기록하고 가족과 공유하는 방법으로 해결하는 팁을 정리했습니다. (2026-10-28)
+
+가이드 전문: https://poopiemate.com/llms-full.txt
+<!-- /guides:ko -->
+
 ## 영상 · SNS
 
 - 서비스 소개 영상 (1분): https://www.youtube.com/watch?v=cnmU1xI7sSg
@@ -75,3 +104,32 @@ Full English site: https://poopiemate.com/en/
 - Contact: poopiemate@pixelberry.io
 - Intro video: https://www.youtube.com/watch?v=xiX6nDBh7yE
 - Family invite video: https://www.youtube.com/watch?v=zX687PzYXzY
+
+## Dog guides
+
+<!-- guides:en -->
+Written by Jin (developer of POOPIEMATE, Jindo-mix owner). Every guide is general information and does not replace a vet visit.
+
+- [Evacuating With Your Dog in a War or Disaster: Korea, Japan, the US and Ukraine](https://poopiemate.com/en/dog-evacuation-war-disaster/): Can dogs enter shelters? How Korea, Japan, the US and Ukraine handle pets in war and disaster, and a dog emergency kit checklist to prepare now. (2026-11-06)
+- [Why Do Dogs Like to Poop on Dry Leaves?](https://poopiemate.com/en/why-dogs-poop-on-dry-leaves/): Why dogs pick dry leaf piles to poop on: scent, soft footing and early habits. Plus why they circle first, leaf-pile hazards and how to pick it up cleanly. (2026-11-06)
+- [Should You Leave the Heat On for Your Dog When You Go Out?](https://poopiemate.com/en/leave-heating-on-for-dog/): Whether to leave the heat on for a dog home alone: the right indoor temperature (18–22°C), dogs that feel the cold, hot floor burns and heater safety. (2026-11-06)
+- [Why Does My Dog Have Diarrhea? When to Watch at Home and When to See a Vet](https://poopiemate.com/en/dog-diarrhea-causes/): Common causes of dog diarrhea, from a sudden food switch to parasites, parvo and pancreatitis, what to try at home, and the signs that need a vet now. (2026-11-06)
+- [Dog Constipation: Causes, How to Help at Home, and When to See a Vet](https://poopiemate.com/en/dog-constipation-causes/): Common causes of dog constipation, from too little water to bones and holding it, how to help at home, and the signs that mean see a vet now. (2026-11-06)
+- [How to Get the Perfect Poop: From Switching Dog Food to the 10% Treat Rule](https://poopiemate.com/en/how-to-get-golden-poop/): How to get healthy, firm dog poop: set mealtimes, a 7–10 day schedule for switching food, water and walks, the 10% treat rule, and probiotics and fiber. (2026-11-06)
+- [Yellow or Gray Dog Poop: What It Means and When to See a Vet](https://poopiemate.com/en/yellow-gray-dog-poop/): What yellow, gray or white dog poop can mean, from food and fast gut transit to bile, pancreas and parasite problems, and when each one needs a vet. (2026-11-06)
+- [Kibble, Cooked or Raw: Which Diet Gives the Best Dog Poop?](https://poopiemate.com/en/kibble-vs-cooked-vs-raw-poop/): How dog poop amount, smell and firmness differ on kibble, cooked and raw diets, the hygiene risks of raw, and how to switch food safely. (2026-11-06)
+- [How Often Do Puppies Poop and Pee? By Age and Dog Size](https://poopiemate.com/en/puppy-potty-count-by-size/): How many times a day puppies poop and pee by age, the "months + 1 hour" rule, small vs. large dog differences, and when to worry. (2026-11-06)
+- [Why Do Dogs Only Potty Outside and Not at Home?](https://poopiemate.com/en/dog-outdoor-potty-why/): Why some dogs only potty outside: the clean-den instinct, scent marking and walk habits, plus how to add an indoor backup for bad weather. (2026-11-06)
+- [Is It Bad for Dogs to Hold Their Pee and Poop? Risks and Tips](https://poopiemate.com/en/outdoor-potty-holding-risks/): What holding pee and poop can do to outdoor-only dogs, how many hours is commonly OK, and what to do on rainy, stormy or freezing days. (2026-11-06)
+- [Why Do Dogs Kick After Pooping? Should You Stop It?](https://poopiemate.com/en/why-dogs-kick-after-pooping/): Why dogs kick the ground after pooping: paw scent, visible scratch marks and simple relief, plus when to redirect it and when to see a vet. (2026-11-06)
+- [Dog Poop Color Chart: What Healthy Dog Poop Looks Like and What Each Color Means](https://poopiemate.com/en/poop-condition-guide/): A dog poop color chart (or poo colour chart): what healthy poop looks like, what brown, yellow, gray, black, red or green can mean, and when to see a vet. (2026-11-06)
+- [How Often Should a Dog Poop? Daily Potty Count and Intervals](https://poopiemate.com/en/potty-interval/): How many times a day puppies, adult and senior dogs poop, what a normal potty interval is, and when to talk to a vet. (2026-10-28)
+- [How to Track Potty for a Dog Who Only Goes Outside](https://poopiemate.com/en/outdoor-potty-dog-tracking/): With an outdoor-only dog, only the walker knows if they went. Log it right after the walk and share it with your family in the app. (2026-10-28)
+- [Jindo Mix Potty Training: Why Does It Feel So Hard?](https://poopiemate.com/en/jindo-mix-potty-training/): Jindo mixes are smart and independent, so knowing their outdoor potty pattern matters most. Breed traits, training tips and how to keep a log. (2026-10-28)
+- [What Is a Dog Walk Safety Index? Is It Safe to Walk Today?](https://poopiemate.com/en/walk-safety-index/): Check if today's walk is safe on a 1 to 5 scale from feels-like temperature, chance of rain and your dog's size, age and coat. Plus summer and winter tips. (2026-10-28)
+- [Two Working Parents? How to Never Miss a Dog Walk or Mix Up Whose Turn It Is](https://poopiemate.com/en/dual-income-dog-walk-schedule/): For dual-income homes: keep dog walk times on track and stop mixing up whose turn it is by seeing who walked the dog and when. (2026-10-28)
+- [How to Share Your Dog's Potty Log with Family in Real Time](https://poopiemate.com/en/share-dog-potty-log-with-family/): Skip the chat screenshots and notes. Share your dog's poop, pee and walk records with the whole family in real time, with one tap in the free POOPIEMATE app. (2026-10-28)
+- [Raising Multiple Dogs? How to Keep Their Potty Logs Straight](https://poopiemate.com/en/multi-dog-household-tracking/): In a multi-dog home it's easy to lose track of whose poop is whose. Log each dog in its own profile and share it with your family. (2026-10-28)
+
+Full text of every guide: https://poopiemate.com/llms-full.txt
+<!-- /guides:en -->

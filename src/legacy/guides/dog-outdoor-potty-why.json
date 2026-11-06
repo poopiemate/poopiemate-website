@@ -1,9 +1,9 @@
 {
  "slug": "dog-outdoor-potty-why",
- "title": "강아지는 왜 실외배변을 할까? 집에서 안 싸는 이유 — 응가메이트",
- "description": "강아지는 왜 실외배변만 할까요? 자는 곳을 깨끗하게 지키려는 본능, 냄새로 하는 영역 표시, 굳어진 산책 습관 때문이에요. 집에서 안 싸는 이유와 실내배변을 보조로 같이 가르치는 법, 날씨 나쁜 날 대처까지 정리했어요.",
+ "title": "강아지는 왜 실외배변만 할까? 집에서 안 싸는 이유 — 응가메이트",
+ "description": "자는 곳을 깨끗이 지키는 본능과 냄새 표시, 굳어진 산책 습관 때문이에요. 실내배변을 보조로 가르치는 법과 날씨 나쁜 날 대처까지.",
  "keywords": "강아지 실외배변, 강아지 실외배변 이유, 강아지 집에서 안 싸요, 강아지 산책할 때만 배변, 실외배변 실내배변 같이, 강아지 실내배변 훈련, 강아지 영역표시",
- "og_title": "강아지는 왜 실외배변을 할까? 집에서 안 싸는 이유",
+ "og_title": "강아지는 왜 실외배변만 할까? 집에서 안 싸는 이유",
  "ld": [
   "{\n \"@context\": \"https://schema.org\",\n \"@type\": \"BreadcrumbList\",\n \"itemListElement\": [\n  {\n   \"@type\": \"ListItem\",\n   \"position\": 1,\n   \"name\": \"응가메이트\",\n   \"item\": \"https://poopiemate.com/\"\n  },\n  {\n   \"@type\": \"ListItem\",\n   \"position\": 2,\n   \"name\": \"강아지 가이드\",\n   \"item\": \"https://poopiemate.com/guide/\"\n  },\n  {\n   \"@type\": \"ListItem\",\n   \"position\": 3,\n   \"name\": \"강아지는 왜 실외배변을 할까? 집에서 안 싸는 이유\",\n   \"item\": \"https://poopiemate.com/dog-outdoor-potty-why/\"\n  }\n ]\n}",
   "{\n \"@context\": \"https://schema.org\",\n \"@type\": \"FAQPage\",\n \"inLanguage\": \"ko\",\n \"mainEntity\": [\n  {\n   \"@type\": \"Question\",\n   \"name\": \"강아지가 밖에서만 싸는 게 이상한 건가요?\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"아니에요. 자는 곳을 깨끗하게 지키려는 본능과 냄새로 하는 영역 표시, 산책 습관이 겹친 자연스러운 행동이에요.\"\n   }\n  },\n  {\n   \"@type\": \"Question\",\n   \"name\": \"실외배변 강아지도 실내배변을 배울 수 있나요?\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"배울 수 있어요. 밖의 냄새를 묻힌 패드나 인조잔디를 쓰고, 쌀 것 같은 때 데려가 성공하면 칭찬해 주세요. 몇 주 걸리는 경우도 많아요.\"\n   }\n  },\n  {\n   \"@type\": \"Question\",\n   \"name\": \"산책을 못 가는 날은 어떻게 하나요?\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"짧게라도 집 앞에 나가 배변 기회를 주거나 실내 패드를 보조로 써요. 하루 넘게 못 싸고 힘들어하면 수의사와 상담하세요.\"\n   }\n  },\n  {\n   \"@type\": \"Question\",\n   \"name\": \"집에서 잘 싸던 강아지가 갑자기 밖에서만 싸요.\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"패드 위치 변화나 실수 후 혼난 경험 때문일 수 있어요. 소변 횟수나 색이 달라졌다면 건강 문제일 수도 있으니 수의사와 상담하세요.\"\n   }\n  }\n ]\n}"

@@ -1,9 +1,9 @@
 {
  "slug": "potty-interval",
- "title": "강아지 하루 배변 횟수와 배변 텀, 정상 기준은? — 응가메이트",
- "description": "강아지는 하루 몇 번 응가할까요? 퍼피·성견·노령견 하루 배변 횟수와 배변 텀, 병원 상담이 필요한 때를 정리했어요.",
+ "title": "강아지 하루 배변 횟수, 정상은 몇 번? 배변 텀 기준 — 응가메이트",
+ "description": "성견은 하루 1~2번, 퍼피는 3~5번이 흔해요. 나이별 하루 배변 횟수와 배변 텀, 병원에 가야 할 신호를 정리했어요.",
  "keywords": "",
- "og_title": "강아지 하루 배변 횟수와 배변 텀, 정상 기준은?",
+ "og_title": "강아지 하루 배변 횟수, 정상은 몇 번? 배변 텀 기준",
  "ld": [
   "{\n \"@context\": \"https://schema.org\",\n \"@type\": \"BreadcrumbList\",\n \"itemListElement\": [\n  {\n   \"@type\": \"ListItem\",\n   \"position\": 1,\n   \"name\": \"응가메이트\",\n   \"item\": \"https://poopiemate.com/\"\n  },\n  {\n   \"@type\": \"ListItem\",\n   \"position\": 2,\n   \"name\": \"강아지 가이드\",\n   \"item\": \"https://poopiemate.com/guide/\"\n  },\n  {\n   \"@type\": \"ListItem\",\n   \"position\": 3,\n   \"name\": \"강아지 하루 배변 횟수와 배변 텀, 정상 기준은?\",\n   \"item\": \"https://poopiemate.com/potty-interval/\"\n  }\n ]\n}",
   "{\n \"@context\": \"https://schema.org\",\n \"@type\": \"FAQPage\",\n \"inLanguage\": \"ko\",\n \"mainEntity\": [\n  {\n   \"@type\": \"Question\",\n   \"name\": \"강아지는 하루에 몇 번 응가하는 게 정상인가요?\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"성견은 하루 1~2번이 흔하고, 퍼피는 하루 3~5번 정도로 더 자주 싸요. 나이·사료·활동량에 따라 차이가 커서 평소 횟수를 아는 게 더 중요해요.\"\n   }\n  },\n  {\n   \"@type\": \"Question\",\n   \"name\": \"강아지가 하루 동안 응가를 안 하면 괜찮나요?\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"하루 정도는 그럴 수 있지만, 하루 넘게 못 싸고 힘을 주거나 배를 불편해하면 수의사 상담을 권해요.\"\n   }\n  },\n  {\n   \"@type\": \"Question\",\n   \"name\": \"배변 텀이 갑자기 달라지면 병원에 가야 하나요?\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"평소보다 텀이 크게 길어지거나 짧아지는 상태가 며칠 이어지면 수의사 상담을 권해요.\"\n   }\n  }\n ]\n}"

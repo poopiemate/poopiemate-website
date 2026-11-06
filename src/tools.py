@@ -80,7 +80,7 @@ def _swatch_btn(key, name, group):
 def poop_tool(page, faq_block, faq_ld, cta_band, ASSET_V):
     slug, name = 'poop-condition-guide', '강아지 똥 상태 체크'
     title = '강아지 똥 상태 체크 — 황금똥 기준·응가 색깔 차트 | 응가메이트'
-    desc = '오늘 강아지 응가, 괜찮을까요? 색깔과 굳기를 고르면 바로 알려줘요. 황금똥 기준, 응가 색깔 차트(회색·검은색·혈변·초록색), 굳기 1~7점 차트, 하루 배변 횟수까지.'
+    desc = '강아지 똥 색깔과 굳기를 고르면 괜찮은지 바로 알려줘요. 황금똥 기준, 색깔 차트(회색·검은색·혈변·초록색), 굳기 1~7점, 하루 배변 횟수까지.'
     colors = ''.join(_swatch_btn(k, n, 'color') for k, n, _, _ in POOP_COLORS)
     firm = ''.join(f'<button type="button" class="pick" data-firm="{s}" aria-pressed="false">{poop_img(f'firm-{s}')}<span><b>{s}</b> {n}</span></button>' for s, n, _, _, _ in FIRMNESS)
     extras = [('mucus', '젤리 같은 점액'), ('specks', '흰 쌀알 알갱이'), ('vomit', '구토도 했어요'), ('weak', '기운이 없거나 밥을 안 먹어요'),

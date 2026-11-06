@@ -1,9 +1,9 @@
 {
  "slug": "puppy-potty-count-by-size",
- "title": "아기 강아지 하루 배변 횟수, 소형견·중형견·대형견 크기별 배변 횟수 — 응가메이트",
- "description": "아기 강아지는 하루 몇 번 응가하고 쉬할까요? 개월 수별 배변 횟수와 흔히 알려진 \"개월 수 + 1시간\" 소변 참기 기준, 소형견·중형견·대형견 크기별 배변 횟수 차이, 배변 훈련 타이밍과 걱정해야 할 때를 정리했어요.",
+ "title": "아기 강아지 하루 배변 횟수, 크기별 차이는? — 응가메이트",
+ "description": "아기 강아지는 보통 하루 3~5번 응가해요. 개월 수별 배변 횟수, 소변 참는 시간, 소형·중형·대형견 차이와 걱정할 때를 정리했어요.",
  "keywords": "아기 강아지 배변 횟수, 퍼피 배변 횟수, 강아지 하루 배변 횟수, 소형견 배변 횟수, 대형견 배변 횟수, 아기 강아지 소변 횟수, 강아지 월령 배변, 퍼피 소변 참기",
- "og_title": "아기 강아지 하루 배변 횟수, 소형견·중형견·대형견 크기별 배변 횟수",
+ "og_title": "아기 강아지 하루 배변 횟수, 크기별 차이는?",
  "ld": [
   "{\n \"@context\": \"https://schema.org\",\n \"@type\": \"BreadcrumbList\",\n \"itemListElement\": [\n  {\n   \"@type\": \"ListItem\",\n   \"position\": 1,\n   \"name\": \"응가메이트\",\n   \"item\": \"https://poopiemate.com/\"\n  },\n  {\n   \"@type\": \"ListItem\",\n   \"position\": 2,\n   \"name\": \"강아지 가이드\",\n   \"item\": \"https://poopiemate.com/guide/\"\n  },\n  {\n   \"@type\": \"ListItem\",\n   \"position\": 3,\n   \"name\": \"아기 강아지 하루 배변 횟수, 소형견·중형견·대형견 크기별 배변 횟수\",\n   \"item\": \"https://poopiemate.com/puppy-potty-count-by-size/\"\n  }\n ]\n}",
   "{\n \"@context\": \"https://schema.org\",\n \"@type\": \"FAQPage\",\n \"inLanguage\": \"ko\",\n \"mainEntity\": [\n  {\n   \"@type\": \"Question\",\n   \"name\": \"아기 강아지는 하루에 몇 번 응가하나요?\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"보통 하루 3~5번 정도로 성견보다 자주 싸요. 밥 먹는 횟수가 많고 소화가 빨라서 밥 먹고 얼마 안 돼 싸는 경우가 많아요.\"\n   }\n  },\n  {\n   \"@type\": \"Question\",\n   \"name\": \"퍼피는 소변을 몇 시간 참을 수 있나요?\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"흔히 \\\"개월 수 + 1시간\\\"까지라고 알려져 있어요. 3개월이면 4시간 정도지만, 최대치에 가까운 통념이라 더 자주 데려가 주세요.\"\n   }\n  },\n  {\n   \"@type\": \"Question\",\n   \"name\": \"소형견이 대형견보다 자주 싸나요?\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"응가 횟수는 크기보다 먹는 양과 급여 횟수의 영향이 커서 성견은 대부분 하루 1~2번이에요. 쉬는 소형견이 더 자주 하는 편이에요.\"\n   }\n  },\n  {\n   \"@type\": \"Question\",\n   \"name\": \"퍼피가 하루 동안 응가를 안 했어요.\",\n   \"acceptedAnswer\": {\n    \"@type\": \"Answer\",\n    \"text\": \"먹는 양이 줄었거나 환경이 바뀌었을 수 있어요. 힘을 주며 불편해하거나 구토·식욕 저하가 있으면 수의사와 상담하세요.\"\n   }\n  }\n ]\n}"

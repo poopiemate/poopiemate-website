@@ -13,7 +13,6 @@ import tools
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
-UPDATED = '2026-10-30'
 ASSET_V = '60'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
@@ -120,6 +119,34 @@ def org_ld(lang):
             'url': SITE, 'logo': f'{SITE}/assets/icons/apple-touch-icon.png', 'email': EMAIL,
             'contactPoint': {'@type': 'ContactPoint', 'contactType': 'customer support', 'email': EMAIL, 'availableLanguage': ['ko', 'en']},
             'sameAs': [SNS['youtube'][1], SNS['tiktok'][1], SNS['instagram'][1]['ko'], SNS['instagram'][1]['en'], SNS['linkedin'][1], SNS['kakao'][1]['ko']]}
+
+
+def author_ld(lang):
+    """글쓴이 — 가이드·이야기 모두 진(Jin). 검색엔진·AI가 누가 썼는지 보고 출처를 고른다(E-E-A-T)"""
+    return {'@type': 'Person', 'name': 'Jin', 'url': f'{SITE}{"" if lang == "ko" else "/en"}/story/why-i-built-poopiemate/',
+            'jobTitle': '응가메이트를 만든 개발자 · 진도믹스 보호자' if lang == 'ko' else 'Developer of POOPIEMATE, Jindo-mix owner',
+            'worksFor': {'@type': 'Organization', 'name': '응가메이트' if lang == 'ko' else 'POOPIEMATE', 'url': SITE}}
+
+
+TODAY = __import__('datetime').date.today().isoformat()
+
+
+def git_date(*paths):
+    """파일들이 마지막으로 바뀐 날 — 커밋 안 된 변경이 있으면 오늘. 사이트맵 lastmod·글 dateModified에 쓴다"""
+    rel = [str(Path(p).relative_to(ROOT)) for p in paths if Path(p).exists()]
+    if not rel:
+        return TODAY
+    dirty = subprocess.run(['git', 'status', '--porcelain', '--', *rel], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+    if dirty:
+        return TODAY
+    out = subprocess.run(['git', 'log', '-1', '--format=%cs', '--', *rel], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+    return out or TODAY
+
+
+def guide_modified(slug, lang):
+    """가이드 글 내용이 마지막으로 바뀐 날 — 그 언어의 원고(json) 기준, 처음 올린 날보다 앞이면 올린 날"""
+    src = SRC / f'legacy/guides/{"en/" if lang == "en" else ""}{slug}.json'
+    return max(git_date(src), guide_date(slug))
 
 
 def lang_links(lang, ko_path, en_path, cls):
@@ -434,7 +461,7 @@ def home_guides(lang):
 
 def home(lang):
     c = {
-        'ko': {'title': '응가메이트 — 가족이 함께 보는 강아지 응가·산책 기록',
+        'ko': {'title': '응가메이트 — 강아지 응가·쉬·산책 기록 앱, 가족과 같이 봐요',
                'desc': '강아지 응가·쉬·산책을 한 명이 기록하면 가족 모두가 바로 알아요. “응댕이 똥 쌌어?” 이제 안 물어봐도 돼요. 초대·기록·알림 모두 무료예요.',
                'h1': '“응댕이 똥 쌌어?”<br><span class="hl">이제 안 물어봐도 돼요</span>',
                'lead': '강아지를 여럿이 같이 돌보는 집을 위한 앱. <br>한 사람이 응가·쉬를 기록하면 가족 모두가 바로 알아요.',
@@ -962,7 +989,7 @@ def story_post(lang, key):
 {cta_band(lang)}
 '''
     ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': s['title'], 'description': s['excerpt'], 'datePublished': date, 'dateModified': modified, 'inLanguage': lang,
-          'image': SITE + og.format(lang=lang), 'author': {'@type': 'Organization', 'name': '응가메이트' if lang == 'ko' else 'POOPIEMATE'},
+          'image': SITE + og.format(lang=lang), 'author': author_ld(lang),
           'publisher': org_ld(lang)}
     title = s['title'] + (' | 응가메이트 이야기' if lang == 'ko' else ' | POOPIEMATE')
     write(url(key, lang), page(lang, key, title, s['excerpt'], body, og.format(lang=lang), active='story', og_type='article', ld=[ld]))
@@ -1054,9 +1081,9 @@ def guide_json(slug, lang):
 
 
 GUIDE_COPY = {
-    'ko': {'list': '강아지 가이드', 'toc': '이 글의 순서', 'read': '{n}분 읽기', 'updated': '업데이트', 'related': '같이 보면 좋은 글',
+    'ko': {'by': '글 · Jin', 'list': '강아지 가이드', 'toc': '이 글의 순서', 'read': '{n}분 읽기', 'updated': '업데이트', 'related': '같이 보면 좋은 글',
            'app_h': '응가메이트로 같이 기록해요', 'app_p': '응가·산책을 가족과 한 화면에서 봐요.<br>평소와 달라진 날을 바로 알 수 있어요.', 'app_btn': '무료로 시작하기', 'faq': '자주 묻는 질문', 'warn': '알아 두세요'},
-    'en': {'list': 'Dog guides', 'toc': 'In this guide', 'read': '{n} min read', 'updated': 'Updated', 'related': 'Keep reading',
+    'en': {'by': 'By Jin', 'list': 'Dog guides', 'toc': 'In this guide', 'read': '{n} min read', 'updated': 'Updated', 'related': 'Keep reading',
            'app_h': 'Log it together with POOPIEMATE', 'app_p': 'See potty and walks with your family on one screen.<br>Spot an off day right away.', 'app_btn': 'Start free', 'faq': 'Frequently asked questions', 'warn': 'Good to know'},
 }
 WARN_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>'
@@ -1133,7 +1160,7 @@ def guide_article(slug, lang, g):
 <div class="g-hero-grid"><div>
 <h1 class="g-h1">{escape(head)}{f'<span>{escape(sub)}</span>' if sub else ''}</h1>
 <p class="g-lede">{lede}</p>
-<p class="g-meta"><span>{c["read"].format(n=minutes)}</span><span><time datetime="{guide_date(slug)}">{guide_date(slug).replace("-", ".")}</time></span></p>
+<p class="g-meta"><span>{c["by"]}</span><span>{c["read"].format(n=minutes)}</span><span><time datetime="{guide_date(slug)}">{guide_date(slug).replace("-", ".")}</time></span></p>
 </div><div class="g-art"><img class="g-pose" src="/assets/img/mascot/{POSE_WEB[pose]}.webp" alt="" width="{pw}" height="{ph}"></div></div>
 </div></section>
 <div class="wrap-g g-body">
@@ -1156,8 +1183,14 @@ def guides():
                 continue
             g = guide_json(slug, lang)
             path = f'/{slug}/' if lang == 'ko' else f'/en/{slug}/'
+            h1 = _text(re.search(r'<h1[^>]*>(.*?)</h1>', g['main'], re.S).group(1))
+            # 글 정보 — 누가(Jin)·언제 썼고 언제 고쳤는지. 공유 이미지(OG)는 page()가 정하는 주소와 같다
+            article = {'@context': 'https://schema.org', '@type': 'Article', 'headline': h1, 'description': g['description'], 'inLanguage': lang,
+                       'datePublished': guide_date(slug), 'dateModified': guide_modified(slug, lang),
+                       'mainEntityOfPage': f'{SITE}{path}', 'image': f'{SITE}/assets/og/p/{path.strip("/").replace("/", "-")}.jpg',
+                       'author': author_ld(lang), 'publisher': org_ld(lang)}
             write(path, page(lang, None, g['title'], g['description'], guide_article(slug, lang, g), None, ko_path=f'/{slug}/', en_path=f'/en/{slug}/' if has_en else None,
-                             active='guide', og_type='article', ld=g['ld'], keywords=g['keywords'],
+                             active='guide', og_type='article', ld=[*g['ld'], article], keywords=g['keywords'],
                              extra_head=f'<link rel="stylesheet" href="/assets/css/tools.css?v={ASSET_V}">\n'))
 
 
@@ -1424,20 +1457,73 @@ def rss(lang):
     (ROOT / feed.lstrip('/')).write_text(xml, encoding='utf-8')
 
 
+# ═════════════════════════════════════════════════════════ AI용 안내서 (llms.txt · llms-full.txt)
+LLMS_NOTE = {
+    'ko': '글쓴이: Jin (응가메이트를 만든 개발자, 진도믹스 보호자). 모든 가이드는 일반 정보이며 수의사 진단을 대신하지 않아요.',
+    'en': 'Written by Jin (developer of POOPIEMATE, Jindo-mix owner). Every guide is general information and does not replace a vet visit.',
+}
+
+
+def guide_entries(lang):
+    """가이드 목록(최신순) — 제목·주소·설명·올린 날·고친 날"""
+    out = []
+    for slug, _cat in sorted(GUIDE_CARDS.items(), key=lambda kv: guide_date(kv[0]), reverse=True):
+        g = guide_json(slug, lang)
+        if not g:
+            continue
+        h1 = _text(re.search(r'<h1[^>]*>(.*?)</h1>', g['main'], re.S).group(1))
+        out.append({'slug': slug, 'g': g, 'h1': h1, 'url': f'{SITE}{"" if lang == "ko" else "/en"}/{slug}/',
+                    'published': guide_date(slug), 'modified': guide_modified(slug, lang)})
+    return out
+
+
+def llms():
+    """llms.txt의 가이드 칸을 지금 있는 글로 채우고, 가이드 전문을 llms-full.txt로 낸다 — AI가 글 하나하나를 출처로 집게"""
+    path = ROOT / 'llms.txt'
+    s = path.read_text(encoding='utf-8')
+    full = ['# 응가메이트 (POOPIEMATE) — 강아지 가이드 전문 / Dog guides, full text', '', f'> {LLMS_NOTE["ko"]}', f'> {LLMS_NOTE["en"]}', '']
+    for lang in ('ko', 'en'):
+        items = guide_entries(lang)
+        lines = [LLMS_NOTE[lang], ''] + [f'- [{e["h1"]}]({e["url"]}): {e["g"]["description"]} ({e["modified"]})' for e in items]
+        lines += ['', ('가이드 전문: ' if lang == 'ko' else 'Full text of every guide: ') + f'{SITE}/llms-full.txt']
+        s = re.sub(rf'<!-- guides:{lang} -->.*?<!-- /guides:{lang} -->', lambda _m: f'<!-- guides:{lang} -->\n' + '\n'.join(lines) + f'\n<!-- /guides:{lang} -->', s, flags=re.S)
+        full += ['', '## ' + ('한국어 가이드' if lang == 'ko' else 'English guides'), '']
+        for e in items:
+            body = re.sub(r'<p class="related">.*?</p>', '', e['g']['main'], flags=re.S)
+            body = re.sub(r'<div class="card">.*?</div>|<a class="cta"[^>]*>.*?</a>', '', body, flags=re.S)
+            body = re.sub(r'<h1[^>]*>.*?</h1>', '', body, count=1, flags=re.S)
+            body = re.sub(r'<h2[^>]*>(.*?)</h2>', lambda m: '\n#### ' + _text(m.group(1)) + '\n', body, flags=re.S)
+            body = re.sub(r'<summary>(.*?)</summary>', lambda m: '\nQ. ' + _text(m.group(1)) + '\n', body, flags=re.S)
+            body = re.sub(r'</(td|th)>', ' | ', body)
+            body = re.sub(r'<(li)[^>]*>', '- ', body)
+            body = re.sub(r'</(p|tr|li|div|table|ul|ol|details)>|<br\s*/?>', '\n', body)
+            text = '\n'.join(l.strip() for l in html_mod.unescape(re.sub(r'<[^>]+>', '', body)).splitlines())
+            text = re.sub(r'\n{3,}', '\n\n', text).strip()
+            full += [f'### {e["h1"]}', '', f'URL: {e["url"]}', f'{"올린 날" if lang == "ko" else "Published"}: {e["published"]} · {"고친 날" if lang == "ko" else "Updated"}: {e["modified"]} · {"글쓴이" if lang == "ko" else "Author"}: Jin', '', text, '']
+    path.write_text(s, encoding='utf-8')
+    (ROOT / 'llms-full.txt').write_text('\n'.join(full).rstrip() + '\n', encoding='utf-8')
+
+
+def page_modified(loc):
+    """만들어 낸 페이지가 마지막으로 바뀐 날 — 그 HTML 파일의 git 기록(이번 빌드로 바뀌었으면 오늘)"""
+    return git_date(ROOT / loc.strip('/') / 'index.html' if loc != '/' else ROOT / 'index.html')
+
+
 def sitemap():
+    """lastmod는 페이지마다 실제로 바뀐 날 — 전부 같은 날로 두면 검색엔진이 「최근에 고친 글」을 가려내지 못한다"""
     rows = []
     for key, (ko, en) in PATHS.items():
         pr = '1.0' if key == 'home' else '0.8'
         for loc in (ko, en):
-            rows.append(f'''  <url><loc>{SITE}{loc}</loc><lastmod>{UPDATED}</lastmod><priority>{pr}</priority>
+            rows.append(f'''  <url><loc>{SITE}{loc}</loc><lastmod>{page_modified(loc)}</lastmod><priority>{pr}</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="{SITE}{ko}"/><xhtml:link rel="alternate" hreflang="en" href="{SITE}{en}"/><xhtml:link rel="alternate" hreflang="x-default" href="{SITE}{ko}"/></url>''')
     for f in sorted((SRC / 'legacy/guides').glob('*.json')):
         ko, en = f'/{f.stem}/', f'/en/{f.stem}/'
         if guide_json(f.stem, 'en') is None:
-            rows.append(f'  <url><loc>{SITE}{ko}</loc><lastmod>{UPDATED}</lastmod><priority>0.6</priority></url>')
+            rows.append(f'  <url><loc>{SITE}{ko}</loc><lastmod>{guide_modified(f.stem, "ko")}</lastmod><priority>0.6</priority></url>')
             continue
-        for loc in (ko, en):
-            rows.append(f'''  <url><loc>{SITE}{loc}</loc><lastmod>{UPDATED}</lastmod><priority>0.6</priority>
+        for loc, lang in ((ko, 'ko'), (en, 'en')):
+            rows.append(f'''  <url><loc>{SITE}{loc}</loc><lastmod>{guide_modified(f.stem, lang)}</lastmod><priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="{SITE}{ko}"/><xhtml:link rel="alternate" hreflang="en" href="{SITE}{en}"/><xhtml:link rel="alternate" hreflang="x-default" href="{SITE}{ko}"/></url>''')
     (ROOT / 'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
                                       + '\n'.join(rows) + '\n</urlset>\n', encoding='utf-8')
@@ -1451,7 +1537,7 @@ if __name__ == '__main__':
     guides()
     write('/poop-condition-guide/', tools.poop_tool(page, faq_block, faq_ld, cta_band, ASSET_V))
     write('/walk-safety-index/', tools.walk_tool(page, faq_block, faq_ld, cta_band, ASSET_V))
-    guide_list('ko'); guide_list('en'); interview('ko'); interview('en'); download(); moved(); not_found(); sitemap(); rss('ko'); rss('en')
+    guide_list('ko'); guide_list('en'); interview('ko'); interview('en'); download(); moved(); not_found(); sitemap(); rss('ko'); rss('en'); llms()
     (ROOT / '.cache/og').mkdir(parents=True, exist_ok=True)
     (ROOT / '.cache/og/pages.json').write_text(json.dumps(OG_PAGES, ensure_ascii=False, indent=1), encoding='utf-8')
     print('built', len(OG_PAGES), 'og pages')
