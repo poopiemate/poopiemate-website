@@ -539,6 +539,16 @@ posthog.init('phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7',{api_host:'https
     }
 
     const form = document.getElementById("interview-form");
+    // 「기타」를 고르면 어디서 알게 됐는지 적어야 넘어간다
+    const acquisitionOther = form.querySelector('input[name="acquisition_other"]');
+    function checkAcquisitionOther() {
+      const picked = form.querySelector('input[name="acquisition"]:checked');
+      const needsText = !!picked && picked.value === "other";
+      acquisitionOther.required = needsText;
+      acquisitionOther.setCustomValidity(needsText && !acquisitionOther.value.trim() ? "You picked Other — please tell us where you heard about us." : "");
+    }
+    form.querySelectorAll('input[name="acquisition"]').forEach((r) => r.addEventListener("change", checkAcquisitionOther));
+    acquisitionOther.addEventListener("input", checkAcquisitionOther);
     // 자유 의견은 50자 이상 (공백은 한 칸으로 줄여서 센다) — "감사합니다" 한 줄로 넘어가지 않게
     const MIN_FEEDBACK = 50;
     const feedbackEl = document.getElementById("feedback");
@@ -559,6 +569,7 @@ posthog.init('phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7',{api_host:'https
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       checkFeedback();
+      checkAcquisitionOther();
       if (!form.reportValidity()) return;
       const d = collectData(form);
       if (d.features.length === 0 || d.reasons.length === 0) { statusMsg.textContent = "Please pick at least one answer for questions 1 and 2."; statusMsg.classList.add("error"); return; }
