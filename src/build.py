@@ -1004,12 +1004,12 @@ NOTICE = {
                     '<ul><li>자주 쓰는 기능은 무엇인지</li><li>왜 쓰시는지</li><li>있으면 좋겠는 기능은 무엇인지</li></ul>',
                     '객관식이라 3분이면 끝나요.', '답해 주신 분께는 투썸플레이스 아메리카노 기프티콘을 1~2일 안에 보내드려요.'],
            'apply': '3분 설문 답하기'},
-    'en': {'title': 'A coffee for 3 minutes of your time', 'date': 'Oct 5, 2026', 'by': 'POOPIEMATE team', 'sub': 'Tell us how you use POOPIEMATE in a 3-minute multiple-choice survey and the coffee is on us.',
+    'en': {'title': 'A Starbucks coffee for 3 minutes of your time', 'date': 'Oct 5, 2026', 'by': 'POOPIEMATE team', 'sub': 'Tell us how you use POOPIEMATE in a 3-minute multiple-choice survey and a Starbucks coffee is on us.',
            'body': ['Hi from the POOPIEMATE team.<br>Thank you for logging your dog’s poops, pees and walks every day.',
                     'We want to make POOPIEMATE easier to use, so we’d love to know how you use it.',
                     '<ul><li>Which features you use</li><li>Why you use it</li><li>What you’d like us to add</li></ul>',
                     'It’s multiple choice and takes about 3 minutes.',
-                    'Everyone who answers gets a coffee e-gift card within a day or two.'],
+                    'Everyone who answers gets a Starbucks e-gift card within a day or two.'],
            'apply': 'Take the 3-minute survey'},
 }
 
@@ -1310,7 +1310,7 @@ def interview(lang):
     s = s.replace('  <link rel="apple-touch-icon" href="https://poopiemate.com/assets/favicon.png">\n', '')
     path = '/interview/' if ko else '/en/interview/'
     og = ('응가메이트', '응가메이트 3분 설문', '어떻게 쓰고 계신지 객관식 3분이면 돼요. 답하면 투썸플레이스 아메리카노를 드려요.') if ko else \
-         ('POOPIEMATE', 'POOPIEMATE 3-minute survey', 'Tell us how you use POOPIEMATE in a 3-minute multiple-choice survey and the coffee is on us.')
+         ('POOPIEMATE', 'POOPIEMATE 3-minute survey', 'Tell us how you use POOPIEMATE in a 3-minute multiple-choice survey and a Starbucks coffee is on us.')
     head_add = (PRETENDARD + '\n<link rel="stylesheet" href="/assets/css/site.css?v=' + ASSET_V + '">\n'
                 '<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">\n'
                 f'<meta property="og:type" content="website">\n<meta property="og:site_name" content="{og[0]}">\n<meta property="og:title" content="{og[1]}">\n'
