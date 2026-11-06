@@ -1299,7 +1299,9 @@ def guide_feed(lang, order):
         g = guide_json(item['slug'], lang)
         doc = guide_doc.guide_blocks(g['main'], item['slug'])
         APP_GUIDE_ROWS[(item['slug'], lang)] = {
-            'slug': item['slug'], 'lang': lang, 'cat': item['cat'], 'title': item['title'], 'summary': item['description'], 'image': item['image'],
+            'slug': item['slug'], 'lang': lang, 'cat': item['cat'], 'title': guide_doc._plain(item['title']), 'summary': guide_doc._plain(item['description']), 'image': item['image'],
+            # 목록 카드·상세 위 썸네일 — 홈페이지 가이드 카드와 같은 공유 이미지(언어마다 제목이 다르다)
+            'thumbnail': f"{SITE}/assets/og/p/{item['slug'] if lang == 'ko' else 'en-' + item['slug']}.jpg",
             'published_on': item['date'], 'minutes': max(2, round(len(_text(g['main'])) / (500 if lang == 'ko' else 1100))),
             'lede': doc['lede'], 'blocks': doc['blocks'], 'faqs': doc['faqs'], 'related': doc['related']}
     out = ROOT / 'output'

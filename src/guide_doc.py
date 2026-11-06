@@ -6,6 +6,7 @@
 """
 import html
 import re
+import unicodedata
 from html.parser import HTMLParser
 
 
@@ -49,11 +50,16 @@ def _parse(fragment):
     return t.root
 
 
+def _plain(text):
+    """장음 부호(ō·ū·ā)를 뺀다 — 앱 글꼴에 없는 글자라 다른 글꼴로 그려져 튀니까"""
+    return unicodedata.normalize('NFC', ''.join(c for c in unicodedata.normalize('NFD', text) if c != '\u0304'))
+
+
 def _inline(node, bold=False, href=None, out=None):
     out = [] if out is None else out
     for c in node.children:
         if isinstance(c, str):
-            text = re.sub(r'\s+', ' ', c)
+            text = _plain(re.sub(r'\s+', ' ', c))
             if not text:
                 continue
             span = {'text': text}
@@ -171,7 +177,7 @@ def _q(v):
     return "'" + str(v).replace("'", "''") + "'"
 
 
-GUIDE_COLUMNS = ('slug', 'lang', 'cat', 'title', 'summary', 'image', 'published_on', 'minutes', 'lede', 'blocks', 'faqs', 'related')
+GUIDE_COLUMNS = ('slug', 'lang', 'cat', 'title', 'summary', 'image', 'thumbnail', 'published_on', 'minutes', 'lede', 'blocks', 'faqs', 'related')
 JSON_COLUMNS = {'lede', 'blocks', 'faqs', 'related'}
 
 

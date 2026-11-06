@@ -79,7 +79,7 @@ def test_every_real_guide_converts():
 
 def test_upsert_sql_quotes_and_prunes():
     from guide_doc import guides_upsert_sql
-    rows = [{'slug': 'a', 'lang': 'ko', 'cat': 'poop', 'title': "강아지's 똥", 'summary': '요약', 'image': 'x.webp', 'published_on': '2026-10-30',
+    rows = [{'slug': 'a', 'lang': 'ko', 'cat': 'poop', 'title': "강아지's 똥", 'summary': '요약', 'image': 'x.webp', 'thumbnail': 't.jpg', 'published_on': '2026-10-30',
              'minutes': 3, 'lede': [{'text': "it's"}], 'blocks': [], 'faqs': [], 'related': []}]
     sql = guides_upsert_sql(rows)
     assert "insert into public.guides" in sql
@@ -88,3 +88,10 @@ def test_upsert_sql_quotes_and_prunes():
     assert 'on conflict (slug, lang) do update set' in sql
     assert "delete from public.guides where (slug, lang) not in (('a', 'ko'))" in sql
     assert sql.startswith('begin;') and sql.rstrip().endswith('commit;')
+
+
+def test_macrons_become_plain_letters_for_the_app_font():
+    # 앱 글꼴에 ō·ū 같은 장음 글자가 없어 다른 글꼴로 대신 그려져 튄다 — 앱 글에는 장음 부호를 뺀다(dōkō → doko)
+    assert spans_of('"<b>dōkō hinan</b>" and dōhan') == [{'text': '"'}, {'text': 'doko hinan', 'bold': True}, {'text': '" and dohan'}]
+    d = guide_blocks('<h1>Dōkō</h1><p class="lede">x</p><h2>Rūru</h2>', 's')
+    assert d['title'] == 'Doko' and d['blocks'][0]['text'] == 'Ruru'
