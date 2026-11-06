@@ -1303,7 +1303,9 @@ def guide_feed(lang, order):
             # 목록 카드·상세 위 썸네일 — 홈페이지 가이드 카드와 같은 공유 이미지(언어마다 제목이 다르다)
             'thumbnail': f"{SITE}/assets/og/p/{item['slug'] if lang == 'ko' else 'en-' + item['slug']}.jpg",
             'published_on': item['date'], 'minutes': max(2, round(len(_text(g['main'])) / (500 if lang == 'ko' else 1100))),
-            'lede': doc['lede'], 'blocks': doc['blocks'], 'faqs': doc['faqs'], 'related': doc['related']}
+            'lede': doc['lede'], 'blocks': doc['blocks'], 'faqs': doc['faqs'],
+            # 같이 보면 좋은 글 — 앱도 썸네일 카드로 보여 준다(홈페이지 관련 글 카드와 같은 이미지)
+            'related': [{**r, 'thumbnail': f"{SITE}/assets/og/p/{r['slug'] if lang == 'ko' else 'en-' + r['slug']}.jpg"} for r in doc['related']]}
     out = ROOT / 'output'
     out.mkdir(exist_ok=True)
     (out / 'guides_upsert.sql').write_text(guide_doc.guides_upsert_sql(list(APP_GUIDE_ROWS.values())), encoding='utf-8')
