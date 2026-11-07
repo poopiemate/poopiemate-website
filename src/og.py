@@ -103,11 +103,17 @@ def head_size(head):
     return 84 if n <= 9 else 74 if n <= 14 else 64 if n <= 22 else 54 if n <= 40 else 46
 
 
-def app_head(head):
-    """앱 썸네일 제목 — 짧게: 「질문<br>제목」(도구 페이지)은 제목만, 「: 」 뒤(나라 목록 같은 덧붙임)는 뺀다"""
+def app_copy(p):
+    """앱 썸네일 글 — (큰 제목, 부제). 「질문<br>제목」(도구)은 제목이 크게·질문이 부제,
+    「…: 덧붙임」으로 잘린 제목은 덧붙임을 부제 앞으로 옮긴다"""
+    head, sub = p['head'], p['sub'] or ''
     if '<br>' in head:
-        return head.split('<br>')[-1]
-    return head.split(': ')[0] if ': ' in head else head
+        q, title = head.split('<br>', 1)
+        return title, q
+    if ': ' in head:
+        head, rest = head.split(': ', 1)
+        sub = f'{rest}, {sub}' if sub else rest
+    return head, sub
 
 
 def _em(text):
@@ -121,7 +127,7 @@ def app_head_size(head, width=590):
     if len(lines) > 1:
         return min(84, int(width / max(_em(x) for x in lines)))
     n = len(head)
-    size = 100 if n <= 9 else 92 if n <= 14 else 80 if n <= 22 else 70 if n <= 40 else 60
+    size = 112 if n <= 9 else 100 if n <= 14 else 88 if n <= 22 else 76 if n <= 40 else 66
     return min(size, int(width / max(_em(w) for w in head.split())))
 
 
@@ -138,10 +144,10 @@ def page_html(p, slug='', app=False):
     dark = bg in ('#18955A',)
     fg = '#FFFFFF' if dark else '#191F28'
     mark = f'{a}/brand/wordmark-{p["lang"]}-{"white" if dark else "green"}.svg'
-    sub = f'<p class="sub">{p["sub"]}</p>' if p['sub'] and not app else ''
-    # 앱 썸네일(가이드 카드·상세 위) — 작은 화면이라 로고·칩·부제 없이 큰 제목과 장면만
-    head = app_head(p['head']) if app else p['head']
-    size = app_head_size(head) if app else head_size(p['head'])
+    # 앱 썸네일(가이드 카드·상세 위) — 작은 화면이라 로고·칩 없이 위쪽에 큰 제목 + 부제 두 줄, 오른쪽 장면
+    head, app_sub = app_copy(p) if app else (p['head'], p['sub'])
+    sub = f'<p class="sub">{app_sub}</p>' if app_sub else ''
+    size = app_head_size(head, 620) if app else head_size(p['head'])
     return f'''<!doctype html><html lang="{p['lang']}"><head><meta charset="utf-8"><style>
 @font-face{{font-family:N;src:url("file://{a}/fonts/NanumSquareNeo-dEb.woff2");font-weight:800}}
 @font-face{{font-family:N;src:url("file://{a}/fonts/NanumSquareNeo-cBd.woff2");font-weight:700}}
@@ -149,12 +155,12 @@ html,body{{margin:0}}
 .c{{position:relative;width:1200px;height:630px;overflow:hidden;background:{bg};font-family:N,sans-serif;color:{fg};word-break:keep-all}}
 .glow{{position:absolute;left:560px;top:-200px;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,{.14 if dark else .6}),rgba(255,255,255,0) 62%)}}
 .ground{{position:absolute;left:560px;right:-60px;bottom:-150px;height:260px;border-radius:50%;background:{ground};opacity:{.55 if dark else .5}}}
-.t{{position:absolute;left:76px;top:70px;bottom:70px;width:{600 if app else 580 if p['sub'] or len(p['head']) > 9 else 560}px;display:flex;flex-direction:column;z-index:10}}
+.t{{position:absolute;left:{64 if app else 76}px;top:{58 if app else 70}px;bottom:{50 if app else 70}px;width:{620 if app else 580 if p['sub'] or len(p['head']) > 9 else 560}px;display:flex;flex-direction:column;z-index:10}}
 .mark{{height:{44 if p['lang'] == 'ko' else 32}px;width:auto;align-self:flex-start}}
-.copy{{margin-top:auto;margin-bottom:auto;padding-top:8px}}
+.copy{{margin-top:{0 if app else 'auto'};margin-bottom:auto;padding-top:{0 if app else 8}px}}
 .chip{{display:inline-block;padding:9px 18px;border-radius:999px;background:{'rgba(255,255,255,.16)' if dark else 'rgba(255,255,255,.88)'};color:{accent if not dark else '#FFFFFF'};font-size:24px;font-weight:800}}
 h1{{text-wrap:balance;margin:{0 if app else 22}px 0 0;font-size:{size}px;line-height:1.24;font-weight:800;letter-spacing:-.035em}}
-.sub{{text-wrap:pretty;margin:20px 0 0;font-size:30px;line-height:1.4;font-weight:700;color:{'rgba(255,255,255,.86)' if dark else '#4E5968'};letter-spacing:-.02em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
+.sub{{text-wrap:pretty;margin:{24 if app else 20}px 0 0;font-size:{40 if app else 30}px;line-height:1.4;font-weight:700;color:{'rgba(255,255,255,.86)' if dark else '#4E5968'};letter-spacing:-.02em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
 .it{{position:absolute;width:auto}}
 .sh{{filter:drop-shadow(0 18px 26px rgba(6,40,24,{.3 if dark else .14}))}}
 .fl{{filter:drop-shadow(0 10px 14px rgba(25,31,40,.16))}}
