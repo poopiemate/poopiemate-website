@@ -1274,6 +1274,18 @@ def guide_list(lang):
 
 
 APP_GUIDE_ROWS = {}
+# 앱 가이드 썸네일 — 앱용으로 따로 그린 그림(src/og.py app-guides → output/app-guides, 우리 저장소 guide-thumbnails 버킷에 올린다).
+# 주소에 그림 해시를 붙여 그림을 다시 그리면 앱이 새 그림을 받게. 아직 안 그린 글은 홈페이지 공유 이미지
+APP_THUMB_BASE = 'https://mjdgzdurhzickxombuuh.supabase.co/storage/v1/object/public/guide-thumbnails/app-guides'
+
+
+def app_thumb(slug, lang):
+    import hashlib
+    key = slug if lang == 'ko' else f'en-{slug}'
+    f = ROOT / 'output/app-guides' / f'{key}.jpg'
+    if f.exists():
+        return f'{APP_THUMB_BASE}/{key}.jpg?v={hashlib.sha1(f.read_bytes()).hexdigest()[:10]}'
+    return f'{SITE}/assets/og/p/{key}.jpg'
 
 
 def guide_feed(lang, order):
@@ -1301,11 +1313,11 @@ def guide_feed(lang, order):
         APP_GUIDE_ROWS[(item['slug'], lang)] = {
             'slug': item['slug'], 'lang': lang, 'cat': item['cat'], 'title': guide_doc._plain(item['title']), 'summary': guide_doc._plain(item['description']), 'image': item['image'],
             # 목록 카드·상세 위 썸네일 — 홈페이지 가이드 카드와 같은 공유 이미지(언어마다 제목이 다르다)
-            'thumbnail': f"{SITE}/assets/og/p/{item['slug'] if lang == 'ko' else 'en-' + item['slug']}.jpg",
+            'thumbnail': app_thumb(item['slug'], lang),
             'published_on': item['date'], 'minutes': max(2, round(len(_text(g['main'])) / (500 if lang == 'ko' else 1100))),
             'lede': doc['lede'], 'blocks': doc['blocks'], 'faqs': doc['faqs'],
             # 같이 보면 좋은 글 — 앱도 썸네일 카드로 보여 준다(홈페이지 관련 글 카드와 같은 이미지)
-            'related': [{**r, 'thumbnail': f"{SITE}/assets/og/p/{r['slug'] if lang == 'ko' else 'en-' + r['slug']}.jpg"} for r in doc['related']]}
+            'related': [{**r, 'thumbnail': app_thumb(r['slug'], lang)} for r in doc['related']]}
     out = ROOT / 'output'
     out.mkdir(exist_ok=True)
     (out / 'guides_upsert.sql').write_text(guide_doc.guides_upsert_sql(list(APP_GUIDE_ROWS.values())), encoding='utf-8')

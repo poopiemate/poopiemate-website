@@ -103,7 +103,29 @@ def head_size(head):
     return 84 if n <= 9 else 74 if n <= 14 else 64 if n <= 22 else 54 if n <= 40 else 46
 
 
-def page_html(p, slug=''):
+def app_head(head):
+    """앱 썸네일 제목 — 짧게: 「질문<br>제목」(도구 페이지)은 제목만, 「: 」 뒤(나라 목록 같은 덧붙임)는 뺀다"""
+    if '<br>' in head:
+        return head.split('<br>')[-1]
+    return head.split(': ')[0] if ': ' in head else head
+
+
+def _em(text):
+    """글자 폭 어림(em) — 한글 0.93, 라틴 0.56, 빈칸·문장부호 0.3"""
+    return sum(0.93 if ord(c) > 0x1100 else 0.3 if c in ' ,.?!·:' else 0.56 for c in text)
+
+
+def app_head_size(head, width=590):
+    """앱 썸네일 제목 크기 — 줄을 나눠 둔 제목은 줄마다 한 줄에 들어가게, 띄어쓰기 없는 덩어리(화식·생식·사료)는 쪼개지지 않게"""
+    lines = head.split('<br>')
+    if len(lines) > 1:
+        return min(84, int(width / max(_em(x) for x in lines)))
+    n = len(head)
+    size = 100 if n <= 9 else 92 if n <= 14 else 80 if n <= 22 else 70 if n <= 40 else 60
+    return min(size, int(width / max(_em(w) for w in head.split())))
+
+
+def page_html(p, slug='', app=False):
     from og_scenes import stage_html
     a = ROOT / 'assets'
     sc = stage_html(slug)
@@ -116,7 +138,10 @@ def page_html(p, slug=''):
     dark = bg in ('#18955A',)
     fg = '#FFFFFF' if dark else '#191F28'
     mark = f'{a}/brand/wordmark-{p["lang"]}-{"white" if dark else "green"}.svg'
-    sub = f'<p class="sub">{p["sub"]}</p>' if p['sub'] else ''
+    sub = f'<p class="sub">{p["sub"]}</p>' if p['sub'] and not app else ''
+    # 앱 썸네일(가이드 카드·상세 위) — 작은 화면이라 로고·칩·부제 없이 큰 제목과 장면만
+    head = app_head(p['head']) if app else p['head']
+    size = app_head_size(head) if app else head_size(p['head'])
     return f'''<!doctype html><html lang="{p['lang']}"><head><meta charset="utf-8"><style>
 @font-face{{font-family:N;src:url("file://{a}/fonts/NanumSquareNeo-dEb.woff2");font-weight:800}}
 @font-face{{font-family:N;src:url("file://{a}/fonts/NanumSquareNeo-cBd.woff2");font-weight:700}}
@@ -124,11 +149,11 @@ html,body{{margin:0}}
 .c{{position:relative;width:1200px;height:630px;overflow:hidden;background:{bg};font-family:N,sans-serif;color:{fg};word-break:keep-all}}
 .glow{{position:absolute;left:560px;top:-200px;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,{.14 if dark else .6}),rgba(255,255,255,0) 62%)}}
 .ground{{position:absolute;left:560px;right:-60px;bottom:-150px;height:260px;border-radius:50%;background:{ground};opacity:{.55 if dark else .5}}}
-.t{{position:absolute;left:76px;top:70px;bottom:70px;width:{580 if p['sub'] or len(p['head']) > 9 else 560}px;display:flex;flex-direction:column;z-index:10}}
+.t{{position:absolute;left:76px;top:70px;bottom:70px;width:{600 if app else 580 if p['sub'] or len(p['head']) > 9 else 560}px;display:flex;flex-direction:column;z-index:10}}
 .mark{{height:{44 if p['lang'] == 'ko' else 32}px;width:auto;align-self:flex-start}}
 .copy{{margin-top:auto;margin-bottom:auto;padding-top:8px}}
 .chip{{display:inline-block;padding:9px 18px;border-radius:999px;background:{'rgba(255,255,255,.16)' if dark else 'rgba(255,255,255,.88)'};color:{accent if not dark else '#FFFFFF'};font-size:24px;font-weight:800}}
-h1{{text-wrap:balance;margin:22px 0 0;font-size:{head_size(p['head'])}px;line-height:1.24;font-weight:800;letter-spacing:-.035em}}
+h1{{text-wrap:balance;margin:{0 if app else 22}px 0 0;font-size:{size}px;line-height:1.24;font-weight:800;letter-spacing:-.035em}}
 .sub{{text-wrap:pretty;margin:20px 0 0;font-size:30px;line-height:1.4;font-weight:700;color:{'rgba(255,255,255,.86)' if dark else '#4E5968'};letter-spacing:-.02em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
 .it{{position:absolute;width:auto}}
 .sh{{filter:drop-shadow(0 18px 26px rgba(6,40,24,{.3 if dark else .14}))}}
@@ -139,7 +164,7 @@ h1{{text-wrap:balance;margin:22px 0 0;font-size:{head_size(p['head'])}px;line-he
 .ph figcaption{{padding:12px 0 14px;text-align:center;font-size:20px;font-weight:800;color:#4E5968}}
 .ph:not(:has(figcaption)){{padding-bottom:12px}}
 </style></head><body><div class="c"><span class="glow"></span><span class="ground"></span>
-<div class="t"><img class="mark" src="file://{mark}"><div class="copy"><span class="chip">{p['chip']}</span><h1>{p['head']}</h1>{sub}</div></div>
+<div class="t">{'' if app else f'<img class="mark" src="file://{mark}">'}<div class="copy">{'' if app else f'<span class="chip">{p["chip"]}</span>'}<h1>{head}</h1>{sub}</div></div>
 {scene}</div></body></html>'''
 
 
@@ -197,9 +222,30 @@ def main():
     page_ogs()
 
 
+def app_guide_thumbs(slugs, out):
+    """앱 가이드 썸네일 — 홈페이지 공유 이미지와 같은 장면, 제목만 크게(로고·칩·부제 없음). out/<slug|en-slug>.jpg"""
+    import json
+    from concurrent.futures import ThreadPoolExecutor
+    specs = json.loads((TMP / 'pages.json').read_text(encoding='utf-8'))
+    out.mkdir(parents=True, exist_ok=True)
+    keys = [k for s in slugs for k in (s, f'en-{s}') if k in specs]
+
+    def one(k):
+        shot(page_html(specs[k], k, app=True), TMP / f'app-{k}.png', 1200, 630).save(out / f'{k}.jpg', quality=84, optimize=True, progressive=True)
+        print('app thumb', k, flush=True)
+    with ThreadPoolExecutor(4) as ex:
+        for f in [ex.submit(one, k) for k in keys]:
+            f.result()
+    return keys
+
+
 if __name__ == '__main__':
     import sys
-    if sys.argv[1:] == ['pages']:  # 페이지별 OG만: python3 src/og.py pages
+    if sys.argv[1:] == ['app-guides']:  # 앱 가이드 썸네일: python3 src/og.py app-guides → output/app-guides/
+        from build import GUIDE_CARDS
+        TMP.mkdir(parents=True, exist_ok=True)
+        app_guide_thumbs(list(GUIDE_CARDS), ROOT / 'output/app-guides')
+    elif sys.argv[1:] == ['pages']:  # 페이지별 OG만: python3 src/og.py pages
         TMP.mkdir(parents=True, exist_ok=True)
         page_ogs()
     else:
