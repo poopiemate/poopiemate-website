@@ -299,7 +299,7 @@ posthog.init('phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7',{api_host:'https
   <main class="iv" id="main">
     <h1>안녕하세요, 응가메이트 만든 이진이에요</h1>
     <p class="lede">
-      하얀 진도믹스를 키우는 보호자예요. 맞벌이라 남편이랑 배변 기록 맞추기 어려워서 취미로 만든 앱인데, 오래 꾸준히 써주셔서 정말 뿌듯해요. 어떻게 쓰고 계신지 <strong>3분 설문</strong>으로 들려주시면 <strong>투썸플레이스 아메리카노</strong> 기프티콘을 보내드릴게요!
+      하얀 진도믹스를 키우는 보호자예요. 맞벌이라 남편이랑 배변 기록 맞추기 어려워서 취미로 만든 앱인데, 오래 꾸준히 써주셔서 정말 뿌듯해요. 어떻게 쓰고 계신지 <strong>3분 설문</strong>으로 들려주시면 <strong>투썸플레이스 아메리카노</strong> 기프티콘을 보내드릴게요!<br><br>사은품은 <strong>7일 이상 기록해 주신 분</strong>께 드려요. 적어 주신 가입 이름과 강아지 이름으로 앱 기록을 확인한 뒤 보내드려요.
     </p>
 
     <form id="interview-form">
@@ -451,8 +451,9 @@ posthog.init('phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7',{api_host:'https
         <h2>기프티콘 받을 연락처</h2>
         <p class="section-sub">기프티콘 발송을 위해 필요해요</p>
         <div class="field">
-          <label class="field-label" for="name">이름 <span class="optional-tag">선택</span></label>
-          <input type="text" id="name" name="name" autocomplete="name" />
+          <label class="field-label" for="name">앱에 가입한 이름 <span class="required-tag">필수</span></label>
+          <input type="text" id="name" name="name" autocomplete="name" maxlength="60" required />
+          <p class="hint" style="margin-top:6px;margin-bottom:0;">앱에서 쓰는 이름 그대로 적어 주세요. 기록 확인에 써요</p>
         </div>
         <div class="field">
           <label class="field-label" for="phone">휴대폰번호 <span class="required-tag">필수</span></label>
@@ -492,7 +493,7 @@ posthog.init('phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7',{api_host:'https
 
     <div class="thanks" id="thanks-view" style="display:none;">
       <h2>감사해요!</h2>
-      <p>답변 잘 받았어요. 1~2일 안에 남겨 주신 번호로 아메리카노를 보내드릴게요.</p>
+      <p>답변 잘 받았어요. 앱 기록을 확인하고 7일 이상 기록해 주셨다면 1~2일 안에 남겨 주신 번호로 아메리카노를 보내드릴게요.</p>
     </div>
   </main>
 
@@ -535,7 +536,7 @@ posthog.init('phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7',{api_host:'https
         `있으면 좋겠는 기능은요?: ${words("wanted", d.wanted)}`,
         `불편했던 점이나 하고 싶은 말: ${d.feedback || "-"}`,
         `보호하는 강아지 이름: ${d.dog_name}`,
-        `이름: ${d.name || "-"}`,
+        `가입 이름: ${d.name || "-"}`,
         `휴대폰번호: ${d.phone}`,
       ].join("\n");
     }

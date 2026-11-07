@@ -298,7 +298,7 @@ posthog.init('phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7',{api_host:'https
   <main class="iv" id="main">
     <h1>Hi, I’m Jin. I make POOPIEMATE</h1>
     <p class="lede">
-      I live with a white Jindo mix. My husband and I both work, and we could never keep track of who took her out, so I built this app as a hobby. Seeing you use it every day means a lot. Tell us how you use it in this <strong>3-minute survey</strong> and we’ll send you a <strong>Starbucks coffee</strong> as a thank-you!
+      I live with a white Jindo mix. My husband and I both work, and we could never keep track of who took her out, so I built this app as a hobby. Seeing you use it every day means a lot. Tell us how you use it in this <strong>3-minute survey</strong> and we’ll send you a <strong>Starbucks coffee</strong> as a thank-you!<br><br>The gift is for people who have <strong>logged on 7 or more days</strong>. We check your logs in the app using the account name and dog name you give us.
     </p>
 
     <form id="interview-form">
@@ -450,8 +450,9 @@ posthog.init('phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7',{api_host:'https
         <h2>Where to send your Starbucks e-gift card</h2>
         <p class="section-sub">We need this to send your thank-you</p>
         <div class="field">
-          <label class="field-label" for="name">Name <span class="optional-tag">Optional</span></label>
-          <input type="text" id="name" name="name" autocomplete="name" />
+          <label class="field-label" for="name">Your name in the app <span class="required-tag">Required</span></label>
+          <input type="text" id="name" name="name" autocomplete="name" maxlength="60" required />
+          <p class="hint" style="margin-top:6px;margin-bottom:0;">Use the name you signed up with. We use it to find your logs</p>
         </div>
         <div class="field">
           <label class="field-label" for="phone">Email or phone <span class="required-tag">Required</span></label>
@@ -491,7 +492,7 @@ posthog.init('phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7',{api_host:'https
 
     <div class="thanks" id="thanks-view" style="display:none;">
       <h2>Thank you!</h2>
-      <p>Got it. Your Starbucks e-gift card is on its way within a day or two.</p>
+      <p>Got it. We’ll check your logs, and if you’ve logged on 7 or more days, your Starbucks e-gift card will arrive within a day or two.</p>
     </div>
   </main>
 
@@ -533,7 +534,7 @@ posthog.init('phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7',{api_host:'https
         `What would you like us to add?: ${words("wanted", d.wanted)}`,
         `Anything that bugs you, or anything else: ${d.feedback || "-"}`,
         `Your dog's name: ${d.dog_name}`,
-        `Name: ${d.name || "-"}`,
+        `Name in the app: ${d.name || "-"}`,
         `Email or phone: ${d.phone}`,
       ].join("\n");
     }
