@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>응가메이트 1분 설문 — 쉬고 계신 이유</title>
+  <meta name="description" content="응가메이트를 쉬고 계신 이유를 1분만 들려주세요.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://poopiemate.com/interview/">
+  <link rel="icon" type="image/png" href="https://poopiemate.com/assets/favicon.png">
+  <link rel="apple-touch-icon" href="https://poopiemate.com/assets/favicon.png">
+  <meta name="theme-color" content="#18955A">
+
+  <style>
+    @font-face { font-family:"NanumSquareNeo"; src:url("../assets/fonts/NanumSquareNeo-bRg.ttf") format("truetype"); font-weight:400 600; font-style:normal; font-display:swap; }
+    @font-face { font-family:"NanumSquareNeo"; src:url("../assets/fonts/NanumSquareNeo-cBd.ttf") format("truetype"); font-weight:700 900; font-style:normal; font-display:swap; }
+
+    :root {
+      --bg: #ebf7f2;
+      --ink: #1d1f1f;
+      --muted: #56655c;
+      --green: #18955a;
+      --green-dark: #0e7041;
+      --green-light: #e5f8f0;
+      --pink: #e88add;
+      --pink-dark: #c865bc;
+      --pink-light: #fdeafa;
+      --line: #d8ebe3;
+      --card: #ffffff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "NanumSquareNeo", -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      line-height: 1.7;
+    }
+
+    a { color: var(--green-dark); }
+
+    header, main, footer {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    header { padding-top: 28px; padding-bottom: 8px; }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      font-weight: 800;
+      color: var(--green-dark);
+      font-size: 18px;
+    }
+
+    .lede {
+      font-size: 16.5px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px 22px;
+      margin: 20px 0 28px;
+    }
+
+    .lede strong { color: var(--ink); }
+
+    h1 {
+      font-size: clamp(24px, 4vw, 30px);
+      font-weight: 900;
+      margin: 18px 0 6px;
+      line-height: 1.35;
+      word-break: keep-all;
+    }
+
+    h2 {
+      font-size: 18px;
+      font-weight: 800;
+      margin: 0 0 4px;
+      color: var(--green-dark);
+    }
+
+    .section-sub { color: var(--muted); font-size: 13.5px; margin: 0 0 16px; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 16px;
+    }
+
+    .required-tag {
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+      background: var(--pink);
+      border-radius: 999px;
+      padding: 2px 9px;
+      letter-spacing: 0.02em;
+      vertical-align: middle;
+    }
+
+    .optional-tag {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--muted);
+      border: 1.5px solid var(--line);
+      border-radius: 999px;
+      padding: 1px 9px;
+      letter-spacing: 0.02em;
+      vertical-align: middle;
+    }
+
+    .field { margin-bottom: 16px; }
+    .field:last-child { margin-bottom: 0; }
+
+    label.field-label {
+      display: block;
+      font-weight: 700;
+      font-size: 14.5px;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .hint { font-size: 13px; color: var(--muted); margin: 0 0 8px; }
+    .hint ul { margin: 4px 0 0; padding-left: 18px; }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="date"],
+    textarea {
+      width: 100%;
+      font: inherit;
+      color: var(--ink);
+      background: #fff;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      transition: border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    textarea { min-height: 74px; resize: vertical; }
+    .char-count { font-size: 13px; color: var(--muted); margin: 6px 0 0; text-align: right; font-variant-numeric: tabular-nums; }
+    .char-count.ok { color: var(--ink); }
+
+    input:focus-visible, textarea:focus-visible {
+      outline: none;
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(24, 149, 90, 0.16);
+    }
+
+    .radio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .radio-chip { position: relative; }
+    .radio-chip input { position: absolute; opacity: 0; inset: 0; cursor: pointer; margin: 0; }
+
+    .radio-chip span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border: 1.5px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 8px;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--muted);
+      transition: all 180ms ease;
+      cursor: pointer;
+    }
+
+    .radio-chip .badge {
+      position: absolute;
+      top: -10px;
+      right: -6px;
+      font-size: 10.5px;
+      font-weight: 800;
+      white-space: nowrap;
+      color: #92400e;
+      background: #fef3c7;
+      border: 1px solid #fde68a;
+      border-radius: 999px;
+      padding: 2px 8px;
+      box-shadow: 0 2px 4px rgba(29, 31, 31, 0.15);
+    }
+
+    .radio-chip input:checked + span { border-color: transparent; background: var(--green); color: #fff; }
+    .radio-chip input:focus-visible + span { outline: 2px solid var(--green); outline-offset: 2px; }
+
+    .consent-box {
+      background: var(--green-light);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      font-size: 13px;
+      color: var(--ink);
+    }
+
+    .consent-box dl { margin: 10px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; }
+    .consent-box dt { font-weight: 700; color: var(--ink); white-space: nowrap; }
+    .consent-box dd { margin: 0; color: var(--muted); }
+
+    .consent-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 14px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .consent-check input {
+      width: 19px; height: 19px; margin-top: 1px;
+      accent-color: var(--green); cursor: pointer; flex: none;
+    }
+
+    .cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      text-align: center;
+      background: var(--green);
+      color: #fff;
+      font: inherit;
+      font-weight: 800;
+      font-size: 16px;
+      padding: 16px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      transition: background 150ms ease, opacity 150ms ease;
+    }
+
+    .cta:hover { background: var(--green-dark); }
+    .cta:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .form-actions { margin: 24px 0; }
+
+    .status-msg { text-align: center; font-size: 13.5px; color: var(--muted); margin-top: 10px; min-height: 18px; }
+    .status-msg.error { color: #c62828; font-weight: 700; }
+
+    .fallback {
+      display: none;
+      margin-top: 14px;
+      background: var(--pink-light);
+      border: 1px solid #f9e0f6;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 13px;
+      color: var(--ink);
+    }
+    .fallback.show { display: block; }
+    .fallback button {
+      margin-top: 8px;
+      font: inherit;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--pink-dark);
+      background: #fff;
+      border: 1.5px solid var(--pink);
+      border-radius: 999px;
+      padding: 6px 14px;
+      cursor: pointer;
+    }
+
+    .thanks { text-align: center; padding: 48px 8px; }
+    .thanks h2 { color: var(--ink); font-size: 22px; margin-bottom: 10px; }
+    .thanks p { color: var(--muted); }
+
+    footer { padding: 24px 24px 48px; color: var(--muted); font-size: 13px; }
+    footer a { color: var(--muted); }
+
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <header><a class="brand" href="https://poopiemate.com/">💩 응가메이트</a></header>
+
+  <main>
+    <h1>안녕하세요, 응가메이트 만든 이진이에요</h1>
+    <p class="lede">
+      그동안 응가메이트로 강아지 기록을 꾸준히 남겨 주셔서 정말 고마웠어요. 요즘은 쉬고 계신 것 같아서, 왜 그만두셨는지 <strong>1분만</strong> 솔직하게 들려주시면 더 나은 앱을 만드는 데 꼭 쓸게요. 답해 주신 분께는 <strong>투썸플레이스 아메리카노</strong> 기프티콘을 보내드려요.
+    </p>
+
+    <form id="churn-form">
+      <section class="card">
+        <h2>응가메이트를 쉬게 된 이유는요? <span class="required-tag">필수</span></h2>
+        <p class="section-sub">여러 개 골라도 돼요</p>
+        <div class="field" style="margin-top:12px;">
+            <div class="radio-grid">
+            <label class="radio-chip"><input type="checkbox" name="churn" value="forgot" /><span>기록하는 걸 자꾸 깜빡해서</span></label>
+            <label class="radio-chip"><input type="checkbox" name="churn" value="tedious" /><span>매번 기록하기 번거로워서</span></label>
+            <label class="radio-chip"><input type="checkbox" name="churn" value="family_stopped" /><span>가족이 같이 안 써서</span></label>
+            <label class="radio-chip"><input type="checkbox" name="churn" value="no_need" /><span>계속 기록할 필요를 못 느껴서</span></label>
+            <label class="radio-chip"><input type="checkbox" name="churn" value="too_many_alerts" /><span>알림이 많거나 귀찮아서</span></label>
+            <label class="radio-chip"><input type="checkbox" name="churn" value="other_tool" /><span>다른 앱·메모·단톡방으로 바꿔서</span></label>
+            <label class="radio-chip"><input type="checkbox" name="churn" value="bug" /><span>오류나 불편한 점이 있어서</span></label>
+            <label class="radio-chip"><input type="checkbox" name="churn" value="dog_changed" /><span>강아지 상황이 바뀌어서</span></label>
+            </div>
+            <input type="text" name="churn_other" placeholder="기타: 직접 적어주세요" style="margin-top:10px;" />
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>쉬게 된 이유를 조금만 더 들려주세요 <span class="required-tag">필수</span></h2>
+        <p class="section-sub">20자 이상 적어 주세요. 언제, 어떤 순간에 손이 안 가게 됐는지 알려 주시면 큰 도움이 돼요</p>
+        <div class="field" style="margin-top:12px;">
+            <textarea id="churn_detail" name="churn_detail" placeholder="예: 처음엔 남편이랑 같이 썼는데, 남편이 기록을 안 하니까 저도 점점 안 하게 됐어요" required></textarea>
+            <p class="char-count" id="detail-count" aria-live="polite">0 / 20자</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>요즘은 강아지 기록을 어떻게 하세요? <span class="required-tag">필수</span></h2>
+        <div class="field" style="margin-top:12px;">
+            <div class="radio-grid">
+            <label class="radio-chip"><input type="radio" name="now" value="nothing" required /><span>따로 기록 안 해요</span></label>
+            <label class="radio-chip"><input type="radio" name="now" value="memo" /><span>휴대폰 메모·달력</span></label>
+            <label class="radio-chip"><input type="radio" name="now" value="chat" /><span>가족 단톡방</span></label>
+            <label class="radio-chip"><input type="radio" name="now" value="other_app" /><span>다른 앱</span></label>
+            <label class="radio-chip"><input type="radio" name="now" value="paper" /><span>종이·화이트보드</span></label>
+            </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>어떻게 바뀌면 다시 써 볼 것 같으세요? <span class="optional-tag">선택</span></h2>
+        <p class="section-sub">불편했던 점, 아쉬웠던 점 뭐든 좋아요</p>
+        <div class="field" style="margin-top:12px;">
+            <textarea id="feedback" name="feedback" placeholder="예: 산책 다녀와서 기록하는 걸 자꾸 잊어버려요. 알림이 산책 끝날 때쯤 오면 좋겠어요"></textarea>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>보호하는 강아지 이름 <span class="required-tag">필수</span></h2>
+        <p class="section-sub">앱에 등록한 이름으로 적어 주세요. 여러 마리면 쉼표로 나눠 주세요</p>
+        <div class="field" style="margin-top:12px;">
+            <input type="text" id="dog_name" name="dog_name" placeholder="예: 메로나" maxlength="60" required />
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>기프티콘 받을 연락처</h2>
+        <p class="section-sub">기프티콘 발송을 위해 필요해요</p>
+        <div class="field">
+          <label class="field-label" for="name">앱에 가입한 이름 <span class="required-tag">필수</span></label>
+          <input type="text" id="name" name="name" autocomplete="name" maxlength="60" required />
+          <p class="hint" style="margin-top:6px;margin-bottom:0;">앱에서 쓰는 이름 그대로 적어 주세요. 계정 확인에 써요</p>
+        </div>
+        <div class="field">
+          <label class="field-label" for="phone">휴대폰번호 <span class="required-tag">필수</span></label>
+          <input type="text" id="phone" name="phone" placeholder="010-0000-0000" autocomplete="tel" pattern="01[0-9]-?[0-9]{3,4}-?[0-9]{4}" title="010-0000-0000 형식으로 입력해주세요" required />
+          <p class="hint" style="margin-top:6px;margin-bottom:0;color:var(--pink-dark);font-weight:700;">
+            투썸플레이스 아메리카노를 카카오톡 선물하기로 보내드리려면 정확한 번호가 꼭 필요해요!
+          </p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>개인정보 수집·이용 동의</h2>
+        <div class="consent-box">
+          <dl>
+            <dt>수집 항목</dt><dd>이름, 휴대폰번호, 강아지 이름, 설문 답변</dd>
+            <dt>수집 목적</dt><dd>설문 참여자 확인 및 사은품(기프티콘) 발송</dd>
+            <dt>보유 기간</dt><dd>사은품 발송 완료 후 즉시 파기</dd>
+          </dl>
+          <p style="margin:12px 0 0;color:var(--muted);">동의를 거부하실 수 있으며, 거부 시 사은품 발송이 어려울 수 있어요.</p>
+          <label class="consent-check">
+            <input type="checkbox" id="consent" name="consent" required />
+            위 내용에 동의합니다. <span class="required-tag" style="margin-left:2px;">필수</span>
+          </label>
+        </div>
+      </section>
+
+      <div class="form-actions">
+        <button type="submit" class="cta" id="submit-btn">제출하기</button>
+        <p class="status-msg" id="status-msg"></p>
+        <div class="fallback" id="fallback-box">
+          제출이 잘 안 되면, 이 내용을 복사해서 <a href="mailto:jin@pixelberry.io">jin@pixelberry.io</a>으로 보내주세요.
+          <br />
+          <button type="button" id="copy-btn">답변 복사하기</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="thanks" id="thanks-view" style="display:none;">
+      <h2>감사해요!</h2>
+      <p>솔직하게 들려주셔서 고마워요. 1~2일 안에 남겨 주신 번호로 아메리카노를 보내드릴게요.</p>
+    </div>
+  </main>
+
+  <textarea id="clipboard-source" style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true" tabindex="-1"></textarea>
+
+  <footer>
+    <p>응답 내용은 설문 분석과 사은품 발송 목적으로만 사용돼요.</p>
+    <p><a href="https://poopiemate.com/">응가메이트 홈</a> · 운영: 픽셀베리 · jin@pixelberry.io</p>
+  </footer>
+
+  <script>
+    const SUPABASE_URL = "https://mjdgzdurhzickxombuuh.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_hZrUCKMRpkABGiZD6LiZrA_rWXZpcRR";
+    const LABELS = {};
+    document.querySelectorAll('.radio-chip input').forEach((i) => { (LABELS[i.name] ??= {})[i.value] = i.nextElementSibling.textContent; });
+    const SRC = new URLSearchParams(location.search).get('src') || 'churn';
+
+    function collectData(form) {
+      const fd = new FormData(form);
+      const get = (k) => (fd.get(k) || "").toString().trim();
+      const all = (k) => fd.getAll(k).map(String);
+      const other = get("churn_other");
+      return {
+        churn: other ? [...all("churn"), "other: " + other] : all("churn"),
+        detail: get("churn_detail"), now: get("now"), feedback: get("feedback"), dog_name: get("dog_name"), name: get("name"), phone: get("phone"),
+      };
+    }
+
+    function words(k, vals) { return vals.map((v) => (LABELS[k] && LABELS[k][v]) || v).join(", ") || "-"; }
+    function buildSummary(d) {
+      return [
+        `쉬게 된 이유: ${words("churn", d.churn)}`,
+        `쉬게 된 이유 자세히: ${d.detail || "-"}`,
+        `요즘 기록 방법: ${words("now", [d.now])}`,
+        `다시 써 볼 것 같은 변화: ${d.feedback || "-"}`,
+        `보호하는 강아지 이름: ${d.dog_name}`,
+        `가입 이름: ${d.name || "-"}`,
+        `휴대폰번호: ${d.phone}`,
+      ].join("\n");
+    }
+
+    const form = document.getElementById("churn-form");
+    // 자세한 이유는 20자 이상 (공백은 한 칸으로 줄여서 센다)
+    const MIN_DETAIL = 20;
+    const detailEl = document.getElementById("churn_detail");
+    const detailCount = document.getElementById("detail-count");
+    function checkDetail() {
+      const n = detailEl.value.replace(/\s+/g, " ").trim().length;
+      detailCount.textContent = `${n} / ${MIN_DETAIL}자`;
+      detailCount.classList.toggle("ok", n >= MIN_DETAIL);
+      detailEl.setCustomValidity(n >= MIN_DETAIL ? "" : `20자 이상 적어 주세요. 지금 ${n}자예요.`);
+    }
+    detailEl.addEventListener("input", checkDetail);
+    checkDetail();
+    const statusMsg = document.getElementById("status-msg");
+    const submitBtn = document.getElementById("submit-btn");
+    const fallbackBox = document.getElementById("fallback-box");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      checkDetail();
+      if (!form.reportValidity()) return;
+      const d = collectData(form);
+      if (d.churn.length === 0) { statusMsg.textContent = "쉬게 된 이유를 하나 이상 골라주세요."; statusMsg.classList.add("error"); return; }
+      submitBtn.disabled = true;
+      submitBtn.textContent = "보내는 중...";
+      statusMsg.textContent = "";
+      statusMsg.classList.remove("error");
+      fallbackBox.classList.remove("show");
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/interview_responses`, {
+          method: "POST",
+          headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}`, "Content-Type": "application/json", Prefer: "return=minimal" },
+          body: JSON.stringify({
+            name: d.name, phone: d.phone, consent: true, dog_name: d.dog_name,
+            churn_reasons: d.churn, problem: d.detail, now_tracking: d.now, feedback: d.feedback || null, lang: "ko", source: SRC,
+          }),
+        });
+        if (!res.ok) throw new Error(`submit failed: ${res.status}`);
+        if (window.posthog && window.posthog.capture) window.posthog.capture("survey_submitted", { lang: "ko", src: SRC, kind: "churn" });
+        form.style.display = "none";
+        document.getElementById("thanks-view").style.display = "block";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } catch (err) {
+        statusMsg.textContent = "전송에 실패했어요. 아래 방법으로 다시 시도해주세요.";
+        statusMsg.classList.add("error");
+        fallbackBox.classList.add("show");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "제출하기";
+      }
+    });
+
+    document.getElementById("copy-btn").addEventListener("click", async () => {
+      const text = `[응가메이트 1분 설문]\n${buildSummary(collectData(form))}`;
+      try {
+        await navigator.clipboard.writeText(text);
+        statusMsg.textContent = "복사했어요! 메일로 보내주세요.";
+        statusMsg.classList.remove("error");
+      } catch (err) {
+        const src = document.getElementById("clipboard-source");
+        src.style.position = "static"; src.style.left = "0"; src.style.top = "0"; src.value = text; src.select();
+        statusMsg.textContent = "자동 복사가 안 돼서 아래 칸에 내용을 띄웠어요. 직접 복사해주세요.";
+      }
+    });
+  </script>
+</body>
+</html>

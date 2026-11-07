@@ -1324,10 +1324,12 @@ def guide_feed(lang, order):
 
 
 # ═════════════════════════════════════════════════════════ 인터뷰 신청 (폼·스크립트는 그대로, 겉모양만)
-def interview(lang):
-    """인터뷰 신청 — 한국어는 /interview/, 영어는 /en/interview/ (폼·전송 스크립트는 옛 페이지 그대로, 겉모양만 사이트 디자인)."""
+def interview(lang, kind='interview'):
+    """인터뷰 신청 — 한국어는 /interview/, 영어는 /en/interview/ (폼·전송 스크립트는 옛 페이지 그대로, 겉모양만 사이트 디자인).
+    kind='churn': 쉬고 있는 사용자 1분 설문(/churn/, 한국어만) — 푸시로만 들어온다"""
     ko = lang == 'ko'
-    s = (SRC / f'legacy/interview{"" if ko else "-en"}.html').read_text(encoding='utf-8')
+    churn = kind == 'churn'
+    s = (SRC / ('legacy/churn.html' if churn else f'legacy/interview{"" if ko else "-en"}.html')).read_text(encoding='utf-8')
     s = re.sub(r'\n\s*@font-face \{ font-family:"NanumSquareNeo";[^}]*\}', '', s)
     # 옛 헤더·푸터 규칙은 새 헤더·푸터와 겹치지 않게 본문(main)에만
     s = re.sub(r'header, main, footer \{', 'main.iv {', s, count=1)
@@ -1340,23 +1342,25 @@ def interview(lang):
     s = s.replace('font-family: "NanumSquareNeo", -apple-system', 'font-family: "Pretendard Variable", Pretendard, -apple-system', 1)
     s = s.replace('  <link rel="icon" type="image/png" href="https://poopiemate.com/assets/favicon.png">\n', '')
     s = s.replace('  <link rel="apple-touch-icon" href="https://poopiemate.com/assets/favicon.png">\n', '')
-    path = '/interview/' if ko else '/en/interview/'
-    og = ('응가메이트', '응가메이트 3분 설문', '어떻게 쓰고 계신지 객관식 3분이면 돼요. 답하면 투썸플레이스 아메리카노를 드려요.') if ko else \
+    path = '/churn/' if churn else '/interview/' if ko else '/en/interview/'
+    alt = ('/churn/', '/churn/') if churn else ('/interview/', '/en/interview/')
+    og = ('응가메이트', '응가메이트 1분 설문', '응가메이트를 쉬고 계신 이유를 1분만 들려주세요. 답하면 투썸플레이스 아메리카노를 드려요.') if churn else \
+         ('응가메이트', '응가메이트 3분 설문', '어떻게 쓰고 계신지 객관식 3분이면 돼요. 답하면 투썸플레이스 아메리카노를 드려요.') if ko else \
          ('POOPIEMATE', 'POOPIEMATE 3-minute survey', 'Tell us how you use POOPIEMATE in a 3-minute multiple-choice survey and a Starbucks coffee is on us.')
     head_add = (PRETENDARD + '\n<link rel="stylesheet" href="/assets/css/site.css?v=' + ASSET_V + '">\n'
                 '<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">\n'
                 f'<meta property="og:type" content="website">\n<meta property="og:site_name" content="{og[0]}">\n<meta property="og:title" content="{og[1]}">\n'
                 f'<meta property="og:description" content="{og[2]}">\n<meta property="og:url" content="{SITE}{path}">\n'
                 f'<meta property="og:image" content="{SITE}{og_image_for(path, lang, og[1], f"<h1>{og[1]}</h1>", "plain")}">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="robots" content="noindex, follow">\n'
-                f'<link rel="alternate" hreflang="ko" href="{SITE}/interview/">\n<link rel="alternate" hreflang="en" href="{SITE}/en/interview/">\n'
-                '<style>:root{--pink-dark:#A2479A}</style>\n' + POSTHOG)
+                + ('' if churn else f'<link rel="alternate" hreflang="ko" href="{SITE}/interview/">\n<link rel="alternate" hreflang="en" href="{SITE}/en/interview/">\n')
+                + '<style>:root{--pink-dark:#A2479A}</style>\n' + POSTHOG)
     s = s.replace('</head>', head_add + '</head>', 1)
-    s = re.sub(r'<header>.*?</header>', header(lang, 'notice', '/interview/', '/en/interview/'), s, count=1, flags=re.S)
+    s = re.sub(r'<header>.*?</header>', header(lang, 'notice', *alt), s, count=1, flags=re.S)
     s = s.replace('<main>', '<main class="iv" id="main">', 1)
     s = s.replace('<body>', '<body class="iv-page">', 1)
     # <p> 안에 목록(ul)은 들어갈 수 없다 — 안내 문단을 div로 (웹표준)
     s = re.sub(r'<p class="hint">(\s*[^<]*<ul>.*?</ul>\s*)</p>', r'<div class="hint">\1</div>', s, flags=re.S)
-    s = re.sub(r'<footer>.*?</footer>', footer(lang, '/interview/', '/en/interview/'), s, count=1, flags=re.S)
+    s = re.sub(r'<footer>.*?</footer>', footer(lang, *alt), s, count=1, flags=re.S)
     s = s.replace('</body>', f'<script src="/assets/js/store-region.js?v={ASSET_V}" defer></script>\n<script src="/assets/js/site.js?v={ASSET_V}" defer></script>\n</body>', 1)
     out = ROOT / path.strip('/') / 'index.html'
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -1570,7 +1574,7 @@ if __name__ == '__main__':
     guides()
     write('/poop-condition-guide/', tools.poop_tool(page, faq_block, faq_ld, cta_band, ASSET_V))
     write('/walk-safety-index/', tools.walk_tool(page, faq_block, faq_ld, cta_band, ASSET_V))
-    guide_list('ko'); guide_list('en'); interview('ko'); interview('en'); download(); moved(); not_found(); sitemap(); rss('ko'); rss('en'); llms()
+    guide_list('ko'); guide_list('en'); interview('ko'); interview('en'); interview('ko', 'churn'); download(); moved(); not_found(); sitemap(); rss('ko'); rss('en'); llms()
     (ROOT / '.cache/og').mkdir(parents=True, exist_ok=True)
     (ROOT / '.cache/og/pages.json').write_text(json.dumps(OG_PAGES, ensure_ascii=False, indent=1), encoding='utf-8')
     print('built', len(OG_PAGES), 'og pages')
