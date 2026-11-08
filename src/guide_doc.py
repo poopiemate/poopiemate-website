@@ -1,7 +1,8 @@
 """가이드 글(옛 글 HTML, src/legacy/guides)을 앱이 직접 그리는 글 JSON으로 바꾼다.
 
 앱의 「응가메이트 가이드」 상세는 웹뷰가 아니라 앱 화면이라, 글을 블록으로 받는다:
-  h2(소제목) · p(문단) · list(점·번호 목록) · table(표) · warn(알아 두세요 상자) · card(비교 카드)
+  h2(소제목) · h3(작은 소제목) · p(문단) · list(점·번호 목록) · table(표) · warn(알아 두세요 상자) · card(비교 카드) · img(강아지 사진)
+읽기 쉽게(11-08): 긴 문단은 두 문장씩 나누고, 「굵은 말: 설명」 목록은 작은 소제목 + 문단으로 풀고, 소제목 사이사이에 사진을 넣는다.
 글 안 글자는 spans — [{text, bold?, href?}]. 앱 소개 카드·버튼·FAQ·관련 글 줄은 본문에서 빼고 faqs·related로 따로 준다.
 """
 import html
@@ -106,7 +107,65 @@ def _elements(node):
 FAQ_H2 = re.compile(r'자주 묻는 질문|Frequently Asked Questions|FAQ', re.I)
 
 
-def guide_blocks(main, slug):
+SENT_END = re.compile(r'(?<=[.!?])\s+(?=\S)')
+
+
+def _split_para(spans, per=2, min_len=90):
+    """긴 문단을 두 문장씩 여러 문단으로 — 굵게·링크(spans)는 그대로 둔다"""
+    if sum(len(x['text']) for x in spans) < min_len:
+        return [spans]
+    paras, cur, n = [], [], 0
+    for sp in spans:
+        parts = SENT_END.split(sp['text'])
+        for i, part in enumerate(parts):
+            last = i == len(parts) - 1
+            piece = part if last else part + ' '
+            if piece:
+                cur.append({**sp, 'text': piece})
+            if not last:
+                n += 1
+                if n >= per:
+                    paras.append(_trim(cur)); cur, n = [], 0
+    if cur and _trim(cur):
+        paras.append(_trim(cur))
+    return [p for p in paras if p] or [spans]
+
+
+def _lead_item(item):
+    """「굵은 말: 설명」 목록 줄 → (소제목, 설명 spans) — 아니면 None"""
+    if len(item) < 2 or not item[0].get('bold') or item[0].get('href'):
+        return None
+    head = item[0]['text'].strip()
+    if not head.endswith(':') or len(head) > 40:
+        return None
+    rest = _trim(item[1:])
+    if sum(len(x['text']) for x in rest) < 30:
+        return None
+    return head.rstrip(':').strip(), rest
+
+
+def _readable(blocks, photos):
+    out = []
+    for b in blocks:
+        if b['type'] == 'p':
+            out += [{'type': 'p', 'spans': x} for x in _split_para(b['spans'])]
+        elif b['type'] == 'list' and not b['ordered'] and b['items'] and all(_lead_item(i) for i in b['items']):
+            for i in b['items']:
+                head, rest = _lead_item(i)
+                out.append({'type': 'h3', 'text': head})
+                out += [{'type': 'p', 'spans': x} for x in _split_para(rest)]
+        else:
+            out.append(b)
+    # 사진 — 둘째·넷째·여섯째 소제목 앞에 한 장씩(글이 짧으면 있는 만큼)
+    if photos:
+        h2s = [i for i, b in enumerate(out) if b['type'] == 'h2']
+        spots = [h2s[k] for k in (1, 3, 5) if k < len(h2s)][:len(photos)]
+        for i, idx in sorted(zip(range(len(spots)), spots), key=lambda x: -x[1]):
+            out.insert(idx, {'type': 'img', **photos[i]})
+    return out
+
+
+def guide_blocks(main, slug, photos=None):
     root = _parse(main)
     title, lede, blocks, faqs, related = '', [], [], [], []
     for el in _elements(root):
@@ -129,6 +188,8 @@ def guide_blocks(main, slug):
             text = re.sub(r'^\s*\d+\.\s*', '', _text(el))
             if not FAQ_H2.search(text):
                 blocks.append({'type': 'h2', 'text': text})
+        elif tag == 'h3':
+            blocks.append({'type': 'h3', 'text': _text(el)})
         elif tag == 'div' and cls == 'card':
             # 앱 소개 카드 — 바로 앞 소제목과 함께 뺀다(앱 안이니까)
             if blocks and blocks[-1]['type'] == 'h2':
@@ -160,7 +221,7 @@ def guide_blocks(main, slug):
             b = next((c for c in _elements(el) if c.tag == 'b'), None)
             p = next((c for c in _elements(el) if c.tag == 'p'), None)
             blocks.append({'type': 'card', 'title': _text(b) if b is not None else '', 'spans': _trim(_inline(p)) if p is not None else []})
-    return {'title': html.unescape(title), 'lede': lede, 'blocks': blocks, 'faqs': faqs, 'related': related}
+    return {'title': html.unescape(title), 'lede': lede, 'blocks': _readable(blocks, photos), 'faqs': faqs, 'related': related}
 
 
 def _walk(node):

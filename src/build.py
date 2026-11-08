@@ -1281,6 +1281,8 @@ APP_GUIDE_ROWS = {}
 # 앱 가이드 썸네일 — 앱용으로 따로 그린 그림(src/og.py app-guides → output/app-guides, 우리 저장소 guide-thumbnails 버킷에 올린다).
 # 주소에 그림 해시를 붙여 그림을 다시 그리면 앱이 새 그림을 받게. 아직 안 그린 글은 홈페이지 공유 이미지
 APP_THUMB_BASE = 'https://mjdgzdurhzickxombuuh.supabase.co/storage/v1/object/public/guide-thumbnails/app-guides'
+# 앱 가이드 본문 중간 강아지 사진(11-08) — src/app_guide_photos.json {slug: [{src, w, h}]}, 카드뉴스 사진을 저장소 app-guides/photos/에 올린 것
+APP_GUIDE_PHOTOS = json.loads((SRC / 'app_guide_photos.json').read_text()) if (SRC / 'app_guide_photos.json').exists() else {}
 
 
 def app_thumb(slug, lang):
@@ -1313,7 +1315,7 @@ def guide_feed(lang, order):
     # 올리기: (앱 저장소에서) npx supabase db query --linked -f ../poopiemate-website/output/guides_upsert.sql
     for item in items:
         g = guide_json(item['slug'], lang)
-        doc = guide_doc.guide_blocks(g['main'], item['slug'])
+        doc = guide_doc.guide_blocks(g['main'], item['slug'], APP_GUIDE_PHOTOS.get(item['slug']))
         APP_GUIDE_ROWS[(item['slug'], lang)] = {
             'slug': item['slug'], 'lang': lang, 'cat': item['cat'], 'title': guide_doc._plain(item['title']), 'summary': guide_doc._plain(item['description']), 'image': item['image'],
             # 목록 카드·상세 위 썸네일 — 홈페이지 가이드 카드와 같은 공유 이미지(언어마다 제목이 다르다)
