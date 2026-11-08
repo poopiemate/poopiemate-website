@@ -77,6 +77,8 @@ SCENES = {
     'dual-income-dog-walk-schedule': ('sky', [lay('건물/카페.png', 1090, 300, b=56, z=1), dog('laptop', 830, 300, b=38)]),
     'leave-heating-on-for-dog': ('sky', [lay('건물/우리집.png', 1100, 290, b=56, z=1), dog('blanket', 860, 330, b=34), emo('snowflake', 1150, 90, 460, r=10)]),
     'dog-evacuation-war-disaster': ('sky', [lay('건물/우리집.png', 1100, 290, b=56, z=1), dog('evac', 860, 330, b=34)]),
+    'dog-winter-food-and-clothes': ('sky', [lay('나무/나무_06.png', 1130, 250, b=100, z=1), dog('coat', 880, 330, b=40), emo('snowflake', 1150, 90, 460, r=10)]),
+    'poopiemate-meal-gauge-meds': ('cream', [dog('meds', 960, 340, b=40)]),
     # ── 목록 · 브랜드
     'guide': ('mint', [lay('광장/게시판.png', 1110, 260, b=56, z=1), lay('나무/나무_09.png', 790, 210, b=100, z=1), dog('안녕', 930, 320, b=34)]),
     'how-it-works': ('green', [dog('phone', 950, 340, b=44)]),
