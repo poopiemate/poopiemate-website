@@ -3,3 +3,6 @@
 .claude/skills/
 .cache/
 __pycache__/
+
+# 빌드 산출물(앱 가이드 SQL·썸네일·애니메이션) — 공개 저장소에 올리지 않는다
+output/
