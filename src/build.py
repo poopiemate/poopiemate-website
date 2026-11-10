@@ -448,16 +448,19 @@ HOME_GUIDES = {
 }
 
 
-HOME_PINNED = 'dog-winter-food-and-clothes'  # 계절 가이드 — 홈 첫 카드(NEW). 계절이 바뀌면 이 한 줄만 바꾼다
+# 새로 올린 가이드 — 홈 4칸에 이 순서로 세우고, 홈과 가이드 목록 모두 NEW (올린 날부터 NEW_DAYS_PINNED일)
+HOME_PINNED = ['dog-winter-food-and-clothes', 'poopiemate-meal-gauge-meds', 'dog-evacuation-war-disaster', 'why-dogs-poop-on-dry-leaves']
+NEW_DAYS_PINNED = 30
 HOME_GUIDE_COUNT = 4  # 홈 가이드 카드는 4개로 고정: 계절 가이드 1 + 기존 가이드 3
 
 
 def home_guides(lang):
-    picks = [(HOME_PINNED, None)] + [x for x in HOME_GUIDES[lang] if x[0] != HOME_PINNED]
+    picks = [(x, None) for x in HOME_PINNED] + [x for x in HOME_GUIDES[lang] if x[0] not in HOME_PINNED]
     cards = ''
     for slug, title in picks[:HOME_GUIDE_COUNT]:
         g = guide_json(slug, lang)
-        badge = new_badge(guide_date(slug)) if slug == HOME_PINNED else ''
+        badge = (f'<span class="new-badge" data-new="{guide_date(slug)}" data-new-days="{NEW_DAYS_PINNED}" hidden>NEW</span>'
+                 if slug in HOME_PINNED else '')
         cards += (f'<a class="post-card" href="{"" if lang == "ko" else "/en"}/{slug}/"><span class="thumb og">'
                   f'<img src="/assets/og/p/{slug if lang == "ko" else "en-" + slug}.jpg" alt="" width="1200" height="630" loading="lazy">{badge}</span>'
                   f'<b>{escape(title or g["og_title"])}</b></a>')
@@ -1268,7 +1271,7 @@ def guide_list(lang):
         d = guide_date(slug)
         cards += (f'<a class="post-card" data-cat="{cat}" href="{"" if lang == "ko" else "/en"}/{slug}/"><span class="thumb og">'
                   f'<img src="/assets/og/p/{og_slug}.jpg" alt="" width="1200" height="630" loading="lazy">'
-                  f'<span class="new-badge" data-new="{d}" data-new-days="{NEW_DAYS_GUIDE}" hidden>NEW</span></span>'
+                  f'<span class="new-badge" data-new="{d}" data-new-days="{NEW_DAYS_PINNED if slug in HOME_PINNED else NEW_DAYS_GUIDE}" hidden>NEW</span></span>'
                   f'<span class="cat">{cats[cat]}</span><b>{escape(h1)}</b><span class="ex">{sb(escape(g["description"]))}</span>'
                   f'<time datetime="{d}">{d.replace("-", ".")}</time></a>')
     body = f'''
