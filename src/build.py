@@ -116,7 +116,7 @@ def sns_links(lang):
 
 def org_ld(lang):
     """운영사 — 이메일과 모든 SNS를 sameAs로 묶어 검색엔진·AI가 같은 브랜드로 알아보게."""
-    return {'@type': 'Organization', 'name': '응가메이트' if lang == 'ko' else 'POOPIEMATE', 'alternateName': ['POOPIEMATE', '응가메이트', '픽셀베리', 'Pixelberry'],
+    return {'@type': 'Organization', 'name': '응가메이트' if lang == 'ko' else 'POOPIEMATE', 'alternateName': ['PoopieMate', 'POOPIEMATE', 'Poopie Mate', '응가메이트', '픽셀베리', 'Pixelberry'],
             'url': SITE, 'logo': f'{SITE}/assets/icons/apple-touch-icon.png', 'email': EMAIL,
             'contactPoint': {'@type': 'ContactPoint', 'contactType': 'customer support', 'email': EMAIL, 'availableLanguage': ['ko', 'en']},
             'sameAs': [SNS['youtube'][1], SNS['tiktok'][1], SNS['instagram'][1]['ko'], SNS['instagram'][1]['en'], SNS['linkedin'][1], SNS['kakao'][1]['ko']]}
@@ -276,7 +276,7 @@ def page(lang, key, title, desc, body, og_image, active=None, ko_path=None, en_p
 {alt}<link rel="alternate" type="application/rss+xml" title="{t['name']}" href="{SITE}{'/rss.xml' if lang == 'ko' else '/en/rss.xml'}">
 <meta name="theme-color" content="#18955A">
 <meta property="og:type" content="{og_type}">
-<meta property="og:site_name" content="{t['name']}">
+<meta property="og:site_name" content="{t['name'] if lang == 'en' else '응가메이트 PoopieMate'}">
 <meta property="og:title" content="{escape(title)}">
 <meta property="og:description" content="{escape(desc)}">
 <meta property="og:url" content="{SITE}{path}">
@@ -463,7 +463,7 @@ def home_guides(lang):
 
 def home(lang):
     c = {
-        'ko': {'title': '응가메이트 — 강아지 응가·쉬·산책 기록 앱, 가족과 같이 봐요',
+        'ko': {'title': '응가메이트 PoopieMate — 강아지 응가·쉬·산책 기록 앱, 가족과 같이 봐요',
                'desc': '강아지 응가·쉬·산책을 한 명이 기록하면 가족 모두가 바로 알아요. “응댕이 똥 쌌어?” 이제 안 물어봐도 돼요. 초대·기록·알림 모두 무료예요.',
                'h1': '“응댕이 똥 쌌어?”<br><span class="hl">이제 안 물어봐도 돼요</span>',
                'lead': '강아지를 여럿이 같이 돌보는 집을 위한 앱. <br>한 사람이 응가·쉬를 기록하면 가족 모두가 바로 알아요.',
@@ -513,12 +513,12 @@ def home(lang):
 {cta_band(lang)}
 """
     app_ld = {'@context': 'https://schema.org', '@type': 'MobileApplication', 'name': '응가메이트' if lang == 'ko' else 'POOPIEMATE',
-              'alternateName': ['POOPIEMATE', '응가메이트'], 'operatingSystem': ['iOS', 'Android'], 'applicationCategory': 'LifestyleApplication',
+              'alternateName': ['PoopieMate', 'POOPIEMATE', 'Poopie Mate', '응가메이트'], 'operatingSystem': ['iOS', 'Android'], 'applicationCategory': 'LifestyleApplication',
               'description': c['desc'], 'url': f'{SITE}{url("home", lang)}', 'inLanguage': lang,
               'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'KRW' if lang == 'ko' else 'USD'},
               'author': org_ld(lang),
               'sameAs': [SNS['youtube'][1], SNS['tiktok'][1], SNS['instagram'][1][lang], SNS['linkedin'][1], APPSTORE[lang], PLAY[lang]]}
-    site_ld = {'@context': 'https://schema.org', '@type': 'WebSite', 'name': '응가메이트' if lang == 'ko' else 'POOPIEMATE', 'alternateName': ['POOPIEMATE', '응가메이트'],
+    site_ld = {'@context': 'https://schema.org', '@type': 'WebSite', 'name': '응가메이트' if lang == 'ko' else 'POOPIEMATE', 'alternateName': ['PoopieMate', 'POOPIEMATE', 'Poopie Mate', '응가메이트'],
                'url': f'{SITE}{url("home", lang)}', 'inLanguage': lang, 'publisher': org_ld(lang)}
     verify = ('<meta name="google-site-verification" content="vezMm0ELRBYYTtSoNa8gk8Smo0MrxGzfDn1pjxSJAa0">\n'
               '<meta name="naver-site-verification" content="a236950cd48d38555cc3d88c121cdfe2971aa08c">\n'
