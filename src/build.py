@@ -448,12 +448,18 @@ HOME_GUIDES = {
 }
 
 
+HOME_PINNED = 'dog-winter-food-and-clothes'  # 계절 가이드 — 홈 첫 카드(NEW). 계절이 바뀌면 이 한 줄만 바꾼다
+HOME_GUIDE_COUNT = 4  # 홈 가이드 카드는 4개로 고정: 계절 가이드 1 + 기존 가이드 3
+
+
 def home_guides(lang):
+    picks = [(HOME_PINNED, None)] + [x for x in HOME_GUIDES[lang] if x[0] != HOME_PINNED]
     cards = ''
-    for slug, title in HOME_GUIDES[lang]:
+    for slug, title in picks[:HOME_GUIDE_COUNT]:
         g = guide_json(slug, lang)
+        badge = new_badge(guide_date(slug)) if slug == HOME_PINNED else ''
         cards += (f'<a class="post-card" href="{"" if lang == "ko" else "/en"}/{slug}/"><span class="thumb og">'
-                  f'<img src="/assets/og/p/{slug if lang == "ko" else "en-" + slug}.jpg" alt="" width="1200" height="630" loading="lazy"></span>'
+                  f'<img src="/assets/og/p/{slug if lang == "ko" else "en-" + slug}.jpg" alt="" width="1200" height="630" loading="lazy">{badge}</span>'
                   f'<b>{escape(title or g["og_title"])}</b></a>')
     tag, h, more = (('강아지 가이드', '같이 돌볼 때 알아 두면 좋은 것들', '가이드 전체 보기') if lang == 'ko' else
                     ('Dog guides', 'Good to know when you share one dog', 'See all guides'))
