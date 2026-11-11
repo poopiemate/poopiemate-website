@@ -70,7 +70,7 @@ T = {
         'name': '응가메이트', 'nav': [('how', '이렇게 써요'), ('story', '이야기'), ('guide', '가이드'), ('notice', '공지사항')], 'cta': '앱 다운로드', 'cta_short': '앱 받기',
         'menu': '메뉴 열기', 'close': '메뉴 닫기', 'skip': '본문으로 건너뛰기', 'get': '지금 다운로드', 'lang_label': '언어',
         'f_links': [('고객 지원', '/support/'), ('개인정보 처리방침', '/privacy/'), ('이용약관', '/terms/'), ('오픈소스 라이선스', '/licenses/')],
-        'operator': f'운영 픽셀베리 · 문의 <a href="mailto:{EMAIL}">{EMAIL}</a>', 'copy': '© 2026 픽셀베리 · 응가메이트',
+        'operator': f'운영 픽셀베리 · 문의 <a href="mailto:{EMAIL}">{EMAIL}</a> · 카카오톡 채널 <a href="{SNS["kakao"][1]["ko"]}" target="_blank" rel="noopener">응가메이트 (pf.kakao.com/_cypWX)</a>', 'copy': '© 2026 픽셀베리 · 응가메이트',
         'play': '영상 재생', 'more': '자세히 보기', 'back': '목록으로', 'share': '공유하기', 'copied': '링크를 복사했어요', 'next': '다음 글', 'read': '이야기 읽기',
     },
     'en': {
