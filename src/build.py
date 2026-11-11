@@ -14,7 +14,7 @@ import guide_doc
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
-ASSET_V = '60'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '61'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -24,6 +24,7 @@ SNS = {
     'tiktok': ('TikTok', 'https://www.tiktok.com/@poopiemate'),
     'instagram': ('Instagram', {'ko': 'https://www.instagram.com/poopiemate_kr', 'en': 'https://www.instagram.com/poopiemate'}),
     'linkedin': ('LinkedIn', 'https://www.linkedin.com/company/poopiemate'),
+    'naverblog': ('네이버 블로그', {'ko': 'https://blog.naver.com/poopiemate', 'en': None}),  # 한국어 페이지만 — 네이버 검색의 주력 채널(11-11)
     'kakao': ('카카오톡 채널', {'ko': 'https://pf.kakao.com/_cypWX', 'en': None}),  # 한국어 페이지만 — Daum 검색등록 채널 소유 확인용으로 메인 화면에 노출
     'email': ('Email', 'mailto:poopiemate@pixelberry.io'),
 }
@@ -119,7 +120,7 @@ def org_ld(lang):
     return {'@type': 'Organization', 'name': '응가메이트' if lang == 'ko' else 'POOPIEMATE', 'alternateName': ['PoopieMate', 'POOPIEMATE', 'Poopie Mate', '응가메이트', '픽셀베리', 'Pixelberry'],
             'url': SITE, 'logo': f'{SITE}/assets/icons/apple-touch-icon.png', 'email': EMAIL,
             'contactPoint': {'@type': 'ContactPoint', 'contactType': 'customer support', 'email': EMAIL, 'availableLanguage': ['ko', 'en']},
-            'sameAs': [SNS['youtube'][1], SNS['tiktok'][1], SNS['instagram'][1]['ko'], SNS['instagram'][1]['en'], SNS['linkedin'][1], SNS['kakao'][1]['ko']]}
+            'sameAs': [SNS['youtube'][1], SNS['tiktok'][1], SNS['instagram'][1]['ko'], SNS['instagram'][1]['en'], SNS['linkedin'][1], SNS['kakao'][1]['ko'], SNS['naverblog'][1]['ko']]}
 
 
 def author_ld(lang):
@@ -206,7 +207,7 @@ OG_POSE_SLUG = {  # 가이드 글 머리 포즈 — OG 장면(src/og_scenes.py)�
     'why-dogs-kick-after-pooping': 'kick', 'potty-interval': 'clock', 'jindo-mix-potty-training': '귀쫑긋', 'outdoor-potty-dog-tracking': 'phone',
     'dual-income-dog-walk-schedule': 'laptop', 'share-dog-potty-log-with-family': 'letter', 'multi-dog-household-tracking': 'baby-walk', 'poop-condition-guide': 'magnify',
     'leave-heating-on-for-dog': 'blanket', 'why-dogs-poop-on-dry-leaves': 'leaves', 'dog-evacuation-war-disaster': 'evac',
-    'dog-winter-food-and-clothes': 'coat', 'poopiemate-meal-gauge-meds': 'meds',
+    'dog-winter-food-and-clothes': 'coat', 'poopiemate-meal-gauge-meds': 'meds', 'dog-winter-walk-temperature': 'leash',
     'guide': '안녕', 'notice': '귀쫑긋', 'interview': 'mic', 'support': 'letter', 'how-it-works': 'phone', 'download': '애교', '404': '긁기',
 }
 
@@ -386,6 +387,40 @@ def cta_soft(lang):
     return (f'<section class="sec-soft"><div class="wrap-mid"><div class="soft-cta rise"><div><h2 class="h3">{c[0]}</h2><p>{sb(c[1])}</p></div>{stores(lang)}</div></div></section>')
 
 
+# ── 리뷰 — 앱스토어·구글 플레이의 실제 별 5개 리뷰를 원문 그대로(길면 「…」로만 자름). 이름은 첫 글자만 두고 가린다(11-08)
+# 평점만 보여주고 평가한 사람 수는 안 보여준다. 제목이 없는 구글 플레이 리뷰는 원문 첫머리를 제목으로.
+STORE_RATING = {'App Store': '5.0', 'Google Play': '5.0'}
+REVIEWS = {'ko': [
+    ('산만한 인간', 'App Store', '진짜 필요했던 앱이에요.', '매번 실외배변 시키는거, 산책시키는거 루틴 맞춰가며 하긴했는데 이렇게 체계적으로 알림도오고, 꾸준히 체크할 수 있게 해주니깐 너무 편해요. 게이지 차오르는것도 너무 귀엽구요ㅎㅎ'),
+    ('정혜윤', 'Google Play', '광고도 없고 앱 편리하고 좋아요', '매일 가족이랑 따로 연락하고 확인 안해도 되서 좋아요!!'),
+    ('예지다아', 'App Store', '소형견주도 잘써요', '소형견주입니다 실외배변이랑 산책으로 매번 가족들한테 물어보고 확인받는 번거로움이 사라져서 좋아요 화면도 유저친화적이고 이름도 넘 기여워요👍'),
+    ('두두콩', 'Google Play', '강아지가 장이 약한편이라', '언제 응가했고 어떤 형태의 응가를 했는지 중요한데 덕분에 체크할수있고 날씨도 알려줘서 너무좋아요🫶'),
+    ('시츄왕 김꼼지', 'App Store', '너무 귀여운 앱이 생겼어요...', '가족들이랑 같이 공유할 수도 있고… 산책하기 좋은 날씨인지 안전도 표시해주는게 진짜 킥인거같아요!'),
+    ('지콩언니', 'App Store', '산책 기록뿐 아니라 산책하기 좋은날까지 추천해주네요', '체계적으로 울 막내 산책 관리할 수 있어서 좋아요! 행복한 강아지가 되기 위한 필수 앱입니다! 🐾'),
+]}
+STAR5 = ''.join('<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.6 7.7l5.8-.8z"/></svg>' for _ in range(5))
+
+
+def mask_name(n):
+    """첫 글자(영문은 세 글자)만 남기고 * — 「산만한 인간」 → 「산*****」"""
+    n = n.strip()
+    keep = 3 if re.match(r'[A-Za-z0-9]', n) else 1
+    return n[:keep] + '*' * max(2, len(n.replace(' ', '')) - keep)
+
+
+def reviews_block(lang):
+    items = REVIEWS.get(lang)
+    if not items:
+        return ''
+    h = {'ko': '견주들이 남긴 한마디'}[lang]
+    scores = ''.join(f'<div class="rv-score"><span class="rv-store">{icon("apple") if k == "App Store" else GPLAY}{k}</span><b>{v}</b><span class="rv-stars">{STAR5}</span></div>' for k, v in STORE_RATING.items())
+    cards = ''.join(f'<figure class="rv-card"><span class="rv-stars" aria-label="별 5개">{STAR5}</span><figcaption>{escape(t)}</figcaption>'
+                    f'<blockquote>{escape(b)}</blockquote><footer><b>{escape(mask_name(n))}</b><span>{s}</span></footer></figure>' for n, s, t, b in items[:3])
+    return (f'<section class="sec-reviews"><div class="wrap">{label("REVIEW")}<h2 class="h2" data-mo>{h}</h2>'
+            f'<div class="rv-scores rise">{scores}</div><div class="rv-grid">{cards}</div></div>'
+            f'<img class="rv-dog" src="/assets/img/mascot/reviews.webp" alt="" loading="lazy" width="714" height="633"></section>')
+
+
 def faq_block(lang, items):
     h = {'ko': '자주 묻는 질문', 'en': 'Frequently asked questions'}[lang]
     rows = ''.join(f'<details{" open" if i == 0 else ""}><summary><span>{escape(q)}</span>{CHEV_D}</summary><p>{sb(escape(a))}</p></details>' for i, (q, a) in enumerate(items))
@@ -449,7 +484,7 @@ HOME_GUIDES = {
 
 
 # 새로 올린 가이드 — 홈 4칸에 이 순서로 세우고, 홈과 가이드 목록 모두 NEW (올린 날부터 NEW_DAYS_PINNED일)
-HOME_PINNED = ['dog-winter-food-and-clothes', 'poopiemate-meal-gauge-meds', 'dog-evacuation-war-disaster', 'why-dogs-poop-on-dry-leaves']
+HOME_PINNED = ['dog-winter-walk-temperature', 'dog-winter-food-and-clothes', 'poopiemate-meal-gauge-meds', 'dog-evacuation-war-disaster']
 NEW_DAYS_PINNED = 30
 HOME_GUIDE_COUNT = 4  # 홈 가이드 카드는 4개로 고정: 계절 가이드 1 + 기존 가이드 3
 
@@ -504,7 +539,6 @@ def home(lang):
 <p class="hero-lead mo-fade">{c['lead']}</p>
 </div></section>
 
-{home_guides(lang)}
 
 <section class="sec-feat" data-carousel>
 <div class="wrap feat-head"><div>{label(c['b_tag'])}<h2 class="h2" data-mo>{c['b_h']}</h2></div>{nav}</div>
@@ -518,7 +552,7 @@ def home(lang):
 <div class="story-text">{label(c['s_tag'], 'gold')}<h2 class="h2" data-mo>{c['s_h']}</h2><p>{sb(c['s_p'])}</p><a class="more-link" href="{url('why', lang)}">{c['s_btn']}{ARROW_R}</a></div>
 </div></div></section>
 
-{faq_block(lang, HOME_FAQ[lang])}
+{reviews_block(lang)}
 {cta_band(lang)}
 """
     app_ld = {'@context': 'https://schema.org', '@type': 'MobileApplication', 'name': '응가메이트' if lang == 'ko' else 'POOPIEMATE',
@@ -533,7 +567,7 @@ def home(lang):
               '<meta name="naver-site-verification" content="a236950cd48d38555cc3d88c121cdfe2971aa08c">\n'
               '<meta name="msvalidate.01" content="71EA6D0F5FA0EFBBA4609AA122BA853D">\n') if lang == 'ko' else ''
     write(url('home', lang), page(lang, 'home', c['title'], c['desc'], body, f'/assets/og/poopiemate-{lang}.jpg',
-                                  ld=[app_ld, site_ld, faq_ld(HOME_FAQ[lang]), video_ld(YT['service_long'][lang], c['v_label'], c['desc'], lang)], extra_head=verify, intro=True,
+                                  ld=[app_ld, site_ld, video_ld(YT['service_long'][lang], c['v_label'], c['desc'], lang)], extra_head=verify, intro=True,
                                   keywords='응가메이트, POOPIEMATE, 강아지 배변 기록, 강아지 가족 공유 앱, 반려견 산책 기록, 실외배변, 진도믹스, 배변 텀 알림, 산책 안전도' if lang == 'ko' else 'POOPIEMATE, dog potty log, shared dog care app, family dog walk tracker, potty alerts'))
 
 
@@ -692,9 +726,10 @@ def how(lang):
 </div></section>
 {steps}
 <section class="sec-more snap-sec"><div class="wrap"><div class="center-head rise"><span class="pill-tag">{c['more_tag']}</span><h2 class="h2">{c['more_h']}</h2></div>{bento}</div></section>
+{faq_block(lang, HOME_FAQ[lang])}
 {cta_soft(lang)}
 '''
-    write(url('how', lang), page(lang, 'how', c['title'], c['desc'], body, f'/assets/og/poopiemate-{lang}.jpg', active='how'))
+    write(url('how', lang), page(lang, 'how', c['title'], c['desc'], body, f'/assets/og/poopiemate-{lang}.jpg', active='how', ld=[faq_ld(HOME_FAQ[lang])]))
 
 
 # ═════════════════════════════════════════════════════════ 이야기 (캔버스 「v2 이야기」)
@@ -1230,11 +1265,13 @@ GUIDE_CARDS = {
     'dog-evacuation-war-disaster': 2,
     'dog-winter-food-and-clothes': 2,
     'poopiemate-meal-gauge-meds': 2,
+    'dog-winter-walk-temperature': 2,
 }
 
 
 # 블로그 글을 처음 올린 날 (git 첫 커밋 기준) — 목록은 최신순, 카드·글머리에 날짜, 최근 글은 NEW
 GUIDE_DATES = {
+    'dog-winter-walk-temperature': '2026-11-11',
     'dog-winter-food-and-clothes': '2026-11-08', 'poopiemate-meal-gauge-meds': '2026-11-08',
     'dog-evacuation-war-disaster': '2026-11-05',
     'why-dogs-poop-on-dry-leaves': '2026-11-04', 'leave-heating-on-for-dog': '2026-11-04',

@@ -6,6 +6,138 @@
 
 ## 한국어 가이드
 
+### 강아지 겨울 산책 온도, 몇 도까지 괜찮을까? 크기별 기준표
+
+URL: https://poopiemate.com/dog-winter-walk-temperature/
+올린 날: 2026-11-11 · 고친 날: 2026-11-11 · 글쓴이: Jin
+
+겨울 산책은 기온이 아니라 체감온도로 봐야 해요. 기온이 3도여도 바람이 불면 체감은 영하로 떨어지거든요. 응가메이트 산책지수 기준으로 보면, 체감 10도 아래부터 소형견은 주의가 필요하고, 체감 0도 언저리에선 보통 강아지도 배변 위주로 짧게 다녀오는 게 좋아요. 반대로 진돗개처럼 이중모에 추위에 익숙한 아이는 영하 5도에도 평소처럼 걸어도 괜찮아요. 우리 강아지는 몇 도까지 괜찮은지, 크기·털·나이별로 정리했어요.
+
+#### 체감온도 × 크기, 한눈에 보는 겨울 기준표
+
+응가메이트 앱과 산책지수 계산기가 쓰는 기본 단계예요. 1단계는 평소대로, 5단계는 배변만 5분 이내로 다녀오는 날이에요.
+
+체감온도 | 소형견
+10kg 미만 | 중형견
+10~25kg | 대형견
+25kg 이상 |
+
+10~15° | 2단계 | 1단계 | 1단계 |
+
+4~9° | 3단계 | 3단계 | 2단계 |
+
+-4~3° | 4단계 | 4단계 | 3단계 |
+
+-9~-5° | 5단계 | 4단계 | 4단계 |
+
+-10° 이하 | 5단계 | 5단계 | 5단계 |
+
+몸이 작을수록 몸무게에 비해 몸 겉면이 넓어서 열을 빨리 잃어요. 그래서 같은 날씨라도 소형견이 먼저 추워해요. 대형견은 몸이 열을 오래 품고 있어서 한 단계 여유가 있어요.
+
+#### 우리 강아지에 맞춰 더하고 빼요
+
+체감 10도 이하인 날엔 위 표의 단계에 아래 요인을 더하거나 빼요. 0.5는 반올림해요.
+
+요인 | 단계 |
+
+소형견 | +1 |
+
+짧은 털 (치와와·닥스훈트·프렌치불독, 짧게 미용한 푸들·비숑) | +1 |
+
+비나 눈 소식 (강수 확률 40% 이상) | +1 |
+
+6개월 미만 아기 강아지 또는 노령견 | +0.5 |
+
+이중모·두꺼운 털 (진돗개·시바·허스키·사모예드 등) | −1 |
+
+추위에 적응된 아이 (겨울에도 매일 바깥을 걸어 온 아이) | −1 |
+
+젖은 털은 마른 털보다 훨씬 빨리 체온을 빼앗아요. 그래서 비·눈 오는 날은 같은 온도라도 한 단계 위로 봐요.
+
+#### 예를 들면 이래요
+
+강아지 | 체감 5° | 체감 0° | 체감 -5° |
+
+말티즈 3kg, 성견, 보통 털 | 4단계 | 5단계 | 5단계 |
+
+믹스견 15kg, 성견, 보통 털 | 3단계 | 4단계 | 4단계 |
+
+프렌치불독 12kg, 짧은 털 | 4단계 | 5단계 | 5단계 |
+
+진도믹스 15kg, 이중모, 매일 바깥 산책 | 1단계 | 2단계 | 2단계 |
+
+골든 리트리버 30kg, 10살, 이중모 | 2단계 | 3단계 | 4단계 |
+
+같은 영하 5도인데 말티즈는 5단계, 진도믹스는 2단계예요. "겨울 산책은 몇 도까지"에 정답이 하나가 아닌 이유예요. 우리 강아지 조건을 넣어 보려면 산책지수 계산기에서 지금 동네 체감온도로 바로 계산해 보세요.
+
+#### 단계별로 이렇게 다녀와요
+
+- 1~2단계: 평소 루틴대로 다녀와요. 2단계면 중간중간 떨지 않는지만 봐 주세요.
+
+- 3단계: 15~20분 안쪽으로 짧게. 털이 짧거나 작은 아이는 옷을 입혀요.
+
+- 4단계: 옷 입고 배변 위주로 짧게 다녀와요. 발바닥을 보호하고, 돌아오면 바로 닦아요.
+
+- 5단계: 배변만 5분 이내로. 놀이와 운동은 집 안에서 해요.
+
+실외배변만 하는 아이라면
+
+5단계여도 실외배변 하는 아이는 나가야 해요. 오래 참게 하는 것도 몸에 좋지 않거든요(배변을 오래 참으면 생기는 일). 이런 날은 산책을 "배변하러 잠깐 나가기" 여러 번으로 나눠요. 집 가까운 단골 배변 자리로 바로 가고, 볼일을 보면 바로 들어와요.
+
+#### 겨울 산책을 덜 춥게 하는 법
+
+- 해 있는 낮으로 옮겨요: 겨울 하루 중 가장 따뜻한 건 대개 오후 1~3시예요. 이른 아침과 해 진 뒤는 체감온도가 뚝 떨어져요.
+
+- 바람을 피해요: 강변·다리 위·고층 건물 사이는 바람이 세서 체감이 몇 도씩 낮아져요. 겨울엔 건물이 막아 주는 골목 코스가 나아요.
+
+- 옷은 배까지 덮는 걸로: 배 쪽 털이 가장 얇아요. 고르는 법은 겨울 사료와 옷 가이드에 정리해 뒀어요.
+
+- 짧게 여러 번: 30분 한 번보다 10분씩 세 번이 몸이 덜 식어요.
+
+- 젖으면 바로 말려요: 눈밭에서 놀고 왔다면 수건으로 닦고 드라이어 미지근한 바람으로 배와 발 사이까지 말려요.
+
+발바닥과 염화칼슘
+
+제설제로 뿌린 염화칼슘은 발바닥을 트게 하고, 핥다가 먹으면 배탈이 날 수 있어요. 다녀오면 미지근한 물로 발을 씻고 발가락 사이까지 말려 주세요. 갈라진 곳이 있으면 발바닥 보습제를 발라요. 신발에 익숙한 아이라면 신발도 좋아요.
+
+#### 추워한다는 신호
+
+- 몸을 떨거나 등을 웅크리고 걸어요
+
+- 발을 번갈아 들거나 멈춰 서서 안 가려고 해요
+
+- 집 쪽으로 자꾸 몸을 돌려요
+
+- 귀와 발끝이 차가워요
+
+이런 신호가 보이면 바로 들어와요. 들어온 뒤에도 떨림이 멈추지 않거나, 축 처지고 잇몸이 창백하면 체온이 많이 떨어진 거예요. 담요로 감싸고 바로 동물병원에 연락하세요.
+
+이 글의 단계는 응가메이트 산책지수 기준이며 진단이 아니에요. 심장·호흡기 질환이 있거나 추위를 유독 힘들어하는 아이는 수의사와 산책 시간을 상의하세요.
+
+#### 응가메이트로 겨울 산책 시간 고르기
+
+#### 자주 묻는 질문
+
+Q. 강아지 겨울 산책은 몇 도까지 괜찮나요?
+
+기온이 아니라 체감온도로 봐요. 응가메이트 산책지수 기준으로 소형견은 체감 10도 아래부터 주의가 필요하고, 체감 0도 언저리면 보통 강아지도 배변 위주로 짧게 다녀오는 게 좋아요. 이중모에 추위에 익숙한 아이는 영하 5도에도 평소처럼 걸을 수 있어요.
+
+Q. 영하에도 산책해도 되나요?
+
+건강한 이중모 성견이라면 영하 5도 정도까지는 괜찮은 경우가 많아요. 소형견·짧은 털·노령견은 영하에선 옷을 입히고 배변 위주로 5~10분만 다녀와요. 체감 영하 10도 아래는 기본이 5단계라, 이중모에 추위에 익숙한 아이도 3단계로 짧게 다녀오는 게 좋아요.
+
+Q. 소형견은 겨울에 산책을 쉬어야 하나요?
+
+쉬기보다는 짧게 여러 번, 해 있는 낮 시간에 옷을 입혀 다녀오는 걸 추천해요. 산책은 배변과 스트레스 해소에도 중요해서, 아예 안 나가면 다른 문제가 생길 수 있어요.
+
+Q. 눈 오는 날 산책해도 되나요?
+
+눈이 오면 털이 젖어 체온을 빨리 잃어서 한 단계 더 조심해요. 다녀온 뒤엔 바로 닦고 말려 주고, 염화칼슘이 뿌려진 길을 걸었다면 발을 꼭 씻어 주세요.
+
+Q. 겨울엔 하루에 얼마나 산책하면 되나요?
+
+1~2단계인 날은 평소만큼, 3단계는 15~20분, 4단계는 배변 위주로 짧게, 5단계는 배변만 5분 이내가 기준이에요. 모자란 활동량은 노즈워크나 터그 놀이로 집에서 채워 주세요.
+
 ### 겨울엔 강아지 사료 늘려야 할까? 옷은 누가 입고 누가 벗어야 할까
 
 URL: https://poopiemate.com/dog-winter-food-and-clothes/
@@ -1553,6 +1685,138 @@ Q. 각 강아지 프로필을 다른 가족 구성원과 따로 공유할 수 �
 
 
 ## English guides
+
+### How Cold Is Too Cold to Walk Your Dog? A Feels-Like Temperature Chart by Size
+
+URL: https://poopiemate.com/en/dog-winter-walk-temperature/
+Published: 2026-11-11 · Updated: 2026-11-11 · Author: Jin
+
+For winter walks, go by the feels-like temperature, not the thermometer. At 3°C (37°F) with wind, it can feel below freezing. By the POOPIEMATE walk safety index, small dogs need care once it feels below 10°C (50°F), and around a feels-like 0°C (32°F) even an average dog should take a short potty-first walk. A double-coated dog used to the cold, like a Jindo, can walk as usual at -5°C (23°F). Here is how cold is too cold for your dog, by size, coat and age.
+
+#### Winter chart: feels-like temperature × size
+
+These are the base levels used by the POOPIEMATE app and our walk safety calculator. Level 1 means walk as usual; level 5 means a potty break of five minutes or less.
+
+Feels like | Small
+under 10 kg | Medium
+10–25 kg | Large
+over 25 kg |
+
+10–15°C (50–59°F) | Level 2 | Level 1 | Level 1 |
+
+4–9°C (39–48°F) | Level 3 | Level 3 | Level 2 |
+
+-4–3°C (25–37°F) | Level 4 | Level 4 | Level 3 |
+
+-9 to -5°C (16–23°F) | Level 5 | Level 4 | Level 4 |
+
+-10°C (14°F) or colder | Level 5 | Level 5 | Level 5 |
+
+Smaller dogs have more skin surface for their weight, so they lose heat faster and feel the cold first. Large dogs hold heat longer, which buys them about one level.
+
+#### Adjust for your own dog
+
+When it feels 10°C (50°F) or colder, add or subtract these from the chart level. Halves round up.
+
+Factor | Level |
+
+Small dog | +1 |
+
+Short coat (Chihuahua, Dachshund, French Bulldog, a Poodle or Bichon clipped short) | +1 |
+
+Rain or snow likely (40% or more) | +1 |
+
+Puppy under 6 months or senior dog | +0.5 |
+
+Double or heavy coat (Jindo, Shiba, Husky, Samoyed) | −1 |
+
+Used to the cold (walks outside every day all winter) | −1 |
+
+Wet fur pulls heat away much faster than dry fur, so a rainy or snowy day counts one level higher at the same temperature.
+
+#### Some examples
+
+Dog | Feels 5°C | Feels 0°C | Feels -5°C |
+
+Maltese, 3 kg, adult, normal coat | Level 4 | Level 5 | Level 5 |
+
+Mixed breed, 15 kg, adult, normal coat | Level 3 | Level 4 | Level 4 |
+
+French Bulldog, 12 kg, short coat | Level 4 | Level 5 | Level 5 |
+
+Jindo mix, 15 kg, double coat, walks out daily | Level 1 | Level 2 | Level 2 |
+
+Golden Retriever, 30 kg, 10 years old, double coat | Level 2 | Level 3 | Level 4 |
+
+At the same -5°C, the Maltese is at level 5 and the Jindo mix at level 2. That is why "how cold is too cold" has no single answer. To try your own dog, open the walk safety calculator and it will use the feels-like temperature where you are right now.
+
+#### What to do at each level
+
+- Levels 1–2: Walk as usual. At level 2, just watch for shivering.
+
+- Level 3: Keep it to 15–20 minutes. Put a coat on small or short-coated dogs.
+
+- Level 4: Coat on, potty first, keep it short. Protect the paws and wipe them as soon as you get home.
+
+- Level 5: Potty only, five minutes or less. Do play and exercise indoors.
+
+If your dog only goes outside
+
+Even at level 5, a dog who only potties outdoors still has to go out, and holding it for too long isn't good either (what happens when dogs hold it too long). On days like this, split the walk into several quick potty trips. Head straight to the usual spot near home and come back in once they're done.
+
+#### How to make winter walks less cold
+
+- Move walks into daylight: The warmest part of a winter day is usually early afternoon. Early mornings and after dark feel much colder.
+
+- Avoid the wind: Riversides, bridges and gaps between tall buildings can feel several degrees colder. Sheltered side streets are better in winter.
+
+- Pick a coat that covers the belly: The belly has the thinnest fur. See our winter food and coat guide.
+
+- Short and often: Three 10-minute walks chill the body less than one 30-minute walk.
+
+- Dry them right away: After snow play, towel off and use a lukewarm hair dryer on the belly and between the toes.
+
+Paws and de-icing salt
+
+De-icing salt can crack paw pads and upset the stomach if licked off. After the walk, rinse paws with lukewarm water and dry between the toes. Use a paw balm on any cracks. Booties are great if your dog is used to them.
+
+#### Signs your dog is too cold
+
+- Shivering or walking hunched up
+
+- Lifting paws in turn, or stopping and refusing to walk
+
+- Turning back toward home again and again
+
+- Cold ears and paws
+
+If you see these, head home. If the shivering doesn't stop indoors, or your dog turns limp with pale gums, their body temperature has dropped a lot. Wrap them in a blanket and call your vet right away.
+
+The levels in this guide follow the POOPIEMATE walk safety index and are not a diagnosis. If your dog has a heart or breathing condition or struggles with cold, ask your vet how long to walk.
+
+#### Pick winter walk times with POOPIEMATE
+
+#### FAQ
+
+Q. How cold is too cold to walk a dog?
+
+Go by the feels-like temperature. By the POOPIEMATE walk safety index, small dogs need care below a feels-like 10°C (50°F), and around 0°C (32°F) even an average dog should take a short potty-first walk. A double-coated dog used to the cold can walk as usual at -5°C (23°F).
+
+Q. Can I walk my dog below freezing?
+
+A healthy double-coated adult is often fine down to about -5°C (23°F). Small, short-coated or senior dogs should wear a coat and keep it to a 5–10 minute potty walk. Below a feels-like -10°C (14°F) the base level is 5, so even a cold-hardy double-coated dog should keep it short.
+
+Q. Should small dogs skip walks in winter?
+
+Rather than skipping, go out briefly and more often, in daylight, with a coat. Walks matter for potty and stress relief, so not going out at all can cause other problems.
+
+Q. Is it OK to walk my dog in the snow?
+
+Snow soaks the fur and drains body heat faster, so count it one level higher. Dry your dog off right after, and always wash the paws if the path was salted.
+
+Q. How long should winter walks be?
+
+At levels 1–2 walk as usual, at level 3 keep it to 15–20 minutes, at level 4 go short and potty first, and at level 5 potty only within five minutes. Make up for the rest with sniffing games or tug indoors.
 
 ### Should You Feed Your Dog More in Winter? And Which Dogs Need a Coat?
 

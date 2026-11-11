@@ -304,7 +304,7 @@ def walk_tool(page, faq_block, faq_ld, cta_band, ASSET_V):
 <ul class="lv-legend">{legend}</ul>
 <div class="tips"><div><img src="/assets/img/emoji/sun_behind_small_cloud.webp" alt="" width="40" height="40"><b>손등 5초 테스트</b><p>아스팔트에 손등을 5초 대 보고 뜨거우면 발바닥 화상 위험이 있어요.</p></div>
 <div><img src="/assets/img/emoji/alarm_clock.webp" alt="" width="40" height="40"><b>여름엔 이른 아침·해 진 뒤</b><p>한낮 아스팔트는 기온보다 20° 넘게 뜨거워질 수 있어요.</p></div>
-<div><img src="/assets/img/emoji/paw_prints.webp" alt="" width="40" height="40"><b>겨울엔 발바닥 확인</b><p>제설제와 얼음에 발바닥이 상할 수 있어요. 다녀오면 닦아 주세요.</p></div></div>
+<div><img src="/assets/img/emoji/paw_prints.webp" alt="" width="40" height="40"><b>겨울엔 발바닥 확인</b><p>제설제와 얼음에 발바닥이 상할 수 있어요. 다녀오면 닦아 주세요. <a href="/dog-winter-walk-temperature/">겨울 산책 몇 도까지 괜찮은지 보기</a></p></div></div>
 </div></section>
 
 {faq_block('ko', WALK_FAQ)}
