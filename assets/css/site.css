@@ -746,3 +746,14 @@ html:not(.js) .step-phone { opacity: 1; transform: none; }
   .rv-grid::-webkit-scrollbar { display: none; }
   .rv-card { flex: 0 0 84%; scroll-snap-align: center; }
 }
+
+/* 홈 히어로 — 문구 아래 스토어 버튼 (11-11) */
+.hero { padding-bottom: clamp(72px, 8vw, 112px); }
+.hero-stores { margin-top: 36px; display: flex; justify-content: center; }
+.hero-stores .stores { justify-content: center; }
+.hero-stores .store { box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 0 0 1px var(--line, rgba(0,0,0,.08)); }
+.hero + .sec-feat { padding-top: clamp(24px, 3vw, 40px); }
+@media (max-width: 560px) {
+  .sec-guides .post-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; }
+  .sec-guides .post-card b { font-size: 15px; }
+}
