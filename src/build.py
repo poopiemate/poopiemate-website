@@ -208,13 +208,14 @@ OG_POSE_SLUG = {  # 가이드 글 머리 포즈 — OG 장면(src/og_scenes.py)�
     'dual-income-dog-walk-schedule': 'laptop', 'share-dog-potty-log-with-family': 'letter', 'multi-dog-household-tracking': 'baby-walk', 'poop-condition-guide': 'magnify',
     'leave-heating-on-for-dog': 'blanket', 'why-dogs-poop-on-dry-leaves': 'leaves', 'dog-evacuation-war-disaster': 'evac',
     'dog-winter-food-and-clothes': 'coat', 'poopiemate-meal-gauge-meds': 'meds', 'dog-winter-walk-temperature': 'leash',
+    'jindo-outdoor-potty-why': 'stubborn', 'large-dog-outdoor-potty-why': 'bigwalk',
     'guide': '안녕', 'notice': '귀쫑긋', 'interview': 'mic', 'support': 'letter', 'how-it-works': 'phone', 'download': '애교', '404': '긁기',
 }
 
 
 # 포즈 → 사이트에 올린 웹용 이미지 (assets/img/mascot/)
 POSE_WEB = {'응가중': 'pooping', '응가전': 'squat', '귀쫑긋': 'ears', '긁기': 'scratch', '배보여주기': 'belly', '안녕': 'hello', '앉아있기': 'sit', '애교': 'beg',
-            **{k: k for k in ('magnify', 'tummy', 'bowl', 'clock', 'kick', 'leash', 'phone', 'laptop', 'mic', 'letter', 'trophy', 'door', 'baby', 'baby-ball', 'family', 'baby-walk', 'blanket', 'leaves', 'evac', 'coat', 'meds')}}
+            **{k: k for k in ('magnify', 'tummy', 'bowl', 'clock', 'kick', 'leash', 'phone', 'laptop', 'mic', 'letter', 'trophy', 'door', 'baby', 'baby-ball', 'family', 'baby-walk', 'blanket', 'leaves', 'evac', 'coat', 'meds', 'stubborn', 'bigwalk')}}
 
 
 def og_image_for(path, lang, title, body, kind, desc=''):
@@ -484,7 +485,7 @@ HOME_GUIDES = {
 
 
 # 새로 올린 가이드 — 홈 4칸에 이 순서로 세우고, 홈과 가이드 목록 모두 NEW (올린 날부터 NEW_DAYS_PINNED일)
-HOME_PINNED = ['dog-winter-walk-temperature', 'dog-winter-food-and-clothes', 'poopiemate-meal-gauge-meds', 'dog-evacuation-war-disaster']
+HOME_PINNED = ['jindo-outdoor-potty-why', 'dog-winter-walk-temperature', 'dog-winter-food-and-clothes', 'poopiemate-meal-gauge-meds']
 NEW_DAYS_PINNED = 30
 HOME_GUIDE_COUNT = 4  # 홈 가이드 카드는 4개로 고정: 계절 가이드 1 + 기존 가이드 3
 
@@ -1258,6 +1259,7 @@ GUIDE_CARDS = {
     'outdoor-potty-holding-risks': 1,
     'why-dogs-kick-after-pooping': 1,
     'why-dogs-poop-on-dry-leaves': 1,
+    'jindo-outdoor-potty-why': 1,
     'walk-safety-index': 2,
     'dual-income-dog-walk-schedule': 2,
     'share-dog-potty-log-with-family': 2,
@@ -1272,6 +1274,7 @@ GUIDE_CARDS = {
 
 # 블로그 글을 처음 올린 날 (git 첫 커밋 기준) — 목록은 최신순, 카드·글머리에 날짜, 최근 글은 NEW
 GUIDE_DATES = {
+    'jindo-outdoor-potty-why': '2026-11-13',
     'dog-winter-walk-temperature': '2026-11-11',
     'dog-winter-food-and-clothes': '2026-11-08', 'poopiemate-meal-gauge-meds': '2026-11-08',
     'dog-evacuation-war-disaster': '2026-11-05',

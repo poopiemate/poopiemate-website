@@ -71,6 +71,8 @@ SCENES = {
     'why-dogs-poop-on-dry-leaves': ('gold', [lay('나무/나무_08.png', 1120, 240, b=100, z=1), dog('leaves', 930, 330, b=40),
                                              lay('소품/단풍잎.png', 700, 60, b=360, r=-25, z=7), lay('소품/나뭇잎.png', 780, 48, b=450, r=30, z=7), lay('소품/단풍잎.png', 1160, 54, b=420, r=15, z=7),
                                              lay('소품/나뭇잎.png', 1060, 40, b=40, r=-50, z=7), lay('소품/단풍잎.png', 760, 44, b=36, r=70, z=7)]),
+    'jindo-outdoor-potty-why': ('mint', [lay('건물/우리집.png', 1110, 290, b=56, z=1), dog('stubborn', 880, 340, b=36)]),
+    'large-dog-outdoor-potty-why': ('lemon', [lay('나무/나무_01.png', 1120, 290, b=110, z=1), lay('나무/덤불_01.png', 700, 96, b=40, z=3), dog('bigwalk', 900, 330, b=40)]),
     # ── 산책·가족 가이드
     'multi-dog-household-tracking': ('pink', [dog('배보여주기', 1040, 250, b=40), dog('baby-walk', 790, 200, b=40)]),
     'share-dog-potty-log-with-family': ('cream', [lay('건물/우리집.png', 1080, 300, b=56, z=1), dog('letter', 820, 320, b=34)]),
