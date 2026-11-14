@@ -485,7 +485,7 @@ HOME_GUIDES = {
 
 
 # 새로 올린 가이드 — 홈 4칸에 이 순서로 세우고, 홈과 가이드 목록 모두 NEW (올린 날부터 NEW_DAYS_PINNED일)
-HOME_PINNED = ['jindo-outdoor-potty-why', 'dog-winter-walk-temperature', 'dog-winter-food-and-clothes', 'poopiemate-meal-gauge-meds']
+HOME_PINNED = ['large-dog-outdoor-potty-why', 'jindo-outdoor-potty-why', 'dog-winter-walk-temperature', 'dog-winter-food-and-clothes']
 NEW_DAYS_PINNED = 30
 HOME_GUIDE_COUNT = 4  # 홈 가이드 카드는 4개로 고정: 계절 가이드 1 + 기존 가이드 3
 
@@ -1260,6 +1260,7 @@ GUIDE_CARDS = {
     'why-dogs-kick-after-pooping': 1,
     'why-dogs-poop-on-dry-leaves': 1,
     'jindo-outdoor-potty-why': 1,
+    'large-dog-outdoor-potty-why': 1,
     'walk-safety-index': 2,
     'dual-income-dog-walk-schedule': 2,
     'share-dog-potty-log-with-family': 2,
@@ -1274,6 +1275,7 @@ GUIDE_CARDS = {
 
 # 블로그 글을 처음 올린 날 (git 첫 커밋 기준) — 목록은 최신순, 카드·글머리에 날짜, 최근 글은 NEW
 GUIDE_DATES = {
+    'large-dog-outdoor-potty-why': '2026-11-14',
     'jindo-outdoor-potty-why': '2026-11-13',
     'dog-winter-walk-temperature': '2026-11-11',
     'dog-winter-food-and-clothes': '2026-11-08', 'poopiemate-meal-gauge-meds': '2026-11-08',
