@@ -209,13 +209,14 @@ OG_POSE_SLUG = {  # 가이드 글 머리 포즈 — OG 장면(src/og_scenes.py)�
     'leave-heating-on-for-dog': 'blanket', 'why-dogs-poop-on-dry-leaves': 'leaves', 'dog-evacuation-war-disaster': 'evac',
     'dog-winter-food-and-clothes': 'coat', 'poopiemate-meal-gauge-meds': 'meds', 'dog-winter-walk-temperature': 'leash',
     'jindo-outdoor-potty-why': 'stubborn', 'large-dog-outdoor-potty-why': 'bigwalk',
+    'cruelty-free-korean-brands': 'picket',
     'guide': '안녕', 'notice': '귀쫑긋', 'interview': 'mic', 'support': 'letter', 'how-it-works': 'phone', 'download': '애교', '404': '긁기',
 }
 
 
 # 포즈 → 사이트에 올린 웹용 이미지 (assets/img/mascot/)
 POSE_WEB = {'응가중': 'pooping', '응가전': 'squat', '귀쫑긋': 'ears', '긁기': 'scratch', '배보여주기': 'belly', '안녕': 'hello', '앉아있기': 'sit', '애교': 'beg',
-            **{k: k for k in ('magnify', 'tummy', 'bowl', 'clock', 'kick', 'leash', 'phone', 'laptop', 'mic', 'letter', 'trophy', 'door', 'baby', 'baby-ball', 'family', 'baby-walk', 'blanket', 'leaves', 'evac', 'coat', 'meds', 'stubborn', 'bigwalk')}}
+            **{k: k for k in ('magnify', 'tummy', 'bowl', 'clock', 'kick', 'leash', 'phone', 'laptop', 'mic', 'letter', 'trophy', 'door', 'baby', 'baby-ball', 'family', 'baby-walk', 'blanket', 'leaves', 'evac', 'coat', 'meds', 'stubborn', 'bigwalk', 'picket')}}
 
 
 def og_image_for(path, lang, title, body, kind, desc=''):
@@ -485,7 +486,7 @@ HOME_GUIDES = {
 
 
 # 새로 올린 가이드 — 홈 4칸에 이 순서로 세우고, 홈과 가이드 목록 모두 NEW (올린 날부터 NEW_DAYS_PINNED일)
-HOME_PINNED = ['large-dog-outdoor-potty-why', 'jindo-outdoor-potty-why', 'dog-winter-walk-temperature', 'dog-winter-food-and-clothes']
+HOME_PINNED = ['cruelty-free-korean-brands', 'large-dog-outdoor-potty-why', 'jindo-outdoor-potty-why', 'dog-winter-walk-temperature', 'dog-winter-food-and-clothes']
 NEW_DAYS_PINNED = 30
 HOME_GUIDE_COUNT = 4  # 홈 가이드 카드는 4개로 고정: 계절 가이드 1 + 기존 가이드 3
 
@@ -1186,7 +1187,8 @@ def guide_article(slug, lang, g):
 
     kind = 'poop' if GUIDE_CARDS.get(slug, 1) == 1 else 'walk'
     pose = OG_POSE_SLUG.get(slug, OG_POSE[kind])
-    pw, ph = Image.open(ROOT / f'assets/img/mascot/{POSE_WEB[pose]}.webp').size
+    pweb = POSE_WEB[pose] + ('-en' if lang == 'en' and (ROOT / f'assets/img/mascot/{POSE_WEB[pose]}-en.webp').exists() else '')  # 글자 들어간 포즈는 영어판 따로
+    pw, ph = Image.open(ROOT / f'assets/img/mascot/{pweb}.webp').size
     head, sub = h1, ''
     parts = re.split(r'(?<=[?？])\s+|,\s+', h1, maxsplit=1)
     if len(parts) == 2 and len(parts[0]) >= 6:
@@ -1210,7 +1212,7 @@ def guide_article(slug, lang, g):
 <h1 class="g-h1">{escape(head)}{f'<span>{escape(sub)}</span>' if sub else ''}</h1>
 <p class="g-lede">{lede}</p>
 <p class="g-meta"><span>{c["by"]}</span><span>{c["read"].format(n=minutes)}</span><span><time datetime="{guide_date(slug)}">{guide_date(slug).replace("-", ".")}</time></span></p>
-</div><div class="g-art"><img class="g-pose" src="/assets/img/mascot/{POSE_WEB[pose]}.webp" alt="" width="{pw}" height="{ph}"></div></div>
+</div><div class="g-art"><img class="g-pose" src="/assets/img/mascot/{pweb}.webp" alt="" width="{pw}" height="{ph}"></div></div>
 </div></section>
 <div class="wrap-g g-body">
 <aside class="g-toc" aria-label="{c["toc"]}"><b>{c["toc"]}</b><ol>{toc_html}</ol></aside>
@@ -1270,11 +1272,13 @@ GUIDE_CARDS = {
     'dog-winter-food-and-clothes': 2,
     'poopiemate-meal-gauge-meds': 2,
     'dog-winter-walk-temperature': 2,
+    'cruelty-free-korean-brands': 2,
 }
 
 
 # 블로그 글을 처음 올린 날 (git 첫 커밋 기준) — 목록은 최신순, 카드·글머리에 날짜, 최근 글은 NEW
 GUIDE_DATES = {
+    'cruelty-free-korean-brands': '2026-11-16',
     'large-dog-outdoor-potty-why': '2026-11-14',
     'jindo-outdoor-potty-why': '2026-11-13',
     'dog-winter-walk-temperature': '2026-11-11',
