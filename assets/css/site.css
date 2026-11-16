@@ -754,6 +754,10 @@ html:not(.js) .step-phone { opacity: 1; transform: none; }
 .hero-stores .store { box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 0 0 1px var(--line, rgba(0,0,0,.08)); }
 .hero + .sec-feat { padding-top: clamp(24px, 3vw, 40px); }
 @media (max-width: 560px) {
-  .sec-guides .post-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; }
-  .sec-guides .post-card b { font-size: 15px; }
+  /* 모바일: 4칸 그리드 대신 가로 스와이프 — 카드 한 장이 화면 폭의 90% (11-16) */
+  .sec-guides .post-grid { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+    margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); padding: 0 5vw 8px; scroll-padding: 0 5vw; scrollbar-width: none; }
+  .sec-guides .post-grid::-webkit-scrollbar { display: none; }
+  .sec-guides .post-grid > .post-card { flex: 0 0 90vw; scroll-snap-align: center; }
+  .sec-guides .post-card b { font-size: 17px; }
 }
