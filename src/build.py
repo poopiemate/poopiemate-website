@@ -209,7 +209,7 @@ OG_POSE_SLUG = {  # 가이드 글 머리 포즈 — OG 장면(src/og_scenes.py)�
     'leave-heating-on-for-dog': 'blanket', 'why-dogs-poop-on-dry-leaves': 'leaves', 'dog-evacuation-war-disaster': 'evac',
     'dog-winter-food-and-clothes': 'coat', 'poopiemate-meal-gauge-meds': 'meds', 'dog-winter-walk-temperature': 'leash',
     'jindo-outdoor-potty-why': 'stubborn', 'large-dog-outdoor-potty-why': 'bigwalk',
-    'cruelty-free-korean-brands': 'picket',
+    'cruelty-free-korean-brands': 'picket', 'heartworm-treatment-shortage': 'meds',
     'guide': '안녕', 'notice': '귀쫑긋', 'interview': 'mic', 'support': 'letter', 'how-it-works': 'phone', 'download': '애교', '404': '긁기',
 }
 
@@ -486,7 +486,7 @@ HOME_GUIDES = {
 
 
 # 새로 올린 가이드 — 홈 4칸에 이 순서로 세우고, 홈과 가이드 목록 모두 NEW (올린 날부터 NEW_DAYS_PINNED일)
-HOME_PINNED = ['cruelty-free-korean-brands', 'large-dog-outdoor-potty-why', 'jindo-outdoor-potty-why', 'dog-winter-walk-temperature', 'dog-winter-food-and-clothes']
+HOME_PINNED = ['heartworm-treatment-shortage', 'cruelty-free-korean-brands', 'large-dog-outdoor-potty-why', 'jindo-outdoor-potty-why', 'dog-winter-walk-temperature', 'dog-winter-food-and-clothes']
 NEW_DAYS_PINNED = 30
 HOME_GUIDE_COUNT = 4  # 홈 가이드 카드는 4개로 고정: 계절 가이드 1 + 기존 가이드 3
 
@@ -1273,11 +1273,13 @@ GUIDE_CARDS = {
     'poopiemate-meal-gauge-meds': 2,
     'dog-winter-walk-temperature': 2,
     'cruelty-free-korean-brands': 2,
+    'heartworm-treatment-shortage': 2,
 }
 
 
 # 블로그 글을 처음 올린 날 (git 첫 커밋 기준) — 목록은 최신순, 카드·글머리에 날짜, 최근 글은 NEW
 GUIDE_DATES = {
+    'heartworm-treatment-shortage': '2026-11-19',
     'cruelty-free-korean-brands': '2026-11-16',
     'large-dog-outdoor-potty-why': '2026-11-14',
     'jindo-outdoor-potty-why': '2026-11-13',
