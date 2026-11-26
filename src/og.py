@@ -123,7 +123,12 @@ def page_html(p, slug='', app=False):
     from og_scenes import stage_html
     a = ROOT / 'assets'
     sc = stage_html(slug)
-    if sc:
+    full = Path(__file__).resolve().parent / 'art/scenes' / f'{slug.removeprefix("en-")}.png'  # ChatGPT로 그린 장면 한 장(네이버 커버와 같은 그림) — 캔버스 전체에, 오른쪽 아래 기준
+    if full.exists() and not app:
+        bg, accent, _ = THEME[p['kind']]
+        ground = 'transparent'
+        scene = f'<img src="file://{full}" style="position:absolute;inset:0;width:1200px;height:630px;object-fit:cover;object-position:right bottom;z-index:0">'
+    elif sc:
         (bg, accent, ground), scene = sc
     else:  # 장면이 없는 페이지는 예전처럼 포즈 하나
         bg, accent, _ = THEME[p['kind']]
@@ -193,8 +198,9 @@ def page_ogs(only=None):
         for f in [ex.submit(one, *j) for j in jobs]:
             f.result()
     # 더는 없는 페이지의 이미지는 지운다
+    scenes = {x.stem for x in (Path(__file__).resolve().parent / 'art/scenes').glob('*.png')}
     for f in out.glob('*.jpg'):
-        if f.stem not in specs:
+        if f.stem not in specs and f.stem.removeprefix('en-') not in scenes:  # 예약 글(아직 안 연 글)의 이미지는 남긴다
             f.unlink()
 
 

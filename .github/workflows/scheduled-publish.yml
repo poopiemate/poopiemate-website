@@ -1,0 +1,51 @@
+# 예약 가이드 공개 — 매일 아침 8시(KST)에 사이트를 다시 빌드해서, 올린 날(build.py GUIDE_DATES)이 된 글을 연다.
+# 바뀐 게 있을 때만 커밋·푸시하고 GitHub Pages 빌드를 요청한다.
+name: Scheduled publish
+
+on:
+  schedule:
+    - cron: '0 23 * * *'   # 23:00 UTC = 08:00 KST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: scheduled-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul
+      PYTHONDONTWRITEBYTECODE: "1"   # 저장소에 올라가 있는 .pyc가 매일 바뀌어 커밋되지 않게
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # build.py가 git 기록으로 글 날짜(lastmod·RSS)를 읽는다
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: pip install pillow
+
+      - name: Build
+        run: python3 src/build.py
+
+      - name: Commit and push if anything opened today
+        run: |
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nothing to publish today."
+            exit 0
+          fi
+          git config user.name "poopiemate-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Scheduled publish $(date +%F)"
+          git push
+          gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds" || true
+        env:
+          GH_TOKEN: ${{ github.token }}

@@ -210,6 +210,7 @@ OG_POSE_SLUG = {  # 가이드 글 머리 포즈 — OG 장면(src/og_scenes.py)�
     'dog-winter-food-and-clothes': 'coat', 'poopiemate-meal-gauge-meds': 'meds', 'dog-winter-walk-temperature': 'leash',
     'jindo-outdoor-potty-why': 'stubborn', 'large-dog-outdoor-potty-why': 'bigwalk',
     'cruelty-free-korean-brands': 'picket', 'heartworm-treatment-shortage': 'meds',
+    'winter-paw-pad-deicer': 'coat', 'winter-dog-water-urine': 'bowl', 'winter-dog-ticks': 'magnify', 'dog-tooth-brushing': '애교', 'dogs-and-snow': 'blanket', 'double-coat-winter-shedding': '배보여주기', 'winter-dog-constipation': '응가전', 'heartworm-prevention-winter': 'meds', 'dog-christmas-gift': 'trophy', 'dog-scarf-warmth': 'coat', 'dog-favorite-potty-spots': 'leaves', 'korean-winter-foods-for-dogs': 'bowl', 'holiday-toxic-foods': 'tummy', 'winter-nose-color': 'magnify',
     'guide': '안녕', 'notice': '귀쫑긋', 'interview': 'mic', 'support': 'letter', 'how-it-works': 'phone', 'download': '애교', '404': '긁기',
 }
 
@@ -486,13 +487,13 @@ HOME_GUIDES = {
 
 
 # 새로 올린 가이드 — 홈 4칸에 이 순서로 세우고, 홈과 가이드 목록 모두 NEW (올린 날부터 NEW_DAYS_PINNED일)
-HOME_PINNED = ['heartworm-treatment-shortage', 'cruelty-free-korean-brands', 'large-dog-outdoor-potty-why', 'jindo-outdoor-potty-why', 'dog-winter-walk-temperature', 'dog-winter-food-and-clothes']
+HOME_PINNED = ['winter-nose-color', 'holiday-toxic-foods', 'korean-winter-foods-for-dogs', 'dog-favorite-potty-spots', 'dog-scarf-warmth', 'dog-christmas-gift', 'heartworm-prevention-winter', 'winter-dog-constipation', 'double-coat-winter-shedding', 'dogs-and-snow', 'dog-tooth-brushing', 'winter-dog-ticks', 'winter-dog-water-urine', 'winter-paw-pad-deicer', 'heartworm-treatment-shortage', 'cruelty-free-korean-brands', 'large-dog-outdoor-potty-why', 'jindo-outdoor-potty-why', 'dog-winter-walk-temperature', 'dog-winter-food-and-clothes']
 NEW_DAYS_PINNED = 30
 HOME_GUIDE_COUNT = 4  # 홈 가이드 카드는 4개로 고정: 계절 가이드 1 + 기존 가이드 3
 
 
 def home_guides(lang):
-    picks = [(x, None) for x in HOME_PINNED] + [x for x in HOME_GUIDES[lang] if x[0] not in HOME_PINNED]
+    picks = [(x, None) for x in HOME_PINNED if live(x) and guide_json(x, lang)] + [x for x in HOME_GUIDES[lang] if x[0] not in HOME_PINNED]
     cards = ''
     for slug, title in picks[:HOME_GUIDE_COUNT]:
         g = guide_json(slug, lang)
@@ -1228,6 +1229,12 @@ def guide_article(slug, lang, g):
 def guides():
     for f in sorted((SRC / 'legacy/guides').glob('*.json')):
         slug = f.stem
+        if not live(slug):  # 아직 안 연 글 — 미리보기(PREVIEW_ALL)로 그려 둔 페이지가 있으면 지운다
+            import shutil
+            for d in (ROOT / slug, ROOT / 'en' / slug):
+                if d.exists():
+                    shutil.rmtree(d)
+            continue
         has_en = guide_json(slug, 'en') is not None
         for lang in ('ko', 'en') if has_en else ('ko',):
             if lang == 'ko' and slug in tools.TOOL_SLUGS:  # 한국어는 도구 페이지가 같은 주소를 쓴다 (src/tools.py)
@@ -1274,11 +1281,40 @@ GUIDE_CARDS = {
     'dog-winter-walk-temperature': 2,
     'cruelty-free-korean-brands': 2,
     'heartworm-treatment-shortage': 2,
+    'winter-paw-pad-deicer': 2,
+    'winter-dog-water-urine': 1,
+    'winter-dog-ticks': 2,
+    'dog-tooth-brushing': 1,
+    'dogs-and-snow': 2,
+    'double-coat-winter-shedding': 2,
+    'winter-dog-constipation': 1,
+    'heartworm-prevention-winter': 2,
+    'dog-christmas-gift': 2,
+    'dog-scarf-warmth': 2,
+    'dog-favorite-potty-spots': 1,
+    'korean-winter-foods-for-dogs': 1,
+    'holiday-toxic-foods': 1,
+    'winter-nose-color': 2,
 }
 
 
 # 블로그 글을 처음 올린 날 (git 첫 커밋 기준) — 목록은 최신순, 카드·글머리에 날짜, 최근 글은 NEW
 GUIDE_DATES = {
+    # 2026-11-26 겨울 묶음 — 이 날짜 아침 8시(KST)에 공개된다 (GitHub Actions 매일 빌드, live())
+    'winter-paw-pad-deicer': '2026-11-26',
+    'winter-dog-water-urine': '2026-11-27',
+    'winter-dog-ticks': '2026-11-28',
+    'dog-tooth-brushing': '2026-11-29',
+    'dogs-and-snow': '2026-11-30',
+    'double-coat-winter-shedding': '2026-12-01',
+    'winter-dog-constipation': '2026-12-02',
+    'heartworm-prevention-winter': '2026-12-03',
+    'dog-christmas-gift': '2026-12-04',
+    'dog-scarf-warmth': '2026-12-05',
+    'dog-favorite-potty-spots': '2026-12-06',
+    'korean-winter-foods-for-dogs': '2026-12-07',
+    'holiday-toxic-foods': '2026-12-08',
+    'winter-nose-color': '2026-12-09',
     'heartworm-treatment-shortage': '2026-11-19',
     'cruelty-free-korean-brands': '2026-11-16',
     'large-dog-outdoor-potty-why': '2026-11-14',
@@ -1299,6 +1335,17 @@ def guide_date(slug):
     return GUIDE_DATES.get(slug, GUIDE_DATE_DEFAULT)
 
 
+# 예약 공개 — 올린 날(GUIDE_DATES)이 오늘(한국 시간) 이후인 글은 페이지·목록·사이트맵·RSS·앱 목록에서 모두 뺀다.
+# .github/workflows/scheduled-publish.yml 이 매일 08:00 KST에 다시 빌드해서 그날 글을 연다. PREVIEW_ALL=1 이면 로컬에서 미리 다 그린다.
+import os as _os
+from datetime import datetime as _dt, timezone as _tz, timedelta as _td
+TODAY_KST = _dt.now(_tz(_td(hours=9))).date().isoformat()
+
+
+def live(slug):
+    return _os.environ.get('PREVIEW_ALL') == '1' or guide_date(slug) <= TODAY_KST
+
+
 def guide_list(lang):
     c = {'ko': ('강아지 가이드', '배변 상태부터 산책 당번까지, 강아지를 같이 돌볼 때 알아 두면 좋은 것들을 모아요', ['전체', '배변', '산책·가족'], '강아지 가이드 | 응가메이트',
                 '강아지 응가 상태, 배변 텀, 실외배변, 산책 안전, 맞벌이 산책 당번, 다견가정 기록까지. 가족이 같이 강아지를 돌볼 때 알아 두면 좋은 가이드를 모았어요.'),
@@ -1307,7 +1354,7 @@ def guide_list(lang):
     cats = c[2]
     chips = ''.join(f'<button type="button" data-cat="{"all" if i == 0 else i}" aria-pressed="{"true" if i == 0 else "false"}">{x}</button>' for i, x in enumerate(cats))
     cards = ''
-    order = sorted(GUIDE_CARDS.items(), key=lambda kv: guide_date(kv[0]), reverse=True)  # 최신순 (같은 날은 원래 순서)
+    order = sorted([kv for kv in GUIDE_CARDS.items() if live(kv[0])], key=lambda kv: guide_date(kv[0]), reverse=True)  # 최신순 (같은 날은 원래 순서), 예약 글은 공개일부터
     for slug, cat in order:
         g = guide_json(slug, lang)
         if not g:
@@ -1521,12 +1568,14 @@ def rss(lang):
         items.append((datetime.fromisoformat(date).replace(hour=9, tzinfo=kst), s['title'], SITE + url(key, lang), s['excerpt'], T[lang]['nav'][1][1]))
     for f in sorted((SRC / 'legacy/guides').glob('*.json')):
         g = guide_json(f.stem, lang)
-        if not g:
+        if not g or not live(f.stem):
             continue
         src_file = f if lang == 'ko' else SRC / f'legacy/guides/en/{f.stem}.json'
         # 가이드는 날짜가 없어서 원본 파일이 저장소에 처음 들어온 날을 쓴다
         added = subprocess.run(['git', 'log', '--diff-filter=A', '--format=%aI', '--', str(src_file)], capture_output=True, text=True, cwd=ROOT).stdout.split()
         when = datetime.fromisoformat(added[-1]) if added else datetime.now(kst)
+        if f.stem in GUIDE_DATES and when.date().isoformat() < guide_date(f.stem):  # 예약 글은 공개한 날 아침 8시
+            when = datetime.fromisoformat(guide_date(f.stem)).replace(hour=8, tzinfo=kst)
         h1 = html_mod.unescape(re.sub(r'<[^>]+>', '', re.search(r'<h1[^>]*>(.*?)</h1>', g['main'], re.S).group(1))).strip()
         items.append((when, h1, f'{SITE}{"" if lang == "ko" else "/en"}/{f.stem}/', g['description'], T[lang]['nav'][2][1]))
     items.sort(key=lambda x: x[0], reverse=True)
@@ -1570,7 +1619,7 @@ def guide_entries(lang):
     out = []
     for slug, _cat in sorted(GUIDE_CARDS.items(), key=lambda kv: guide_date(kv[0]), reverse=True):
         g = guide_json(slug, lang)
-        if not g:
+        if not g or not live(slug):
             continue
         h1 = _text(re.search(r'<h1[^>]*>(.*?)</h1>', g['main'], re.S).group(1))
         out.append({'slug': slug, 'g': g, 'h1': h1, 'url': f'{SITE}{"" if lang == "ko" else "/en"}/{slug}/',
@@ -1619,6 +1668,8 @@ def sitemap():
             rows.append(f'''  <url><loc>{SITE}{loc}</loc><lastmod>{page_modified(loc)}</lastmod><priority>{pr}</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="{SITE}{ko}"/><xhtml:link rel="alternate" hreflang="en" href="{SITE}{en}"/><xhtml:link rel="alternate" hreflang="x-default" href="{SITE}{ko}"/></url>''')
     for f in sorted((SRC / 'legacy/guides').glob('*.json')):
+        if not live(f.stem):
+            continue
         ko, en = f'/{f.stem}/', f'/en/{f.stem}/'
         if guide_json(f.stem, 'en') is None:
             rows.append(f'  <url><loc>{SITE}{ko}</loc><lastmod>{guide_modified(f.stem, "ko")}</lastmod><priority>0.6</priority></url>')
