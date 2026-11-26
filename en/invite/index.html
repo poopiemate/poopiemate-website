@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Family invite — POOPIEMATE</title>
+<meta name="description" content="A POOPIEMATE family invite link. Get the app and enter the invite code to log the same dog’s poop, walks and meals together.">
+<link rel="canonical" href="https://poopiemate.com/en/invite/">
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#18955A">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="POOPIEMATE">
+<meta property="og:title" content="Family invite — POOPIEMATE">
+<meta property="og:description" content="A POOPIEMATE family invite link. Get the app and enter the invite code to log the same dog’s poop, walks and meals together.">
+<meta property="og:url" content="https://poopiemate.com/en/invite/">
+<meta property="og:image" content="https://poopiemate.com/assets/og/p/en-invite.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://poopiemate.com/assets/og/p/en-invite.jpg">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/assets/css/site.css?v=64">
+<script src="/assets/js/store-region.js?v=64"></script>
+</head>
+<body>
+<main class="wrap invite">
+<img src="/assets/brand/wordmark-en-green.svg" alt="POOPIEMATE" width="150" height="40">
+<img class="invite-pose" src="/assets/img/mascot/letter.webp?v=64" alt="" width="160" height="160">
+<h1>You’re invited<br>to care for a dog</h1>
+<p class="lede">Get the app and enter the code below<br>to see the family’s poop, walk and meal logs right away.</p>
+<div class="invite-code" data-invite hidden>
+<small>Invite code</small>
+<b data-invite-code></b>
+<button type="button" class="btn" data-invite-copy data-done="Copied">Copy code</button>
+</div>
+<p class="invite-none" data-invite-none hidden>This link has no invite code. Ask your family to send the invite again.</p>
+<section class="invite-steps"><h2>How to join</h2><ol><li>Get the app</li><li>Tap “Enter with an invite code” on the first screen</li><li>Enter the code and you’re in</li></ol></section>
+<p class="invite-get">Don’t have the app yet?</p>
+<div class="stores "><a class="store" href="https://apps.apple.com/app/id6781981502" rel="noopener"><svg aria-hidden="true" focusable="false" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg><span><small>Download on the</small><b>App Store</b></span></a><a class="store" href="https://play.google.com/store/apps/details?id=com.pixelberry.poopiemate&hl=en" rel="noopener"><svg viewBox="0 0 27 30" aria-hidden="true"><path d="M0 0 L 16.4 15 L 0 30 Z" fill="#4285F4"/><path d="M0 0 L 20.6 11.1 L 16.4 15 Z" fill="#34A853"/><path d="M0 30 L 20.6 18.9 L 16.4 15 Z" fill="#EA4335"/><path d="M20.6 11.1 L 27 15 L 20.6 18.9 L 16.4 15 Z" fill="#FBBC04"/></svg><span><small>Get it on</small><b>Google Play</b></span></a></div>
+</main>
+<script>
+(function () {
+  var m = /[?&]code=([^&#]*)/.exec(location.search);
+  var code = m ? decodeURIComponent(m[1]).replace(/[^A-Za-z0-9]/g, '').toUpperCase().slice(0, 6) : '';
+  var box = document.querySelector('[data-invite]'), none = document.querySelector('[data-invite-none]');
+  if (code.length === 6) {
+    document.querySelector('[data-invite-code]').textContent = code.slice(0, 3) + '-' + code.slice(3);
+    box.hidden = false;
+    var btn = document.querySelector('[data-invite-copy]');
+    btn.addEventListener('click', function () {
+      var done = function () { btn.textContent = btn.getAttribute('data-done'); };
+      if (navigator.clipboard) navigator.clipboard.writeText(code).then(done, function () {});
+    });
+  } else { none.hidden = false; }
+  try {
+    var id = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random());
+    navigator.sendBeacon('https://us.i.posthog.com/i/v0/e/', new Blob([JSON.stringify({api_key: 'phc_vCXzLCCFmhfLTks3Cn4ZNK99JiPnmcwByxnnhCApaVt7', event: 'invite_page_viewed', distinct_id: id, properties: { lang: 'en', has_code: code.length === 6, $current_url: location.origin + location.pathname, $referrer: document.referrer || '$direct', $process_person_profile: false } })], { type: 'text/plain' }));
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>

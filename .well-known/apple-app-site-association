@@ -1,0 +1,16 @@
+{
+ "applinks": {
+  "apps": [],
+  "details": [
+   {
+    "appID": "DRMSV9J73G.com.pixelberry.poopiemate",
+    "paths": [
+     "/invite",
+     "/invite/*",
+     "/en/invite",
+     "/en/invite/*"
+    ]
+   }
+  ]
+ }
+}

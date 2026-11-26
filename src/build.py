@@ -14,7 +14,7 @@ import guide_doc
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
-ASSET_V = '63'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '64'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -198,7 +198,7 @@ OG_CHIP = {'ko': {'poop': '강아지 가이드', 'walk': '강아지 가이드', 
 # 「응가메이트」 칩은 바로 위 로고와 겹쳐서 — 페이지 성격으로
 OG_CHIP_SLUG = {s: {'ko': '이용 안내', 'en': 'Policies'} for s in ('privacy', 'terms', 'licenses')}
 OG_CHIP_SLUG.update({'support': {'ko': '고객 지원', 'en': 'Support'}, 'how-it-works': {'ko': '이렇게 써요', 'en': 'How it works'},
-                     'interview': {'ko': '3분 설문', 'en': '3-minute survey'}, 'download': {'ko': '무료 앱', 'en': 'Free app'}, '404': {'ko': '길을 잃었어요', 'en': 'Lost'}})
+                     'interview': {'ko': '3분 설문', 'en': '3-minute survey'}, 'download': {'ko': '무료 앱', 'en': 'Free app'}, 'invite': {'ko': '가족 초대', 'en': 'Family invite'}, '404': {'ko': '길을 잃었어요', 'en': 'Lost'}})
 # 응댕이 포즈 — 승인된 9개 중에서 (~/Desktop/응가메이트/홈페이지_v3_레이어/응댕이/포즈/)
 OG_POSE = {'poop': '응가중', 'walk': '안녕', 'tool': '응가중', 'story': '배보여주기', 'notice': '귀쫑긋', 'brand': '안녕', 'plain': '앉아있기'}
 OG_POSE_SLUG = {  # 가이드 글 머리 포즈 — OG 장면(src/og_scenes.py)과 같은 포즈. 2026-10-30에 만든 주제별 포즈(src/art/poses-new) 포함
@@ -211,7 +211,7 @@ OG_POSE_SLUG = {  # 가이드 글 머리 포즈 — OG 장면(src/og_scenes.py)�
     'jindo-outdoor-potty-why': 'stubborn', 'large-dog-outdoor-potty-why': 'bigwalk',
     'cruelty-free-korean-brands': 'picket', 'heartworm-treatment-shortage': 'meds',
     'winter-paw-pad-deicer': 'coat', 'winter-dog-water-urine': 'bowl', 'winter-dog-ticks': 'magnify', 'dog-tooth-brushing': '애교', 'dogs-and-snow': 'blanket', 'double-coat-winter-shedding': '배보여주기', 'winter-dog-constipation': '응가전', 'heartworm-prevention-winter': 'meds', 'dog-christmas-gift': 'trophy', 'dog-scarf-warmth': 'coat', 'dog-favorite-potty-spots': 'leaves', 'korean-winter-foods-for-dogs': 'bowl', 'holiday-toxic-foods': 'tummy', 'winter-nose-color': 'magnify',
-    'guide': '안녕', 'notice': '귀쫑긋', 'interview': 'mic', 'support': 'letter', 'how-it-works': 'phone', 'download': '애교', '404': '긁기',
+    'guide': '안녕', 'notice': '귀쫑긋', 'interview': 'mic', 'support': 'letter', 'how-it-works': 'phone', 'download': '애교', 'invite': 'letter', '404': '긁기',
 }
 
 
@@ -1533,6 +1533,114 @@ def download():
     (ROOT / 'download/index.html').write_text(html, encoding='utf-8')
 
 
+# ═════════════════════════════════════════════════════════ 가족 초대 링크
+# 앱의 초대 메시지에 들어가는 주소(/invite?code=XXXXXX). 앱이 깔려 있으면 앱이 이 주소를 가로채 합류 화면을 열고(앱 링크·유니버설 링크),
+# 없으면 이 페이지가 코드와 스토어 버튼을 보여 준다. 코드는 주소에서 읽어 화면에만 쓴다.
+INVITE = {
+    'ko': {'path': '/invite/', 'title': '가족 초대 — 응가메이트', 'desc': '응가메이트 가족 초대 링크예요. 앱을 받고 초대 코드를 넣으면 같은 강아지의 응가·산책·밥을 함께 기록해요.',
+           'og_h': '우리 강아지<br>보호자로 초대해요', 'h': '강아지 보호자로<br>초대받았어요', 'lede': '앱을 받고 아래 코드를 넣으면,<br>가족이 남긴 응가·산책·밥 기록을 바로 같이 봐요.',
+           'code': '초대 코드', 'copy': '코드 복사', 'copied': '복사했어요', 'open': '앱에서 열기', 'none': '초대 코드가 없는 링크예요. 초대한 가족에게 메시지를 다시 받아 주세요.',
+           'steps': ['앱을 받아요', '시작 화면에서 「초대코드로 입장하기」를 눌러요', '코드를 넣으면 끝이에요'], 'steps_h': '이렇게 들어와요', 'get': '앱이 아직 없다면'},
+    'en': {'path': '/en/invite/', 'title': 'Family invite — POOPIEMATE', 'desc': 'A POOPIEMATE family invite link. Get the app and enter the invite code to log the same dog’s poop, walks and meals together.',
+           'og_h': 'You’re invited<br>to care for our dog', 'h': 'You’re invited<br>to care for a dog', 'lede': 'Get the app and enter the code below<br>to see the family’s poop, walk and meal logs right away.',
+           'code': 'Invite code', 'copy': 'Copy code', 'copied': 'Copied', 'open': 'Open in the app', 'none': 'This link has no invite code. Ask your family to send the invite again.',
+           'steps': ['Get the app', 'Tap “Enter with an invite code” on the first screen', 'Enter the code and you’re in'], 'steps_h': 'How to join', 'get': 'Don’t have the app yet?'},
+}
+
+
+def invite(lang):
+    t = INVITE[lang]
+    og = og_image_for(t['path'], lang, '', f'<h1>{t["og_h"]}</h1>', 'brand')
+    steps = ''.join(f'<li>{escape(x)}</li>' for x in t['steps'])
+    html = f"""<!doctype html>
+<html lang="{lang}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{escape(t['title'])}</title>
+<meta name="description" content="{escape(t['desc'])}">
+<link rel="canonical" href="{SITE}{t['path']}">
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#18955A">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{'응가메이트' if lang == 'ko' else 'POOPIEMATE'}">
+<meta property="og:title" content="{escape(t['title'])}">
+<meta property="og:description" content="{escape(t['desc'])}">
+<meta property="og:url" content="{SITE}{t['path']}">
+<meta property="og:image" content="{SITE}{og}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="{'ko_KR' if lang == 'ko' else 'en_US'}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{SITE}{og}">
+{PRETENDARD}
+<link rel="stylesheet" href="/assets/css/site.css?v={ASSET_V}">
+<script src="/assets/js/store-region.js?v={ASSET_V}"></script>
+</head>
+<body>
+<main class="wrap invite">
+<img src="/assets/brand/wordmark-{lang}-green.svg" alt="{'응가메이트' if lang == 'ko' else 'POOPIEMATE'}" width="150" height="40">
+<img class="invite-pose" src="/assets/img/mascot/letter.webp?v={ASSET_V}" alt="" width="160" height="160">
+<h1>{t['h']}</h1>
+<p class="lede">{t['lede']}</p>
+<div class="invite-code" data-invite hidden>
+<small>{t['code']}</small>
+<b data-invite-code></b>
+<button type="button" class="btn" data-invite-copy data-done="{t['copied']}">{t['copy']}</button>
+</div>
+<p class="invite-none" data-invite-none hidden>{escape(t['none'])}</p>
+<section class="invite-steps"><h2>{t['steps_h']}</h2><ol>{steps}</ol></section>
+<p class="invite-get">{t['get']}</p>
+{stores(lang)}
+</main>
+<script>
+(function () {{
+  var m = /[?&]code=([^&#]*)/.exec(location.search);
+  var code = m ? decodeURIComponent(m[1]).replace(/[^A-Za-z0-9]/g, '').toUpperCase().slice(0, 6) : '';
+  var box = document.querySelector('[data-invite]'), none = document.querySelector('[data-invite-none]');
+  if (code.length === 6) {{
+    document.querySelector('[data-invite-code]').textContent = code.slice(0, 3) + '-' + code.slice(3);
+    box.hidden = false;
+    var btn = document.querySelector('[data-invite-copy]');
+    btn.addEventListener('click', function () {{
+      var done = function () {{ btn.textContent = btn.getAttribute('data-done'); }};
+      if (navigator.clipboard) navigator.clipboard.writeText(code).then(done, function () {{}});
+    }});
+  }} else {{ none.hidden = false; }}
+  try {{
+    var id = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random());
+    navigator.sendBeacon('https://us.i.posthog.com/i/v0/e/', new Blob([JSON.stringify({{api_key: '{POSTHOG_KEY}', event: 'invite_page_viewed', distinct_id: id, properties: {{ lang: '{lang}', has_code: code.length === 6, $current_url: location.origin + location.pathname, $referrer: document.referrer || '$direct', $process_person_profile: false }} }})], {{ type: 'text/plain' }}));
+  }} catch (e) {{}}
+}})();
+</script>
+</body>
+</html>
+"""
+    out = ROOT / t['path'].strip('/')
+    out.mkdir(parents=True, exist_ok=True)
+    (out / 'index.html').write_text(html, encoding='utf-8')
+
+
+# 앱이 초대 링크를 바로 열 수 있게 — 이 사이트가 그 앱의 것임을 알리는 파일 두 개 (GitHub Pages는 .nojekyll이 있어 .well-known을 그대로 올린다)
+APP_LINK_PATHS = ('/invite', '/invite/*', '/en/invite', '/en/invite/*')
+
+
+def app_links():
+    wk = ROOT / '.well-known'
+    wk.mkdir(exist_ok=True)
+    (wk / 'assetlinks.json').write_text(json.dumps([{
+        'relation': ['delegate_permission/common.handle_all_urls'],
+        'target': {'namespace': 'android_app', 'package_name': 'com.pixelberry.poopiemate',
+                   # Play 앱 서명 키(Play Console › 앱 서명)
+                   'sha256_cert_fingerprints': ['2A:08:87:EE:B1:C5:21:E8:7A:BD:36:CB:ED:A6:97:09:64:C8:62:8A:27:4D:1A:6E:BA:FD:90:B8:D0:59:1B:F4']},
+    }], indent=1) + '\n', encoding='utf-8')
+    (wk / 'apple-app-site-association').write_text(json.dumps({
+        'applinks': {'apps': [], 'details': [{'appID': 'DRMSV9J73G.com.pixelberry.poopiemate', 'paths': list(APP_LINK_PATHS)}]},
+    }, indent=1) + '\n', encoding='utf-8')
+
+
 # ═════════════════════════════════════════════════════════ 옮긴 주소 · 404 · sitemap
 # 예전 주소 → 새 주소. 이미 공유된 링크가 끊기지 않게 예전 자리에 바로 넘어가는 작은 페이지를 둔다
 MOVED = {'/story/why-we-built/': url('why', 'ko'), '/en/story/why-we-built/': url('why', 'en'),
@@ -1689,7 +1797,7 @@ if __name__ == '__main__':
     guides()
     write('/poop-condition-guide/', tools.poop_tool(page, faq_block, faq_ld, cta_band, ASSET_V))
     write('/walk-safety-index/', tools.walk_tool(page, faq_block, faq_ld, cta_band, ASSET_V))
-    guide_list('ko'); guide_list('en'); interview('ko'); interview('en'); interview('ko', 'churn'); download(); moved(); not_found(); sitemap(); rss('ko'); rss('en'); llms()
+    guide_list('ko'); guide_list('en'); interview('ko'); interview('en'); interview('ko', 'churn'); download(); invite('ko'); invite('en'); app_links(); moved(); not_found(); sitemap(); rss('ko'); rss('en'); llms()
     (ROOT / '.cache/og').mkdir(parents=True, exist_ok=True)
     (ROOT / '.cache/og/pages.json').write_text(json.dumps(OG_PAGES, ensure_ascii=False, indent=1), encoding='utf-8')
     print('built', len(OG_PAGES), 'og pages')

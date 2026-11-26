@@ -1,0 +1,14 @@
+[
+ {
+  "relation": [
+   "delegate_permission/common.handle_all_urls"
+  ],
+  "target": {
+   "namespace": "android_app",
+   "package_name": "com.pixelberry.poopiemate",
+   "sha256_cert_fingerprints": [
+    "2A:08:87:EE:B1:C5:21:E8:7A:BD:36:CB:ED:A6:97:09:64:C8:62:8A:27:4D:1A:6E:BA:FD:90:B8:D0:59:1B:F4"
+   ]
+  }
+ }
+]
