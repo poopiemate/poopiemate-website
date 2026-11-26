@@ -487,7 +487,7 @@ HOME_GUIDES = {
 
 
 # 새로 올린 가이드 — 홈 4칸에 이 순서로 세우고, 홈과 가이드 목록 모두 NEW (올린 날부터 NEW_DAYS_PINNED일)
-HOME_PINNED = ['winter-nose-color', 'holiday-toxic-foods', 'korean-winter-foods-for-dogs', 'dog-favorite-potty-spots', 'dog-scarf-warmth', 'dog-christmas-gift', 'heartworm-prevention-winter', 'winter-dog-constipation', 'double-coat-winter-shedding', 'dogs-and-snow', 'dog-tooth-brushing', 'winter-dog-ticks', 'winter-dog-water-urine', 'winter-paw-pad-deicer', 'heartworm-treatment-shortage', 'cruelty-free-korean-brands', 'large-dog-outdoor-potty-why', 'jindo-outdoor-potty-why', 'dog-winter-walk-temperature', 'dog-winter-food-and-clothes']
+HOME_PINNED = ['dog-christmas-gift', 'winter-dog-water-urine', 'holiday-toxic-foods', 'korean-winter-foods-for-dogs', 'dog-favorite-potty-spots', 'dog-scarf-warmth', 'heartworm-prevention-winter', 'winter-dog-constipation', 'double-coat-winter-shedding', 'dogs-and-snow', 'dog-tooth-brushing', 'winter-dog-ticks', 'winter-nose-color', 'winter-paw-pad-deicer', 'heartworm-treatment-shortage', 'cruelty-free-korean-brands', 'large-dog-outdoor-potty-why', 'jindo-outdoor-potty-why', 'dog-winter-walk-temperature', 'dog-winter-food-and-clothes']
 NEW_DAYS_PINNED = 1  # 11-26: NEW는 그날 아침 열린 글에만 (예전 30일)
 HOME_GUIDE_COUNT = 4  # 홈 가이드 카드는 4개로 고정: 계절 가이드 1 + 기존 가이드 3
 
@@ -1302,19 +1302,19 @@ GUIDE_CARDS = {
 GUIDE_DATES = {
     # 2026-11-26 겨울 묶음 — 이 날짜 아침 8시(KST)에 공개된다 (GitHub Actions 매일 빌드, live())
     'winter-paw-pad-deicer': '2026-11-26',
-    'winter-dog-water-urine': '2026-11-27',
+    'winter-dog-water-urine': '2026-12-09',
     'winter-dog-ticks': '2026-11-28',
     'dog-tooth-brushing': '2026-11-29',
     'dogs-and-snow': '2026-11-30',
     'double-coat-winter-shedding': '2026-12-01',
     'winter-dog-constipation': '2026-12-02',
     'heartworm-prevention-winter': '2026-12-03',
-    'dog-christmas-gift': '2026-12-04',
+    'dog-christmas-gift': '2026-12-23',
     'dog-scarf-warmth': '2026-12-05',
     'dog-favorite-potty-spots': '2026-12-06',
     'korean-winter-foods-for-dogs': '2026-12-07',
     'holiday-toxic-foods': '2026-12-08',
-    'winter-nose-color': '2026-12-09',
+    'winter-nose-color': '2026-11-27',
     'heartworm-treatment-shortage': '2026-11-19',
     'cruelty-free-korean-brands': '2026-11-16',
     'large-dog-outdoor-potty-why': '2026-11-14',
