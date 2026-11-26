@@ -30,7 +30,7 @@ jobs:
         with:
           python-version: '3.12'
 
-      - run: pip install pillow
+      - run: pip install pillow && sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg   # build.py가 영상 소리 유무를 ffprobe로 본다
 
       - name: Build
         run: python3 src/build.py
