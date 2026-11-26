@@ -488,7 +488,7 @@ HOME_GUIDES = {
 
 # 새로 올린 가이드 — 홈 4칸에 이 순서로 세우고, 홈과 가이드 목록 모두 NEW (올린 날부터 NEW_DAYS_PINNED일)
 HOME_PINNED = ['winter-nose-color', 'holiday-toxic-foods', 'korean-winter-foods-for-dogs', 'dog-favorite-potty-spots', 'dog-scarf-warmth', 'dog-christmas-gift', 'heartworm-prevention-winter', 'winter-dog-constipation', 'double-coat-winter-shedding', 'dogs-and-snow', 'dog-tooth-brushing', 'winter-dog-ticks', 'winter-dog-water-urine', 'winter-paw-pad-deicer', 'heartworm-treatment-shortage', 'cruelty-free-korean-brands', 'large-dog-outdoor-potty-why', 'jindo-outdoor-potty-why', 'dog-winter-walk-temperature', 'dog-winter-food-and-clothes']
-NEW_DAYS_PINNED = 30
+NEW_DAYS_PINNED = 1  # 11-26: NEW는 그날 아침 열린 글에만 (예전 30일)
 HOME_GUIDE_COUNT = 4  # 홈 가이드 카드는 4개로 고정: 계절 가이드 1 + 기존 가이드 3
 
 
@@ -1328,7 +1328,7 @@ GUIDE_DATES = {
     'dog-outdoor-potty-why': '2026-10-30', 'dog-diarrhea-causes': '2026-10-30', 'dog-constipation-causes': '2026-10-30',
 }
 GUIDE_DATE_DEFAULT = '2026-08-27'
-NEW_DAYS_GUIDE = 2  # 오늘·어제 올린 글만 NEW
+NEW_DAYS_GUIDE = 1  # 오늘 올린 글만 NEW (11-26, 매일 아침 예약 공개)
 
 
 def guide_date(slug):
