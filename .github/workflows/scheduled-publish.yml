@@ -1,5 +1,5 @@
 # 예약 가이드 공개 — 매일 아침 8시(KST)에 사이트를 다시 빌드해서, 올린 날(build.py GUIDE_DATES)이 된 글을 연다.
-# 바뀐 게 있을 때만 커밋·푸시하고 GitHub Pages 빌드를 요청한다.
+# 바뀐 게 있을 때만 커밋·푸시한다. 봇의 푸시로도 GitHub Pages 배포가 돈다(11-26 확인).
 name: Scheduled publish
 
 on:
@@ -9,7 +9,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
 
 concurrency:
   group: scheduled-publish
@@ -46,6 +45,3 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Scheduled publish $(date +%F)"
           git push
-          gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds" || true
-        env:
-          GH_TOKEN: ${{ github.token }}
