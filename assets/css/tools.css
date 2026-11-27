@@ -340,6 +340,8 @@
   .g-app img { justify-self: end; width: 120px; margin-top: -40px; }
   .prose .g-table td:first-child { white-space: normal; }
 }
+/* 글 끝 「공유하기 · 목록으로」 — 본문 폭(720px)에 맞춘다 */
+.g-actions .post-end { max-width: 720px; margin: clamp(48px, 6vw, 72px) auto 0; }
 .g-end { height: clamp(80px, 9vw, 120px); }
 
 /* 폰 — 고르는 동안 아래에 떠 있는 결과 한 줄 (누르면 결과 카드로) */

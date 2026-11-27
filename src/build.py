@@ -14,7 +14,7 @@ import guide_doc
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://poopiemate.com'
-ASSET_V = '64'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
+ASSET_V = '65'  # css·js 캐시 갱신용 — 바꿀 때마다 올린다
 
 # 한국어 페이지는 한국 스토어, 영어 페이지는 나라를 고정하지 않은 링크 (PC 브라우저는 나라 없는 App Store 링크를 미국 스토어로 연다)
 APPSTORE = {'ko': 'https://apps.apple.com/kr/app/%EC%9D%91%EA%B0%80%EB%A9%94%EC%9D%B4%ED%8A%B8/id6781981502', 'en': 'https://apps.apple.com/app/id6781981502'}
@@ -1206,6 +1206,8 @@ def guide_article(slug, lang, g):
         rel_html = ('<section class="g-rel"><div class="wrap-list"><h2 class="h3">' + c['related'] + '</h2><div class="post-grid">' + ''.join(
             f'<a class="post-card" href="{h}"><span class="thumb og"><img src="/assets/og/p/{o}.jpg" alt="" width="1200" height="630" loading="lazy"></span><b>{escape(t)}</b></a>'
             for h, t, o in rel[:3]) + '</div></div></section>')
+    # 글 끝 — 이야기 글과 같은 「공유하기 · 목록으로」. 공유 창에 뜨는 제목은 글 제목 전체
+    g_title = f'{head} {sub}'.strip() if sub else head
     return f'''
 <section class="g-hero k-{kind}"><div class="wrap-g">
 <p class="post-meta"><a href="{url("home", lang)}">{T[lang]["name"]}</a> › <a href="{url("guide", lang)}">{c["list"]}</a></p>
@@ -1221,6 +1223,7 @@ def guide_article(slug, lang, g):
 </div>
 <div class="g-faq">{faq_block(lang, faqs) if faqs else ''}</div>
 {rel_html}
+<div class="wrap-g g-actions"><div class="post-end two"><button class="btn-block btn-dark" type="button" data-share data-title="{escape(g_title)}" data-copied="{T[lang]['copied']}">{SHARE_ICON}<span aria-live="polite">{T[lang]['share']}</span></button><a class="btn-block btn-grey" href="{url('guide', lang)}">{T[lang]['back']}</a></div></div>
 <div class="g-end"></div>
 <script src="/assets/js/guide.js?v={ASSET_V}" defer></script>
 '''
